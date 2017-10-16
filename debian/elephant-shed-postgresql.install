@@ -1,0 +1,4 @@
+postgresql/elephant-shed.conf etc/postgresql-common/createcluster.d
+postgresql/rsyslog-postgresql-discard.conf etc/rsyslog.d/postgresql-discard.conf
+postgresql/logrotate.d/postgresql-common etc/logrotate.d
+postgresql/cron.hourly/logrotate-postgresql etc/cron.hourly

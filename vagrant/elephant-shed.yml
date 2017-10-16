@@ -1,0 +1,79 @@
+#!/usr/bin/ansible-playbook
+# Copyright © 2017 credativ GmbH <info@credativ.de>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+---
+- name: elephant-shed
+  hosts: all
+  become: true
+  handlers:
+  - include: handlers.yml
+
+  tasks:
+  - name: Install pre dependencies
+    package:
+      name: '{{ item }}'
+      state: present
+    with_items:
+    - apt-transport-https
+    - etckeeper
+    - lvm2
+
+  # Update etckeeper
+  - name: Record changes found in /etc as etckeeper commit
+    shell: "if etckeeper unclean; then etckeeper commit 'Changes FOUND by elephant-shed.yml (ansible)'; fi"
+    changed_when: False
+
+  - name: Partitioning
+    include: tasks/partitioning.yml
+    tags: partitioning
+    when: partitioning == true
+
+  - name: Setup local repository
+    include: tasks/repository-local.yml
+    tags: repository-local
+    when: use_local_repo == true
+
+  - name: Remove local repository
+    apt_repository:
+      repo: '{{ local_repo }}'
+      filename: 'local'
+      state: absent
+    when: use_local_repo != true
+
+  - include: tasks/packages.yml
+    tags: packages
+
+  - include: tasks/config-system.yml
+    tags: config
+  - include: tasks/ferm.yml
+    tags:
+    - ferm
+    - firewall
+  - include: tasks/apache2.yml
+    tags: apache
+  - include: tasks/postgresql.yml
+    tags: postgresql
+  - include: tasks/testdata.yml
+    tags: testdata
+  - include: tasks/config-monitoring.yml
+    tags:
+    - config
+    - monitoring
+  - include: tasks/config-backup.yml
+    tags:
+    - config
+    - backup
+
+  # Update etckeeper
+  - name: Record changes done in /etc as etckeeper commit
+    shell: "if etckeeper unclean; then etckeeper commit 'Changes DONE by elephant-shed.yml (ansible)'; fi"
+    changed_when: False

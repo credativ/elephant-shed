@@ -1,0 +1,8 @@
+[Unit]
+Description=Trigger update-prometheus-sql-exporter-config.service periodically
+
+[Timer]
+OnCalendar=*:0/10
+
+[Install]
+WantedBy=multi-user.target

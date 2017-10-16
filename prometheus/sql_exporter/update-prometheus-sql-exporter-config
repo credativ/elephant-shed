@@ -1,0 +1,154 @@
+#!/usr/bin/env python
+
+import sys
+import yaml
+import subprocess
+import traceback
+from pkg_resources import parse_version
+
+"""
+Returns a list of clusters (dict) containing the following attributes:
+    - name
+    - version
+    - port
+    - status
+    - owner
+    - databases (dict)
+
+Calls get_databases for each cluster.
+"""
+def get_clusters(min_version=None, max_version=None):
+    clusters = list()
+
+    proc = subprocess.Popen(["pg_lsclusters"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    (out, err) = proc.communicate()
+
+    out = out.rstrip("\n")
+    out_lines = out.splitlines()
+
+    for i in range(1,len(out_lines)):
+        cluster = dict()
+        version, name, port, status, owner = out_lines[i].split()[:5]
+        cluster["version"] = version
+        cluster["name"] = name
+        cluster["port"] = port
+        cluster["status"] = status
+        cluster["owner"] = owner
+        cluster["databases"] = get_databases(cluster)
+        clusters.append(cluster)
+
+    return clusters
+
+"""
+Returns a list of databases for the given cluster.
+"""
+def get_databases(cluster):
+    databases = list()
+    command = "sudo -u %s psql -p %s -tXA -c \"SELECT datname FROM pg_database WHERE NOT datname ~ '^template(0|1)$';\""
+    command = command % (cluster["owner"], cluster["port"])
+    proc = subprocess.Popen([command], stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    (out, err) = proc.communicate()
+    out_lines = out.splitlines()
+    for line in out_lines:
+        databases.append(line.split("|")[0])
+
+    return databases
+
+"""
+Returns the a config element (dict).
+"""
+def read_config_template():
+    config_filename = "/etc/prometheus-sql-exporter.yml.in"
+    with open(config_filename, "r") as f:
+        yaml_conf = yaml.load(f)
+
+    return yaml_conf
+
+"""
+Writes the given config to file.
+"""
+def write_config(conf):
+    config_filename = "/etc/prometheus-sql-exporter.yml"
+    with open(config_filename, "w") as f:
+        yaml.dump(conf, f, default_flow_style=False, width=79)
+
+    return True
+
+"""
+Takes a given config and appends connection strings to it.
+"""
+def append_conn_strings_to_template(conf):
+    clusters = get_clusters()
+
+    for job in conf["jobs"]:
+        min_version = parse_version("0")
+        max_version = parse_version("99999999999")
+        used_clusters = list()
+        conn_strings = list()
+
+        if "min_version" in job:
+            min_version = parse_version(job["min_version"])
+
+        if "max_version" in job:
+            max_version = parse_version(job["max_version"])
+
+        for cluster in clusters:
+            cluster_version = parse_version(cluster["version"])
+            if cluster_version >= min_version and cluster_version <= max_version:
+                used_clusters.append(cluster)
+
+        for cluster in used_clusters:
+            if job["name"].startswith("cluster"):
+                conn_strings.extend(build_conn_strings(cluster, False))
+            if job["name"].startswith("database"):
+                conn_strings.extend(build_conn_strings(cluster, True))
+
+        job["connections"] = conn_strings
+
+    return conf
+
+"""
+Returns a list of connection strings for all clusters/databases.
+
+If per_db is True a list of all databases is returned. Otherwise a list of all
+clusters (using template1) is returned.
+"""
+def build_conn_strings(cluster, per_db=True):
+    conn_strings = list()
+
+    if per_db:
+        for db in cluster["databases"]:
+            conn_string = 'postgres://%s@:%s/%s?sslmode=disable'
+            conn_string = conn_string % (cluster["owner"], cluster["port"], db)
+            conn_strings.append(conn_string)
+    else:
+        conn_string = 'postgres://%s@:%s/postgres?sslmode=disable'
+        conn_string = conn_string % (cluster["owner"], cluster["port"])
+        conn_strings.append(conn_string)
+
+    return conn_strings
+
+if __name__ == "__main__":
+    clusters = get_clusters()
+
+    try:
+        yaml_conf = read_config_template()
+    except:
+        sys.stderr.write("Could not read config template.\n")
+        print '-'*60
+        traceback.print_exc(file=sys.stdout)
+        print '-'*60
+        exit(1)
+
+    try:
+        yaml_conf = append_conn_strings_to_template(yaml_conf)
+    except:
+        sys.stderr.write("Could not write new config.\n")
+        print '-'*60
+        traceback.print_exc(file=sys.stdout)
+        print '-'*60
+        exit(1)
+
+    write_config(yaml_conf)
+
+    exit(0)

@@ -1,0 +1,5 @@
+grafana/datasource_prometheus.json usr/share/elephant-shed/grafana
+grafana/postgresql_server_overview.json usr/share/elephant-shed/grafana/dashboards
+grafana/elephant-shed-grafana etc/default
+grafana/elephant-shed-grafana.conf etc/systemd/system/grafana-server.service.d
+grafana/elephant-shed-grafana.ini etc/grafana

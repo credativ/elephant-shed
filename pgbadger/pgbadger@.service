@@ -1,0 +1,12 @@
+# /lib/systemd/system/pgbadger@.service
+[Unit]
+Description=pgBadger report for PostgreSQL cluster %I
+PartOf=pgbadger.service
+Before=pgbadger.service
+
+[Service]
+Type=oneshot
+User=postgres
+ExecStart=/usr/share/elephant-shed/pgbadger-run "%i"
+SyslogIdentifier=pgbadger@%i
+Nice=10

@@ -1,0 +1,47 @@
+# The Elephant Shed's Prometheus config
+
+global:
+  scrape_interval:     30s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 30s # By default, scrape targets every 15 seconds.
+  # scrape_timeout is set to the global default (10s).
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+      monitor: 'example'
+
+# Load and evaluate rules in this file every 'evaluation_interval' seconds.
+rule_files:
+  # - "first.rules"
+  # - "second.rules"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+    # Override the global default
+    scrape_interval: 90s
+    scrape_timeout: 90s
+
+    # metrics_path defaults to '/metrics'
+    metrics_path: /prometheus/metrics
+    # scheme defaults to 'http'.
+
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: node
+    # If prometheus-node-exporter is installed, grab stats about the local
+    # machine by default.
+    # Override the global default
+    static_configs:
+      - targets: ['localhost:9100']
+
+  - job_name: sql_exporter
+    # Override the global default
+    scrape_interval: 60s
+    scrape_timeout: 60s
+    static_configs:
+      - targets: ['localhost:9237']

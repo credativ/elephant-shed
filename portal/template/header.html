@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>[% TITLE %]</title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+
+<style>
+body { font-family: Arial, Sans-serif; }
+a { text-decoration: none; }
+a:link { color: #000000; }
+a:visited { color: #000000; }
+a:hover { color: #FF0000; }
+
+.dash td { padding:1em; }
+.dash a img{ transition: filter .25s }
+.dash a:hover img{ filter: brightness(50%); transition: filter 0.1s;}
+
+.address td { padding:1em; vertical-align: top; }
+
+h2 { padding-top: 30pt; padding-buttom: 5pt; }
+
+</style>
+</head>
+
+<body>
+
+<div style="display:block; text-align:left; float:left;">
+  <h1>[% HEADLINE %]</h1>
+</div>
+<div style="display:block; text-align:right;">
+  <img src="/image/logo_partner.png" alt="partner" height="70" onerror="this.src='/image/logo_placeholder.png';">
+&nbsp;
+  <a href="https://www.credativ.de" target="_blank"><img src="/image/logo_credativ.png" alt="credativ" height="70"></a>
+</div>
+
+<hr color="#FF0000" size="4">
+
+[% IF REMOTE_USER %]
+<div style="position:relative;">
+<div style="position:absolute; top:0; right:0; font-size:small;">
+  <a href="/users#/[% REMOTE_USER %]">Logged in as <em>[% REMOTE_USER %]</em></a> -
+  <a href="/logout">Logout</a>
+</div>
+</div>
+[% END %]

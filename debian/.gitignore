@@ -1,0 +1,6 @@
+*.debhelper
+debhelper-build-stamp
+elephant-shed*.debhelper.log
+elephant-shed*.substvars
+elephant-shed*/
+files

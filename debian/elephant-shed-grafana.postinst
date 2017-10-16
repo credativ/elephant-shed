@@ -1,0 +1,38 @@
+#!/bin/sh
+
+set -eu
+
+GRAFANA_API="http://admin:admin@127.0.0.1:3000/api"
+
+case $1 in
+  configure)
+    # we depend on grafana and it has to be enabled
+    # lintian wants us to use "deb-systemd-helper enable" instead, but that
+    # doesn't work with grafana-server.service being located in /usr/systemd/system
+    systemctl enable grafana-server
+    invoke-rc.d grafana-server restart
+
+    i=0
+    # wait for grafana to restart
+    while [ $(curl -s -o /dev/null -w "%{http_code}" ${GRAFANA_API}/frontend/settings) -ne 200 ]; do
+	echo "Waiting for grafana to come up ..."
+	sleep 1
+	i=$((i+1))
+	# We don't want to wait forever.
+	test $i -le 30 || break
+    done
+
+    echo "Installing prometheus data source in grafana ..."
+    curl -X POST -H "Content-Type: application/json" \
+      --data @/usr/share/elephant-shed/grafana/datasource_prometheus.json \
+      $GRAFANA_API/datasources
+    echo
+
+    ;;
+
+  purge)
+    rm -f /etc/grafana/grafana.ini
+    ;;
+esac
+
+#DEBHELPER#

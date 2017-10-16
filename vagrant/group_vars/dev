@@ -1,0 +1,20 @@
+---
+use_local_repo: True
+creat_test_loops: True 
+
+# Partitioning
+partitioning: True
+vg_data_devices: /dev/loop0
+lv_wal_size: 400m
+
+vg_backup_devices: /dev/loop1
+
+# PostgreSQL Tuning
+max_connections: 100
+shared_buffers: 1GB
+work_mem: 32MB
+maintenance_work_mem: 1GB
+vacuum_cost_limit: 400
+max_wal_size: 1GB
+min_wal_size: 64MB
+effective_cache_size: 4GB

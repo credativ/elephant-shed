@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+PATTERN="diversion of /etc/logrotate.d/postgresql-common to /etc/logrotate.d/postgresql-common.real by elephant-shed-postgresql"
+
+case $1 in
+  install|upgrade)
+    # Check if the package is already diverted by us:
+    dpkg-divert --package elephant-shed-postgresql --rename \
+      --divert /etc/logrotate.d/postgresql-common.real.disabled \
+      --add /etc/logrotate.d/postgresql-common
+    ;;
+esac
+
+#DEBHELPER#

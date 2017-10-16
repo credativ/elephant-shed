@@ -1,0 +1,36 @@
+---
+- name: Tune cores to use - prometheus
+  lineinfile:
+    dest: /etc/default/elephant-shed-prometheus
+    state: present
+    regexp: GOMAXPROCS
+    line: 'GOMAXPROCS="{{ prometheus_gomaxprocs }}"'
+  notify:
+    - restart prometheus
+
+- name: Tune cores to use - prometheus-sql-exporter
+  lineinfile:
+    dest: /etc/default/prometheus-sql-exporter
+    state: present
+    regexp: GOMAXPROCS
+    line: 'GOMAXPROCS="{{ prometheus_sql_exporter_gomaxprocs }}"'
+  notify:
+    - restart prometheus-sql-exporter
+
+- name: Tune cores to use - prometheus-node-exporter
+  lineinfile:
+    dest: /etc/default/elephant-shed-prometheus-node-exporter
+    state: present
+    regexp: GOMAXPROCS
+    line: 'GOMAXPROCS="{{ prometheus_node_exporter_gomaxprocs }}"'
+  notify:
+    - restart prometheus-node-exporter
+
+- name: Tune cores to use - grafana
+  lineinfile:
+    dest: /etc/default/elephant-shed-grafana
+    state: present
+    regexp: GOMAXPROCS
+    line: 'GOMAXPROCS="{{ grafana_gomaxprocs }}"'
+  notify:
+    - restart grafana

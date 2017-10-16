@@ -1,0 +1,8 @@
+[Unit]
+Description=Update the prometheus sql exporter config based on clusters and dbs found on the system.
+
+[Service]
+Type=oneshot
+ExecStart=/usr/share/elephant-shed/prometheus/update-prometheus-sql-exporter-config
+ExecStartPost=/bin/systemctl try-restart prometheus-sql-exporter.service
+Nice=10

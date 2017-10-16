@@ -1,0 +1,140 @@
+image: "credativ/debian-build:stretch"
+before_script:
+  - apt-get update -qq
+
+stages:
+  - build
+  - publish
+  # - test
+  - deploy
+  - release
+
+build:docs:
+  stage: build
+  image: "tianon/latex"
+  script:
+    - apt-get install -y --no-install-recommends pandoc make
+    - make docs
+  artifacts:
+    paths:
+      - README.html
+      - README.pdf
+
+build:deb:
+  stage: build
+  script:
+    - apt-get -y --no-install-recommends build-dep ./
+    - apt-get -y --no-install-recommends install devscripts git
+    - ci/rebuild.sh
+    - make deb
+    - mkdir -p debs
+    - mv ../*.* debs
+  artifacts:
+    expire_in: 2 weeks
+    paths:
+      - debs/*
+      - lintian.log
+
+publish:aptly:
+  stage: publish
+  dependencies:
+    - build:deb
+  script:
+    - apt-get install -y --no-install-recommends curl make
+    - aptly/upload_packages.sh debs
+    - make include_packages
+    - make publish_packages
+
+# test:install_packages:
+#   stage: test
+#   dependencies:
+#     - publish:aptly
+#   script:
+#     - apt-get install -y wget apt-transport-https gnupg ca-certificates sudo
+#     - wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+#     - echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" | tee -a /etc/apt/sources.list.d/pgdg.list
+#     - wget --quiet -O - http://172.26.251.70/apt/aptly.key | apt-key add -
+#     - echo "deb http://172.26.251.70/apt/ stretch-test main" | tee -a /etc/apt/sources.list.d/elephant-shed.list
+#     - apt-get update -qq
+#     - apt-get install -y elephant-shed
+
+deploy:ansible:
+  stage: deploy
+  tags:
+    - elephant-shed
+  dependencies:
+    - publish:aptly
+  before_script:
+    - sudo apt-get update -qq
+  script:
+    - sudo apt-get install -y ansible
+    - cd vagrant
+    - echo "[test]" > inventory
+    - echo "localhost" >> inventory
+    - ./elephant-shed.yml --connection=local
+  environment:
+    name: elephant-shed
+    url: https://elephant-shed.dev.credativ.lan
+
+deploy:openstack:
+  stage: deploy
+  dependencies:
+    - publish:aptly
+  script:
+    # The script part assumes that two environment variables are set:
+    # * OS_PASSWORD (the openstack password) and
+    # * OS_SSH_PRIVATE_KEY (the private key part of the used openstack keypair)
+    - echo "|>>>>>>>> INSTALL DEPENDENCIES <<<<<<<<|"
+    - sudo apt-get install -y ansible openstack-clients vagrant
+    - vagrant plugin install vagrant-openstack-plugin
+    - echo "|>>>>>>>> CONFIGURE ENVIRONMENT <<<<<<<|"
+    - cd vagrant/openstack
+    - source ../../ci/openstackrc.sh
+    # We need to override the OS_CACERT the sourced variable isn't
+    # points to the wrong file if running in gitlab-ci.
+    - export OS_CACERT=../../ci/credativDeutschlandServerCA-chain.pem
+    - echo "$OS_SSH_PRIVATE_KEY" > app_dbteam.pem
+    - echo "|>>>>>>>> DESTROY OLD MACHINES <<<<<<<<|"
+    - ../../ci/openstack_remove_instance_if_exists.sh elephant-shed-test
+    - echo "|>>>>>>>>>>>> START MACHINE <<<<<<<<<<<|"
+    - vagrant up
+    - vagrant ssh-config
+  environment:
+    name: elephant-shed-test
+    url: https://nova.credativ.com/project/instances/
+
+# Build release debian packages.
+#
+# The main difference between "build:deb" and "build:release:deb" is
+# that it does not change the version numbering (see ci/rebuild.sh).
+#
+# This job should not triggered automatically.
+build:release_deb:
+  stage: build
+  script:
+    - apt-get -y --no-install-recommends build-dep ./
+    - apt-get -y --no-install-recommends install devscripts git
+    - make deb
+    - mkdir -p debs
+    - mv ../*.* debs
+  artifacts:
+    paths:
+      - debs/*
+      - lintian.log
+  only:
+    - master
+  when: manual
+
+# Release the debian pakages provided by "release:build:deb"
+publish:release_aptly:
+  stage: publish
+  dependencies:
+    - build:release_deb
+  script:
+    - apt-get install -y --no-install-recommends curl make
+    - aptly/upload_packages.sh debs
+    - make include_packages
+    - make publish_packages
+  only:
+    - master
+  when: manual

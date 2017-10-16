@@ -1,0 +1,63 @@
+---
+- name: Set pgBackrest global repo-path
+  ini_file:
+    dest: /etc/pgbackrest.conf
+    state: present
+    section: 'global'
+    option: 'repo-path'
+    value: '{{ pgbackrest_backupdir }}'
+    no_extra_spaces: true
+
+- name: Set pgBackrest global retension policy
+  ini_file:
+    dest: /etc/pgbackrest.conf
+    state: present
+    section: 'global'
+    option: 'retention-full'
+    value: '{{ pgbackrest_retention_full }}'
+    no_extra_spaces: true
+
+- name: Set pgBackrest compression level
+  ini_file:
+    dest: /etc/pgbackrest.conf
+    state: present
+    section: 'global'
+    option: 'compress-level'
+    value: '{{ pgbackrest_compress_level }}'
+    no_extra_spaces: true
+
+- name: Set pgBackrest spool path
+  ini_file:
+    dest: /etc/pgbackrest.conf
+    state: present
+    section: 'global'
+    option: 'spool-path'
+    value: '{{ pgbackrest_spool_path }}'
+    no_extra_spaces: true
+
+- name: Set pgBackrest async archiving
+  ini_file:
+    dest: /etc/pgbackrest.conf
+    state: present
+    section: 'global'
+    option: 'archive-async'
+    value: '{{ pgbackrest_archive_async }}'
+    no_extra_spaces: true
+
+- name: Set pgBackrest max async queue
+  ini_file:
+    dest: /etc/pgbackrest.conf
+    state: present
+    section: 'global'
+    option: 'archive-queue-max'
+    value: '{{ pgbackrest_archive_queue_max }}'
+    no_extra_spaces: true
+
+- name: Set pgBackrest archive-push process-max
+  ini_file:
+    dest: /etc/pgbackrest.conf
+    state: present
+    section: "global:archive-push"
+    option: 'process-max'
+    value: '{{ pgbackrest_archive_push_process_max }}'
+    no_extra_spaces: true

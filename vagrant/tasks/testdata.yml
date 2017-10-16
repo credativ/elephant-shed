@@ -1,0 +1,18 @@
+# TEST STUFF
+- name: Create some test data
+  command: "{{ item }}"
+  args:
+    creates: ~/.test_done
+  become_user: postgres
+  become_method: sudo
+  become: true
+  with_items:
+    - createdb pgbench1
+    - pgbench -i -s 10 pgbench1
+    #- createdb pgbench2
+    #- pgbench -i -s 100 pgbench2
+    #- createdb pgbench3
+    # - pgbench -i -s 200 pgbench3
+    - touch ~/.test_done
+    # - psql -d pgbench3 -c "EXPLAIN ANALYZE  SELECT * FROM pgbench_accounts;"
+  ignore_errors: true

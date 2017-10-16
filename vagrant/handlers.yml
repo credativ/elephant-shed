@@ -1,0 +1,81 @@
+- name: apt-get update
+  apt:
+    update_cache: true
+
+- name: update grub2
+  command: update-grub # on Debian
+
+- name: apt-ftparchive
+  shell: 'apt-ftparchive packages . > Packages'
+  args:
+    chdir: /srv/repository
+  notify: apt-get update
+
+- name: restart postgresql
+  service:
+    name: postgresql
+    state: restarted
+
+- name: reload postgresql
+  service:
+    name: postgresql
+    state: reloaded
+
+- name: restart apache
+  service:
+    name: apache2
+    state: restarted
+
+- name: restart grafana
+  service:
+    name: grafana-server
+    state: restarted
+
+- name: restart prometheus
+  service:
+    name: prometheus
+    state: restarted
+
+- name: restart prometheus-node-exporter
+  service:
+    name: prometheus-node-exporter
+    state: restarted
+
+- name: restart prometheus-sql-exporter
+  service:
+    name: prometheus-sql-exporter
+    state: restarted
+
+- name: restart pgbadger-report
+  service:
+    name: pgbadger-report
+    state: restarted
+
+- name: restart pgbadger-report timer
+  service:
+    name: pgbadger-report.timer
+    state: restarted
+
+- name: restart update prometheus sql exporter timer
+  service:
+    name: update-prometheus-sql-exporter-config.timer
+    state: restarted
+
+- name: restart cockpit
+  service:
+    name: cockpit
+    state: restarted
+
+- name: reload cockpit
+  service:
+    name: cockpit
+    state: reload
+
+- name: systemctl daemon-reload
+  command: systemctl daemon-reload
+  become: true
+
+- name: restart ferm
+  service:
+    name: ferm
+    state: restarted

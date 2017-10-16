@@ -1,0 +1,7 @@
+chain INPUT {
+        # allow access to the web interface
+        proto tcp dport (http https) ACCEPT;
+
+        # allow access to the first 8 PostgreSQL clusters
+        proto tcp dport (5432:5439) ACCEPT;
+    }

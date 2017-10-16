@@ -1,0 +1,37 @@
+require 'vagrant-openstack-plugin'
+
+Vagrant.configure('2') do |config|
+
+  config.vm.box = "sharpie/dummy"
+
+  config.ssh.username = 'debian'
+  config.ssh.private_key_path = 'app_dbteam.pem'
+
+  config.vm.synced_folder "./", "/vagrant", type: "rsync", disabled: true
+
+  config.vm.provider "openstack" do |os|
+    # Connection parameter
+    os.endpoint = ENV['OS_AUTH_URL']+"/tokens"
+    os.username = ENV['OS_USERNAME']
+    os.api_key  = ENV['OS_PASSWORD']
+    os.tenant   = ENV['OS_TENANT_NAME']
+    os.region   = ENV['OS_REGION_NAME']
+
+    # VM parameter
+    os.server_name = "elephant-shed-test"
+    os.flavor   = "m1.large"
+    os.image    = "Debian 9 -- 20170119"
+    os.keypair_name = "app_dbteam"
+    os.ssh_username = "debian"
+    os.public_network_name = "public"
+    os.networks = %w(DEV)
+  end
+
+   config.vm.provision "ansible" do |ansible|
+     ansible.playbook = "../elephant-shed.yml"
+     ansible.groups = {
+       "dev" => ["default"],
+       "ansible" => ["default"],
+     }
+   end
+end

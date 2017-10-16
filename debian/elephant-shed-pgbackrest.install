@@ -1,0 +1,8 @@
+pgbackrest/pgbackrest-run				usr/share/elephant-shed
+pgbackrest/pgbackrest-toggle-archiving			usr/share/elephant-shed
+pgbackrest/pgbackrest-archivecommand			usr/share/elephant-shed
+pgbackrest/pgbackrest@.service				lib/systemd/system
+pgbackrest/pgbackrest-incr@.service			lib/systemd/system
+pgbackrest/pgbackrest-toggle-archiving@.service	lib/systemd/system
+pgbackrest/pgbackrest@.timer				lib/systemd/system
+pgbackrest/pgbackrest-incr@.timer			lib/systemd/system

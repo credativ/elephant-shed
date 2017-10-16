@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -eu
+
+case $1 in
+  configure)
+    if test -d /var/lib/pgbadger; then
+      chown postgres:postgres /var/lib/pgbadger
+    fi
+    ;;
+
+  purge)
+    rm -rf /var/lib/pgbadger
+    ;;
+esac
+
+#DEBHELPER#

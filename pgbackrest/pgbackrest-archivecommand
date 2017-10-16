@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# This wrapper around pgbackrest makes sure that the stanza exists for
+# a configured archived command.
+
+# In normal operation, arguments are just passed on to pgbackrest.
+
+# This is a kludge should go away as soon as pg_createcluster gets
+# hook support.
+
+set -eu
+
+PGCLUSTER=""
+for arg in "$@"; do
+    if [ x"${arg#--stanza=}" != x"$arg" ]; then
+	PGCLUSTER="${1#--stanza=}";
+    fi
+done
+
+if [ -z "$PGCLUSTER" ]; then
+    echo "ERROR:  No stanza found in argument list."
+    exit 1
+fi
+
+PGBACKREST="pgbackrest --log-level-console=info --stanza=$PGCLUSTER"
+
+if ! grep -q -F "[$PGCLUSTER]" /etc/pgbackrest.conf; then
+  CONFTOOL="pg_conftool -s ${PGCLUSTER/-/ }"
+  PGDATA=$($CONFTOOL show data_directory)
+  PGPORT=$($CONFTOOL show port)
+  test -d "$PGDATA"
+  cat >> /etc/pgbackrest.conf <<-EOF
+
+	[$PGCLUSTER]
+	db-path=$PGDATA
+	db-port=$PGPORT
+	EOF
+fi
+
+if ! pgbackrest info | grep -q "stanza: $PGCLUSTER"; then
+  $PGBACKREST stanza-create
+fi
+
+exec pgbackrest "$@"
+

@@ -1,0 +1,11 @@
+---
+use_local_repo: False
+creat_test_loops: False
+credativ_postgresql: "deb http://aptly.dev.credativ.lan/apt/ stretch-test main"
+
+# Partitioning
+partitioning: True
+vg_data_devices: /dev/loop0
+lv_wal_size: 400m
+
+vg_backup_devices: /dev/loop1

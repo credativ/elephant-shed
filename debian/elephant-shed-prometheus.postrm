@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+case $1 in
+  purge)
+    rm -f /etc/prometheus-sql-exporter.yml
+    ;;
+esac
+
+#DEBHELPER#

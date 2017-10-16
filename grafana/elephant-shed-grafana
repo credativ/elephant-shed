@@ -1,0 +1,4 @@
+# Set go garbage collector to clean up more frequently
+GOGC=40
+GOMAXPROCS=4
+CONF_FILE=/etc/grafana/elephant-shed-grafana.ini

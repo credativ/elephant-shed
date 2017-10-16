@@ -1,0 +1,25 @@
+- name: Create ferm.d
+  file:
+    path: /etc/ferm/ferm.d
+    state: directory
+    owner: root
+    group: adm
+    mode: 0751
+
+- name: Configure ferm.conf
+  template:
+    src: templates/ferm/ferm.conf.j2
+    dest: /etc/ferm/ferm.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart ferm
+
+- name: Configure ferm.d/elephant-shed.conf
+  template:
+    src: templates/ferm/elephant-shed.conf.j2
+    dest: /etc/ferm/ferm.d/elephant-shed.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart ferm

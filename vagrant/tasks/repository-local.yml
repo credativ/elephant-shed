@@ -1,0 +1,32 @@
+- name: Install apt-utils
+  package:
+    name: apt-utils
+    state: present
+
+- name: /srv/repository
+  file:
+    path: /srv/repository
+    state: directory
+    mode: 0775
+  notify: apt-ftparchive
+
+- name: Copy elephant-shed-*_{{ debversion }}_all.deb
+  copy:
+    src: '../../{{item}}'
+    dest: '/srv/repository/{{item}}'
+  with_lines: 'cd ../.. && ls elephant-shed*_{{ debversion }}_all.deb || :'
+  notify: apt-ftparchive
+  register: localpackages
+
+- meta: flush_handlers
+
+- name: Setup local repository
+  apt_repository:
+    repo: '{{ local_repo }}'
+    filename: 'local'
+
+# Reinstall packages when changed (the version number doesn't change, so upgrade doesn't work)
+- name: Reinstall elephant-shed-*_{{ debversion }}_all.deb
+  shell: |
+    DEBIAN_FRONTEND=noninteractive dpkg -l elephant-shed\* | grep ^ii | awk '{ print $2 }' | xargs -r apt-get install --reinstall -y --force-yes
+  when: localpackages | changed

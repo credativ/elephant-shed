@@ -1,0 +1,11 @@
+# /lib/systemd/system/pgbackrest-incr@.service
+[Unit]
+Description=Backup PostgreSQL cluster %i using pgBackRest, incremental if previous full backup is available
+ConditionPathExists=/etc/postgresql/%I/postgresql.conf
+
+[Service]
+Type=oneshot
+User=postgres
+ExecStart=/usr/share/elephant-shed/pgbackrest-run %i incr
+SyslogIdentifier=pgbackrest@%i
+Nice=10

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -eu
+
+case $1 in
+  configure)
+    if ! test -e /root/.tmate.conf; then
+      ln -s /etc/tmate.conf /root/.tmate.conf
+    fi
+    ;;
+esac
+
+#DEBHELPER#

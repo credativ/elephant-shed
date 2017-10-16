@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -eu
+
+gendir="$1"
+wantdir="$1/pgbadger.service.wants"
+pgbadgerservice="/lib/systemd/system/pgbadger@.service"
+
+mkdir -p "$wantdir"
+
+for conf in /etc/postgresql/*/*/postgresql.conf; do
+	test -e "$conf" || continue
+	dir="${conf%/*}"
+
+	verdir="${dir%/*}"
+	version="${verdir##*/}"
+	cluster="${dir##*/}"
+	ln -s "$pgbadgerservice" "$wantdir/pgbadger@$version-$cluster.service"
+done
+
+exit 0

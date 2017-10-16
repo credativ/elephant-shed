@@ -1,0 +1,10 @@
+# /lib/systemd/system/pgbackrest-incr@.timer
+[Unit]
+Description=Automated pgBackRest incremental backup of PostgreSQL cluster %i
+
+[Timer]
+OnCalendar=Tue,Thu *-*-* 01:00:00
+RandomizedDelaySec=2h
+
+[Install]
+WantedBy=multi-user.target

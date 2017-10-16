@@ -1,0 +1,89 @@
+---
+- name: Create loop devices for testing
+  shell: |
+    dd if=/dev/zero of=/tmp/loop0 bs=1024 count=1000000
+    dd if=/dev/zero of=/tmp/loop1 bs=1024 count=1000000
+  args:
+    creates: /tmp/loop1
+  when: creat_test_loops == True
+
+- name: Mount loop devices for testing
+  shell: |
+    losetup /dev/loop0 /tmp/loop0
+    losetup /dev/loop1 /tmp/loop1
+  args:
+    creates: /dev/loop1
+  when: creat_test_loops == True
+
+- name: Create Data VG
+  lvg:
+    vg: '{{ vg_data }}'
+    pvs: '{{ vg_data_devices }}'
+
+- name: Create Backup VG
+  lvg:
+    vg: '{{ vg_backup }}'
+    pvs: '{{ vg_backup_devices }}'
+
+- name: Setup WAL LV
+  lvol:
+    vg: '{{ vg_data }}'
+    lv: '{{ lv_wal }}'
+    size: '{{ lv_wal_size }}'
+    shrink: no
+
+- name: Setup Data LV
+  lvol:
+    vg: '{{ vg_data }}'
+    lv: '{{ lv_data }}'
+    size: '{{ lv_data_size }}'
+    shrink: no
+
+- name: Setup Backup LV
+  lvol:
+    vg: '{{ vg_backup }}'
+    lv: '{{ lv_backup }}'
+    size: '{{ lv_backup_size }}'
+    shrink: no
+
+- name: Format Data Volume
+  filesystem:
+    fstype: '{{ mount_fstype }}'
+    dev: /dev/{{ vg_data }}/{{ lv_data }}
+
+- name: Format WAL Volume
+  filesystem:
+    fstype: '{{ mount_fstype }}'
+    dev: /dev/{{ vg_data }}/{{ lv_wal }}
+
+- name: Format Backup Volume
+  filesystem:
+    fstype: '{{ mount_fstype }}'
+    dev: /dev/{{ vg_backup }}/{{ lv_backup }}
+
+- name: Mount Data Volume
+  mount:
+    name: '{{ datadir_base }}'
+    # path
+    src: /dev/{{ vg_data }}/{{ lv_data }}
+    fstype: '{{ mount_fstype }}'
+    opts: '{{ mount_opts }}'
+    state: mounted
+
+- name: Mount WAL Volume
+  mount:
+    name: '{{ waldir_base }}'
+    # path
+    src: /dev/{{ vg_data }}/{{ lv_wal }}
+    fstype: '{{ mount_fstype }}'
+    opts: '{{ mount_opts }}'
+    state: mounted
+
+- name: Mount Backup Volume
+  mount:
+    name: '{{ backupdir_base }}'
+    # path
+    src: /dev/{{ vg_backup }}/{{ lv_backup }}
+    fstype: '{{ mount_fstype }}'
+    opts: '{{ mount_opts }}'
+    state: mounted

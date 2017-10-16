@@ -1,0 +1,5 @@
+pgbadger/pgbadger-generator lib/systemd/system-generators
+pgbadger/pgbadger-run       usr/share/elephant-shed
+pgbadger/pgbadger.service   lib/systemd/system
+pgbadger/pgbadger.timer     lib/systemd/system
+pgbadger/pgbadger@.service  lib/systemd/system

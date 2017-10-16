@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -eu
+
+case $1 in
+  configure)
+    if ! grep -q '^SHELLINABOX_ARGS.*--localhost-only' /etc/default/shellinabox; then
+      sed -i -e 's/^SHELLINABOX_ARGS.*/SHELLINABOX_ARGS="--no-beep --localhost-only"/' /etc/default/shellinabox
+      invoke-rc.d shellinabox restart
+    fi
+    ;;
+esac
+
+#DEBHELPER#

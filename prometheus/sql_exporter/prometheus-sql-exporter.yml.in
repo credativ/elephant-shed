@@ -1,0 +1,512 @@
+---
+jobs:
+# This checks are done for every cluster
+- name: "cluster"
+  interval: '0'
+  connections:
+  # We have to omit the hostname, we use PGHOST as environment variable.
+  # See /etc/default/prometheus-sql-exporter
+  - 'postgres://postgres@/postgres?sslmode=disable'
+  queries:
+  - name: "running_queries"
+    help: "Number of running queries"
+    labels:
+    - "datname"
+    - "usename"
+    values:
+    - "count"
+    query: |
+            SELECT datname::text, usename::text, COUNT(*)::float AS count
+            FROM pg_stat_activity
+            WHERE NOT datname ~ '^template(0|1)$'
+            GROUP BY datname, usename;
+  - name: "pg_stat_activity"
+    help: "Running Backends by Database and state"
+    labels:
+    - "datname"
+    - "state"
+    values:
+    - "count"
+    - "max_tx_duration"
+    query: |
+            SELECT
+                    pg_database.datname::text,
+                    tmp.state::text,
+                    COALESCE(count,0) as count,
+                    COALESCE(max_tx_duration,0) as max_tx_duration
+            FROM
+                    (
+                      VALUES ('active'),
+                                     ('idle'),
+                                     ('idle in transaction'),
+                                     ('idle in transaction (aborted)'),
+                                     ('fastpath function call'),
+                                     ('disabled')
+                    ) AS tmp(state) CROSS JOIN pg_database
+            LEFT JOIN
+            (
+                    SELECT
+                            datname,
+                            state,
+                            count(*) AS count,
+                            MAX(EXTRACT(EPOCH FROM now() - xact_start))::float AS max_tx_duration
+                    FROM pg_stat_activity
+                    GROUP BY datname,state) AS tmp2
+                    ON tmp.state = tmp2.state AND pg_database.datname = tmp2.datname
+            WHERE NOT pg_database.datname ~ '^template(0|1)$'
+  - name: "settings"
+    help: "PostgreSQL settings"
+    labels:
+    - "settings"
+    values:
+    - "max_connections"
+    - "autovacuum_freeze_max_age"
+    - "superuser_reserved_connections"
+    - "max_wal_senders"
+    - "max_prepared_transactions"
+    query: |
+            SELECT
+                    current_setting('max_connections')::float AS max_connections,
+                    current_setting('autovacuum_freeze_max_age')::float AS autovacuum_freeze_max_age,
+                    current_setting('superuser_reserved_connections')::float AS superuser_reserved_connections,
+                    current_setting('max_wal_senders')::float AS max_wal_senders,
+                    current_setting('max_prepared_transactions')::float AS max_prepared_transactions;
+  - name: "pg_locks_sum"
+    help: "number of current locks"
+    labels:
+      - "mode"
+    values:
+      - "count"
+    query: |
+            SELECT t.mode, count(*)
+            FROM
+              (VALUES
+                ('AccessShareLock'),
+                ('RowShareLock'),
+                ('RowExclusiveLock'),
+                ('ShareUpdateExclusiveLock'),
+                ('ShareLock'),
+                ('ShareRowExclusiveLock'),
+                ('ExclusiveLock'),
+                ('AccessExclusiveLock')
+              ) t(mode)
+              FULL JOIN pg_locks l ON t.mode = l.mode GROUP BY 1;
+  - name: "pg_stat_database"
+    help: "Database statistics"
+    type: "counter"
+    labels:
+    - "datname"
+    values:
+    - "numbackends:count"
+    - "xact_commit"
+    - "xact_rollback"
+    - "blks_read"
+    - "blks_hit"
+    - "tup_returned"
+    - "tup_fetched"
+    - "tup_inserted"
+    - "tup_updated"
+    - "tup_deleted"
+    - "conflicts"
+    - "temp_files"
+    - "temp_bytes"
+    - "deadlocks"
+    - "blk_read_time"
+    - "blk_write_time"
+    - "freeze_age"
+    - "dbsize"
+    query: |
+            SELECT
+                s.datname::text,
+                numbackends::float,
+                xact_commit::float,
+                xact_rollback::float,
+                blks_read::float,
+                blks_hit::float,
+                tup_returned::float,
+                tup_fetched::float,
+                tup_inserted::float,
+                tup_updated::float,
+                tup_deleted::float,
+                conflicts::float,
+                temp_files::float,
+                temp_bytes::float,
+                deadlocks::float,
+                blk_read_time,
+                blk_write_time,
+                age(d.datfrozenxid) AS freeze_age,
+                pg_database_size(s.datname)::float AS dbsize
+            FROM pg_stat_database s
+            LEFT JOIN pg_database d ON d.datname = s.datname
+            WHERE NOT s.datname ~ '^template(0|1)$'
+  - name: "pg_stat_archiver"
+    help: "pg_stat_archiver"
+    values:
+    - "archived_count"
+    - "last_archived_time"
+    - "failed_count"
+    - "last_failed_time"
+    - "stats_reset"
+    query: |
+            SELECT
+            archived_count,
+            EXTRACT(EPOCH FROM last_archived_time),
+            failed_count,
+            EXTRACT(EPOCH FROM last_failed_time),
+            EXTRACT(EPOCH FROM stats_reset)
+            FROM pg_stat_archiver
+  - name: "checkpoints"
+    help: "Requested and timed Checkpoints"
+    values:
+    - "timed"
+    - "requested"
+    query: |
+            SELECT
+            pg_stat_get_bgwriter_timed_checkpoints() timed,
+            pg_stat_get_bgwriter_requested_checkpoints() requested;
+  - name: "txid"
+    help: "current txid"
+    values:
+    - "txid_current"
+    query: |
+            SELECT
+            txid_current();
+  - name: "pg_stat_statements"
+    help: "pg_stat_statements"
+    labels:
+    - "usename"
+    - "datname"
+    - "queryid"
+    - "query"
+    values:
+    - "calls"
+    - "total_time"
+    - "rows"
+    - "shared_blks_hit"
+    - "shared_blks_read"
+    - "shared_blks_dirtied"
+    - "shared_blks_writte"
+    - "local_blks_hit"
+    - "local_blks_read"
+    - "local_blks_dirtied"
+    - "local_blks_writte"
+    - "temp_blks_read"
+    - "temp_blks_written"
+    query: |
+            WITH w_pg_stat_statements AS (
+              SELECT * FROM pg_stat_statements
+            )
+            (SELECT
+            usename::text
+            , datname::text
+            , queryid::text
+            , substr(regexp_replace(query, E'[\\n\\r]+', ' ', 'g' ),1,1024) AS query
+            , calls
+            , total_time
+            , rows
+            , shared_blks_hit
+            , shared_blks_read
+            , shared_blks_dirtied
+            , shared_blks_written
+            , local_blks_hit
+            , local_blks_read
+            , local_blks_dirtied
+            , local_blks_written
+            , temp_blks_read
+            , temp_blks_written
+            FROM w_pg_stat_statements pss
+             JOIN pg_database pd
+              ON pss.dbid = pd.oid
+            JOIN pg_user pu
+              ON pss.userid = pu.usesysid
+            ORDER BY pss.total_time DESC
+            LIMIT 25)
+            UNION
+            SELECT
+            usename::text
+            , datname::text
+            , queryid::text
+            , substr(regexp_replace(query, E'[\\n\\r]+', ' ', 'g' ),1,1024) AS query
+            , calls
+            , total_time
+            , rows
+            , shared_blks_hit
+            , shared_blks_read
+            , shared_blks_dirtied
+            , shared_blks_written
+            , local_blks_hit
+            , local_blks_read
+            , local_blks_dirtied
+            , local_blks_written
+            , temp_blks_read
+            , temp_blks_written
+            FROM w_pg_stat_statements pss2
+             JOIN pg_database pd2
+              ON pss2.dbid = pd2.oid
+            JOIN pg_user pu2
+              ON pss2.userid = pu2.usesysid
+            ORDER BY calls DESC
+            LIMIT 25;
+  - name: "prepared_transactions"
+    help: "Prepared Transactions"
+    labels:
+    - "datname"
+    values:
+    - "count"
+    query: |
+            SELECT
+            datname::text,
+            COUNT(transaction) AS count
+            FROM pg_database d
+            LEFT JOIN pg_prepared_xacts x ON d.datname = x.database
+            WHERE NOT d.datname ~ '^template(0|1)$'
+            GROUP BY datname
+
+- name: "cluster_9"
+  interval: '0'
+  min_version: "9.0"
+  max_version: "9.6"
+  connections:
+  # We have to omit the hostname, we use PGHOST as environment variable.
+  # See /etc/default/prometheus-sql-exporter
+  queries:
+  - name: "pg_stat_replication"
+    help: "pg_stat_replication"
+    labels:
+    - "application_name"
+    - "usename"
+    - "client_addr"
+    - "client_port"
+    values:
+    - "pid"
+    - "current_xlog_location_bytes"
+    - "sent_location_bytes"
+    - "flush_location_bytes"
+    - "replay_location_bytes"
+    - "send_lag_bytes"
+    - "flush_lag_bytes"
+    - "replay_lag_bytes"
+    query: |
+            SELECT
+            COALESCE(pid, 0) AS pid,
+            COALESCE(application_name, ' ')::text AS application_name,
+            COALESCE(usename, ' ')::text AS usename,
+            COALESCE(client_addr::text, 'local')::text AS client_addr,
+            COALESCE(client_port::text, ' ') AS client_port,
+            COALESCE(pg_xlog_location_diff(pg_current_xlog_location(), '0/0'), 0) AS current_xlog_location_bytes,
+            COALESCE(pg_xlog_location_diff(sent_location, '0/0'), 0) AS sent_location_bytes,
+            COALESCE(pg_xlog_location_diff(flush_location, '0/0'), 0) AS flush_location_bytes,
+            COALESCE(pg_xlog_location_diff(replay_location, '0/0'), 0) AS replay_location_bytes,
+            COALESCE(pg_xlog_location_diff(pg_current_xlog_location(), sent_location), 0)   AS send_lag_bytes,
+            COALESCE(pg_xlog_location_diff(pg_current_xlog_location(), flush_location), 0)  AS flush_lag_bytes,
+            COALESCE(pg_xlog_location_diff(pg_current_xlog_location(), replay_location), 0) AS replay_lag_bytes
+            FROM pg_stat_replication FULL JOIN (VALUES(0)) filler(i) ON TRUE
+  - name: "waldistance"
+    help: "amount of wal written since creation"
+    values:
+    - "location"
+    query: |
+            SELECT
+            pg_xlog_location_diff(pg_current_xlog_location(),'0/0000') "location";
+  - name: "LastCheckpointDistance"
+    help: "Distance to the last checkpoint"
+    values:
+    - "distance"
+    query: |
+            SELECT
+            pg_xlog_location_diff( pg_current_xlog_location(), checkpoint_location) "distance" FROM pg_control_checkpoint();
+  - name: "archive_ready"
+    help: "archive_ready"
+    values:
+    - "archive_ready"
+    query: |
+            SELECT COUNT(1) AS archive_ready FROM pg_ls_dir('./pg_xlog/archive_status') WHERE pg_ls_dir ~ '^[0-9a-fA-F]{24}\.ready$';
+
+            
+- name: "cluster_10"
+  interval: '0'
+  min_version: "10"
+  max_version: "999999"
+  connections:
+  # We have to omit the hostname, we use PGHOST as environment variable.
+  # See /etc/default/prometheus-sql-exporter
+  queries:
+  - name: "pg_stat_replication"
+    help: "pg_stat_replication"
+    labels:
+    - "application_name"
+    - "usename"
+    - "client_addr"
+    - "client_port"
+    values:
+    - "pid"
+    - "current_xlog_lsn_bytes"
+    - "sent_lsn_bytes"
+    - "flush_lsn_bytes"
+    - "replay_lsn_bytes"
+    - "send_lag_bytes"
+    - "flush_lag_bytes"
+    - "replay_lag_bytes"
+    query: |
+            SELECT
+            COALESCE(pid, 0) AS pid,
+            COALESCE(application_name, ' ')::text AS application_name,
+            COALESCE(usename, ' ')::text AS usename,
+            COALESCE(client_addr::text, 'local')::text AS client_addr,
+            COALESCE(client_port::text, ' ') AS client_port,
+            COALESCE(pg_wal_lsn_diff(pg_current_wal_lsn(), '0/0'), 0) AS current_xlog_lsn_bytes,
+            COALESCE(pg_wal_lsn_diff(sent_lsn, '0/0'), 0) AS sent_location_bytes,
+            COALESCE(pg_wal_lsn_diff(flush_lsn, '0/0'), 0) AS flush_location_bytes,
+            COALESCE(pg_wal_lsn_diff(replay_lsn, '0/0'), 0) AS replay_location_bytes,
+            COALESCE(pg_wal_lsn_diff(pg_current_wal_lsn(), sent_lsn), 0)   AS send_lag_bytes,
+            COALESCE(pg_wal_lsn_diff(pg_current_wal_lsn(), flush_lsn), 0)  AS flush_lag_bytes,
+            COALESCE(pg_wal_lsn_diff(pg_current_wal_lsn(), replay_lsn), 0) AS replay_lag_bytes
+            FROM pg_stat_replication FULL JOIN (VALUES(0)) filler(i) ON TRUE
+  - name: "waldistance"
+    help: "amount of wal written since creation"
+    values:
+    - "location"
+    query: |
+            SELECT
+            pg_wal_lsn_diff(pg_current_wal_lsn(),'0/0000') "location";
+  - name: "LastCheckpointDistance"
+    help: "Distance to the last checkpoint"
+    values:
+    - "distance"
+    query: |
+            SELECT
+            pg_wal_lsn_diff( pg_current_wal_lsn(), checkpoint_lsn) "distance" FROM pg_control_checkpoint();
+  - name: "archive_ready"
+    help: "archive_ready"
+    values:
+    - "archive_ready"
+    query: |
+            SELECT COUNT(1) AS archive_ready FROM pg_ls_dir('./pg_wal/archive_status') WHERE pg_ls_dir ~ '^[0-9a-fA-F]{24}\.ready$';
+
+# This checks are done for every database
+- name: "database"
+  interval: '24h'
+  connections:
+  # We have to omit the hostname, we use PGHOST as environment variable.
+  # See /etc/default/prometheus-sql-exporter
+  - 'postgres://postgres@/postgres?sslmode=disable'
+  queries:
+  - name: "CREATE EXTENSION pg_stat_statements"
+    help: "Creates the needed extension pg_stat_statements and does not produce errors."
+    query: |
+            DO $$
+              BEGIN
+                EXECUTE 'CREATE EXTENSION pg_stat_statements';
+                EXCEPTION WHEN OTHERS THEN
+                RETURN;
+              END;
+            $$;
+- name: "database"
+  interval: '0'
+  connections:
+  # We have to omit the hostname, we use PGHOST as environment variable.
+  # See /etc/default/prometheus-sql-exporter
+  - 'postgres://postgres@/postgres?sslmode=disable'
+  queries:
+  - name: "pg_stat_user_tables"
+    help: "Table stats"
+    labels:
+    - "datname"
+    - "schemaname"
+    - "relname"
+    values:
+    - "seq_scan"
+    - "seq_tup_read"
+    - "idx_scan"
+    - "idx_tup_fetch"
+    - "n_tup_ins"
+    - "n_tup_upd"
+    - "n_tup_del"
+    - "n_tup_hot_upd"
+    - "n_live_tup"
+    - "n_dead_tup"
+    - "vacuum_count"
+    - "autovacuum_count"
+    - "analyze_count"
+    - "autoanalyze_count"
+    query: |
+            SELECT
+              current_database()::text AS datname
+            , coalesce(schemaname::text, 'null') AS schemaname
+            , coalesce(relname::text, 'null') AS relname
+            , coalesce(seq_scan,0)::float AS seq_scan
+            , coalesce(seq_tup_read,0)::float AS seq_tup_read
+            , coalesce(idx_scan,0)::float AS idx_scan
+            , coalesce(idx_tup_fetch,0)::float AS idx_tup_fetch
+            , coalesce(n_tup_ins,0)::float AS n_tup_ins
+            , coalesce(n_tup_upd,0)::float AS n_tup_upd
+            , coalesce(n_tup_del,0)::float AS n_tup_del
+            , coalesce(n_tup_hot_upd,0)::float AS n_tup_hot_upd
+            , coalesce(n_live_tup,0)::float AS n_live_tup
+            , coalesce(n_dead_tup,0)::float AS n_dead_tup
+            , coalesce(vacuum_count,0)::float AS vacuum_count
+            , coalesce(autovacuum_count,0)::float AS autovacuum_count
+            , coalesce(analyze_count,0)::float AS analyze_count
+            , coalesce(autoanalyze_count,0)::float AS autoanalyze_count
+            FROM pg_stat_user_tables FULL JOIN (VALUES(0)) filler(i) ON TRUE;
+  - name: "pg_statio_user_tables"
+    help: "IO Stats"
+    labels:
+    - "datname"
+    - "schemaname"
+    - "relname"
+    values:
+    - "heap_blks_read"
+    - "heap_blks_hit"
+    - "idx_blks_read"
+    - "idx_blks_hit"
+    query: |
+            SELECT
+              current_database()::text AS datname
+            , COALESCE(schemaname::text, 'null') AS schemaname
+            , COALESCE(relname::text, 'null') AS relname
+            , COALESCE(heap_blks_read::float,0) AS heap_blks_read
+            , COALESCE(heap_blks_hit::float,0) AS heap_blks_hit
+            , COALESCE(idx_blks_read::float,0) AS idx_blks_read
+            , COALESCE(idx_blks_hit::float,0) AS idx_blks_hit
+            FROM pg_statio_user_tables FULL JOIN (VALUES(0)) filler(i) ON TRUE;
+  - name: "BufferAccess"
+    help: "Buffers Accessed"
+    labels:
+    - "datname"
+    - "schemaname"
+    - "relname"
+    values:
+    - "reads"
+    query: |
+            SELECT
+            current_database()::text AS datname,
+            COALESCE(schemaname::text, 'null') AS schemaname,
+            COALESCE(relname::text, 'null') AS relname,
+            sum( coalesce( heap_blks_read,0)
+            + coalesce(heap_blks_hit,0)
+            + coalesce(idx_blks_hit,0)
+            + coalesce(idx_blks_read,0)
+            + coalesce(toast_blks_hit,0)
+            + coalesce(toast_blks_read,0)
+            + coalesce(tidx_blks_hit,0)
+            + coalesce(tidx_blks_read,0))*8196::bigint as reads
+            FROM pg_statio_user_tables FULL JOIN (VALUES(0)) filler(i) ON TRUE
+            GROUP BY 1,2,3;
+  - name: "Maintenancecounters"
+    help: "Counters for maintenance jobs on user tables"
+    labels:
+    - "datname"
+    values:
+    - "vacuum_count"
+    - "autovacuum_count"
+    - "analyze_count"
+    - "autoanalyze_count"
+    query: |
+            SELECT
+            current_database()::text AS datname,
+            sum( vacuum_count) vacuum_count,
+            sum( autovacuum_count) autovacuum_count,
+            sum( analyze_count) analyze_count,
+            sum( autoanalyze_count) autoanalyze_count
+            FROM pg_stat_all_tables;

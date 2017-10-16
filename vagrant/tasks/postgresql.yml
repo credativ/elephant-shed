@@ -1,0 +1,133 @@
+# PostgreSQL
+
+- name: Install postgresql-common
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - postgresql-common
+
+- name: Disable auto cluster creation
+  lineinfile:
+    dest: /etc/postgresql-common/createcluster.conf
+    state: present
+    regexp: '^.?create_main_cluster'
+    line: 'create_main_cluster = false'
+
+- name: Install elephant-shed-postgresql.deb
+  package:
+    name: elephant-shed-postgresql
+    state: present
+
+- name: Install PostgreSQL packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - postgresql-{{ version }}
+  - postgresql-contrib-{{ version }}
+  - postgresql-{{ version }}-unit
+  - check-postgres
+  - python-psycopg2 # for postgresql_user
+
+- name: Create Data Volume
+  file:
+    path: '{{ datadir_base }}'
+    owner: postgres
+    group: postgres
+    mode: 0700
+    state: directory
+    recurse: true
+
+
+- name: Create WAL Volume
+  file:
+    path: '{{ waldir_base }}'
+    owner: postgres
+    group: postgres
+    mode: 0700
+    state: directory
+    recurse: true
+
+- name: Create Backup Volume
+  file:
+    path: '{{ backupdir_base }}'
+    owner: postgres
+    group: postgres
+    mode: 0700
+    state: directory
+    recurse: true
+
+- name: Create backup dir
+  file:
+    path: '{{ pgbackrest_backupdir }}'
+    owner: postgres
+    group: postgres
+    mode: 0700
+    state: directory
+    recurse: true
+
+- name: Create backup spool dir
+  file:
+    path: '{{ pgbackrest_spool_path }}'
+    owner: postgres
+    group: postgres
+    mode: 0700
+    state: directory
+    recurse: true
+
+- name: Change data_directory for new clusters
+  lineinfile:
+    dest: /etc/postgresql-common/createcluster.d/elephant-shed.conf
+    state: present
+    regexp: '^.?data_directory'
+    line: "data_directory = '{{ datadir_base }}/%v/%c'"
+    insertafter: '^# Default data directory'
+
+- name: Change waldir for new clusters
+  lineinfile:
+    dest: /etc/postgresql-common/createcluster.d/elephant-shed.conf
+    state: present
+    regexp: '^.?waldir'
+    line: "waldir = '{{ waldir_base }}/%v/%c'"
+    insertafter: '^# Default directory for transaction logs'
+
+- name: Deploy performance tuning configuration for postgresql-common
+  template:
+    dest: /etc/postgresql-common/createcluster.d/performance-tuning.conf
+    src: templates/postgresql-common/performance-tuning.conf.j2
+
+- name: Create {{version}}/main cluster
+  shell: "pg_createcluster {{ version }} main --start"
+  args:
+    creates: /etc/postgresql/{{version}}/main/postgresql.conf
+
+- name: Deploy pg_hba.conf
+  copy:
+    dest:  "{{ confdir }}/pg_hba.conf"
+    src: files/postgresql/pg_hba.conf
+    owner: postgres
+    group: postgres
+    mode: 0600
+  notify:
+    - reload postgresql
+
+- name: Start postgresql@{{version}}-main
+  service:
+    name: postgresql@{{version}}-main
+    state: started
+
+- name: Process all pending handler actions now
+  meta: flush_handlers
+
+- name: 'Create {{ admin_user }} user in PostgreSQL'
+  become_user: postgres
+  become_method: sudo
+  postgresql_user:
+    name: '{{ admin_user }}'
+    role_attr_flags: LOGIN,SUPERUSER
+
+- name: Generate ssh keys for user postgres
+  user:
+    name: postgres
+    generate_ssh_key: yes

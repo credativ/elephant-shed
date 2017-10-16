@@ -1,0 +1,2 @@
+# symlinks in /etc/skel are copied over to home directories, so must be absolute
+elephant-shed-tmate: symlink-should-be-relative etc/skel/.tmate.conf /etc/tmate.conf

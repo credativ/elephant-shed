@@ -1,0 +1,30 @@
+#!/bin/sh
+
+set -eu
+
+BACKUPDIR="/var/lib/pgbackrest"
+
+case $1 in
+  configure)
+    if ! test -e /etc/pgbackrest.conf; then
+      cat > /etc/pgbackrest.conf <<-EOF
+	[global]
+	repo-path=$BACKUPDIR
+	retention-full=3
+	
+	EOF
+    fi
+
+    if ! test -d /var/www/html/pgbackrest; then
+      mkdir -p /var/www/html/pgbackrest
+      chown postgres:postgres /var/www/html/pgbackrest
+    fi
+
+    if ! test -d $BACKUPDIR; then
+      mkdir -p $BACKUPDIR
+      chown postgres:postgres $BACKUPDIR
+    fi
+    ;;
+esac
+
+#DEBHELPER#

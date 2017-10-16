@@ -1,0 +1,11 @@
+# /lib/systemd/system/pgbackrest@.service
+[Unit]
+Description=Backup PostgreSQL cluster %i using pgBackRest, always creates full backup
+ConditionPathExists=/etc/postgresql/%I/postgresql.conf
+
+[Service]
+Type=oneshot
+User=postgres
+ExecStart=/usr/share/elephant-shed/pgbackrest-run %i full
+SyslogIdentifier=pgbackrest@%i
+Nice=10

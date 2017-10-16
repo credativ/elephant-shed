@@ -1,0 +1,38 @@
+#!/usr/bin/ansible-playbook
+---
+- name: setup-gitlab-runner
+  hosts: all
+  become: true
+
+  tasks:
+
+  - name: Install apt-transport-https
+    apt:
+      name: apt-transport-https
+      install_recommends: false
+
+  - name: gitlab-runner repository key
+    apt_key:
+      url: https://packages.gitlab.com/runner/gitlab-ci-multi-runner/gpgkey
+      id: 14219A96E15E78F4
+
+  - name: gitlab-runner repository
+    apt_repository:
+      repo: "deb https://packages.gitlab.com/runner/gitlab-ci-multi-runner/debian/ stretch main"
+      filename: 'gitlab-runner'
+
+  - name: Install gitlab-ci-multi-runner
+    apt:
+      name: gitlab-ci-multi-runner
+      install_recommends: false
+
+  - name: Add gitlab-runner to sudo group
+    user:
+      name: gitlab-runner
+      groups: sudo
+
+  - name: allow sudo without password
+    lineinfile:
+      dest: /etc/sudoers
+      line: '%sudo	ALL=(ALL:ALL) NOPASSWD: ALL'
+      regexp: '^%sudo'

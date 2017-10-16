@@ -1,0 +1,87 @@
+# packages.credativ.com
+- name: aptly key
+  apt_key:
+    data: "{{ lookup('file', 'packages.credativ.com/aptly.key') }}"
+    id: F797920785697B85B92E8034C86768840A59F867
+    state: present
+
+- name: credativ_postgresql repository
+  apt_repository:
+    repo: '{{ credativ_postgresql }}'
+    filename: 'credativ_postgresql'
+
+# pgapt
+- name: Get pgdg key
+  apt_key:
+    data: "{{ lookup('file', 'postgresql/ACCC4CF8.asc') }}"
+    id: ACCC4CF8
+    state: present
+
+- name: Setup pgdg repository
+  apt_repository:
+    repo: 'deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main'
+    filename: 'pgdg'
+    update_cache: false
+
+# apt
+- name: Apt Dist-Upgrade
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+# packages
+- name: Install base packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - tree
+  - vim
+  - screen
+  - tmux
+  - htop
+  - unzip
+  - w3m
+  - openssh-server
+  - ncdu
+  - ssl-cert
+  - net-tools
+  - jq
+  - ferm
+
+- name: Configure pgadmin4 web user
+  debconf:
+    name: pgadmin4-apache2
+    question: pgadmin4/email
+    value: "{{ pgadmin4_mail }}"
+    vtype: string
+
+- name: Configure pgadmin4 web password
+  debconf:
+    name: pgadmin4-apache2
+    question: pgadmin4/password
+    value: "{{ pgadmin4_pass }}"
+    vtype: password
+
+# elephant shed
+# separate tasks, so we can see the progress better
+- name:               Install elephant-shed-portal
+  package: state=present name=elephant-shed-portal
+- name:               Install elephant-shed-pgadmin4
+  package: state=present name=elephant-shed-pgadmin4
+- name:               Install elephant-shed-cockpit
+  package: state=present name=elephant-shed-cockpit
+- name:               Install elephant-shed-prometheus
+  package: state=present name=elephant-shed-prometheus
+- name:               Install elephant-shed-grafana
+  package: state=present name=elephant-shed-grafana
+- name:               Install elephant-shed-pgbackrest
+  package: state=present name=elephant-shed-pgbackrest
+- name:               Install elephant-shed-pgbadger
+  package: state=present name=elephant-shed-pgbadger
+- name:               Install elephant-shed-shellinabox
+  package: state=present name=elephant-shed-shellinabox
+- name:               Install elephant-shed-tmate
+  package: state=present name=elephant-shed-tmate
+- name:               Install elephant-shed
+  package: state=present name=elephant-shed

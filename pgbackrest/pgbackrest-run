@@ -1,0 +1,34 @@
+#!/bin/bash
+
+set -eu
+
+PGCLUSTER="$1" # in 9.6-main format
+BACKUPTYPE="$2" # type of backup (full|incr|diff)
+STATUSDIR="/var/www/html/pgbackrest"
+PGBACKREST="pgbackrest --log-level-console=info --stanza=$PGCLUSTER"
+
+test -d $STATUSDIR
+
+if ! grep -q -F "[$PGCLUSTER]" /etc/pgbackrest.conf; then
+  CONFTOOL="pg_conftool -s ${PGCLUSTER/-/ }"
+  PGDATA=$($CONFTOOL show data_directory)
+  PGPORT=$($CONFTOOL show port)
+  test -d "$PGDATA"
+  cat >> /etc/pgbackrest.conf <<-EOF
+
+	[$PGCLUSTER]
+	db-path=$PGDATA
+	db-port=$PGPORT
+	EOF
+fi
+
+if ! pgbackrest info | grep -q "stanza: $PGCLUSTER"; then
+  $PGBACKREST stanza-create
+fi
+
+# We need to make sure archiving is enabled
+/usr/share/elephant-shed/pgbackrest-toggle-archiving $PGCLUSTER enable
+
+$PGBACKREST backup --type=$BACKUPTYPE 2>&1 | tee $STATUSDIR/$PGCLUSTER.log # pipe ignores errors here
+
+$PGBACKREST info > $STATUSDIR/$PGCLUSTER.backup

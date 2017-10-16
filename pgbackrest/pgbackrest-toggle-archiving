@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# This script controls whether to enable or disable archiving using pgbackrest.
+# Any archive_command that doesn't contain the string "pgbackrest" is interpreted as "disabled"
+
+# Usage: pgbackrest-toogle-archiving <cluster> [enable|disable]
+#        where cluster is of format version-name (e.g. 9.6-main)
+
+set -eu
+
+PGCLUSTER="$1" # in 9.6-main format
+CONFTOOL="pg_conftool -s ${PGCLUSTER/-/ }"
+
+ACTION="toggle"
+
+COMMAND_ENABLED="/usr/share/elephant-shed/pgbackrest-archivecommand --stanza=${PGCLUSTER} archive-push %p"
+COMMAND_DISABLED="/bin/true"
+
+set +u
+if [ -n $2 ] && [ "$2" != "" ]; then
+    case "$2" in
+	"enable"|"disable"|"toggle")
+	    ACTION="$2"
+	    ;;
+	*)
+	    echo "ERROR: action \"$2\" not supported, exiting." 1>&2
+	    exit 1
+	    ;;
+    esac
+fi
+set -u
+
+if $CONFTOOL --short show archive_command | grep -q "pgbackrest"; then
+    # archiving is currently on
+    if [ "$ACTION" == "enable" ]; then
+	echo "INFO: archive_command is enabled. No action required."
+	exit 0
+    fi
+    echo "INFO: archive_command is enabled. Disable archiving using \"$COMMAND_DISABLED\" as archive_command."
+    $CONFTOOL set archive_command "$COMMAND_DISABLED"
+else
+    # archiving is currently off
+    if [ "$ACTION" == "disable" ]; then
+	echo "INFO: archive_command is disabled. No action required."
+	exit 0
+    fi
+    echo "INFO: archive_command is disabled. Enable archiving using \"$COMMAND_ENABLED\" as archive_command."
+    $CONFTOOL set archive_command "$COMMAND_ENABLED"
+fi
+
+# Check if archive mode is off and print a warning.
+if $CONFTOOL --short show archive_mode | grep -q "off"; then
+    echo "WARNING: Archiving is disabled (\"archive_mode = off\")."
+    echo "DETAIL: Changes to the archive_command doesn't have any effect."
+    echo "HINT: Please switch the archive_mode to \"on\" manually."
+fi
+
+echo "INFO: Reloading cluster configuration for \"${PGCLUSTER/-/ }\"."
+pg_ctlcluster ${PGCLUSTER/-/ } reload

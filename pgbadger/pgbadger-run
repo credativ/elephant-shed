@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -eu
+
+PGCLUSTER="$1" # in 9.6-main format (%i)
+REPORTDIR="/var/lib/pgbadger/$PGCLUSTER"
+
+INFO="$(pg_lsclusters -h $PGCLUSTER)"
+LOGFILE=${INFO##* }
+LOGDIR=${LOGFILE%/*}
+
+if ! test -d "$LOGDIR"; then
+  echo "Log directory $LOGDIR not found"
+  exit 1
+fi
+
+CONFTOOL="pg_conftool -s ${PGCLUSTER/-/ }"
+PREFIX="$($CONFTOOL show log_line_prefix)"
+
+mkdir -p "$REPORTDIR"
+
+set -x
+pgbadger \
+  --format stderr ${PREFIX+--prefix="$PREFIX"} \
+  --title="${PGCLUSTER/-/\/} pgBadger report" \
+  --incremental --extra-files --start-monday \
+  --pid-dir "$REPORTDIR" --outdir "$REPORTDIR" \
+  --quiet \
+  "$LOGDIR"/postgresql-"$PGCLUSTER"*.log*

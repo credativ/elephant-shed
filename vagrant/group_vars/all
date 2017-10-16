@@ -1,0 +1,85 @@
+---
+# Partitioning
+partitioning: False
+creat_test_loops: False
+vg_data_devices: /dev/sda1, /dev/sdb1
+vg_data: vg_data
+lv_wal: lv_wal
+lv_wal_size: 10g
+lv_data: lv_data
+lv_data_size: 100%FREE
+
+vg_backup_devices: /dev/sdc1, /dev/sdd1
+vg_backup: vg_backup
+lv_backup: lv_backup
+lv_backup_size: 100%FREE
+
+datadir_base: /mnt/pgdata
+waldir_base: /mnt/wal
+backupdir_base: /mnt/backup
+
+mount_fstype: ext4
+mount_opts: noatime,nodev,noexec,nobarrier
+
+# System
+credativ_postgresql: 'deb https://packages.credativ.com/public/postgresql/ stretch-test main'
+debversion: 0.1
+io_scheduler: noop
+overcommit_ratio: 90
+grub_cmdline_linux: crashkernel=auto rhgb quiet elevator={{ io_scheduler }}
+version: 9.6
+clustername: main
+confdir: /etc/postgresql/{{ version }}/{{ clustername }}
+datadir: '{{ datadir_base }}/{{ version }}/{{ clustername }}'
+waldir: '{{ waldir_base }}/{{ version }}/{{ clustername }}'
+admin_user: 'admin'
+admin_pass: '$6$smIbQ.WUs$pOjJEGx4nk3tBGJtebUXAToQsT/DTM8BESdD/pZ4SUxfvn.q8B15YR5o0rib1QMCJicUdtj1FYAYWnZRIZ6XS1' # admin
+pgadmin4_mail: '{{ admin_user }}@localhost'
+pgadmin4_pass: 'admin'
+local_repo: 'deb [trusted=yes] file:/srv/repository ./'
+use_local_repo: False
+sql_exporter_version: '0.2.0.1'
+locale:
+  - de_DE.UTF-8 UTF-8
+  - en_US.UTF-8 UTF-8
+nofiles_hard: 131072
+nofiles_soft: 65536
+systemd_nofiles: 131072
+
+# Monitoring
+prometheus_gomaxprocs: 2
+prometheus_sql_exporter_gomaxprocs: 1
+prometheus_node_exporter_gomaxprocs: 1
+grafana_gomaxprocs: 4
+
+# Backup
+pgbackrest_backupdir: '{{ backupdir_base }}/pgbackrest'
+pgbackrest_retention_full: 4
+pgbackrest_compress_level: 3
+pgbackrest_spool_path: '{{ backupdir_base }}/pgbackrest_spool'
+pgbackrest_archive_async: 'y'
+pgbackrest_archive_queue_max: '1099511627776'
+pgbackrest_archive_push_process_max: '10'
+
+# PostgreSQL Tuning
+max_connections: 100
+superuser_reserved_connections: 8
+shared_buffers: 8GB
+temp_buffers: 64MB
+work_mem: 64MB
+maintenance_work_mem: 1GB
+vacuum_cost_limit: 400
+wal_compression: off
+wal_log_hints: on
+checkpoint_timeout: 15min
+max_wal_size: 4GB
+min_wal_size: 160MB
+checkpoint_completion_target: 0.8
+random_page_cost: 0.4
+effective_cache_size: 5GB
+autovacuum_max_workers: 5
+autovacuum_naptime: 1min
+max_worker_processes: 8
+max_parallel_workers_per_gather: 2
+old_snapshot_threshold: -1
+track_io_timing: on

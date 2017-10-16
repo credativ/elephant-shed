@@ -1,0 +1,9 @@
+# /lib/systemd/system/pgbadger.service
+[Unit]
+Description=pgBadger reports for all PostgreSQL clusters
+
+[Service]
+Type=oneshot
+User=postgres
+ExecStart=/bin/true
+ExecReload=/bin/true

@@ -1,0 +1,131 @@
+<html>
+<head>
+<title>PostgreSQL</title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+
+<style>
+body {
+  font-family: arial;
+  overflow: hidden;
+}
+
+.paper a {
+  text-decoration: none;
+  color: black;
+  #display: block;
+  #background-color:#efefef;
+  #padding: 0px;
+  #border-top: 1px solid black;
+  #border-bottom: 1px solid black;
+  #font-size:12px;
+  #text-align: right;
+  #margin-top: 15px;
+  transition: .5s background-color;
+  font-weight: bold;
+}
+
+.paper a:hover {
+  text-decoration: underline;
+  color: black;
+  #background-color:white;
+  transition: .5s background-color;
+}
+
+.paper a img {
+  #border: 1px solid black;
+  #background-color: white;
+  margin-left: 8px;
+  margin-top: 1px;
+  margin-right: 0px;
+  width:15px;
+  height:15px;
+  transition: 1s all;
+}
+
+.paper:hover a img {
+  width:40px;
+  height:40px;
+  transition: .2s all;
+}
+
+.paper a:hover img {
+  filter: brightness(50%);
+  transition: .1s filter;
+}
+
+.paper {
+  z-index:+100;
+  top: -20px;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 5px 10px 5px 0px rgba(0,0,0,0.15);
+  width: 300px;
+  background-color:  rgba(255,255,255,.15);
+  border: 1px solid black;
+  border-radius: 10px;
+  overflow: hidden;
+  border-top-right-radius:0px;
+  border-top-left-radius: 0px;
+  transition: top 0.3s, background-color 1s, width 1s;
+  transition-timing-function: ease-out;
+  transition-delay: 0.0s;
+}
+
+.paper:hover {
+  background-color: rgba(255,255,255,1);
+  top:-2px;
+  width: 550px;
+  transition: top 0.2s,width .2s, background-color 0.2s;
+}
+
+table {
+  font-size: 12px;
+}
+
+#content {
+  #z-index: -1;
+  top:0px;
+  left:0px;
+  position: absolute;
+  display: block;
+  height: 100%;
+  width: 100%;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+</style>
+
+</head>
+
+<body>
+
+<center>
+<div class="paper">
+<hr style="border: 2px solid red;">
+<div align="center">
+  <a target="_parent" href="/"><img title="Portal Home" src="/image/button_home.png"></a>
+  <!-- pgAdmin4 doesn't like running in an iframe -->
+  <a target="_top" href="/pgadmin4/browser/"><img title="pgAdmin4" src="/image/button_pgadmin.png"></a>
+  <a target="portal" href="/grafana"><img title="Grafana" src="/image/button_grafana.png"></a>
+  <a target="portal" href="/prometheus"><img title="Prometheus" src="/image/button_prometheus.png"></a>
+  <a target="portal" href="/pgbadger/[% IF CLUSTERS.size == 1 AND CLUSTERS.0.pgbadger %][% CLUSTERS.0.version %]-[% CLUSTERS.0.cluster %]/[% END %]"><img title="pgBadger" src="/image/button_pgbadger.png"></a>
+  <a target="portal" href="/pgbackrest/[% IF CLUSTERS.size == 1 AND CLUSTERS.0.backup %][% CLUSTERS.0.version %]-[% CLUSTERS.0.cluster %].backup[% END %]"><img title="pgBackRest" src="/image/button_pgbackrest.png"></a>
+  <a target="portal" href="/system"><img title="Cockpit" src="/image/button_cockpit.png"></a>
+  <a target="portal" href="/shellinabox"><img title="Shell" src="/image/button_shellinabox.png"></a>
+  <a target="portal" href="/doc/README.html"><img title="Documentation" src="/image/button_doc.png"></a>
+  <a target="portal" href="/cgi-bin/support.pl"><img title="Support" src="/image/button_credativ.png"></a>
+</div>
+</div>
+</center>
+
+<div id="content">
+  <iframe name="portal" src="/cgi-bin/portalmain.pl" height="100%" width="100%" style="border: 0px;" seamless>
+</div>
+
+</body>
+</html>

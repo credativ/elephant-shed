@@ -1,0 +1,3 @@
+.vagrant
+*.retry
+fact_cache/

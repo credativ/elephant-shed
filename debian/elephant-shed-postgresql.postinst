@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -e
+
+case $1 in
+  configure)
+    # make sure postgres is in the shadow group
+    if ! id -Gn postgres | grep -qw shadow; then
+      adduser $quiet postgres shadow
+      invoke-rc.d postgresql restart
+    fi
+
+    # We deploy a rsyslog rule.
+    invoke-rc.d rsyslog restart
+    ;;
+esac
+
+#DEBHELPER#

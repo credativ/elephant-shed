@@ -1,0 +1,10 @@
+# /lib/systemd/system/pgbackrest@.timer
+[Unit]
+Description=Automated pgBackRest full backup of PostgreSQL cluster %i
+
+[Timer]
+OnCalendar=Sun *-*-* 01:00:00
+RandomizedDelaySec=2h
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,35 @@
+#!/bin/sh
+
+set -eu
+
+case $1 in
+  configure)
+    # create elephant-shed group
+    addgroup --system elephant-shed
+
+    # add www-data to shadow group
+    if ! id --name --groups www-data | grep -qw shadow; then
+      adduser www-data shadow
+    fi
+
+    # enable apache modules
+    for module in xml2enc proxy proxy_http proxy_html proxy_connect proxy_wstunnel rewrite deflate headers ssl cgid; do
+      a2enmod --maintmode $module
+    done
+
+    # enable site
+    a2dissite 000-default
+    a2ensite elephant-shed
+
+    # restart apache
+    invoke-rc.d apache2 restart
+    ;;
+
+  remove)
+    # disable site
+    a2dissite elephant-shed
+    ;;
+
+esac
+
+#DEBHELPER#

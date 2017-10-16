@@ -1,0 +1,64 @@
+# Set go garbage collector to clean up more frequently
+GOGC=40
+GOMAXPROCS=1
+
+# Set the command-line arguments to pass to the server.
+ARGS="-collector.diskstats.ignored-devices=^(ram|loop|fd)\d+$ \
+      -collector.filesystem.ignored-mount-points=^/(sys|proc|dev|run)($|/) \
+      -collector.textfile.directory=/var/lib/prometheus/node-exporter \
+      -web.listen-address 127.0.0.1:9100"
+
+# Prometheus-node-exporter supports the following options:
+#
+#  -collector.diskstats.ignored-devices string
+#    	Regexp of devices to ignore for diskstats.
+#       (default "^(ram|loop|fd|(h|s|v|xv)d[a-z]|nvme\\d+n\\d+p)\\d+$")
+#  -collector.filesystem.ignored-fs-types string
+#    	Regexp of filesystem types to ignore for filesystem collector.
+#       (default "^(sys|proc)fs$")
+#  -collector.filesystem.ignored-mount-points string
+#    	Regexp of mount points to ignore for filesystem collector.
+#       (default "^/(sys|proc|dev)($|/)")
+#  -collector.megacli.command string
+#    	Command to run megacli. (default "megacli")
+#  -collector.netdev.ignored-devices string
+#    	Regexp of net devices to ignore for netdev collector. (default "^$")
+#  -collector.ntp.protocol-version int
+#    	NTP protocol version (default 4)
+#  -collector.ntp.server string
+#    	NTP server to use for ntp collector.
+#  -collector.procfs string
+#    	procfs mountpoint. (default "/proc")
+#  -collector.supervisord.url string
+#    	XML RPC endpoint (default "http://localhost:9001/RPC2")
+#  -collector.sysfs string
+#    	sysfs mountpoint. (default "/sys")
+#  -collector.systemd.private
+#    	Establish a private, direct connection to systemd without dbus.
+#  -collector.systemd.unit-blacklist string
+#    	Regexp of systemd units to blacklist. Units must both match whitelist
+#    	and not match blacklist to be included.
+#  -collector.systemd.unit-whitelist string
+#    	Regexp of systemd units to whitelist. Units must both match whitelist
+#    	and not match blacklist to be included. (default ".+")
+#  -collector.textfile.directory string
+#    	Directory to read text files with metrics from.
+#  -collectors.enabled string
+#    	Comma-separated list of collectors to use.
+#       (default "conntrack,diskstats,entropy,filefd,filesystem,hwmon,\
+#       loadavg,mdadm,meminfo,netdev,netstat,sockstat,stat,textfile,time,\
+#       uname,vmstat")
+#  -collectors.print
+#    	If true, print available collectors and exit.
+#  -log.format value
+#    	Set the log target and format.
+#       Example: "logger:syslog?appname=bob&local=7" or
+#       "logger:stdout?json=true" (default "logger:stderr")
+#  -log.level value
+#    	Only log messages with the given severity or above.
+#       Valid levels: [debug, info, warn, error, fatal] (default "info")
+#  -web.listen-address string
+#    	Address on which to expose metrics and web interface.
+#       (default ":9100")
+#  -web.telemetry-path string
+#    	Path under which to expose metrics. (default "/metrics")

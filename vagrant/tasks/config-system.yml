@@ -1,0 +1,100 @@
+# BASIC TUNING
+- name: Generate ssh keys for user root
+  user:
+    name: root
+    generate_ssh_key: yes
+
+- name: Create admin user
+  user:
+    name: '{{ admin_user }}'
+    # password is 'admin'
+    password: '{{ admin_pass }}'
+    update_password: on_create
+    comment: 'Default Admin User,,,'
+    shell: /bin/bash
+    groups: sudo,elephant-shed
+    generate_ssh_key: yes
+
+# Set locale
+- name: Set locale
+  lineinfile:
+    dest: /etc/locale.gen
+    line: "{{ item }}"
+  with_items: "{{ locale }}"
+  register: locale
+
+- name: Gen locale
+  command: locale-gen
+  when: locale | changed
+
+# Kernel configuration
+- name: Set vm.overcommit_ratio
+  sysctl:
+    name: vm.overcommit_ratio
+    value: "{{ overcommit_ratio }}"
+
+- name: Set vm.overcommit_memory=2, don't overcommit
+  sysctl:
+    name: vm.overcommit_memory
+    value: 2
+
+- name: Turn off memory zone reclaim
+  sysctl:
+    name: vm.zone_reclaim_mode
+    value: 0
+
+# IO Scheduler
+- name: Set block device to use {{ io_scheduler }} i/o scheduler
+  shell: echo {{ io_scheduler }} > /sys/block/{{ item }}/queue/scheduler
+  with_items: '{{ ansible_devices }}'
+  when: ansible_devices[item].scheduler_mode != io_scheduler
+
+- name: Edit grub defaults
+  lineinfile:
+    dest: /etc/default/grub
+    state: present
+    regexp: GRUB_TIMEOUT
+    line: GRUB_TIMEOUT=1
+  notify:
+    - update grub2
+
+- name: Set default linux commandline (GRUB_CMDLINE_LINUX)
+  lineinfile:
+    dest: /etc/default/grub
+    state: present
+    regexp: GRUB_CMDLINE_LINUX
+    line: 'GRUB_CMDLINE_LINUX="{{ grub_cmdline_linux }}"'
+  notify:
+    - update grub2
+
+- name: Silence etckeeper git messages
+  copy:
+    src: files/git/gitconfig
+    dest: /root/.gitconfig
+    owner: root
+    group: root
+    mode: 0644
+    force: no
+
+- name: Create /etc/security/limits.d/
+  file:
+    path: /etc/security/limits.d
+    owner: root
+    owner: root
+    mode: 0755
+    state: directory
+
+- name: Set max open files for postgres user
+  template:
+    dest: /etc/security/limits.d/postgres.conf
+    src: templates/postgres/postgres-limits.conf.j2
+
+- name: Set max open files for service postgresql@.service
+  lineinfile:
+    dest: /lib/systemd/system/postgresql@.service
+    state: present
+    regexp: 'LimitNOFILE'
+    line: 'LimitNOFILE={{ systemd_nofiles }}'
+    insertafter: '^\[Service\]'
+  notify:
+    - systemctl daemon-reload

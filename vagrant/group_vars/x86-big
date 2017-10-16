@@ -1,0 +1,26 @@
+---
+use_local_repo: False
+
+# Partitioning
+partitioning: True
+vg_data_devices: /dev/sdc
+lv_wal_size: 50g
+
+vg_backup_devices: /dev/md0
+
+# PostgreSQL Tuning
+max_connections: 800
+superuser_reserved_connections: 16
+shared_buffers: 16GB
+work_mem: 256MB
+maintenance_work_mem: 8GB
+vacuum_cost_limit: 800
+max_wal_size: 25GB
+min_wal_size: 160MB
+checkpoint_completion_target: 0.8
+random_page_cost: 2
+effective_cache_size: 256GB
+autovacuum_max_workers: 6
+autovacuum_naptime: 30s
+max_worker_processes: 16
+max_parallel_workers_per_gather: 4

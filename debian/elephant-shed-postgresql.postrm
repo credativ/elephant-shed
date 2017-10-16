@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -e
+
+case $1 in
+  remove)
+    dpkg-divert --package elephant-shed-postgresql --rename \
+      --divert /etc/logrotate.d/postgresql-common.real.disabled \
+      --remove /etc/logrotate.d/postgresql-common
+    ;;
+esac
+
+#DEBHELPER#

@@ -1,0 +1,143 @@
+Source: elephant-shed
+Section: database
+Priority: optional
+Maintainer: Debian PostgreSQL Maintainers <pkg-postgresql-public@lists.alioth.debian.org>
+Uploaders:
+ Christoph Berg <myon@debian.org>,
+ Adrian Vondendriesch <adrian.vondendriesch@credativ.de>,
+Standards-Version: 4.0.0
+Build-Depends:
+ debhelper (>= 10~),
+ jq,
+ pandoc,
+
+Package: elephant-shed
+Architecture: all
+Depends:
+ elephant-shed-cockpit,
+ elephant-shed-grafana,
+ elephant-shed-pgadmin4,
+ elephant-shed-pgbackrest,
+ elephant-shed-pgbadger,
+ elephant-shed-portal,
+ elephant-shed-postgresql,
+ elephant-shed-prometheus,
+ elephant-shed-shellinabox,
+ elephant-shed-tmate,
+ ${misc:Depends},
+Description: PostgreSQL dashboard
+ The Elephant Shed is a web-based PostgreSQL management front-end.
+ .
+ This meta package depends on all Elephant Shed components.
+
+Package: elephant-shed-portal
+Architecture: all
+Depends:
+ adduser,
+ apache2,
+ libapache2-mod-authnz-pam,
+ libapache2-mod-authz-unixgroup,
+ libtemplate-perl,
+ ${misc:Depends},
+Description: PostgreSQL dashboard -- web interface
+ The Elephant Shed is a web-based PostgreSQL management front-end.
+ .
+ This package provides the web interface.
+
+Package: elephant-shed-postgresql
+Architecture: all
+Depends:
+ adduser,
+ postgresql-common (>> 183~),
+ ${misc:Depends},
+Description: PostgreSQL dashboard -- PostgreSQL integration
+ The Elephant Shed is a web-based PostgreSQL management front-end.
+ .
+ This package provides the integration with PostgreSQL.
+
+Package: elephant-shed-pgadmin4
+Architecture: all
+Depends:
+ pgadmin4-apache2,
+ ${misc:Depends},
+Description: PostgreSQL dashboard -- pgAdmin4 integration
+ The Elephant Shed is a web-based PostgreSQL management front-end.
+ .
+ This meta package provides the integration with pgAdmin4.
+
+Package: elephant-shed-pgbadger
+Architecture: all
+Depends:
+ pgbadger (>> 9),
+ postgresql-common,
+ ${misc:Depends},
+Description: PostgreSQL dashboard -- pgBadger integration
+ The Elephant Shed is a web-based PostgreSQL management front-end.
+ .
+ This package provides the integration with pgBadger.
+
+Package: elephant-shed-pgbackrest
+Architecture: all
+Depends:
+ pgbackrest,
+ postgresql-common,
+ ${misc:Depends},
+Description: PostgreSQL dashboard -- pgBackRest integration
+ The Elephant Shed is a web-based PostgreSQL management front-end.
+ .
+ This package provides the integration with pgBackRest.
+
+Package: elephant-shed-grafana
+Architecture: all
+Depends:
+ curl,
+ grafana (>> 4.3),
+ ${misc:Depends},
+Description: PostgreSQL dashboard -- Grafana integration
+ The Elephant Shed is a web-based PostgreSQL management front-end.
+ .
+ This package provides the integration with Grafana.
+
+Package: elephant-shed-prometheus
+Architecture: all
+Depends:
+ prometheus,
+ prometheus-node-exporter,
+ prometheus-sql-exporter,
+ python,
+ python-yaml,
+ ${misc:Depends},
+Description: PostgreSQL dashboard -- Prometheus integration
+ The Elephant Shed is a web-based PostgreSQL management front-end.
+ .
+ This package provides the integration with Prometheus.
+
+Package: elephant-shed-cockpit
+Architecture: all
+Depends:
+ cockpit,
+ ${misc:Depends},
+Description: PostgreSQL dashboard -- cockpit integration
+ The Elephant Shed is a web-based PostgreSQL management front-end.
+ .
+ This package provides the integration with cockpit.
+
+Package: elephant-shed-shellinabox
+Architecture: all
+Depends:
+ shellinabox,
+ ${misc:Depends},
+Description: PostgreSQL dashboard -- shellinabox integration
+ The Elephant Shed is a web-based PostgreSQL management front-end.
+ .
+ This meta package provides the integration with shellinabox.
+
+Package: elephant-shed-tmate
+Architecture: all
+Depends:
+ tmate,
+ ${misc:Depends},
+Description: PostgreSQL dashboard -- tmate integration
+ The Elephant Shed is a web-based PostgreSQL management front-end.
+ .
+ This package provides the integration with tmate.

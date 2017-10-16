@@ -1,0 +1,50 @@
+#------------------------------------------------------------------------------
+# CONNECTIONS AND AUTHENTICATION
+#------------------------------------------------------------------------------
+max_connections = {{ max_connections }}
+superuser_reserved_connections = {{ superuser_reserved_connections }}
+
+#------------------------------------------------------------------------------
+# RESOURCE USAGE (except WAL)
+#------------------------------------------------------------------------------
+shared_buffers = {{ shared_buffers }}
+temp_buffers = {{ temp_buffers }}
+work_mem = {{ work_mem }}
+maintenance_work_mem = {{ maintenance_work_mem }}
+vacuum_cost_limit = {{ vacuum_cost_limit }}
+max_worker_processes = {{ max_worker_processes }}
+max_parallel_workers_per_gather = {{ max_parallel_workers_per_gather }}
+old_snapshot_threshold = {{ old_snapshot_threshold }}
+
+#------------------------------------------------------------------------------
+# WRITE AHEAD LOG
+#------------------------------------------------------------------------------
+wal_compression = {{ wal_compression }}
+wal_log_hints = {{ wal_log_hints }}
+
+# - Checkpoints -
+checkpoint_timeout = {{ checkpoint_timeout }}
+max_wal_size = {{ max_wal_size }}
+min_wal_size = {{ min_wal_size }}
+checkpoint_completion_target = {{ checkpoint_completion_target }}
+
+#------------------------------------------------------------------------------
+# QUERY TUNING
+#------------------------------------------------------------------------------
+# - Planner Cost Constants -
+random_page_cost = {{ random_page_cost }}
+effective_cache_size = {{ effective_cache_size }}
+
+#------------------------------------------------------------------------------
+# RUNTIME STATISTICS
+#------------------------------------------------------------------------------
+track_activities = on
+track_counts = on
+track_io_timing = {{ track_io_timing }}
+
+
+#------------------------------------------------------------------------------
+# AUTOVACUUM PARAMETERS
+#------------------------------------------------------------------------------
+autovacuum_max_workers = {{ autovacuum_max_workers }}
+autovacuum_naptime = {{ autovacuum_naptime }}

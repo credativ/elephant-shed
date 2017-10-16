@@ -1,0 +1,3 @@
+# lintian wants us to use "deb-systemd-helper enable" instead, but that
+# doesn't work with grafana-server.service being located in /usr/systemd/system
+elephant-shed-grafana: maintainer-script-calls-systemctl

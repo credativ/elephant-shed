@@ -1,0 +1,6 @@
+#!/bin/sh
+
+test -x /usr/sbin/logrotate || exit 0
+test -f /etc/logrotate.d/postgresql-common || exit 0
+
+/usr/sbin/logrotate /etc/logrotate.d/postgresql-common

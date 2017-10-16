@@ -1,0 +1,2 @@
+cockpit/cockpit.conf etc/cockpit
+cockpit/port.conf etc/systemd/system/cockpit.socket.d
