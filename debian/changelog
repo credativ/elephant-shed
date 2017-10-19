@@ -1,6 +1,7 @@
 elephant-shed (0.9.1) UNRELEASED; urgency=medium
 
-  * 
+  [ Christoph Berg ]
+  * elephant-shed-cockpit: Add cockpit-packagekit to Recommends.
 
  -- Adrian Vondendriesch <adrian.vondendriesch@credativ.de>  Mon, 16 Oct 2017 18:54:10 +0200
 

@@ -117,6 +117,8 @@ Architecture: all
 Depends:
  cockpit,
  ${misc:Depends},
+Recommends:
+ cockpit-packagekit,
 Description: PostgreSQL dashboard -- cockpit integration
  The Elephant Shed is a web-based PostgreSQL management front-end.
  .

@@ -320,11 +320,6 @@ clicking a button. It also shows system logs in real-time.
 
 ![Figure: Cockpit Package Updates](images/cockpit_package_updates.png)
 
-*Note:* `cockpit-packagekit` currently does not work on ppc64el systems.
-It is usable on x86_64 systems and can be installed using apt (`apt install cockpit-packagekit`).
-It might be reintroduced as default once it works for all platforms
-(See [Known Bugs and Issues](#known-bugs-and-issues))
-
 ## Monitoring - Prometheus
 
 Prometheus is a metric based monitoring system for servers and services.
