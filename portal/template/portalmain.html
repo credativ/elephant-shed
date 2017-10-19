@@ -1,6 +1,14 @@
 [% INCLUDE header.html %]
 
 <style>
+/* Icons */
+.main_icon {
+  width: 100px;
+  height: 100px;
+  box-shadow: 5px 10px 5px 0px rgba(0,0,0,0.15);
+  border-radius: 24px;
+  margin-bottom: 15px;
+}
 /* Switch */
 .switch {
   position: relative;
@@ -194,19 +202,19 @@ input:checked + .slider:before {
 
 <table align="center" class="dash">
 <tr>
-  <td><center><a href="/"><img src="/image/button_home.png"><br>Home</a></center></td>
+  <td><center><a href="/"><img class="main_icon" src="/image/button_home.png"><br>Home</a></center></td>
   <!-- pgAdmin4 doesn't like running in an iframe -->
-  <td><center><a target="_top" href="/pgadmin4/browser/"><img src="/image/button_pgadmin.png"><br>DB Administration</a></center></td>
-  <td><center><a href="/grafana"><img src="/image/button_grafana.png"><br>Monitoring</a></center></td>
-  <td><center><a href="/prometheus"><img src="/image/button_prometheus.png"><br>Query Metrics</a></center></td>
-  <td><center><a href="/pgbadger/[% IF CLUSTERS.size == 1 AND CLUSTERS.0.pgbadger %][% CLUSTERS.0.version %]-[% CLUSTERS.0.cluster %]/[% END %]"><img src="/image/button_pgbadger.png"><br>Log Reports</a></center></td>
+  <td><center><a target="_top" href="/pgadmin4/browser/"><img class="main_icon" src="/image/button_pgadmin.png"><br>DB Administration</a></center></td>
+  <td><center><a href="/grafana"><img class="main_icon" src="/image/button_grafana.png"><br>Monitoring</a></center></td>
+  <td><center><a href="/prometheus"><img class="main_icon" src="/image/button_prometheus.png"><br>Query Metrics</a></center></td>
+  <td><center><a href="/pgbadger/[% IF CLUSTERS.size == 1 AND CLUSTERS.0.pgbadger %][% CLUSTERS.0.version %]-[% CLUSTERS.0.cluster %]/[% END %]"><img class="main_icon" src="/image/button_pgbadger.png"><br>Log Reports</a></center></td>
 </tr>
 <tr>
-  <td><center><a href="/pgbackrest/[% IF CLUSTERS.size == 1 AND CLUSTERS.0.backup %][% CLUSTERS.0.version %]-[% CLUSTERS.0.cluster %].backup[% END %]"><img src="/image/button_pgbackrest.png"><br>Backup</a></center></td>
-  <td><center><a href="/system"><img src="/image/button_cockpit.png"><br>System Management</a></center></td>
-  <td><center><a href="/shellinabox"><img src="/image/button_shellinabox.png"><br>Shell</a></center></td>
-  <td><center><a href="/doc/README.html"><img src="/image/button_doc.png"><br>Documentation</a></center></td>
-  <td><center><a href="/cgi-bin/support.pl"><img src="/image/button_credativ.png"><br>Support</a></center></td>
+  <td><center><a href="/pgbackrest/[% IF CLUSTERS.size == 1 AND CLUSTERS.0.backup %][% CLUSTERS.0.version %]-[% CLUSTERS.0.cluster %].backup[% END %]"><img class="main_icon" src="/image/button_pgbackrest.png"><br>Backup</a></center></td>
+  <td><center><a href="/system"><img class="main_icon" src="/image/button_cockpit.png"><br>System Management</a></center></td>
+  <td><center><a href="/shellinabox"><img class="main_icon" src="/image/button_shellinabox.png"><br>Shell</a></center></td>
+  <td><center><a href="/doc/README.html"><img class="main_icon" src="/image/button_doc.png"><br>Documentation</a></center></td>
+  <td><center><a href="/cgi-bin/support.pl"><img class="main_icon" src="/image/button_credativ.png"><br>Support</a></center></td>
 </tr>
 </table>
 
