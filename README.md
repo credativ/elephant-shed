@@ -1,11 +1,12 @@
 ---
-title: The Elephant Shed
+title: Elephant Shed
 numbersections: true
 toc-depth: 2
 ---
-# Intro
+<img src="portal/image/button_home.png" width="200">
 
-The Elephant Shed is a web-based PostgreSQL management front-end that bundles
+# Intro
+Elephant Shed is a web-based PostgreSQL management front-end that bundles
 several utilities and applications for use with PostgreSQL. It currently
 manages single-node Debian/Ubuntu PostgreSQL servers and appliances.
 
@@ -32,7 +33,7 @@ Updated versions of this document will be shipped with the elephant-shed package
 
 # Installation
 
-The Elephant Shed consists of the following Debian packages and their dependencies:
+Elephant Shed consists of the following Debian packages and their dependencies:
 
   * `elephant-shed`:
     Metapackage that includes the following packages.
