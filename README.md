@@ -64,7 +64,7 @@ Elephant Shed consists of the following Debian packages and their dependencies:
 Prebuilt packages are available from <https://packages.credativ.com/public/postgresql/>.
 
 ```
-sudo apt-get install curl ca-certificates apt-transport-https
+sudo apt-get install curl ca-certificates apt-transport-https sudo
 echo "deb https://packages.credativ.com/public/postgresql/ stretch-test main" | sudo tee -a /etc/apt/sources.list.d/elephant-shed.list
 curl https://packages.credativ.com/public/postgresql/aptly.key | sudo apt-key add -
 sudo apt-get install elephant-shed

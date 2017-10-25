@@ -106,6 +106,7 @@ Depends:
  prometheus-sql-exporter,
  python,
  python-yaml,
+ sudo,
  ${misc:Depends},
 Description: PostgreSQL dashboard -- Prometheus integration
  The Elephant Shed is a web-based PostgreSQL management front-end.
