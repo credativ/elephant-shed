@@ -81,6 +81,10 @@ sudo apt-get install elephant-shed
 
 # Choose desired PostgreSQL versions to install
 sudo apt-get install postgresql-10
+
+# Every user in the group "elephant-shed" is allowed to login at the portal
+# Add all needed users to this group
+sudo adduser <USERNAME> elephant-shed
 ```
 
 The repository also contains packages that the `elephant-shed` packages depend
