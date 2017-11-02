@@ -17,7 +17,7 @@ The main components are:
 * postgresql-common - <https://anonscm.debian.org/cgit/pkg-postgresql/postgresql-common.git>
 * pgBadger - <http://dalibo.github.io/pgbadger/>
 * pgBackRest - <http://www.pgbackrest.org/>
-* Grafana - <https://www.pgadmin.org/>
+* Grafana - <https://grafana.com/>
 * Prometheus - <https://prometheus.io/>
 * Cockpit - <http://cockpit-project.org/>
 * Shell In A Box - <https://github.com/shellinabox/shellinabox>
