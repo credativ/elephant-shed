@@ -633,7 +633,7 @@
           ],
           "datasource": "${DS_PROMETHEUS}",
           "decimals": 0,
-          "description": "New WAL per second that still needs to be archive in 16MB segments.\nNumber of WAL files per second that are more created than being archived.",
+          "description": "The amount of WAL data that still needs to be archived.",
           "format": "MBs",
           "gauge": {
             "maxValue": 15,
