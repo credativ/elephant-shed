@@ -68,7 +68,7 @@
           ],
           "datasource": "${DS_PROMETHEUS}",
           "decimals": 1,
-          "description": "The CPU, irate over $rate_interval.",
+          "description": "The CPU usage, rate over $rate_interval.",
           "format": "percent",
           "gauge": {
             "maxValue": 100,
@@ -115,7 +115,7 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "100-(avg by (instance) (irate(node_cpu{job=\"node\",mode=\"idle\"}[$rate_interval])) * 100)",
+              "expr": "100-(avg by (instance) (rate(node_cpu{job=\"node\",mode=\"idle\"}[$rate_interval])) * 100)",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
@@ -1067,7 +1067,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by (mode) (irate(node_cpu{mode!='idle'}[$rate_interval]))",
+              "expr": "sum by (mode) (rate(node_cpu{mode!='idle'}[$rate_interval]))",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
@@ -2407,7 +2407,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum by (datname) (irate(sql_pg_stat_database{col='xact_commit', datname=~'$datname', host=~'$host'}[$rate_interval]))",
+              "expr": "sum by (datname) (rate(sql_pg_stat_database{col='xact_commit', datname=~'$datname', host=~'$host'}[$rate_interval]))",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
@@ -2417,7 +2417,7 @@
               "step": 40
             },
             {
-              "expr": "sum by (datname) (irate(sql_pg_stat_database{col='xact_rollback', datname=~'$datname', host=~'$host'}[$rate_interval]))",
+              "expr": "sum by (datname) (rate(sql_pg_stat_database{col='xact_rollback', datname=~'$datname', host=~'$host'}[$rate_interval]))",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "TXNs rollback {{datname}}",
@@ -2675,7 +2675,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "topk($ntop_relations, irate(sql_pg_stat_user_tables{col='seq_scan',database=~'$datname', host=~'$host'}[$rate_interval]))",
+              "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{col='seq_scan',database=~'$datname', host=~'$host'}[$rate_interval]))",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
@@ -2753,7 +2753,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "topk($ntop_relations, irate(sql_pg_stat_user_tables{col='idx_scan',database=~'$datname', host=~'$host'}[$rate_interval]))",
+              "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{col='idx_scan',database=~'$datname', host=~'$host'}[$rate_interval]))",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
@@ -4467,7 +4467,7 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "${DS_PROMETHEUS}",
-          "description": "New WAL per second that still needs to be archive in 16MB segments.\nNumber of WAL files per second that are more created than being archived.",
+          "description": "The amount of WAL data that still needs to be archived.",
           "fill": 1,
           "id": 52,
           "legend": {
