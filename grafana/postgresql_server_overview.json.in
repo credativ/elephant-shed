@@ -1558,7 +1558,7 @@
             {}
           ],
           "spaceLength": 10,
-          "span": 4,
+          "span": 6,
           "stack": true,
           "steppedLine": false,
           "targets": [
