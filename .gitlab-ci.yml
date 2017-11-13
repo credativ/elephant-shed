@@ -76,32 +76,32 @@ deploy:ansible:
     name: elephant-shed
     url: https://elephant-shed.dev.credativ.lan
 
-deploy:openstack:
-  stage: deploy
-  dependencies:
-    - publish:aptly
-  script:
-    # The script part assumes that two environment variables are set:
-    # * OS_PASSWORD (the openstack password) and
-    # * OS_SSH_PRIVATE_KEY (the private key part of the used openstack keypair)
-    - echo "|>>>>>>>> INSTALL DEPENDENCIES <<<<<<<<|"
-    - sudo apt-get install -y ansible openstack-clients vagrant
-    - vagrant plugin install vagrant-openstack-plugin
-    - echo "|>>>>>>>> CONFIGURE ENVIRONMENT <<<<<<<|"
-    - cd vagrant/openstack
-    - source ../../ci/openstackrc.sh
-    # We need to override the OS_CACERT the sourced variable isn't
-    # points to the wrong file if running in gitlab-ci.
-    - export OS_CACERT=../../ci/credativDeutschlandServerCA-chain.pem
-    - echo "$OS_SSH_PRIVATE_KEY" > app_dbteam.pem
-    - echo "|>>>>>>>> DESTROY OLD MACHINES <<<<<<<<|"
-    - ../../ci/openstack_remove_instance_if_exists.sh elephant-shed-test
-    - echo "|>>>>>>>>>>>> START MACHINE <<<<<<<<<<<|"
-    - vagrant up
-    - vagrant ssh-config
-  environment:
-    name: elephant-shed-test
-    url: https://nova.credativ.com/project/instances/
+# deploy:openstack:
+#   stage: deploy
+#   dependencies:
+#     - publish:aptly
+#   script:
+#     # The script part assumes that two environment variables are set:
+#     # * OS_PASSWORD (the openstack password) and
+#     # * OS_SSH_PRIVATE_KEY (the private key part of the used openstack keypair)
+#     - echo "|>>>>>>>> INSTALL DEPENDENCIES <<<<<<<<|"
+#     - sudo apt-get install -y ansible openstack-clients vagrant
+#     - vagrant plugin install vagrant-openstack-plugin
+#     - echo "|>>>>>>>> CONFIGURE ENVIRONMENT <<<<<<<|"
+#     - cd vagrant/openstack
+#     - source ../../ci/openstackrc.sh
+#     # We need to override the OS_CACERT the sourced variable isn't
+#     # points to the wrong file if running in gitlab-ci.
+#     - export OS_CACERT=../../ci/credativDeutschlandServerCA-chain.pem
+#     - echo "$OS_SSH_PRIVATE_KEY" > app_dbteam.pem
+#     - echo "|>>>>>>>> DESTROY OLD MACHINES <<<<<<<<|"
+#     - ../../ci/openstack_remove_instance_if_exists.sh elephant-shed-test
+#     - echo "|>>>>>>>>>>>> START MACHINE <<<<<<<<<<<|"
+#     - vagrant up
+#     - vagrant ssh-config
+#   environment:
+#     name: elephant-shed-test
+#     url: https://nova.credativ.com/project/instances/
 
 # Build release debian packages.
 #
