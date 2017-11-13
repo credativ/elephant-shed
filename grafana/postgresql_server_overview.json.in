@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "4.4.1"
+      "version": "4.6.1"
     },
     {
       "type": "panel",
@@ -42,7 +42,17 @@
     }
   ],
   "annotations": {
-    "list": []
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
   },
   "description": "Overview over the most needed and many helpful metrics to manage and debug PostgreSQL servers.",
   "editable": true,
@@ -805,7 +815,7 @@
           "id": 43,
           "interval": null,
           "links": [],
-          "mappingType": 1,
+          "mappingType": 2,
           "mappingTypes": [
             {
               "name": "value to text",
@@ -826,7 +836,7 @@
           "rangeMaps": [
             {
               "from": "null",
-              "text": "N/A",
+              "text": "No WS",
               "to": "null"
             }
           ],
@@ -840,7 +850,7 @@
           "tableColumn": "",
           "targets": [
             {
-              "expr": "count_scalar(sql_pg_stat_replication{col='pid'}>0) / sql_settings{host='$host', col='max_wal_senders'}",
+              "expr": "count(sql_pg_stat_replication{col='pid'}>0) / scalar(sql_settings{host='$host', col='max_wal_senders'}) ",
               "format": "time_series",
               "hide": false,
               "intervalFactor": 2,
@@ -853,8 +863,14 @@
           "title": "WAL-Senders",
           "transparent": true,
           "type": "singlestat",
-          "valueFontSize": "70%",
-          "valueMaps": [],
+          "valueFontSize": "50%",
+          "valueMaps": [
+            {
+              "op": "=",
+              "text": "",
+              "value": ""
+            }
+          ],
           "valueName": "current"
         },
         {
