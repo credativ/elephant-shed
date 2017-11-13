@@ -114,7 +114,7 @@ table {
   <a target="portal" href="/grafana"><img title="Grafana" src="/image/button_grafana.png"></a>
   <a target="portal" href="/prometheus"><img title="Prometheus" src="/image/button_prometheus.png"></a>
   <a target="portal" href="/pgbadger/[% IF CLUSTERS.size == 1 AND CLUSTERS.0.pgbadger %][% CLUSTERS.0.version %]-[% CLUSTERS.0.cluster %]/[% END %]"><img title="pgBadger" src="/image/button_pgbadger.png"></a>
-  <a target="portal" href="/pgbackrest/[% IF CLUSTERS.size == 1 AND CLUSTERS.0.backup %][% CLUSTERS.0.version %]-[% CLUSTERS.0.cluster %].backup[% END %]"><img title="pgBackRest" src="/image/button_pgbackrest.png"></a>
+  <a target="portal" href="/cgi-bin/backrest.pl"><img title="pgBackRest" src="/image/button_pgbackrest.png"></a>
   <a target="portal" href="/system"><img title="Cockpit" src="/image/button_cockpit.png"></a>
   <a target="portal" href="/shellinabox"><img title="Shell" src="/image/button_shellinabox.png"></a>
   <a target="portal" href="/doc/README.html"><img title="Documentation" src="/image/button_doc.png"></a>

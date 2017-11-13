@@ -210,7 +210,7 @@ input:checked + .slider:before {
   <td><center><a href="/pgbadger/[% IF CLUSTERS.size == 1 AND CLUSTERS.0.pgbadger %][% CLUSTERS.0.version %]-[% CLUSTERS.0.cluster %]/[% END %]"><img class="main_icon" src="/image/button_pgbadger.png"><br>Log Reports</a></center></td>
 </tr>
 <tr>
-  <td><center><a href="/pgbackrest/[% IF CLUSTERS.size == 1 AND CLUSTERS.0.backup %][% CLUSTERS.0.version %]-[% CLUSTERS.0.cluster %].backup[% END %]"><img class="main_icon" src="/image/button_pgbackrest.png"><br>Backup</a></center></td>
+  <td><center><a href="/cgi-bin/backrest.pl"><img class="main_icon" src="/image/button_pgbackrest.png"><br>Backup</a></center></td>
   <td><center><a href="/system"><img class="main_icon" src="/image/button_cockpit.png"><br>System Management</a></center></td>
   <td><center><a href="/shellinabox"><img class="main_icon" src="/image/button_shellinabox.png"><br>Shell</a></center></td>
   <td><center><a href="/doc/README.html"><img class="main_icon" src="/image/button_doc.png"><br>Documentation</a></center></td>
@@ -298,7 +298,7 @@ input:checked + .slider:before {
               </td>
               <td>
               [% IF cluster.backup %]
-                <a class="button" href="[% cluster.backup %]">Info</a>
+                <a class="button" href="/cgi-bin/backrest.pl?cluster=[% cluster.version %]-[% cluster.cluster %]">Info</a>
               [% END %]
               </td>
             </tr>
