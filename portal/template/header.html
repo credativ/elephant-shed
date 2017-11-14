@@ -1,45 +1,35 @@
 <html>
-<head>
-<title>[% TITLE %]</title>
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+  <head>
+    <title>[% TITLE %]</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/elephant-shed.css">
+  </head>
 
-<style>
-body { font-family: Arial, Sans-serif; }
-a { text-decoration: none; }
-a:link { color: #000000; }
-a:visited { color: #000000; }
-a:hover { color: #FF0000; }
+  <body>
+    <!-- Head Text -->
+    <div class="container-fluid p-3 el-header">
+      <div class="row">
+	<div class="col-10">
+	  <h1>[% HEADLINE %]</h1>
+	</div>
 
-.dash td { padding:1em; }
-.dash a img{ transition: filter .25s }
-.dash a:hover img{ filter: brightness(50%); transition: filter 0.1s;}
+	<!-- Logos -->
+	<div class="col-1">
+	  <img src="/image/logo_partner.png" alt="partner" height="70" onerror="this.src='/image/logo_placeholder.png';">
+	</div>
+	<div class="col-1">
+	  <a href="https://www.credativ.de" target="_blank"><img src="/image/logo_credativ.png" alt="credativ" height="70"></a>
+	</div>
+      </div>
+    </div>
 
-.address td { padding:1em; vertical-align: top; }
-
-h2 { padding-top: 30pt; padding-buttom: 5pt; }
-
-</style>
-</head>
-
-<body>
-
-<div style="display:block; text-align:left; float:left;">
-  <h1>[% HEADLINE %]</h1>
-</div>
-<div style="display:block; text-align:right;">
-  <img src="/image/logo_partner.png" alt="partner" height="70" onerror="this.src='/image/logo_placeholder.png';">
-&nbsp;
-  <a href="https://www.credativ.de" target="_blank"><img src="/image/logo_credativ.png" alt="credativ" height="70"></a>
-</div>
-
-<hr color="#FF0000" size="4">
-
-[% IF REMOTE_USER %]
-<div style="position:relative;">
-<div style="position:absolute; top:0; right:0; font-size:small;">
-  <a href="/users#/[% REMOTE_USER %]">Logged in as <em>[% REMOTE_USER %]</em></a> -
-  <a href="/logout">Logout</a>
-</div>
-</div>
-[% END %]
+    [% IF REMOTE_USER %]
+    <div class="container-fluid text-right">
+      <p>
+	<a href="/users#/[% REMOTE_USER %]">Logged in as <em>[% REMOTE_USER %]</em></a> - <a href="/logout">Logout</a>
+      </p>
+    </div>
+    [% END %]

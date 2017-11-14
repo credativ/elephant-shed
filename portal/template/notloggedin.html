@@ -1,28 +1,29 @@
 [% INCLUDE header.html %]
 
-<center>
-<img src="/image/button_pgadmin.png" width="200">
-</center>
+<div class="container col-2 col-offset-5">
+  <img src="/image/button_pgadmin.png" width="200">
+</div>
 
-<br>
-<h2>Error</h2>
-<p>
+<div class="container col-6 col-offset-3 text-justify">
+  <h2>Error</h2>
+  <p>
     A a valid user is required for accessing the PostgreSQL appliance.
-<br>
+  </p>
+  <p>
     Every user in the group "elephant-shed" is allowed to log in.
-</p>
-<h2>Hint</h2>
-<p>
+  </p>
+  <h2>Hint</h2>
+  <p>
     <pre>
-        # Every user in the group "elephant-shed" is allowed to login at the portal
-        # Add all needed users to this group
-        sudo adduser &lt;USERNAME&gt; elephant-shed
+# Every user in the group "elephant-shed" is allowed to login at the portal.
+# Add all needed users to this group.
+sudo adduser &lt;USERNAME&gt; elephant-shed
     </pre>
-</p>
-<br>
-<center>
-    <h2><a href="/" style="font-size:large;">Login</a></h2>
-</center>
+  </p>
+</div>
 
+<div class="container col-6 col-offset-3 text-center">
+  <h2><a href="/" style="font-size:large;">Login</a></h2>
+</div>
 
 [% INCLUDE footer.html %]

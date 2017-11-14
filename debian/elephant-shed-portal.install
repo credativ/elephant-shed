@@ -3,3 +3,4 @@ portal/cgi-bin usr/lib
 portal/elephant-shed.conf etc/apache2/sites-available
 portal/image usr/share/elephant-shed
 portal/template usr/share/elephant-shed
+portal/static usr/share/elephant-shed
