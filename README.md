@@ -631,7 +631,7 @@ This timer triggers an incremental backup every Tuesday and Thursday in the earl
 #### WAL Archiving
 
 WAL archiving is disabled by default for new PostgreSQL clusters.
-It can be activated using the poral (see [portal](#portal)) or by starting `pgbackrest-toggle-archving.service`.
+It can be activated using the portal (see [portal](#portal)) or by starting `pgbackrest-toggle-archving.service`.
 The service toggles achiving mode to on or off, depending on the former state.
 
 *Note:* If archiving is disabled and a full or incremental backup is started (manual or via timer), archiving is automatically enabled.
