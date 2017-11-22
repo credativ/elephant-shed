@@ -67,6 +67,24 @@ deploy:x86:
     name: elephant-shed
     url: https://elephant-shed.dev.credativ.lan
 
+deploy:ppc64el:
+  stage: deploy
+  dependencies:
+    - publish:aptly
+  script:
+    - sudo apt-get install -y ansible
+    - cd vagrant
+    - echo "$DEPLOY_PPC64EL_SSH_KEY" > id_file
+    - chmod 0600 id_file
+    - echo "[test]" > inventory
+    - echo "$DEPLOY_PPC64EL_NAME ansible_ssh_host=${DEPLOY_PPC64EL_IP} ansible_ssh_port=${DEPLOY_SSH_PORT} ansible_ssh_user=${DEPLOY_SSH_USER} ansible_ssh_private_key_file=id_file" >> inventory
+    # We chant provide this envirionment variable throught "variables" for some reason.
+    - export ANSIBLE_HOST_KEY_CHECKING=False
+    - ansible-playbook -i inventory elephant-shed.yml
+  environment:
+    name: elephant-shed-ppc64el
+    url: https://elephant-shed-ppc64el.dev.credativ.lan
+
 # Build release debian packages.
 #
 # The main difference between "build:deb" and "build:release:deb" is
