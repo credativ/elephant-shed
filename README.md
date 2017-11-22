@@ -891,17 +891,29 @@ The Elephant Shed itself is licensed under the GPLv3 (<https://www.gnu.org/licen
 
 All bundled components are Free/Open-Source software with a known and approved open source license.
 
-# Author
+# Support and more
+## Do you have any question or want to know more?
+
+Use our chat.
+
+* Web-Chat: [#elephant-shed](https://webchat.oftc.net/?nick=web-user-.&channels=elephant-shed&uio=MT11bmRlZmluZWQmMj10cnVlJjk9dHJ1ZSYxMT0yMzY31)
+* IRC [#elephant-shed](https://webchat.oftc.net/?channels=elephant-shed&uio=MT11bmRlZmluZWQmMj10cnVlJjk9dHJ1ZSYxMT0yMzY31
+) on [irc.oftc.net](https://www.oftc.net/)
+
+## Do you need professional support or additional services?
+
+Elephant Shed is an open source project, developed and maintained by cre<span style="color: red;">d</span>ativ.
+
+For the Elephant Shed PostgreSQL appliance, cre<span style="color: red;">d</span>ativ offers comprehensive
+technical support with service level agreements, which are also available
+on 365 days a year and 24 hours a day as an option.
+
+Installation and integration support, as well as an introduction
+in Elephant Shed PostgreSQL appliance is of course also part of
+credativ's services. If you are interested, please feel free to contact us.
 
 ![](images/logo_credativ_96.png)
-```
-credativ GmbH
-Trompeterallee 108
-41189 Mönchengladbach
 
-E-Mail: info@credativ.de
-Telefon: +49 2166 9901-0
-Telefax: +49 2166 9901-100
-
-Geschäftsführung: Dr. Michael Meskes, Jörg Folz, Sascha Heuer
-```
+* **Web** [credativ.de](https://credativ.de)
+* **E-Mail:** [info@credativ.de](mailto:info@credativ.de)
+* **Phone:** [+49 2166 9901-0](tel:+49216699010)
