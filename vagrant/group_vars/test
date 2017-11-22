@@ -4,3 +4,13 @@
 
 use_local_repo: False
 credativ_postgresql: "deb https://packages.credativ.com/public/postgresql/ stretch-test main"
+
+# PostgreSQL Tuning
+max_connections: 100
+shared_buffers: 1GB
+work_mem: 32MB
+maintenance_work_mem: 1GB
+vacuum_cost_limit: 400
+max_wal_size: 1GB
+min_wal_size: 64MB
+effective_cache_size: 4GB
