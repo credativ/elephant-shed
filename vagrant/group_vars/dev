@@ -1,13 +1,9 @@
 ---
+# Goal of this ansiible configuration is to create a development machine.
+# Therefore the stretch-test distritubion is used.
+
 use_local_repo: True
-creat_test_loops: True 
-
-# Partitioning
-partitioning: True
-vg_data_devices: /dev/loop0
-lv_wal_size: 400m
-
-vg_backup_devices: /dev/loop1
+credativ_postgresql: "deb http://aptly.dev.credativ.lan/apt/ stretch-test main"
 
 # PostgreSQL Tuning
 max_connections: 100
