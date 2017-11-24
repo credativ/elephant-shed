@@ -1,8 +1,3 @@
----
-title: Elephant Shed
-numbersections: true
-toc-depth: 2
----
 <img src="portal/image/button_home.png" width="200">
 
 # Intro
