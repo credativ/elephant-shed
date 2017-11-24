@@ -135,9 +135,9 @@ input:checked + .slider:before {
 }
 
 /* Define the hover highlight color for the table row */
-.clusterRow:hover{
+/*.clusterRow:hover{
   background-color: #eee;
-}
+}*/
 
 .important{
   font-weight: bold;
@@ -148,6 +148,8 @@ input:checked + .slider:before {
   margin-right:auto;
   margin-left:auto;
   text-align: center;
+  border: none;
+  pointer-events:none;
 }
 
 .hidden {
