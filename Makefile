@@ -7,7 +7,7 @@ README.html: $(README) $(READMECSS)
 	pandoc --number-sections --table-of-contents --toc-depth 2 -s -H $(READMECSS) $(README) > $@
 
 README.pdf: $(README) $(READMECSS)
-	pandoc --number-sections $(README) -o $@
+	pandoc --number-sections --table-of-contents --toc-depth 2 $(README) -o $@
 
 README: README.html README.pdf
 
