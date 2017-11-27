@@ -5,6 +5,14 @@ elephant-shed (0.9.1) UNRELEASED; urgency=medium
 
   [ Adrian Vondendriesch ]
   * elephant-shed-prometheus: Add sudo to dependencies.
+  * portal: replace the way we show backups.
+  * portal: rework UI, introduce bootstrap.
+
+  [ Alexander Sosna ]
+  * Grafana: Fix for queries for Prometheus 2.0
+
+  [ Caique de Castro ]
+  * Fix link to Grafana
 
  -- Adrian Vondendriesch <adrian.vondendriesch@credativ.de>  Mon, 16 Oct 2017 18:54:10 +0200
 

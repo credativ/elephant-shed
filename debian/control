@@ -5,7 +5,7 @@ Maintainer: Debian PostgreSQL Maintainers <pkg-postgresql-public@lists.alioth.de
 Uploaders:
  Christoph Berg <myon@debian.org>,
  Adrian Vondendriesch <adrian.vondendriesch@credativ.de>,
-Standards-Version: 4.0.0
+Standards-Version: 4.1.1
 Build-Depends:
  debhelper (>= 10~),
  jq,
