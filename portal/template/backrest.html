@@ -1,12 +1,12 @@
 [% INCLUDE header.html %]
 
-<div style="width: 80%; margin-left: auto; margin-right: auto; text-align: justify;">
-[% FOREACH file IN BACKUPS %]
-        <h2>[% file.key %]</h2>
-        <pre style="overflow: auto; max-height: 30%; max-width=100%;">
-[% file.value %]
-        </pre>
-[% END %]
+<div class="container col-6 col-offset-3 text-justify">
+  [% FOREACH file IN BACKUPS %]
+  <h2>[% file.key %]</h2>
+  <pre style="overflow: auto; max-height: 30%; max-width=100%;">
+    [% file.value %]
+  </pre>
+  [% END %]
 </div>
 
 [% INCLUDE footer.html %]
