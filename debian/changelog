@@ -1,18 +1,19 @@
 elephant-shed (0.9.1) UNRELEASED; urgency=medium
 
   [ Christoph Berg ]
-  * elephant-shed-cockpit: Add cockpit-packagekit to Recommends.
+  * cockpit: Add cockpit-packagekit to Recommends.
 
   [ Adrian Vondendriesch ]
-  * elephant-shed-prometheus: Add sudo to dependencies.
+  * prometheus: Add sudo to dependencies.
   * portal: replace the way we show backups.
   * portal: rework UI, introduce bootstrap.
 
   [ Alexander Sosna ]
-  * Grafana: Fix for queries for Prometheus 2.0
+  * grafana: Fix for queries for Prometheus 2.0
+  * portal: Use new Icons
 
   [ Caique de Castro ]
-  * Fix link to Grafana
+  * portal: Fix link to Grafana
 
  -- Adrian Vondendriesch <adrian.vondendriesch@credativ.de>  Mon, 16 Oct 2017 18:54:10 +0200
 
