@@ -1,4 +1,4 @@
-elephant-shed (0.9.1) UNRELEASED; urgency=medium
+elephant-shed (1.0) unstable; urgency=medium
 
   [ Christoph Berg ]
   * cockpit: Add cockpit-packagekit to Recommends.
