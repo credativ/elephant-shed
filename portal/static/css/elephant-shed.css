@@ -149,7 +149,13 @@ input:checked + .slider:before {
   margin-left:auto;
   text-align: center;
   border: none;
-  pointer-events:none;
+}
+
+/* Disable bootstrap table-hover for "detail" */
+.detail table tr:hover,
+.detail table tr:hover td,
+.detail table tr:hover th {
+  background-color: transparent;
 }
 
 .hidden {
