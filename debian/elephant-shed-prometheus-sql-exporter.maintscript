@@ -1,0 +1,1 @@
+mv_conffile /etc/prometheus-sql-exporter.yml.in /etc/prometheus-sql-exporter.yml.in 1.1~ elephant-shed-prometheus

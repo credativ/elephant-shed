@@ -1,8 +1,8 @@
 elephant-shed (1.1) UNRELEASED; urgency=medium
 
-  * 
+  * Split prometheus exporters into own packages.
 
- -- Adrian Vondendriesch <adrian.vondendriesch@credativ.de>  Mon, 04 Dec 2017 19:58:10 +0100
+ -- Adrian Vondendriesch <adrian.vondendriesch@credativ.de>  Thu, 14 Dec 2017 15:22:39 +0100
 
 elephant-shed (1.0) unstable; urgency=medium
 

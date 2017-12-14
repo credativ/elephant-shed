@@ -22,6 +22,8 @@ Depends:
  elephant-shed-portal,
  elephant-shed-postgresql,
  elephant-shed-prometheus,
+ elephant-shed-prometheus-node-exporter,
+ elephant-shed-prometheus-sql-exporter,
  elephant-shed-shellinabox,
  elephant-shed-tmate,
  ${misc:Depends},
@@ -104,15 +106,40 @@ Architecture: all
 Depends:
  prometheus,
  prometheus-node-exporter,
- prometheus-sql-exporter,
- python,
- python-yaml,
- sudo,
  ${misc:Depends},
 Description: PostgreSQL dashboard -- Prometheus integration
  The Elephant Shed is a web-based PostgreSQL management front-end.
  .
  This package provides the integration with Prometheus.
+
+Package: elephant-shed-prometheus-node-exporter
+Architecture: all
+Depends:
+ prometheus-node-exporter,
+ ${misc:Depends},
+Breaks: elephant-shed-prometheus (<< 1.1)
+Replaces: elephant-shed-prometheus (<< 1.1)
+Description: PostgreSQL dashboard -- Node exporter integration
+ The Elephant Shed is a web-based PostgreSQL management front-end.
+ .
+ This package provides the integration with the Prometheus node
+ exporter.
+
+Package: elephant-shed-prometheus-sql-exporter
+Architecture: all
+Depends:
+ prometheus-sql-exporter,
+ python,
+ python-yaml,
+ sudo,
+ ${misc:Depends},
+Breaks: elephant-shed-prometheus (<< 1.1)
+Replaces: elephant-shed-prometheus (<< 1.1)
+Description: PostgreSQL dashboard -- SQL exporter integration
+ The Elephant Shed is a web-based PostgreSQL management front-end.
+ .
+ This package provides the integration with the Prometheus SQL
+ exporter.
 
 Package: elephant-shed-cockpit
 Architecture: all

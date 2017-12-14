@@ -1,0 +1,2 @@
+mv_conffile /etc/default/elephant-shed-prometheus-node-exporter /etc/default/elephant-shed-prometheus-node-exporter 1.1~ elephant-shed-prometheus
+mv_conffile /etc/systemd/system/prometheus-node-exporter.service.d/elephant-shed-prometheus-node-exporter.conf /etc/systemd/system/prometheus-node-exporter.service.d/elephant-shed-prometheus-node-exporter.conf 1.1~ elephant-shed-prometheus

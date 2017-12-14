@@ -7,15 +7,6 @@ case $1 in
     systemctl daemon-reload
 
     deb-systemd-helper enable prometheus.service
-    deb-systemd-helper enable prometheus-node-exporter.service
-
-    # Generate a new sql-exporter.yml based on the new yml.in
-    /usr/share/elephant-shed/prometheus/update-prometheus-sql-exporter-config
-    # The configuration file changed, so we have to restart the sql-exporter
-    deb-systemd-invoke restart prometheus-sql-exporter
-
-    deb-systemd-invoke restart prometheus-node-exporter
-
     deb-systemd-invoke restart prometheus
     ;;
 esac
