@@ -99,7 +99,7 @@ See [pgBadger](#reporting-pgbadger) for more information.
 ### Backup
 
 This sections provides several functions for backups using pgBackRest.
-For more information about the backup tool pgBackRest visit [pgBackRest](#backup---pgbackrest).
+For more information about the backup tool pgBackRest visit [pgBackRest](#backup-pgbackrest).
 
 #### Full
 

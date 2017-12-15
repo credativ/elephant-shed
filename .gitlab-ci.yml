@@ -18,7 +18,7 @@ build:docs:
   image: "tianon/latex"
   script:
     - apt-get install -y --no-install-recommends pandoc make
-    - apt-get install sphinx-common python-recommonmark
+    - apt-get install sphinx-common python-recommonmark python-sphinx-rtd-theme
     - make docs
   artifacts:
     paths:

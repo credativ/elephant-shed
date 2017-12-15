@@ -1,5 +1,3 @@
-<img src="portal/image/button_home.png" width="200">
-
 # Intro
 Elephant Shed is a web-based PostgreSQL management front-end that bundles
 several utilities and applications for use with PostgreSQL. It currently
