@@ -402,10 +402,10 @@
           ],
           "datasource": "${DS_PROMETHEUS}",
           "decimals": 2,
-          "description": "Determines when the first table will be freezed by autovacuum.",
+          "description": "Determines when the first table will be freezed by autovacuum. \n\nOn reaching 100%, PostgreSQL will start an VACUUM FREEZE which can produce high I/O on the server. \n \nIf the value stays over 100% for long periods it should be investigated if VACUUM is able to keep up.",
           "format": "percentunit",
           "gauge": {
-            "maxValue": 1,
+            "maxValue": 1.9,
             "minValue": 0,
             "show": true,
             "thresholdLabels": false,
@@ -457,7 +457,7 @@
               "step": 240
             }
           ],
-          "thresholds": "0.4,0.7",
+          "thresholds": "1.1,1.5",
           "title": "Next Freeze",
           "transparent": true,
           "type": "singlestat",
