@@ -3,20 +3,18 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to elephant-shed's documentation!
-=========================================
-
-Contents:
+Elephant Shed - Documentation
+=============================
 
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 2
+    :numbered:
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+    chapter/intro
+    chapter/installation
+    chapter/first-steps
+    chapter/components
+    chapter/users
+    chapter/limits
+    chapter/license
+    chapter/support

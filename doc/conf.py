@@ -133,7 +133,12 @@ html_theme = 'alabaster'
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {
+    'logo': '../portal/image/button_home.png',
+    'github_user': 'credativ',
+    'github_repo': 'elephant-shed',
+    'github_button': 'true',
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
