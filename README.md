@@ -743,7 +743,6 @@ To change settings (e.g. the color theme) just right click anywhere on the termi
 
 ### Additional Resources
 
-* <https://shellinabox.com>
 * <https://github.com/shellinabox/shellinabox>
 
 ## Firewall - ferm
