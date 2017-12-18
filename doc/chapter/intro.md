@@ -22,4 +22,4 @@ to running just the database server. It is therefore only recommended for
 adequately sized systems.
 
 This document describes the current version.
-Updated versions of this document will be shipped with the elephant-shed packages and can be found in `/usr/share/doc/elephant-shed-portal` (`/usr/share/doc/elephant-shed*`) and in the web portal under <https://your-server/doc/README.html>.
+Updated versions of this document will be shipped with the elephant-shed packages and can be found in `/usr/share/doc/elephant-shed-portal` (`/usr/share/doc/elephant-shed*`) and in the web portal under <https://your-server/doc/>.

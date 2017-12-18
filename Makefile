@@ -6,12 +6,12 @@ all: grafana_prepare_dashboard
 README.html: $(README) $(READMECSS)
 	pandoc --number-sections --table-of-contents --toc-depth 2 -s -H $(READMECSS) $(README) > $@
 
-README.pdf: $(README) $(READMECSS)
-	pandoc --number-sections --table-of-contents --toc-depth 2 $(README) -o $@
+README: README.html
 
-README: README.html README.pdf
+sphinx:
+	$(MAKE) -C doc html
 
-docs: README
+docs: README sphinx
 
 doc: docs
 
@@ -49,3 +49,4 @@ deploy_openpower: vagrant/inventory.openpower
 
 clean:
 	rm -f README.html README.pdf grafana/postgresql_server_overview.json
+	$(MAKE) -C doc clean
