@@ -1,10 +1,10 @@
 # Support and more
 ## Do you have any question or want to know more?
 
-Use our chat.
-
-* Web-Chat: [#elephant-shed](https://webchat.oftc.net/?nick=web-user-.&channels=elephant-shed&uio=MT11bmRlZmluZWQmMj10cnVlJjk9dHJ1ZSYxMT0yMzY31)
-* IRC [#elephant-shed](https://webchat.oftc.net/?channels=elephant-shed&uio=MT11bmRlZmluZWQmMj10cnVlJjk9dHJ1ZSYxMT0yMzY31
+* **Project page** [elephant-shed.io](https://elephant-shed.io)
+* **Git** [github.com/credativ/elephant-shed](https://github.com/credativ/elephant-shed/)
+* **Web-Chat** [#elephant-shed](https://webchat.oftc.net/?nick=web-user-.&channels=elephant-shed&uio=MT11bmRlZmluZWQmMj10cnVlJjk9dHJ1ZSYxMT0yMzY31)
+* **IRC** [#elephant-shed](https://webchat.oftc.net/?channels=elephant-shed&uio=MT11bmRlZmluZWQmMj10cnVlJjk9dHJ1ZSYxMT0yMzY31
 ) on [irc.oftc.net](https://www.oftc.net/)
 
 ## Do you need professional support or additional services?
