@@ -2937,7 +2937,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "topk($ntop_relations, sql_pg_stat_user_tables{col='n_tup_del',database=~'$datname', host=~'$host'})",
+              "expr": "topk($ntop_relations, sql_pg_stat_user_tables{col='n_dead_tup',database=~'$datname', host=~'$host'})",
               "format": "time_series",
               "interval": "",
               "intervalFactor": 2,
