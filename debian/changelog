@@ -1,8 +1,12 @@
-elephant-shed (1.1.1) UNRELEASED; urgency=medium
+elephant-shed (1.1.1+nmu1) UNRELEASED; urgency=medium
 
+  [ Adrian Vondendriesch ]
   * Split prometheus exporters into own packages.
 
- -- Adrian Vondendriesch <adrian.vondendriesch@credativ.de>  Thu, 14 Dec 2017 15:22:39 +0100
+  [ Alexander Sosna ]
+  * Bug fix in dashboard: Fix "Dead Tuples"
+
+ -- Alexander Sosna <alexander@xxor.de>  Fri, 19 Jan 2018 16:43:25 +0100
 
 elephant-shed (1.0) unstable; urgency=medium
 
