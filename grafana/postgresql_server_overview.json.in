@@ -3980,7 +3980,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sql_pg_locks_sum{host='$host', database=~'$datname'}",
+              "expr": "sql_pg_locks_sum{host='$host'}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{ mode }}",
@@ -3991,7 +3991,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Locks - $datname",
+          "title": "Locks",
           "tooltip": {
             "shared": true,
             "sort": 0,

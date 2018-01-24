@@ -4,7 +4,11 @@ elephant-shed (1.1.1+nmu1) UNRELEASED; urgency=medium
   * Split prometheus exporters into own packages.
 
   [ Alexander Sosna ]
-  * Bug fix in dashboard: Fix "Dead Tuples"
+  * Dashboard: Fix "Dead Tuples"
+  * Dashboard: Fix "Locks"
+  * Dashboard: Change limits for "Next Freeze"
+  * Dashboard: Add tool tips
+  * Doc: Change docs top sphinx
 
  -- Alexander Sosna <alexander@xxor.de>  Fri, 19 Jan 2018 16:43:25 +0100
 
