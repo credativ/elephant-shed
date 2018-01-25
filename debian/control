@@ -10,6 +10,10 @@ Build-Depends:
  debhelper (>= 10~),
  jq,
  pandoc,
+ python3-recommonmark,
+ python3-sphinx-rtd-theme,
+ python3-sphinx,
+ sphinx-common,
 
 Package: elephant-shed
 Architecture: all
