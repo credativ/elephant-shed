@@ -1,16 +1,16 @@
-elephant-shed (1.1.1+nmu1) UNRELEASED; urgency=medium
+elephant-shed (1.1.1) unstable; urgency=medium
 
   [ Adrian Vondendriesch ]
   * Split prometheus exporters into own packages.
 
   [ Alexander Sosna ]
-  * Dashboard: Fix "Dead Tuples"
-  * Dashboard: Fix "Locks"
-  * Dashboard: Change limits for "Next Freeze"
-  * Dashboard: Add tool tips
-  * Doc: Change docs top sphinx
+  * Change docs build process to sphinx
+  * grafana: Fix "Dead Tuples"
+  * grafana: Fix "Locks"
+  * grafana: Change limits for "Next Freeze"
+  * grafana: Add tool tips
 
- -- Alexander Sosna <alexander@xxor.de>  Fri, 19 Jan 2018 16:43:25 +0100
+ -- Adrian Vondendriesch <adrian.vondendriesch@credativ.de>  Thu, 25 Jan 2018 17:00:25 +0100
 
 elephant-shed (1.0) unstable; urgency=medium
 
