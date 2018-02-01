@@ -108,7 +108,7 @@ Description: PostgreSQL dashboard -- Grafana integration
 Package: elephant-shed-prometheus
 Architecture: all
 Depends:
- prometheus,
+ prometheus (>= 2.0),
  prometheus-node-exporter,
  ${misc:Depends},
 Description: PostgreSQL dashboard -- Prometheus integration

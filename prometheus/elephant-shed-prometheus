@@ -3,187 +3,63 @@ GOGC=40
 GOMAXPROCS=2
 
 # Set the command-line arguments to pass to the server.
-ARGS="-config.file /etc/prometheus/elephant-shed-prometheus.yml \
-      -storage.local.retention 2200h0m0s \
-      -storage.local.series-file-shrink-ratio 0.3 \
-      -storage.local.memory-chunks 500000 \
-      -storage.local.max-chunks-to-persist 250000 \
-      -web.external-url http://127.0.0.1:9090/prometheus/ \
-      -web.listen-address 127.0.0.1:9090"
-
+ARGS="--config.file /etc/prometheus/elephant-shed-prometheus.yml \
+      --web.external-url http://127.0.0.1:9090/prometheus/ \
+      --web.listen-address 127.0.0.1:9090" \
+      --storage.tsdb.retention=90d
 
 # Prometheus supports the following options:
+#  --config.file="/etc/prometheus/prometheus.yml"
+#                             Prometheus configuration file path.
+#  --web.listen-address="0.0.0.0:9090"
+#                             Address to listen on for UI, API, and telemetry.
+#  --web.read-timeout=5m      Maximum duration before timing out read of the
+#                             request, and closing idle connections.
+#  --web.max-connections=512  Maximum number of simultaneous connections.
+#  --web.external-url=<URL>   The URL under which Prometheus is externally
+#                             reachable (for example, if Prometheus is served
+#                             via a reverse proxy). Used for generating
+#                             relative and absolute links back to Prometheus
+#                             itself. If the URL has a path portion, it will
+#                             be used to prefix all HTTP endpoints served by
+#                             Prometheus. If omitted, relevant URL components
+#                             will be derived automatically.
+#  --web.route-prefix=<path>  Prefix for the internal routes of web endpoints.
+#                             Defaults to path of --web.external-url.
+#  --web.local-assets="/usr/share/prometheus/web/"
+#                             Path to static asset/templates directory.
+#  --web.user-assets=<path>   Path to static asset directory, available at
+#                             /user.
+#  --web.enable-lifecycle     Enable shutdown and reload via HTTP request.
+#  --web.enable-admin-api     Enables API endpoints for admin control actions.
+#  --web.console.templates="/etc/prometheus/consoles"
+#                             Path to the console template directory,
+#                             available at /consoles.
+#  --web.console.libraries="/etc/prometheus/console_libraries"
+#                             Path to the console library directory.
+#  --storage.tsdb.path="/var/lib/prometheus/metrics2/"
+#                             Base path for metrics storage.
+#  --storage.tsdb.min-block-duration=2h
+#                             Minimum duration of a data block before being
+#                             persisted.
+#  --storage.tsdb.max-block-duration=<duration>
+#                             Maximum duration compacted blocks may span.
+#                             (Defaults to 10% of the retention period)
+#  --storage.tsdb.retention=15d
+#                             How long to retain samples in the storage.
+#  --storage.tsdb.no-lockfile
+#                             Do not create lockfile in data directory.
+#  --alertmanager.notification-queue-capacity=10000
+#                             The capacity of the queue for pending alert
+#                             manager notifications.
+#  --alertmanager.timeout=10s
+#                             Timeout for sending alerts to Alertmanager.
+#  --query.lookback-delta=5m  The delta difference allowed for retrieving
+#                             metrics during expression evaluations.
+#  --query.timeout=2m         Maximum time a query may take before being
+#                             aborted.
+#  --query.max-concurrency=20
+#                             Maximum number of queries executed concurrently.
+#  --log.level=info           Only log messages with the given severity or
+#                             above. One of: [debug, info, warn, error]
 
-#   -config.file "/etc/prometheus/prometheus.yml"
-#      Prometheus configuration file name.
-#
-# == ALERTMANAGER ==
-#
-#   -alertmanager.notification-queue-capacity 10000
-#      The capacity of the queue for pending alert manager notifications.
-#
-#   -alertmanager.timeout 10s
-#      Alert manager HTTP API timeout.
-#
-#   -alertmanager.url
-#      The URL of the alert manager to send notifications to.
-#
-# == LOG ==
-#
-#   -log.format
-#      If set use a syslog logger or JSON logging. Example:
-#      logger:syslog?appname=bob&local=7 or logger:stdout?json=true. Defaults to
-#      stderr.
-#
-#   -log.level "info"
-#      Only log messages with the given severity or above. Valid levels:
-#      [debug, info, warn, error, fatal].
-#
-# == QUERY ==
-#
-#   -query.max-concurrency 20
-#      Maximum number of queries executed concurrently.
-#
-#   -query.staleness-delta 5m0s
-#      Staleness delta allowance during expression evaluations.
-#
-#   -query.timeout 2m0s
-#      Maximum time a query may take before being aborted.
-#
-# == STORAGE ==
-#
-#   -storage.local.checkpoint-dirty-series-limit 5000
-#      If approx. that many time series are in a state that would require
-#      a recovery operation after a crash, a checkpoint is triggered, even if
-#      the checkpoint interval hasn't passed yet. A recovery operation requires
-#      a disk seek. The default limit intends to keep the recovery time below
-#      1min even on spinning disks. With SSD, recovery is much faster, so you
-#      might want to increase this value in that case to avoid overly frequent
-#      checkpoints.
-#
-#   -storage.local.checkpoint-interval 5m0s
-#      The period at which the in-memory metrics and the chunks not yet
-#      persisted to series files are checkpointed.
-#
-#   -storage.local.chunk-encoding-version 1
-#      Which chunk encoding version to use for newly created chunks.
-#      Currently supported is 0 (delta encoding) and 1 (double-delta encoding).
-#
-#   -storage.local.dirty false
-#      If set, the local storage layer will perform crash recovery even if
-#      the last shutdown appears to be clean.
-#
-#   -storage.local.index-cache-size.fingerprint-to-metric 10485760
-#      The size in bytes for the fingerprint to metric index cache.
-#
-#   -storage.local.index-cache-size.fingerprint-to-timerange 5242880
-#      The size in bytes for the metric time range index cache.
-#
-#   -storage.local.index-cache-size.label-name-to-label-values 10485760
-#      The size in bytes for the label name to label values index cache.
-#
-#   -storage.local.index-cache-size.label-pair-to-fingerprints 20971520
-#      The size in bytes for the label pair to fingerprints index cache.
-#
-#   -storage.local.max-chunks-to-persist 524288
-#      How many chunks can be waiting for persistence before sample
-#      ingestion will be throttled. Many chunks waiting to be persisted will
-#      increase the checkpoint size.
-#
-#   -storage.local.memory-chunks 1048576
-#      How many chunks to keep in memory. While the size of a chunk is
-#      1kiB, the total memory usage will be significantly higher than this value
-#      * 1kiB. Furthermore, for various reasons, more chunks might have to be
-#      kept in memory temporarily. Sample ingestion will be throttled if the
-#      configured value is exceeded by more than 10%.
-#
-#   -storage.local.path "/var/lib/prometheus/metrics"
-#      Base path for metrics storage.
-#
-#   -storage.local.pedantic-checks false
-#      If set, a crash recovery will perform checks on each series file.
-#      This might take a very long time.
-#
-#   -storage.local.retention 360h0m0s
-#      How long to retain samples in the local storage.
-#
-#   -storage.local.series-file-shrink-ratio 0.1
-#      A series file is only truncated (to delete samples that have
-#      exceeded the retention period) if it shrinks by at least the provided
-#      ratio. This saves I/O operations while causing only a limited storage
-#      space overhead. If 0 or smaller, truncation will be performed even for a
-#      single dropped chunk, while 1 or larger will effectively prevent any
-#      truncation.
-#
-#   -storage.local.series-sync-strategy "adaptive"
-#      When to sync series files after modification. Possible values:
-#      'never', 'always', 'adaptive'. Sync'ing slows down storage performance
-#      but reduces the risk of data loss in case of an OS crash. With the
-#      'adaptive' strategy, series files are sync'd for as long as the storage
-#      is not too much behind on chunk persistence.
-#
-#   -storage.remote.graphite-address
-#      The host:port of the remote Graphite server to send samples to.
-#      None, if empty.
-#
-#   -storage.remote.graphite-prefix
-#      The prefix to prepend to all metrics exported to Graphite. None, if
-#      empty.
-#
-#   -storage.remote.graphite-transport "tcp"
-#      Transport protocol to use to communicate with Graphite. 'tcp', if
-#      empty.
-#
-#   -storage.remote.influxdb-url
-#      The URL of the remote InfluxDB server to send samples to. None, if
-#      empty.
-#
-#   -storage.remote.influxdb.database "prometheus"
-#      The name of the database to use for storing samples in InfluxDB.
-#
-#   -storage.remote.influxdb.retention-policy "default"
-#      The InfluxDB retention policy to use.
-#
-#   -storage.remote.influxdb.username
-#      The username to use when sending samples to InfluxDB. The
-#      corresponding password must be provided via the INFLUXDB_PW environment
-#      variable.
-#
-#   -storage.remote.opentsdb-url
-#      The URL of the remote OpenTSDB server to send samples to. None, if
-#      empty.
-#
-#   -storage.remote.timeout 30s
-#      The timeout to use when sending samples to the remote storage.
-#
-# == WEB ==
-#
-#   -web.console.libraries "/etc/prometheus/console_libraries"
-#      Path to the console library directory.
-#
-#   -web.console.templates "/etc/prometheus/consoles"
-#      Path to the console template directory, available at /consoles.
-#
-#   -web.enable-remote-shutdown false
-#      Enable remote service shutdown.
-#
-#   -web.external-url
-#      The URL under which Prometheus is externally reachable (for
-#      example, if Prometheus is served via a reverse proxy). Used for
-#      generating relative and absolute links back to Prometheus itself. If the
-#      URL has a path portion, it will be used to prefix all HTTP endpoints
-#      served by Prometheus. If omitted, relevant URL components will be derived
-#      automatically.
-#
-#   -web.listen-address ":9090"
-#      Address to listen on for the web interface, API, and telemetry.
-#
-#   -web.local-assets "/usr/share/prometheus/web/"
-#      Path to static assets/templates directory.
-#
-#   -web.telemetry-path "/metrics"
-#      Path under which to expose metrics.
-#
-#   -web.user-assets
-#      Path to static asset directory, available at /user.
-#
