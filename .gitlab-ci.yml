@@ -48,6 +48,8 @@ publish:aptly:
     - aptly/upload_packages.sh debs
     - make include_packages
     - make publish_packages
+  only:
+    - master
 
 deploy:x86:
   stage: deploy
@@ -60,9 +62,11 @@ deploy:x86:
     - chmod 0600 id_file
     - echo "[test]" > inventory
     - echo "$DEPLOY_X86_NAME ansible_ssh_host=${DEPLOY_X86_IP} ansible_ssh_port=${DEPLOY_SSH_PORT} ansible_ssh_user=${DEPLOY_SSH_USER} ansible_ssh_private_key_file=id_file" >> inventory
-    # We chant provide this envirionment variable throught "variables" for some reason.
+    # We can't provide this envirionment variable throught "variables" for some reason.
     - export ANSIBLE_HOST_KEY_CHECKING=False
     - ansible-playbook -i inventory elephant-shed.yml
+  only:
+    - master
   environment:
     name: elephant-shed
     url: https://elephant-shed.dev.credativ.lan
@@ -78,9 +82,11 @@ deploy:ppc64el:
     - chmod 0600 id_file
     - echo "[test]" > inventory
     - echo "$DEPLOY_PPC64EL_NAME ansible_ssh_host=${DEPLOY_PPC64EL_IP} ansible_ssh_port=${DEPLOY_SSH_PORT} ansible_ssh_user=${DEPLOY_SSH_USER} ansible_ssh_private_key_file=id_file" >> inventory
-    # We chant provide this envirionment variable throught "variables" for some reason.
+    # We can't provide this envirionment variable throught "variables" for some reason.
     - export ANSIBLE_HOST_KEY_CHECKING=False
     - ansible-playbook -i inventory elephant-shed.yml
+  only:
+    - master
   environment:
     name: elephant-shed-ppc64el
     url: https://elephant-shed-ppc64el.dev.credativ.lan
