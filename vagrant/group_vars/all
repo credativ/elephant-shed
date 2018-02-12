@@ -26,7 +26,7 @@ credativ_postgresql: 'deb https://packages.credativ.com/public/postgresql/ stret
 io_scheduler: noop
 overcommit_ratio: 90
 grub_cmdline_linux: crashkernel=auto rhgb quiet elevator={{ io_scheduler }}
-version: 9.6
+version: 10
 clustername: main
 confdir: /etc/postgresql/{{ version }}/{{ clustername }}
 datadir: '{{ datadir_base }}/{{ version }}/{{ clustername }}'
