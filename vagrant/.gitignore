@@ -1,3 +1,4 @@
 .vagrant
 *.retry
 fact_cache/
+*.box
