@@ -80,7 +80,6 @@
   file:
     path: /etc/security/limits.d
     owner: root
-    owner: root
     mode: 0755
     state: directory
 
