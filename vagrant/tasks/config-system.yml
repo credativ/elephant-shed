@@ -47,7 +47,7 @@
 - name: Set block device to use {{ io_scheduler }} i/o scheduler
   shell: echo {{ io_scheduler }} > /sys/block/{{ item }}/queue/scheduler
   with_items: '{{ ansible_devices }}'
-  when: ansible_devices[item].scheduler_mode != io_scheduler
+  when: 'ansible_devices[item].scheduler_mode not in (io_scheduler, "none")'
 
 - name: Edit grub defaults
   lineinfile:
