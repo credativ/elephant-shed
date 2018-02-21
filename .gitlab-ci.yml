@@ -17,12 +17,11 @@ build:docs:
   stage: build
   image: "tianon/latex"
   script:
-    - apt-get install -y --no-install-recommends pandoc make sphinx-common python3-sphinx python3-recommonmark python3-sphinx-rtd-theme
+    - apt-get install -y --no-install-recommends make sphinx-common python3-sphinx python3-recommonmark python3-sphinx-rtd-theme
     - make docs
   artifacts:
     paths:
-      - README.html
-      - README.pdf
+      - doc/_build/html
 
 build:deb:
   stage: build

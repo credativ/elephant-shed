@@ -70,16 +70,14 @@ Requirements:
 
   - `dpkg-dev`
   - `devscripts`
-  - `jq`
 
 ### Build Documentation
 
-To build the documentation in HTML as well as the PDF format type `make README`.
+To build the documentation in HTML format type `make doc`.
 
 Requirements:
 
-  - `pandoc`
-  - `texlive-latex-base`
+  - `sphinx`
 
 ### Create Testsystem with Vagrant
 

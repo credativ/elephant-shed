@@ -1,17 +1,11 @@
 README = README.md
-READMECSS = pandoc.css
 
 all: grafana_prepare_dashboard
-
-README.html: $(README) $(READMECSS)
-	pandoc --number-sections --table-of-contents --toc-depth 2 -s -H $(READMECSS) $(README) > $@
-
-README: README.html
 
 sphinx:
 	$(MAKE) -C doc html
 
-docs: README sphinx
+docs: sphinx
 
 doc: docs
 
