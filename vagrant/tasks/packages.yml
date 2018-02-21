@@ -46,7 +46,6 @@
   - ncdu
   - ssl-cert
   - net-tools
-  - jq
   - ferm
 
 - name: Configure pgadmin4 web user

@@ -19,13 +19,8 @@ deb:
 	dpkg-buildpackage -us -uc
 	lintian | tee -a lintian.log
 
-grafana_prepare_dashboard: grafana/postgresql_server_overview.json.in
-	# We need to modify the saved dashboard.
-	#jq ".dashboard.id=null | .overwrite=true | .meta.updatedBy=\"credativ GmbH\" | .meta.createdBy=\"credativ GmbH\"" $< > grafana/postgresql_server_overview.json
-	# Replace or placeholder (${DS_PROMETHEUS}) by prometheus. We
-	# don't import the dashboard via the web interface so this is
-	# nessasary.
-	cat $< | sed 's;$${DS_PROMETHEUS};prometheus;g' > grafana/postgresql_server_overview.json
+grafana_prepare_dashboard:
+	$(MAKE) -C grafana
 
 upload_packages: deb
 	aptly/upload_packages.sh
@@ -48,5 +43,6 @@ deploy_openpower: vagrant/inventory.openpower
 	  -e "repo=http"
 
 clean:
-	rm -f README.html README.pdf grafana/postgresql_server_overview.json
+	rm -f README.html README.pdf
 	$(MAKE) -C doc clean
+	$(MAKE) -C grafana clean
