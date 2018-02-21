@@ -73,7 +73,7 @@ Requirements:
 
 ### Build Documentation
 
-To build the documentation in HTML format type `make doc`.
+To build the documentation in HTML format type `make docs`.
 
 Requirements:
 

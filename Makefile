@@ -1,13 +1,7 @@
-README = README.md
+all: docs grafana_prepare_dashboard
 
-all: grafana_prepare_dashboard
-
-sphinx:
+doc docs:
 	$(MAKE) -C doc html
-
-docs: sphinx
-
-doc: docs
 
 deb:
 	dpkg-buildpackage -us -uc
@@ -37,6 +31,5 @@ deploy_openpower: vagrant/inventory.openpower
 	  -e "repo=http"
 
 clean:
-	rm -f README.html README.pdf
 	$(MAKE) -C doc clean
 	$(MAKE) -C grafana clean

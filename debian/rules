@@ -3,11 +3,6 @@
 %:
 	dh $@ --with=systemd
 
-override_dh_auto_build:
-	# We would like to include the generated docs into the debian package.
-	make doc
-	dh_auto_build
-
 override_dh_link:
 	mkdir -p debian/elephant-shed-tmate/etc/skel
 	ln -s /etc/tmate.conf debian/elephant-shed-tmate/etc/skel/.tmate.conf
