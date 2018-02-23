@@ -1,0 +1,78 @@
+.esmenu hr {
+  background: red;
+  height: 0px;
+  border-top: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.esmenu:hover hr {
+  height: 2px;
+}
+
+.esmenu a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  transition: .5s background-color;
+}
+
+.esmenu a:hover {
+  text-decoration: underline;
+  color: black;
+  transition: .5s background-color;
+}
+
+.esmenu a img {
+  width: 15px;
+  height: 15px;
+  margin-left: 2px;
+  margin-right: 2px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  transition: 1s all;
+}
+
+.esmenu:hover a img {
+  width: 40px;
+  height: 40px;
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  transition: .2s all;
+}
+
+.esmenu a:hover img {
+  filter: brightness(50%);
+  transition: .2s filter;
+}
+
+.esmenu {
+  z-index: 10000;
+  top: 0;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 3px 5px 3px 0px rgba(0,0,0,0.15);
+  width: 220px;
+  background-color: rgba(255,255,255,.15);
+  border: 1px solid black;
+  border-top: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  transition: top 0.3s, background-color 1s, width 1s;
+  transition-timing-function: ease-out;
+  transition-delay: 0.0s;
+}
+
+.esmenu:hover {
+  background-color: rgba(255,255,255,1);
+  width: 500px;
+  transition: top 0.2s, width .2s, background-color 0.2s;
+}
+
