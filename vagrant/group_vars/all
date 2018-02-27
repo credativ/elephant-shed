@@ -43,7 +43,6 @@ locale:
   - en_US.UTF-8 UTF-8
 nofiles_hard: 131072
 nofiles_soft: 65536
-systemd_nofiles: 131072
 
 # Monitoring
 prometheus_gomaxprocs: 2

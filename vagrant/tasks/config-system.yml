@@ -93,7 +93,7 @@
     dest: /lib/systemd/system/postgresql@.service
     state: present
     regexp: 'LimitNOFILE'
-    line: 'LimitNOFILE={{ systemd_nofiles }}'
+    line: 'LimitNOFILE={{ nofiles_hard }}'
     insertafter: '^\[Service\]'
   notify:
     - systemctl daemon-reload
