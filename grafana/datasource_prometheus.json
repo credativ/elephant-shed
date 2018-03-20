@@ -1,1 +1,0 @@
-{"id":1,"orgId":1,"name":"prometheus","type":"prometheus","typeLogoUrl":"","access":"proxy","url":"http://127.0.0.1:9090/prometheus","password":"","user":"","database":"","basicAuth":false,"basicAuthUser":"","basicAuthPassword":"","withCredentials":false,"isDefault":false,"jsonData":{},"secureJsonFields":{}}

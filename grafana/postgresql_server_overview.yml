@@ -1,0 +1,12 @@
+---
+# # config file version
+apiVersion: 1
+
+providers:
+- name: 'postgresql_server_overview'
+  orgId: 1
+  folder: ''
+  type: file
+  options:
+    path: /etc/grafana/postgresql_server_overview.json
+    datasource: prometheus

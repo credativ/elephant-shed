@@ -1,4 +1,4 @@
-all: docs grafana_prepare_dashboard
+all: docs
 
 doc docs:
 	$(MAKE) -C doc html
@@ -6,9 +6,6 @@ doc docs:
 deb:
 	dpkg-buildpackage -us -uc
 	lintian | tee -a lintian.log
-
-grafana_prepare_dashboard:
-	$(MAKE) -C grafana
 
 upload_packages: deb
 	aptly/upload_packages.sh

@@ -96,7 +96,7 @@ Package: elephant-shed-grafana
 Architecture: all
 Depends:
  curl,
- grafana (>> 4.3),
+ grafana (>> 5),
  ${misc:Depends},
 Description: PostgreSQL dashboard -- Grafana integration
  The Elephant Shed is a web-based PostgreSQL management front-end.
