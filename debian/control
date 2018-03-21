@@ -107,7 +107,6 @@ Package: elephant-shed-prometheus
 Architecture: all
 Depends:
  prometheus (>= 2.0),
- prometheus-node-exporter,
  ${misc:Depends},
 Description: PostgreSQL dashboard -- Prometheus integration
  The Elephant Shed is a web-based PostgreSQL management front-end.
@@ -117,7 +116,7 @@ Description: PostgreSQL dashboard -- Prometheus integration
 Package: elephant-shed-prometheus-node-exporter
 Architecture: all
 Depends:
- prometheus-node-exporter,
+ prometheus-node-exporter (>= 0.15.0),
  ${misc:Depends},
 Breaks: elephant-shed-prometheus (<< 1.1)
 Replaces: elephant-shed-prometheus (<< 1.1)

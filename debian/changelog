@@ -2,6 +2,7 @@ elephant-shed (1.1.2) UNRELEASED; urgency=medium
 
   * Upgrade to grafana 5 and prometheus 2. (Existing monitoring data is not
     migrated.)
+  * Upgrade to prometheus-node-exporter 0.15.
   * prometheus: Use 'localhost' as job_name to bundle this machine's node and
     sql exporter results.
 
