@@ -1,4 +1,4 @@
-prometheus/sql_exporter/prometheus-sql-exporter.yml.in etc
-prometheus/sql_exporter/update-prometheus-sql-exporter-config usr/share/elephant-shed/prometheus
-prometheus/sql_exporter/update-prometheus-sql-exporter-config.service lib/systemd/system
-prometheus/sql_exporter/update-prometheus-sql-exporter-config.timer lib/systemd/system
+sql-exporter/prometheus-sql-exporter.yml.in etc
+sql-exporter/update-prometheus-sql-exporter-config usr/share/elephant-shed/prometheus
+sql-exporter/update-prometheus-sql-exporter-config.service lib/systemd/system
+sql-exporter/update-prometheus-sql-exporter-config.timer lib/systemd/system

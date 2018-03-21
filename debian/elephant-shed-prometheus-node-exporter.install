@@ -1,2 +1,2 @@
-prometheus/elephant-shed-prometheus-node-exporter etc/default
-prometheus/elephant-shed-prometheus-node-exporter.conf etc/systemd/system/prometheus-node-exporter.service.d
+node-exporter/elephant-shed-prometheus-node-exporter etc/default
+node-exporter/elephant-shed-prometheus-node-exporter.conf etc/systemd/system/prometheus-node-exporter.service.d
