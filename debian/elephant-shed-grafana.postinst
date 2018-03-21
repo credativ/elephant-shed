@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -eu
+
+case $1 in
+  configure)
+    # we depend on grafana and it has to be enabled
+    # lintian wants us to use "deb-systemd-helper enable" instead, but that
+    # doesn't work with grafana-server.service being located in /usr/systemd/system
+    systemctl enable grafana-server
+    invoke-rc.d grafana-server restart
+    ;;
+esac
+
+#DEBHELPER#
