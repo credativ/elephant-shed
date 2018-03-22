@@ -129,10 +129,8 @@ Description: PostgreSQL dashboard -- Node exporter integration
 Package: elephant-shed-prometheus-sql-exporter
 Architecture: all
 Depends:
+ postgresql-common,
  prometheus-sql-exporter,
- python,
- python-yaml,
- sudo,
  ${misc:Depends},
 Breaks: elephant-shed-prometheus (<< 1.1)
 Replaces: elephant-shed-prometheus (<< 1.1)

@@ -4,12 +4,16 @@ set -e
 
 case $1 in
   configure)
-    systemctl daemon-reload
+    # earlier package versions used a plain file in /etc
+    if test -f /etc/prometheus-sql-exporter.yml && ! test -L /etc/prometheus-sql-exporter.yml; then
+      rm -f /etc/prometheus-sql-exporter.yml
+      ln -s /var/run/postgresql/prometheus-sql-exporter.yml /etc/prometheus-sql-exporter.yml
+    fi
 
-    # Generate a new sql-exporter.yml based on the new yml.in
-    /usr/share/elephant-shed/prometheus/update-prometheus-sql-exporter-config
-    # The configuration file changed, so we have to restart the sql-exporter
-    deb-systemd-invoke restart prometheus-sql-exporter
+    # Generate a new prometheus-sql-exporter.yml now
+    # (use systemctl directly because deb-systemd-invoke doesn't like static units)
+    systemctl daemon-reload
+    systemctl start update-prometheus-sql-exporter-config.service
     ;;
 esac
 

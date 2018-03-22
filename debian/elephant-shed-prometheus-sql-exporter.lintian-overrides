@@ -1,0 +1,2 @@
+# use systemctl directly because deb-systemd-invoke doesn't like static units
+elephant-shed-prometheus-sql-exporter: maintainer-script-calls-systemctl

@@ -4,6 +4,8 @@ set -e
 
 case $1 in
   purge)
+    rm -f /var/run/postgresql/prometheus-sql-exporter.yml
+    # old file location
     rm -f /etc/prometheus-sql-exporter.yml
     ;;
 esac
