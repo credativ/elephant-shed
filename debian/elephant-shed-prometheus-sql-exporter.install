@@ -1,5 +1,4 @@
-sql-exporter/cluster_queries.yml etc/prometheus-sql-exporter
-sql-exporter/database_queries.yml etc/prometheus-sql-exporter
+sql-exporter/*.yml etc/prometheus-sql-exporter
 sql-exporter/update-prometheus-sql-exporter-config usr/bin
 sql-exporter/update-prometheus-sql-exporter-config.service lib/systemd/system
 sql-exporter/update-prometheus-sql-exporter-config.timer lib/systemd/system

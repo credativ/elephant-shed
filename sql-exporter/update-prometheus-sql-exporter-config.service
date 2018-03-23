@@ -3,6 +3,6 @@ Description=Update the prometheus sql exporter config based on clusters and data
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/update-prometheus-sql-exporter-config /etc/prometheus-sql-exporter/cluster_queries.yml /etc/prometheus-sql-exporter/database_queries.yml /var/run/postgresql/prometheus-sql-exporter.yml
+ExecStart=/usr/bin/update-prometheus-sql-exporter-config /etc/prometheus-sql-exporter /var/run/postgresql/prometheus-sql-exporter.yml
 ExecStartPost=/bin/systemctl try-restart prometheus-sql-exporter.service
 Nice=10

@@ -1,0 +1,20 @@
+# Files here named *.yml will be used by update-prometheus-sql-exporter-config
+# to update the prometheus-sql-exporter config in /var/run/postgresql/.
+# Queries with scope 'cluster' are executed once per cluster (via the
+# 'postgres' database). Scope 'database' queries are executed in each database.
+# Example:
+
+#- name: "application_hits"
+#  help: "Web hits in our application"
+#  scope: database # or 'cluster'
+#  min_version: 9.0
+#  max_version: 9.6
+#  # alternative: version: 10 # run only on this version (regexp)
+#  cluster: main # run only on this cluster (regexp)
+#  database: appdb # run only on this database (regexp)
+#  labels:
+#    - "username"
+#  values:
+#    - "count"
+#  query: |
+#          SELECT username, count(*) FROM applog GROUP BY username

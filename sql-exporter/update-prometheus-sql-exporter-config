@@ -6,80 +6,73 @@ use PgCommon;
 use Storable qw(dclone);
 use YAML;
 
-# get list of clusters and databases per major version
-sub get_databases()
+# from list of queries, remove all that do not satisfy the scope/version/cluster/database constraints
+sub filter_queries($$$$;$)
 {
-  my @versions = ();
-  foreach my $version (get_versions()) {
-    my @version_clusters = ();
-    my @version_databases = ();
-    foreach my $cluster (get_version_clusters($version)) {
-      my %info = cluster_info($version, $cluster);
-      next unless $info{running}; # cluster is down, skip it
-      my $owner = (getpwuid $info{owneruid})[0] // die "Could not determine owner name of cluster $version $cluster";
-      my $socket = get_cluster_socketdir($version, $cluster);
-      push @version_clusters, "postgres://$owner\@:$info{port}/postgres?sslmode=disable&host=$socket";
-
-      my @cluster_databases = get_cluster_databases($version, $cluster);
-      foreach my $database (grep { $_ and $_ !~ /^template[01]$/ } @cluster_databases) {
-        push @version_databases, "postgres://$owner\@:$info{port}/$database?sslmode=disable&host=$socket";
-      }
-    }
-    next unless @version_clusters; # version without (running) clusters, skip it
-    push @versions, {
-      version => $version,
-      clusters => \@version_clusters,
-      databases => \@version_databases,
-    };
-  }
-  return \@versions;
-}
-
-# from list of queries, remove all that do not satisfy the version constraints
-sub filter_queries($$)
-{
-  my ($queries, $version) = @_;
+  my ($queries, $scope, $version, $cluster, $database) = @_;
   my @result;
   foreach my $query (@$queries) {
+    $query->{scope} //= 'database';
+    die "scope '$query->{scope}' must be either 'cluster' or 'database'"
+      unless ($query->{scope} =~ /^(cluster|database)$/);
+    next if $query->{scope} ne $scope;
     next if $query->{min_version} and $version < $query->{min_version};
     next if $query->{max_version} and $version > $query->{max_version};
+    next if $query->{version} and $cluster !~ /$query->{version}/;
+    next if $query->{cluster} and $cluster !~ /$query->{cluster}/;
+    next if $query->{database} and $database !~ /$query->{database}/;
+
     my $q = dclone($query);
-    delete $q->{min_version};
-    delete $q->{max_version};
+    delete $q->{scope}; delete $q->{min_version}; delete $q->{max_version};
+    delete $q->{version}; delete $q->{cluster}; delete $q->{database};
     push @result, $q;
   }
   return \@result;
 }
 
-my $cluster_queries_yaml = $ARGV[0] // die "No cluster queries yaml file specified";
-my $database_queries_yaml = $ARGV[1] // die "No database queries yaml file specified";
-my $output_yaml = $ARGV[2] // die "No output yaml file specified";
+my $queries_directory = $ARGV[0] // die "No directory for *.yml query files specified";
+my $output_yaml = $ARGV[1] // die "No output yaml file specified";
 
-my $cluster_queries;
-eval { $cluster_queries = YAML::LoadFile($cluster_queries_yaml); };
-die "Error loading $cluster_queries_yaml: $@" if ($@);
-my $database_queries;
-eval { $database_queries = YAML::LoadFile($database_queries_yaml); };
-die "Error loading $database_queries_yaml: $@" if ($@);
-
-my $versions = get_databases();
-my $jobs = [];
-
-foreach my $version (@$versions) {
-  my $job = {
-    name => "$version->{version} cluster queries",
-    interval => 0,
-    connections => dclone($version->{clusters}),
-    queries => filter_queries($cluster_queries, $version->{version}),
-  };
-  push @$jobs, $job;
-  $job = {
-    name => "$version->{version} database queries",
-    interval => 0,
-    connections => dclone($version->{databases}),
-    queries => filter_queries($database_queries, $version->{version}),
-  };
-  push @$jobs, $job;
+# load all *.yml files from input directory and collect the contained query lists
+my $queries;
+foreach my $yml (glob "$queries_directory/*.yml") {
+  my $q;
+  eval { $q = YAML::LoadFile($yml); };
+  die "Error loading $yml: $@" if ($@);
+  next if (ref($q) eq ''); # file is empty
+  die "$yml is not a yaml list:" . ref($q) unless (ref($q) eq 'ARRAY');
+  push @$queries, @$q;
 }
 
+# walk all clusters and databases and produce jobs for them
+my $jobs = [];
+foreach my $version (get_versions()) {
+  foreach my $cluster (get_version_clusters($version)) {
+    my %info = cluster_info($version, $cluster);
+    next unless $info{running}; # cluster is down, skip it
+    my $owner = (getpwuid $info{owneruid})[0] // die "Could not determine owner name of cluster $version $cluster";
+    my $socket = get_cluster_socketdir($version, $cluster);
+
+    # job for cluster-wide queries
+    push @$jobs, {
+      connections => [ "postgres://$owner\@:$info{port}/postgres?sslmode=disable&host=$socket" ],
+      interval => 0,
+      name => "$version/$cluster",
+      queries => filter_queries($queries, 'cluster', $version, $cluster),
+    };
+
+    # jobs for per-database queries
+    my @cluster_databases = get_cluster_databases($version, $cluster);
+    foreach my $database (grep { $_ and $_ !~ /^template[01]$/ } @cluster_databases) {
+      push @$jobs, {
+        connections => [ "postgres://$owner\@:$info{port}/$database?sslmode=disable&host=$socket" ],
+        interval => 0,
+        name => "$version/$cluster/$database",
+        queries => filter_queries($queries, 'database', $version, $cluster, $database),
+      };
+    }
+  }
+}
+
+# write output yml
 YAML::DumpFile($output_yaml, { jobs => $jobs });
