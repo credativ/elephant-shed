@@ -1,5 +1,5 @@
 ---
-# # config file version
+# config file version
 apiVersion: 1
 
 providers:
@@ -8,5 +8,5 @@ providers:
   folder: ''
   type: file
   options:
-    path: /etc/grafana/postgresql_server_overview.json
+    path: /usr/share/elephant-shed/grafana/postgresql_server_overview.json
     datasource: prometheus
