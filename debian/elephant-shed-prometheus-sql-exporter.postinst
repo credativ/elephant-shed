@@ -4,12 +4,6 @@ set -e
 
 case $1 in
   configure)
-    # earlier package versions used a plain file in /etc
-    if test -f /etc/prometheus-sql-exporter.yml && ! test -L /etc/prometheus-sql-exporter.yml; then
-      rm -f /etc/prometheus-sql-exporter.yml
-      ln -s /var/run/postgresql/prometheus-sql-exporter.yml /etc/prometheus-sql-exporter.yml
-    fi
-
     # Generate a new prometheus-sql-exporter.yml now
     # (use systemctl directly because deb-systemd-invoke doesn't like static units)
     systemctl daemon-reload
