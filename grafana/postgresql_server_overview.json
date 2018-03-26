@@ -748,7 +748,7 @@
         }
       ],
       "thresholds": "5,10",
-      "title": "WAL Ready Grows  [1h]",
+      "title": "WAL Ready Growth [1h]",
       "transparent": true,
       "type": "singlestat",
       "valueFontSize": "50%",
@@ -919,7 +919,7 @@
         }
       ],
       "thresholds": "0.7,0.85",
-      "title": "WAL-Senders",
+      "title": "WAL Senders",
       "transparent": true,
       "type": "singlestat",
       "valueFontSize": "50%",
@@ -2373,7 +2373,7 @@
       "id": 75,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL-Connections",
+      "title": "PostgreSQL Connections",
       "type": "row"
     },
     {
@@ -2427,7 +2427,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Connections by state - $datname",
+      "title": "Connections by State - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -2510,7 +2510,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Connections by database - $datname",
+      "title": "Connections by Database - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -2645,7 +2645,7 @@
       "id": 76,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL-Databases",
+      "title": "PostgreSQL Database Size",
       "type": "row"
     },
     {
@@ -2827,7 +2827,7 @@
       "id": 77,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL-Table Scans",
+      "title": "PostgreSQL Table Scans",
       "type": "row"
     },
     {
@@ -3007,7 +3007,7 @@
       "id": 78,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL-Tuples",
+      "title": "PostgreSQL Tuples",
       "type": "row"
     },
     {
@@ -3187,7 +3187,7 @@
       "id": 79,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL-Buffers and Activity",
+      "title": "PostgreSQL Buffers and Activity",
       "type": "row"
     },
     {
@@ -3253,7 +3253,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "WAL-Traffic [$rate_interval]",
+      "title": "WAL Traffic [$rate_interval]",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -3652,7 +3652,7 @@
       "id": 80,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL-Checkpoints",
+      "title": "PostgreSQL Checkpoints",
       "type": "row"
     },
     {
@@ -3790,7 +3790,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "CheckpointOffset",
+      "title": "WAL since last Checkpoint",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -3835,7 +3835,7 @@
       "id": 81,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL-Backgroundmaintenance",
+      "title": "PostgreSQL Background Maintenance",
       "type": "row"
     },
     {
@@ -3892,7 +3892,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Maintenancecounters Rate [$rate_interval] - $datname",
+      "title": "Maintenance Counters Rate [$rate_interval] - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -3977,7 +3977,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Maintenancecounters - $datname",
+      "title": "Maintenance Counters - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -4187,7 +4187,7 @@
       "id": 82,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL-Locks",
+      "title": "PostgreSQL Locks",
       "type": "row"
     },
     {
@@ -4296,7 +4296,7 @@
       "id": 83,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL-Statements",
+      "title": "PostgreSQL Statements",
       "type": "row"
     },
     {
@@ -4352,7 +4352,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Top $ntop_relations Querries by Total Time [$rate_interval] - $datname",
+      "title": "Top $ntop_relations Statements by Total Time [$rate_interval] - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -4438,7 +4438,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Top $ntop_relations Querries by Calls [$rate_interval] - $datname",
+      "title": "Top $ntop_relations Statements by Calls [$rate_interval] - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -4754,7 +4754,7 @@
       "id": 84,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL-Archiving",
+      "title": "PostgreSQL Archiving",
       "type": "row"
     },
     {
@@ -4798,7 +4798,7 @@
           "expr": "delta(sql_archive_ready{host='$host',job=~'$job'}[$rate_interval]) * 16/60/60",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "WAL file grows",
+          "legendFormat": "WAL file growth",
           "refId": "A",
           "step": 60
         }
@@ -4806,7 +4806,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "WAL Ready Files Grows [$rate_interval]",
+      "title": "WAL Files Ready Growth [$rate_interval]",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -4984,7 +4984,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "WAL Archiving Fails [$rate_interval]",
+      "title": "WAL Archiving [$rate_interval]",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -5028,7 +5028,7 @@
       "id": 85,
       "panels": [],
       "repeat": "application_name",
-      "title": "PostgreSQL-Replication - $application_name",
+      "title": "PostgreSQL Replication - $application_name",
       "type": "row"
     },
     {
@@ -5502,5 +5502,5 @@
   "timezone": "browser",
   "title": "PostgreSQL Server Overview",
   "uid": "5CGjHlRiz",
-  "version": 2
+  "version": 3
 }
