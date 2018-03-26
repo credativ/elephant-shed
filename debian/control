@@ -129,6 +129,7 @@ Description: PostgreSQL dashboard -- Node exporter integration
 Package: elephant-shed-prometheus-sql-exporter
 Architecture: all
 Depends:
+ libyaml-perl,
  postgresql-common,
  prometheus-sql-exporter,
  ${misc:Depends},
