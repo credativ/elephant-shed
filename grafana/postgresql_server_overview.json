@@ -2584,7 +2584,7 @@
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "TXNs commit {{datname}}",
+          "legendFormat": "commits {{datname}}",
           "metric": "sql_pg_stat_database",
           "refId": "A",
           "step": 60
@@ -2593,7 +2593,7 @@
           "expr": "sum by (datname) (rate(sql_pg_stat_database{col='xact_rollback', datname=~'$datname', host=~'$host',job=~'$job'}[$rate_interval]))",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "TXNs rollback {{datname}}",
+          "legendFormat": "rollbacks {{datname}}",
           "refId": "B",
           "step": 60
         }
@@ -2665,8 +2665,8 @@
       "legend": {
         "avg": false,
         "current": false,
-        "hideEmpty": true,
-        "hideZero": true,
+        "hideEmpty": false,
+        "hideZero": false,
         "max": false,
         "min": false,
         "show": true,
@@ -2749,8 +2749,8 @@
       "legend": {
         "avg": true,
         "current": false,
-        "hideEmpty": true,
-        "hideZero": true,
+        "hideEmpty": false,
+        "hideZero": false,
         "max": false,
         "min": false,
         "show": true,
@@ -3705,7 +3705,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Checkpoint Counters [$rate_interval]",
+      "title": "Checkpoints [$rate_interval]",
       "tooltip": {
         "shared": true,
         "sort": 0,
