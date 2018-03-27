@@ -11,38 +11,28 @@
     - "superuser_reserved_connections"
     - "max_wal_senders"
     - "max_prepared_transactions"
-  query: |
+  query: >-
           SELECT
-                  current_setting('max_connections')::float AS max_connections,
-                  current_setting('autovacuum_freeze_max_age')::float AS autovacuum_freeze_max_age,
-                  current_setting('superuser_reserved_connections')::float AS superuser_reserved_connections,
-                  current_setting('max_wal_senders')::float AS max_wal_senders,
-                  current_setting('max_prepared_transactions')::float AS max_prepared_transactions;
+          current_setting('max_connections')::float AS max_connections,
+          current_setting('autovacuum_freeze_max_age')::float AS autovacuum_freeze_max_age,
+          current_setting('superuser_reserved_connections')::float AS superuser_reserved_connections,
+          current_setting('max_wal_senders')::float AS max_wal_senders,
+          current_setting('max_prepared_transactions')::float AS max_prepared_transactions
 
-- name: "pg_locks_sum"
+- name: "pg_locks_SUM"
   help: "number of current locks"
   scope: cluster
   labels:
     - "mode"
   values:
     - "count"
-  query: |
-          SELECT t.mode, count(*)
-          FROM
-            (VALUES
-              ('AccessShareLock'),
-              ('RowShareLock'),
-              ('RowExclusiveLock'),
-              ('ShareUpdateExclusiveLock'),
-              ('ShareLock'),
-              ('ShareRowExclusiveLock'),
-              ('ExclusiveLock'),
-              ('AccessExclusiveLock')
-            ) t(mode)
-            FULL JOIN pg_locks l ON t.mode = l.mode GROUP BY 1;
+  query: >-
+            SELECT t.mode, count(l.mode) FROM
+            (VALUES ('AccessShareLock'), ('RowShareLock'), ('RowExclusiveLock'), ('ShareUpdateExclusiveLock'), ('ShareLock'), ('ShareRowExclusiveLock'), ('ExclusiveLock'), ('AccessExclusiveLock')) t(mode)
+            LEFT JOIN pg_locks l ON t.mode = l.mode GROUP BY 1
 
 - name: "pg_stat_database"
-  help: "Database statistics"
+  help: "database statistics"
   scope: cluster
   type: "counter"
   labels:
@@ -66,33 +56,33 @@
     - "blk_write_time"
     - "freeze_age"
     - "dbsize"
-  query: |
+  query: >-
           SELECT
-              s.datname::text,
-              numbackends::float,
-              xact_commit::float,
-              xact_rollback::float,
-              blks_read::float,
-              blks_hit::float,
-              tup_returned::float,
-              tup_fetched::float,
-              tup_inserted::float,
-              tup_updated::float,
-              tup_deleted::float,
-              conflicts::float,
-              temp_files::float,
-              temp_bytes::float,
-              deadlocks::float,
-              blk_read_time,
-              blk_write_time,
-              age(d.datfrozenxid) AS freeze_age,
-              pg_database_size(s.datname)::float AS dbsize
+          s.datname::text,
+          numbackends::float,
+          xact_commit::float,
+          xact_rollback::float,
+          blks_read::float,
+          blks_hit::float,
+          tup_returned::float,
+          tup_fetched::float,
+          tup_inserted::float,
+          tup_updated::float,
+          tup_deleted::float,
+          conflicts::float,
+          temp_files::float,
+          temp_bytes::float,
+          deadlocks::float,
+          blk_read_time,
+          blk_write_time,
+          age(d.datfrozenxid) AS freeze_age,
+          pg_database_size(s.datname)::float AS dbsize
           FROM pg_stat_database s
           LEFT JOIN pg_database d ON d.datname = s.datname
           WHERE NOT s.datname ~ '^template(0|1)$'
 
 - name: "pg_stat_statements"
-  help: "pg_stat_statements"
+  help: "statement statistics"
   scope: cluster
   labels:
     - "usename"
@@ -113,79 +103,69 @@
     - "local_blks_writte"
     - "temp_blks_read"
     - "temp_blks_written"
-  query: |
-          WITH w_pg_stat_statements AS (
-            SELECT * FROM pg_stat_statements
-          )
+  query: >-
+          WITH w_pg_stat_statements AS ( SELECT * FROM pg_stat_statements)
           (SELECT
-          usename::text
-          , datname::text
-          , queryid::text
-          , substr(regexp_replace(query, E'[\\n\\r]+', ' ', 'g' ),1,1024) AS query
-          , calls
-          , total_time
-          , rows
-          , shared_blks_hit
-          , shared_blks_read
-          , shared_blks_dirtied
-          , shared_blks_written
-          , local_blks_hit
-          , local_blks_read
-          , local_blks_dirtied
-          , local_blks_written
-          , temp_blks_read
-          , temp_blks_written
-          FROM w_pg_stat_statements pss
-           JOIN pg_database pd
-            ON pss.dbid = pd.oid
-          JOIN pg_user pu
-            ON pss.userid = pu.usesysid
+          usename::text,
+          datname::text,
+          queryid::text,
+          substr(regexp_replace(query, E'[\\n\\r]+', ' ', 'g' ), 1, 1024) AS query,
+          calls,
+          total_time,
+          rows,
+          shared_blks_hit,
+          shared_blks_read,
+          shared_blks_dirtied,
+          shared_blks_written,
+          local_blks_hit,
+          local_blks_read,
+          local_blks_dirtied,
+          local_blks_written,
+          temp_blks_read,
+          temp_blks_written
+          FROM w_pg_stat_statements pss JOIN pg_database pd ON pss.dbid = pd.oid
+          JOIN pg_user pu ON pss.userid = pu.usesysid
           ORDER BY pss.total_time DESC
           LIMIT 25)
           UNION
           SELECT
-          usename::text
-          , datname::text
-          , queryid::text
-          , substr(regexp_replace(query, E'[\\n\\r]+', ' ', 'g' ),1,1024) AS query
-          , calls
-          , total_time
-          , rows
-          , shared_blks_hit
-          , shared_blks_read
-          , shared_blks_dirtied
-          , shared_blks_written
-          , local_blks_hit
-          , local_blks_read
-          , local_blks_dirtied
-          , local_blks_written
-          , temp_blks_read
-          , temp_blks_written
-          FROM w_pg_stat_statements pss2
-           JOIN pg_database pd2
-            ON pss2.dbid = pd2.oid
-          JOIN pg_user pu2
-            ON pss2.userid = pu2.usesysid
+          usename::text,
+          datname::text,
+          queryid::text,
+          substr(regexp_replace(query, E'[\\n\\r]+', ' ', 'g' ), 1, 1024) AS query,
+          calls,
+          total_time,
+          rows,
+          shared_blks_hit,
+          shared_blks_read,
+          shared_blks_dirtied,
+          shared_blks_written,
+          local_blks_hit,
+          local_blks_read,
+          local_blks_dirtied,
+          local_blks_written,
+          temp_blks_read,
+          temp_blks_written
+          FROM w_pg_stat_statements pss2 JOIN pg_database pd2 ON pss2.dbid = pd2.oid
+          JOIN pg_user pu2 ON pss2.userid = pu2.usesysid
           ORDER BY calls DESC
-          LIMIT 25;
+          LIMIT 25
 
 - name: "txid"
   help: "current txid"
   scope: cluster
   values:
     - "txid_current"
-  query: |
-          SELECT
-          txid_current();
+  query: SELECT txid_current()
 
 - name: "prepared_transactions"
-  help: "Prepared Transactions"
+  help: "prepared transactions"
   scope: cluster
   labels:
     - "datname"
   values:
     - "count"
-  query: |
+  query: >-
           SELECT
           datname::text,
           COUNT(transaction) AS count
@@ -197,7 +177,7 @@
 # queries run for each database (except template0/template1)
 
 - name: "pg_stat_user_tables"
-  help: "Table stats"
+  help: "table statistics"
   scope: database
   labels:
     - "datname"
@@ -218,29 +198,29 @@
     - "autovacuum_count"
     - "analyze_count"
     - "autoanalyze_count"
-  query: |
+  query: >-
           SELECT
-            current_database()::text AS datname
-          , coalesce(schemaname::text, 'null') AS schemaname
-          , coalesce(relname::text, 'null') AS relname
-          , coalesce(seq_scan,0)::float AS seq_scan
-          , coalesce(seq_tup_read,0)::float AS seq_tup_read
-          , coalesce(idx_scan,0)::float AS idx_scan
-          , coalesce(idx_tup_fetch,0)::float AS idx_tup_fetch
-          , coalesce(n_tup_ins,0)::float AS n_tup_ins
-          , coalesce(n_tup_upd,0)::float AS n_tup_upd
-          , coalesce(n_tup_del,0)::float AS n_tup_del
-          , coalesce(n_tup_hot_upd,0)::float AS n_tup_hot_upd
-          , coalesce(n_live_tup,0)::float AS n_live_tup
-          , coalesce(n_dead_tup,0)::float AS n_dead_tup
-          , coalesce(vacuum_count,0)::float AS vacuum_count
-          , coalesce(autovacuum_count,0)::float AS autovacuum_count
-          , coalesce(analyze_count,0)::float AS analyze_count
-          , coalesce(autoanalyze_count,0)::float AS autoanalyze_count
-          FROM pg_stat_user_tables FULL JOIN (VALUES(0)) filler(i) ON TRUE;
+          current_database()::text AS datname,
+          COALESCE(schemaname::text, 'null') AS schemaname,
+          COALESCE(relname::text, 'null') AS relname,
+          COALESCE(seq_scan, 0)::float AS seq_scan,
+          COALESCE(seq_tup_read, 0)::float AS seq_tup_read,
+          COALESCE(idx_scan, 0)::float AS idx_scan,
+          COALESCE(idx_tup_fetch, 0)::float AS idx_tup_fetch,
+          COALESCE(n_tup_ins, 0)::float AS n_tup_ins,
+          COALESCE(n_tup_upd, 0)::float AS n_tup_upd,
+          COALESCE(n_tup_del, 0)::float AS n_tup_del,
+          COALESCE(n_tup_hot_upd, 0)::float AS n_tup_hot_upd,
+          COALESCE(n_live_tup, 0)::float AS n_live_tup,
+          COALESCE(n_dead_tup, 0)::float AS n_dead_tup,
+          COALESCE(vacuum_count, 0)::float AS vacuum_count,
+          COALESCE(autovacuum_count, 0)::float AS autovacuum_count,
+          COALESCE(analyze_count, 0)::float AS analyze_count,
+          COALESCE(autoanalyze_count, 0)::float AS autoanalyze_count
+          FROM pg_stat_user_tables FULL JOIN (VALUES(0)) filler(i) ON TRUE
 
 - name: "pg_statio_user_tables"
-  help: "IO Stats"
+  help: "IO statistics"
   scope: database
   labels:
     - "datname"
@@ -251,19 +231,19 @@
     - "heap_blks_hit"
     - "idx_blks_read"
     - "idx_blks_hit"
-  query: |
+  query: >-
           SELECT
-            current_database()::text AS datname
-          , COALESCE(schemaname::text, 'null') AS schemaname
-          , COALESCE(relname::text, 'null') AS relname
-          , COALESCE(heap_blks_read::float,0) AS heap_blks_read
-          , COALESCE(heap_blks_hit::float,0) AS heap_blks_hit
-          , COALESCE(idx_blks_read::float,0) AS idx_blks_read
-          , COALESCE(idx_blks_hit::float,0) AS idx_blks_hit
-          FROM pg_statio_user_tables FULL JOIN (VALUES(0)) filler(i) ON TRUE;
+          current_database()::text AS datname,
+          COALESCE(schemaname::text, 'null') AS schemaname,
+          COALESCE(relname::text, 'null') AS relname,
+          COALESCE(heap_blks_read::float, 0) AS heap_blks_read,
+          COALESCE(heap_blks_hit::float, 0) AS heap_blks_hit,
+          COALESCE(idx_blks_read::float, 0) AS idx_blks_read,
+          COALESCE(idx_blks_hit::float, 0) AS idx_blks_hit
+          FROM pg_statio_user_tables FULL JOIN (VALUES(0)) filler(i) ON TRUE
 
 - name: "BufferAccess"
-  help: "Buffers Accessed"
+  help: "buffer access statistics"
   scope: database
   labels:
     - "datname"
@@ -271,24 +251,24 @@
     - "relname"
   values:
     - "reads"
-  query: |
+  query: >-
           SELECT
           current_database()::text AS datname,
           COALESCE(schemaname::text, 'null') AS schemaname,
           COALESCE(relname::text, 'null') AS relname,
-          sum( coalesce( heap_blks_read,0)
-          + coalesce(heap_blks_hit,0)
-          + coalesce(idx_blks_hit,0)
-          + coalesce(idx_blks_read,0)
-          + coalesce(toast_blks_hit,0)
-          + coalesce(toast_blks_read,0)
-          + coalesce(tidx_blks_hit,0)
-          + coalesce(tidx_blks_read,0))*8196::bigint as reads
+          SUM(COALESCE(heap_blks_read, 0)
+          + COALESCE(heap_blks_hit, 0)
+          + COALESCE(idx_blks_hit, 0)
+          + COALESCE(idx_blks_read, 0)
+          + COALESCE(toast_blks_hit, 0)
+          + COALESCE(toast_blks_read, 0)
+          + COALESCE(tidx_blks_hit, 0)
+          + COALESCE(tidx_blks_read, 0)) * 8192::bigint as reads
           FROM pg_statio_user_tables FULL JOIN (VALUES(0)) filler(i) ON TRUE
-          GROUP BY 1,2,3;
+          GROUP BY 1, 2, 3
 
 - name: "Maintenancecounters"
-  help: "Counters for maintenance jobs on user tables"
+  help: "table maintenance job counters"
   scope: database
   labels:
     - "datname"
@@ -297,11 +277,11 @@
     - "autovacuum_count"
     - "analyze_count"
     - "autoanalyze_count"
-  query: |
+  query: >-
           SELECT
           current_database()::text AS datname,
-          sum(vacuum_count) vacuum_count,
-          sum(autovacuum_count) autovacuum_count,
-          sum(analyze_count) analyze_count,
-          sum(autoanalyze_count) autoanalyze_count
-          FROM pg_stat_all_tables;
+          COALESCE(SUM(vacuum_count), 0) vacuum_count,
+          COALESCE(SUM(autovacuum_count), 0) autovacuum_count,
+          COALESCE(SUM(analyze_count), 0) analyze_count,
+          COALESCE(SUM(autoanalyze_count), 0) autoanalyze_count
+          FROM pg_stat_user_tables

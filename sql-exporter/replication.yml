@@ -1,25 +1,23 @@
 # queries run once per cluster (via the 'postgres' database)
 
 - name: "archive_ready"
-  help: "archive_ready"
+  help: "number of WAL files waiting to be archived"
   scope: cluster
   max_version: 9.6
   values:
     - "archive_ready"
-  query: |
-          SELECT COUNT(1) AS archive_ready FROM pg_ls_dir('./pg_xlog/archive_status') WHERE pg_ls_dir ~ '^[0-9a-fA-F]{24}\.ready$';
+  query: SELECT COUNT(*) AS archive_ready FROM pg_ls_dir('pg_xlog/archive_status') WHERE pg_ls_dir ~ '^[0-9a-fA-F]{24}\.ready$'
 
 - name: "archive_ready"
-  help: "archive_ready"
+  help: "number of WAL files waiting to be archived"
   scope: cluster
   min_version: 10
   values:
     - "archive_ready"
-  query: |
-          SELECT COUNT(1) AS archive_ready FROM pg_ls_dir('./pg_wal/archive_status') WHERE pg_ls_dir ~ '^[0-9a-fA-F]{24}\.ready$';
+  query: SELECT COUNT(*) AS archive_ready FROM pg_ls_dir('./pg_wal/archive_status') WHERE pg_ls_dir ~ '^[0-9a-fA-F]{24}\.ready$'
 
 - name: "pg_stat_archiver"
-  help: "pg_stat_archiver"
+  help: "archiver statistics"
   scope: cluster
   values:
     - "archived_count"
@@ -27,7 +25,7 @@
     - "failed_count"
     - "last_failed_time"
     - "stats_reset"
-  query: |
+  query: >-
           SELECT
           archived_count,
           EXTRACT(EPOCH FROM last_archived_time),
@@ -37,7 +35,7 @@
           FROM pg_stat_archiver
 
 - name: "pg_stat_replication"
-  help: "pg_stat_replication"
+  help: "replication statistics"
   scope: cluster
   min_version: 9.0
   max_version: 9.6
@@ -55,7 +53,7 @@
     - "send_lag_bytes"
     - "flush_lag_bytes"
     - "replay_lag_bytes"
-  query: |
+  query: >-
           SELECT
           COALESCE(pid, 0) AS pid,
           COALESCE(application_name, ' ')::text AS application_name,
@@ -72,7 +70,7 @@
           FROM pg_stat_replication FULL JOIN (VALUES(0)) filler(i) ON TRUE
 
 - name: "pg_stat_replication"
-  help: "pg_stat_replication"
+  help: "replication statistics"
   scope: cluster
   min_version: 10
   labels:
@@ -89,7 +87,7 @@
     - "send_lag_bytes"
     - "flush_lag_bytes"
     - "replay_lag_bytes"
-  query: |
+  query: >-
           SELECT
           COALESCE(pid, 0) AS pid,
           COALESCE(application_name, ' ')::text AS application_name,
