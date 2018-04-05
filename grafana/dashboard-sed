@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# To use, select Share > Export > Save to file in Grafana, and do:
+# grafana/dashboard-sed ~/Desktop/PostgreSQL\ Server\ Overview-* > grafana/postgresql_server_overview.json ; rm -f ~/Desktop/PostgreSQL\ Server\ Overview*
+
+# replace DS_PROMETHEUS by prometheus
+# replace "Overview Copy" by "Overview"
+
+sed -e 's/${DS_PROMETHEUS}/prometheus/' \
+    -e 's/"title": "PostgreSQL Server Overview.*/"title": "PostgreSQL Server Overview",/' \
+    "$@"
