@@ -59,7 +59,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1522850115926,
+  "iteration": 1522930793833,
   "links": [],
   "panels": [
     {
@@ -73,7 +73,7 @@
       "id": 69,
       "panels": [],
       "repeat": null,
-      "title": "Summary - $host",
+      "title": "Summary for $host",
       "type": "row"
     },
     {
@@ -1765,7 +1765,7 @@
       "description": "Reads are shown above the \nzero line (>0) and writes are shown below (<0).",
       "fill": 5,
       "gridPos": {
-        "h": 10,
+        "h": 9,
         "w": 8,
         "x": 0,
         "y": 38
@@ -1881,7 +1881,7 @@
       "description": "Reads are shown above the \nzero line (>0) and writes are shown below (<0).",
       "fill": 5,
       "gridPos": {
-        "h": 10,
+        "h": 9,
         "w": 8,
         "x": 8,
         "y": 38
@@ -1951,7 +1951,7 @@
       },
       "yaxes": [
         {
-          "format": "decbytes",
+          "format": "Bps",
           "label": "Read/Write (bytes)",
           "logBase": 1,
           "max": null,
@@ -1977,7 +1977,7 @@
       "description": "Reads are shown above the \nzero line (>0) and writes are shown below (<0).",
       "fill": 5,
       "gridPos": {
-        "h": 10,
+        "h": 9,
         "w": 8,
         "x": 16,
         "y": 38
@@ -1990,7 +1990,7 @@
         "hideEmpty": true,
         "hideZero": true,
         "max": true,
-        "min": true,
+        "min": false,
         "show": false,
         "total": false,
         "values": true
@@ -2072,7 +2072,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 48
+        "y": 47
       },
       "id": 74,
       "panels": [],
@@ -2092,7 +2092,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 49
+        "y": 48
       },
       "id": 20,
       "legend": {
@@ -2157,7 +2157,7 @@
       },
       "yaxes": [
         {
-          "format": "bytes",
+          "format": "Bps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -2184,9 +2184,9 @@
       "fill": 3,
       "gridPos": {
         "h": 7,
-        "w": 6,
+        "w": 12,
         "x": 12,
-        "y": 49
+        "y": 48
       },
       "id": 21,
       "legend": {
@@ -2223,7 +2223,7 @@
           "step": 120
         },
         {
-          "expr": "-1* irate(node_network_transmit_packets{device=~'$interface',job=~'$job'}[$rate_interval])",
+          "expr": "-1 * irate(node_network_transmit_packets{device=~'$interface',job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2251,101 +2251,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ]
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "description": "RX is shown above the \nzero line (>0) and TX is shown below (<0).",
-      "fill": 3,
-      "gridPos": {
-        "h": 7,
-        "w": 6,
-        "x": 18,
-        "y": 49
-      },
-      "id": 22,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "irate(node_network_receive_fifo{device=~'$interface',job=~'$job'}[$rate_interval])",
-          "format": "time_series",
-          "hide": false,
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "Received {{device}}",
-          "metric": "node_network_receive_fifo",
-          "refId": "B",
-          "step": 120
-        },
-        {
-          "expr": "-1* irate(node_network_transmit_fifo{device=~'$interface',job=~'$job'}[$rate_interval])",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "Send {{device}}",
-          "refId": "A",
-          "step": 120
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Network FiFo Queue [$rate_interval] - $interface",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
+          "format": "iops",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -2368,279 +2274,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 56
-      },
-      "id": 75,
-      "panels": [],
-      "repeat": null,
-      "title": "PostgreSQL Connections",
-      "type": "row"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "fill": 5,
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 0,
-        "y": 57
-      },
-      "id": 8,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "sum by (state) (sql_pg_stat_activity{col='count', datname=~'$datname',host=~'$host',job=~'$job'})",
-          "format": "time_series",
-          "hide": false,
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "{{state}}",
-          "metric": "sql_pg_stat_activity",
-          "refId": "A",
-          "step": 60
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Connections by State - $datname",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": "Count",
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ]
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "fill": 5,
-      "gridPos": {
-        "h": 7,
-        "w": 6,
-        "x": 8,
-        "y": 57
-      },
-      "id": 9,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "sum by (datname) (sql_pg_stat_activity{col='count', datname=~'$datname',host=~'$host',job=~'$job'})",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "{{datname}}",
-          "metric": "sql_pg_stat_activity",
-          "refId": "A",
-          "step": 60
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Connections by Database - $datname",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": "Count",
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ]
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "fill": 1,
-      "gridPos": {
-        "h": 7,
-        "w": 10,
-        "x": 14,
-        "y": 57
-      },
-      "id": 10,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "sum by (datname) (rate(sql_pg_stat_database{col='xact_commit', datname=~'$datname', host=~'$host',job=~'$job'}[$rate_interval]))",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "commits {{datname}}",
-          "metric": "sql_pg_stat_database",
-          "refId": "A",
-          "step": 60
-        },
-        {
-          "expr": "sum by (datname) (rate(sql_pg_stat_database{col='xact_rollback', datname=~'$datname', host=~'$host',job=~'$job'}[$rate_interval]))",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "rollbacks {{datname}}",
-          "refId": "B",
-          "step": 60
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Transactions by database [$rate_interval] - $datname",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ]
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 64
+        "y": 55
       },
       "id": 76,
       "panels": [],
@@ -2656,10 +2290,10 @@
       "datasource": "prometheus",
       "fill": 1,
       "gridPos": {
-        "h": 8,
+        "h": 7,
         "w": 12,
         "x": 0,
-        "y": 65
+        "y": 56
       },
       "id": 67,
       "legend": {
@@ -2715,7 +2349,7 @@
       },
       "yaxes": [
         {
-          "format": "decbytes",
+          "format": "Bps",
           "label": "",
           "logBase": 1,
           "max": null,
@@ -2740,10 +2374,10 @@
       "datasource": "prometheus",
       "fill": 1,
       "gridPos": {
-        "h": 8,
+        "h": 7,
         "w": 12,
         "x": 12,
-        "y": 65
+        "y": 56
       },
       "id": 68,
       "legend": {
@@ -2822,12 +2456,12 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 73
+        "y": 63
       },
-      "id": 77,
+      "id": 75,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL Table Scans",
+      "title": "PostgreSQL Connections",
       "type": "row"
     },
     {
@@ -2838,12 +2472,12 @@
       "datasource": "prometheus",
       "fill": 5,
       "gridPos": {
-        "h": 9,
+        "h": 7,
         "w": 12,
         "x": 0,
-        "y": 74
+        "y": 64
       },
-      "id": 5,
+      "id": 8,
       "legend": {
         "avg": false,
         "current": false,
@@ -2867,20 +2501,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{col='seq_scan',database=~'$datname', host=~'$host',job=~'$job'}[$rate_interval]))",
+          "expr": "sum by (state) (sql_pg_stat_activity{col='count',datname=~'$datname',host='$host',job='$job'})",
           "format": "time_series",
+          "hide": false,
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "seq scans {{schemaname}}.{{relname}} ({{database}})",
-          "metric": "",
-          "refId": "B",
-          "step": 40
+          "legendFormat": "{{state}}",
+          "metric": "sql_pg_stat_activity",
+          "refId": "A",
+          "step": 60
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Sequential Scans [$rate_interval] (top $ntop_relations) - $datname",
+      "title": "Connections by State - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -2897,7 +2532,7 @@
       "yaxes": [
         {
           "format": "short",
-          "label": null,
+          "label": "",
           "logBase": 1,
           "max": null,
           "min": "0",
@@ -2921,12 +2556,12 @@
       "datasource": "prometheus",
       "fill": 5,
       "gridPos": {
-        "h": 9,
+        "h": 7,
         "w": 12,
         "x": 12,
-        "y": 74
+        "y": 64
       },
-      "id": 55,
+      "id": 9,
       "legend": {
         "avg": false,
         "current": false,
@@ -2950,20 +2585,20 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{col='idx_scan',database=~'$datname', host=~'$host',job=~'$job'}[$rate_interval]))",
+          "expr": "sum by (datname) (sql_pg_stat_activity{col='count', datname=~'$datname',host=~'$host',job=~'$job'})",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "idx scans {{schemaname}}.{{relname}} ({{database}})",
-          "metric": "sql_pg_stat_user_tables",
+          "legendFormat": "{{datname}}",
+          "metric": "sql_pg_stat_activity",
           "refId": "A",
-          "step": 40
+          "step": 60
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Index Scans [$rate_interval] (top $ntop_relations) - $datname",
+      "title": "Connections by Database - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -2980,7 +2615,7 @@
       "yaxes": [
         {
           "format": "short",
-          "label": null,
+          "label": "",
           "logBase": 1,
           "max": null,
           "min": "0",
@@ -3002,13 +2637,402 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 83
+        "y": 71
+      },
+      "id": 93,
+      "panels": [],
+      "title": "PostgreSQL Transactions and Locks",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fill": 1,
+      "gridPos": {
+        "h": 7,
+        "w": 9,
+        "x": 0,
+        "y": 72
+      },
+      "id": 10,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum by (datname) (rate(sql_pg_stat_database{col='xact_commit', datname=~'$datname', host=~'$host',job=~'$job'}[$rate_interval]))",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "commits {{datname}}",
+          "metric": "sql_pg_stat_database",
+          "refId": "A",
+          "step": 60
+        },
+        {
+          "expr": "sum by (datname) (rate(sql_pg_stat_database{col='xact_rollback', datname=~'$datname', host=~'$host',job=~'$job'}[$rate_interval]))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "rollbacks {{datname}}",
+          "refId": "B",
+          "step": 60
+        },
+        {
+          "expr": "rate(sql_txid{host=~'$host',job=~'$job'}[$rate_interval])",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "TXIDs (global)",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Transactions by database [$rate_interval] - $datname",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ops",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fill": 1,
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 9,
+        "y": 72
+      },
+      "id": 91,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": true,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "max by (datname) (sql_pg_stat_activity{col=\"max_tx_duration\"})",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "{{datname}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Maximum Transaction Age",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "s",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ]
+    },
+    {
+      "aliasColors": {
+        "AccessExclusiveLock": "#99440A",
+        "ExclusiveLock": "#BF1B00"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fill": 3,
+      "gridPos": {
+        "h": 7,
+        "w": 7,
+        "x": 17,
+        "y": 72
+      },
+      "id": 42,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "ExclusiveLock",
+          "color": "#BF1B00",
+          "fill": 6,
+          "linewidth": 4
+        },
+        {
+          "alias": "AccessExclusiveLock",
+          "color": "#58140C"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum (sql_pg_locks{host='$host',datname=~'$datname',job=~'$job'}) by (mode)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "{{ mode }}",
+          "refId": "A",
+          "step": 20
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Locks - $datname",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 79
       },
       "id": 78,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL Tuples",
+      "title": "PostgreSQL Tuples and Buffers",
       "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fill": 1,
+      "gridPos": {
+        "h": 7,
+        "w": 10,
+        "x": 0,
+        "y": 80
+      },
+      "id": 24,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "hideZero": true,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(sql_pg_stat_database{host='$host',datname=~'$datname',col=~'tup_inserted',job=~'$job'}[$rate_interval])",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 2,
+          "legendFormat": "Insert {{datname}}",
+          "refId": "B",
+          "step": 120
+        },
+        {
+          "expr": "rate(sql_pg_stat_database{host='$host',datname=~'$datname',col=~'tup_updated',job=~'$job'}[$rate_interval])",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 2,
+          "legendFormat": "Update {{datname}}",
+          "refId": "C",
+          "step": 120
+        },
+        {
+          "expr": "rate(sql_pg_stat_database{host='$host',datname=~'$datname',col=~'tup_deleted',job=~'$job'}[$rate_interval])",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 2,
+          "legendFormat": "Delete {{datname}}",
+          "refId": "D",
+          "step": 120
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Inserts Updates Deletes [$rate_interval]",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ops",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
     },
     {
       "aliasColors": {},
@@ -3019,9 +3043,9 @@
       "fill": 5,
       "gridPos": {
         "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 84
+        "w": 7,
+        "x": 10,
+        "y": 80
       },
       "id": 16,
       "legend": {
@@ -3102,9 +3126,9 @@
       "fill": 5,
       "gridPos": {
         "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 84
+        "w": 7,
+        "x": 17,
+        "y": 80
       },
       "id": 12,
       "legend": {
@@ -3182,12 +3206,281 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 91
+        "y": 87
       },
-      "id": 79,
+      "id": 77,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL Buffers and Activity",
+      "title": "PostgreSQL Table Scans",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fill": 5,
+      "gridPos": {
+        "h": 8,
+        "w": 9,
+        "x": 0,
+        "y": 88
+      },
+      "id": 5,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{col='seq_scan',database=~'$datname', host=~'$host',job=~'$job'}[$rate_interval]))",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "seq scans {{schemaname}}.{{relname}} ({{database}})",
+          "metric": "",
+          "refId": "B",
+          "step": 40
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Sequential Scans [$rate_interval] (top $ntop_relations) - $datname",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ops",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fill": 5,
+      "gridPos": {
+        "h": 8,
+        "w": 9,
+        "x": 9,
+        "y": 88
+      },
+      "id": 55,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{col='idx_scan',database=~'$datname', host=~'$host',job=~'$job'}[$rate_interval]))",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "idx scans {{schemaname}}.{{relname}} ({{database}})",
+          "metric": "sql_pg_stat_user_tables",
+          "refId": "A",
+          "step": 40
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Index Scans [$rate_interval] (top $ntop_relations) - $datname",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ops",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 88
+      },
+      "id": 27,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(rate(sql_pg_stat_database{host=~'$host',datname=~'$datname',col='blks_hit',job=~'$job'}[$rate_interval]))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "Hits",
+          "refId": "B",
+          "step": 60
+        },
+        {
+          "expr": "sum(rate(sql_pg_stat_database{host=~'$host',datname=~'$datname',col='blks_read',job=~'$job'}[$rate_interval]))",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "Misses",
+          "refId": "C",
+          "step": 60
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Buffer Hits and Misses [$rate_interval] - $datname",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ops",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 96
+      },
+      "id": 80,
+      "panels": [],
+      "repeat": null,
+      "title": "PostgreSQL Transaction Log and Checkpoints",
       "type": "row"
     },
     {
@@ -3199,9 +3492,9 @@
       "fill": 1,
       "gridPos": {
         "h": 7,
-        "w": 6,
+        "w": 7,
         "x": 0,
-        "y": 92
+        "y": 97
       },
       "id": 26,
       "legend": {
@@ -3231,7 +3524,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "increase(sql_waldistance{host=~'$host',job=~'$job'}[$rate_interval])",
+          "expr": "rate(sql_waldistance{host=~'$host',job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3239,15 +3532,6 @@
           "metric": "sql_waldistance",
           "refId": "A",
           "step": 60
-        },
-        {
-          "expr": "sql_waldistance{host=~'$host',job=~'$job'}",
-          "format": "time_series",
-          "hide": true,
-          "intervalFactor": 2,
-          "legendFormat": "WAL total",
-          "refId": "B",
-          "step": 600
         }
       ],
       "thresholds": [],
@@ -3269,7 +3553,7 @@
       },
       "yaxes": [
         {
-          "format": "decbytes",
+          "format": "Bps",
           "label": "",
           "logBase": 1,
           "max": null,
@@ -3295,378 +3579,9 @@
       "fill": 1,
       "gridPos": {
         "h": 7,
-        "w": 6,
-        "x": 6,
-        "y": 92
-      },
-      "id": 27,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "sum(rate(sql_pg_stat_database{host=~'$host', datname=~'$datname', col=~'(blks_hit)',job=~'$job'}[$rate_interval]))",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "Hits",
-          "refId": "B",
-          "step": 60
-        },
-        {
-          "expr": "sum(rate(sql_pg_stat_database{host=~'$host', datname=~'$datname', col=~'(blks_read)',job=~'$job'}[$rate_interval]))",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "Miss",
-          "refId": "C",
-          "step": 60
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Buffer Hits and Misses [$rate_interval] - $datname",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ]
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "fill": 1,
-      "gridPos": {
-        "h": 7,
-        "w": 4,
-        "x": 12,
-        "y": 92
-      },
-      "id": 24,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "sum(rate(sql_pg_stat_database{host='$host', col=~'tup_inserted',job=~'$job'}[$rate_interval]))",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 2,
-          "legendFormat": "Insert",
-          "refId": "B",
-          "step": 120
-        },
-        {
-          "expr": "sum(rate(sql_pg_stat_database{host='$host', col=~'tup_updated',job=~'$job'}[$rate_interval]))",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 2,
-          "legendFormat": "Update",
-          "refId": "C",
-          "step": 120
-        },
-        {
-          "expr": "sum(rate(sql_pg_stat_database{host='$host', col=~'tup_deleted',job=~'$job'}[$rate_interval]))",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 2,
-          "legendFormat": "Delete",
-          "refId": "D",
-          "step": 120
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Inserts Updates Deletes [$rate_interval]",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "ops",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": false
-        }
-      ]
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "fill": 1,
-      "gridPos": {
-        "h": 7,
-        "w": 4,
-        "x": 16,
-        "y": 92
-      },
-      "id": 56,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "rate(sql_txid{host=~'$host',job=~'$job'}[$rate_interval])",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "TXID Rate",
-          "metric": "sql_txid",
-          "refId": "A",
-          "step": 120
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "TXID Rate [$rate_interval]",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ]
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "fill": 1,
-      "gridPos": {
-        "h": 7,
-        "w": 4,
-        "x": 20,
-        "y": 92
-      },
-      "id": 25,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "sql_txid{host=~'$host',job=~'$job'}",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "CurrentTXID",
-          "metric": "sql_txid",
-          "refId": "A",
-          "step": 120
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Current TXID",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ]
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 99
-      },
-      "id": 80,
-      "panels": [],
-      "repeat": null,
-      "title": "PostgreSQL Checkpoints",
-      "type": "row"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "fill": 1,
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 100
+        "w": 9,
+        "x": 7,
+        "y": 97
       },
       "id": 29,
       "legend": {
@@ -3692,7 +3607,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "increase(sql_checkpoints{host=~'$host',job=~'$job'}[$rate_interval])",
+          "expr": "60 * rate(sql_checkpoints{host=~'$host',job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3705,7 +3620,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Checkpoints [$rate_interval]",
+      "title": "Checkpoints per Minute [$rate_interval]",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -3721,7 +3636,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "opm",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -3749,9 +3664,9 @@
       "fill": 1,
       "gridPos": {
         "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 100
+        "w": 8,
+        "x": 16,
+        "y": 97
       },
       "id": 31,
       "legend": {
@@ -3807,7 +3722,7 @@
       },
       "yaxes": [
         {
-          "format": "decbytes",
+          "format": "bytes",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -3830,12 +3745,12 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 107
+        "y": 104
       },
       "id": 81,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL Background Maintenance",
+      "title": "PostgreSQL Vacuum and Analyze",
       "type": "row"
     },
     {
@@ -3847,9 +3762,9 @@
       "fill": 1,
       "gridPos": {
         "h": 7,
-        "w": 8,
+        "w": 10,
         "x": 0,
-        "y": 108
+        "y": 105
       },
       "id": 30,
       "legend": {
@@ -3879,7 +3794,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(sql_Maintenancecounters{host=~'$host', database=~'$datname',job=~'$job'}[$rate_interval])",
+          "expr": "60 * rate(sql_Maintenancecounters{host=~'$host', database=~'$datname',job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3892,7 +3807,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Maintenance Counters Rate [$rate_interval] - $datname",
+      "title": "Maintenance Operations per Minute [$rate_interval] - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -3908,7 +3823,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "opm",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -3934,9 +3849,9 @@
       "fill": 1,
       "gridPos": {
         "h": 7,
-        "w": 8,
-        "x": 8,
-        "y": 108
+        "w": 9,
+        "x": 10,
+        "y": 105
       },
       "id": 53,
       "legend": {
@@ -4019,92 +3934,9 @@
       "fill": 1,
       "gridPos": {
         "h": 7,
-        "w": 4,
-        "x": 16,
-        "y": 108
-      },
-      "id": 28,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "rate(sql_pg_stat_database{col='freeze_age', host=~'$host',job=~'$job'}[$rate_interval])",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 2,
-          "legendFormat": "{{ datname }}",
-          "metric": "sql_freeze_age",
-          "refId": "A",
-          "step": 120
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Freeze Age Rate [$rate_interval]",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ]
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "fill": 1,
-      "gridPos": {
-        "h": 7,
-        "w": 4,
-        "x": 20,
-        "y": 108
+        "w": 5,
+        "x": 19,
+        "y": 105
       },
       "id": 54,
       "legend": {
@@ -4143,7 +3975,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Freeze Age",
+      "title": "Database Freeze Age",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -4182,116 +4014,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 115
-      },
-      "id": 82,
-      "panels": [],
-      "repeat": null,
-      "title": "PostgreSQL Locks",
-      "type": "row"
-    },
-    {
-      "aliasColors": {
-        "AccessExclusiveLock": "#99440A",
-        "ExclusiveLock": "#BF1B00"
-      },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "fill": 3,
-      "gridPos": {
-        "h": 7,
-        "w": 24,
-        "x": 0,
-        "y": 116
-      },
-      "id": 42,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "alias": "ExclusiveLock",
-          "color": "#BF1B00",
-          "fill": 6,
-          "linewidth": 4
-        },
-        {
-          "alias": "AccessExclusiveLock",
-          "color": "#58140C"
-        }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "sql_pg_locks_sum{host='$host', database=~'$datname',job=~'$job'}",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "{{ mode }}",
-          "refId": "A",
-          "step": 20
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Locks - $datname",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ]
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 123
+        "y": 112
       },
       "id": 84,
       "panels": [],
@@ -4311,7 +4034,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 124
+        "y": 113
       },
       "id": 52,
       "legend": {
@@ -4337,7 +4060,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "delta(sql_archive_ready{host='$host',job=~'$job'}[$rate_interval]) * 16/60/60",
+          "expr": "delta(sql_archive_ready{host='$host',job=~'$job'}[$rate_interval]) * 16",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "WAL file growth",
@@ -4393,7 +4116,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 124
+        "y": 113
       },
       "id": 51,
       "legend": {
@@ -4471,13 +4194,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
-      "description": "Successful and failing archive commands over $rate_interval.",
+      "description": "Successful and failed archive commands per minute.",
       "fill": 1,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 124
+        "y": 113
       },
       "id": 47,
       "legend": {
@@ -4503,30 +4226,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "increase(sql_pg_stat_archiver{host='$host', col='archived_count',job=~'$job'}[$rate_interval]) ",
+          "expr": "60 * rate(sql_pg_stat_archiver{host='$host',job=~'$job',col=~'archived_count|failed_count'}[$rate_interval]) ",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "archived_count",
+          "legendFormat": "{{col}}",
           "metric": "",
           "refId": "B",
-          "step": 60
-        },
-        {
-          "expr": "increase(sql_pg_stat_archiver{host='$host', col='failed_count',job=~'$job'}[$rate_interval]) ",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 2,
-          "legendFormat": "failed_count",
-          "refId": "C",
           "step": 60
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "WAL Archiving [$rate_interval]",
+      "title": "WAL Archiving per Minute [$rate_interval]",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -4542,7 +4256,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "opm",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -4565,12 +4279,12 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 131
+        "y": 120
       },
       "id": 85,
       "panels": [],
-      "repeat": "application_name",
-      "title": "PostgreSQL Replication - $application_name",
+      "repeat": null,
+      "title": "PostgreSQL Replication",
       "type": "row"
     },
     {
@@ -4589,7 +4303,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 132
+        "y": 121
       },
       "id": 60,
       "legend": {
@@ -4618,10 +4332,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(sql_pg_stat_replication{host='$host',application_name=~'$application_name',col=~'(send_lag_bytes|flush_lag_bytes|replay_lag_bytes)',job=~'$job'}[$rate_interval])",
+          "expr": "rate(sql_pg_stat_replication{host='$host',col=~'send_lag_bytes|flush_lag_bytes|replay_lag_bytes',job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{ col }}",
+          "legendFormat": "{{col}} {{application_name}}",
           "refId": "A",
           "step": 40
         }
@@ -4645,7 +4359,7 @@
       },
       "yaxes": [
         {
-          "format": "decbytes",
+          "format": "Bps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -4678,10 +4392,11 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 132
+        "y": 121
       },
       "id": 61,
       "legend": {
+        "alignAsTable": false,
         "avg": true,
         "current": false,
         "max": false,
@@ -4705,10 +4420,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_pg_stat_replication{host='$host',application_name=~'$application_name',col=~'(send_lag_bytes|flush_lag_bytes|replay_lag_bytes)',job=~'$job'}",
+          "expr": "sql_pg_stat_replication{host='$host',col=~'send_lag_bytes|flush_lag_bytes|replay_lag_bytes',job=~'$job'}",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "{{ col }}",
+          "legendFormat": "{{col}} {{application_name}}",
           "refId": "A",
           "step": 40
         }
@@ -4716,7 +4431,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Replication Lag - $application_name",
+      "title": "Replication Lag",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -4732,7 +4447,7 @@
       },
       "yaxes": [
         {
-          "format": "decbytes",
+          "format": "bytes",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -4755,7 +4470,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 139
+        "y": 128
       },
       "id": 83,
       "panels": [],
@@ -4771,10 +4486,10 @@
       "datasource": "prometheus",
       "fill": 1,
       "gridPos": {
-        "h": 10,
+        "h": 8,
         "w": 12,
         "x": 0,
-        "y": 140
+        "y": 129
       },
       "id": 57,
       "legend": {
@@ -4857,10 +4572,10 @@
       "datasource": "prometheus",
       "fill": 1,
       "gridPos": {
-        "h": 10,
+        "h": 8,
         "w": 12,
         "x": 12,
-        "y": 140
+        "y": 129
       },
       "id": 59,
       "legend": {
@@ -4941,10 +4656,10 @@
       "description": "Shows how the total time increase over the last $rate_interval.",
       "fontSize": "100%",
       "gridPos": {
-        "h": 10,
+        "h": 12,
         "w": 24,
         "x": 0,
-        "y": 150
+        "y": 137
       },
       "id": 58,
       "links": [],
@@ -5284,20 +4999,20 @@
         "auto_count": 30,
         "auto_min": "10s",
         "current": {
-          "text": "5m",
-          "value": "5m"
+          "text": "1m",
+          "value": "1m"
         },
         "hide": 0,
         "label": "Rate Interval",
         "name": "rate_interval",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "1m",
             "value": "1m"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "5m",
             "value": "5m"
           },
