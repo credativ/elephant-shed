@@ -1,7 +1,7 @@
 # The Elephant Shed's Prometheus config
 
 global:
-  scrape_interval: 60s
+  scrape_interval: 30s
   evaluation_interval: 60s
 
   # Attach these labels to any time series or alerts when communicating with
