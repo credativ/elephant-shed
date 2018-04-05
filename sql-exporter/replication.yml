@@ -14,7 +14,7 @@
   min_version: 10
   values:
     - "archive_ready"
-  query: SELECT COUNT(*) AS archive_ready FROM pg_ls_dir('./pg_wal/archive_status') WHERE pg_ls_dir ~ '^[0-9a-fA-F]{24}\.ready$'
+  query: SELECT COUNT(*) AS archive_ready FROM pg_ls_dir('pg_wal/archive_status') WHERE pg_ls_dir ~ '^[0-9a-fA-F]{24}\.ready$'
 
 - name: "pg_stat_archiver"
   help: "archiver statistics"
@@ -25,14 +25,7 @@
     - "failed_count"
     - "last_failed_time"
     - "stats_reset"
-  query: >-
-          SELECT
-          archived_count,
-          EXTRACT(EPOCH FROM last_archived_time),
-          failed_count,
-          EXTRACT(EPOCH FROM last_failed_time),
-          EXTRACT(EPOCH FROM stats_reset)
-          FROM pg_stat_archiver
+  query: SELECT archived_count, failed_count, FROM pg_stat_archiver
 
 - name: "pg_stat_replication"
   help: "replication statistics"
@@ -41,29 +34,14 @@
   max_version: 9.6
   labels:
     - "application_name"
-    - "usename"
-    - "client_addr"
-    - "client_port"
   values:
-    - "pid"
     - "current_xlog_location_bytes"
-    - "sent_location_bytes"
-    - "flush_location_bytes"
-    - "replay_location_bytes"
     - "send_lag_bytes"
     - "flush_lag_bytes"
     - "replay_lag_bytes"
   query: >-
           SELECT
-          COALESCE(pid, 0) AS pid,
-          COALESCE(application_name, ' ')::text AS application_name,
-          COALESCE(usename, ' ')::text AS usename,
-          COALESCE(client_addr::text, 'local')::text AS client_addr,
-          COALESCE(client_port::text, ' ') AS client_port,
-          COALESCE(pg_xlog_location_diff(pg_current_xlog_location(), '0/0'), 0) AS current_xlog_location_bytes,
-          COALESCE(pg_xlog_location_diff(sent_location, '0/0'), 0) AS sent_location_bytes,
-          COALESCE(pg_xlog_location_diff(flush_location, '0/0'), 0) AS flush_location_bytes,
-          COALESCE(pg_xlog_location_diff(replay_location, '0/0'), 0) AS replay_location_bytes,
+          COALESCE(application_name, '')::text AS application_name,
           COALESCE(pg_xlog_location_diff(pg_current_xlog_location(), sent_location), 0)   AS send_lag_bytes,
           COALESCE(pg_xlog_location_diff(pg_current_xlog_location(), flush_location), 0)  AS flush_lag_bytes,
           COALESCE(pg_xlog_location_diff(pg_current_xlog_location(), replay_location), 0) AS replay_lag_bytes
@@ -75,29 +53,14 @@
   min_version: 10
   labels:
     - "application_name"
-    - "usename"
-    - "client_addr"
-    - "client_port"
   values:
-    - "pid"
     - "current_xlog_lsn_bytes"
-    - "sent_lsn_bytes"
-    - "flush_lsn_bytes"
-    - "replay_lsn_bytes"
     - "send_lag_bytes"
     - "flush_lag_bytes"
     - "replay_lag_bytes"
   query: >-
           SELECT
-          COALESCE(pid, 0) AS pid,
-          COALESCE(application_name, ' ')::text AS application_name,
-          COALESCE(usename, ' ')::text AS usename,
-          COALESCE(client_addr::text, 'local')::text AS client_addr,
-          COALESCE(client_port::text, ' ') AS client_port,
-          COALESCE(pg_wal_lsn_diff(pg_current_wal_lsn(), '0/0'), 0) AS current_xlog_lsn_bytes,
-          COALESCE(pg_wal_lsn_diff(sent_lsn, '0/0'), 0) AS sent_location_bytes,
-          COALESCE(pg_wal_lsn_diff(flush_lsn, '0/0'), 0) AS flush_location_bytes,
-          COALESCE(pg_wal_lsn_diff(replay_lsn, '0/0'), 0) AS replay_location_bytes,
+          COALESCE(application_name, '')::text AS application_name,
           COALESCE(pg_wal_lsn_diff(pg_current_wal_lsn(), sent_lsn), 0)   AS send_lag_bytes,
           COALESCE(pg_wal_lsn_diff(pg_current_wal_lsn(), flush_lsn), 0)  AS flush_lag_bytes,
           COALESCE(pg_wal_lsn_diff(pg_current_wal_lsn(), replay_lsn), 0) AS replay_lag_bytes

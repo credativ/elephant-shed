@@ -19,17 +19,19 @@
           current_setting('max_wal_senders')::float AS max_wal_senders,
           current_setting('max_prepared_transactions')::float AS max_prepared_transactions
 
-- name: "pg_locks_SUM"
-  help: "number of current locks"
+- name: "pg_locks"
+  help: "locks held"
   scope: cluster
   labels:
+    - "datname"
     - "mode"
   values:
     - "count"
   query: >-
-            SELECT t.mode, count(l.mode) FROM
+            SELECT datname, t.mode, count(l.mode) FROM pg_database d CROSS JOIN
             (VALUES ('AccessShareLock'), ('RowShareLock'), ('RowExclusiveLock'), ('ShareUpdateExclusiveLock'), ('ShareLock'), ('ShareRowExclusiveLock'), ('ExclusiveLock'), ('AccessExclusiveLock')) t(mode)
-            LEFT JOIN pg_locks l ON t.mode = l.mode GROUP BY 1
+            LEFT JOIN pg_locks l ON d.oid = l.database AND t.mode = l.mode AND l.pid <> pg_backend_pid()
+            WHERE datname !~ '^template(0|1)$' GROUP BY 1, 2
 
 - name: "pg_stat_database"
   help: "database statistics"
