@@ -2928,7 +2928,7 @@
       "id": 78,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL Tuples and Buffers",
+      "title": "PostgreSQL Tuple Activity",
       "type": "row"
     },
     {
@@ -3211,7 +3211,7 @@
       "id": 77,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL Table Scans",
+      "title": "PostgreSQL Table Scans and Buffers",
       "type": "row"
     },
     {
