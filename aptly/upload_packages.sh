@@ -4,7 +4,7 @@ set -eu
 
 . "$(dirname $0)/aptly.conf"
 
-cmd="curl -X POST"
+cmd="curl -fX POST"
 
 if [ -d "${1:-}" ]; then
     DIR="$1"
