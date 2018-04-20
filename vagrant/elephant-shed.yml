@@ -15,7 +15,7 @@
   hosts: all
   become: true
   handlers:
-  - import_tasks: handlers.yml
+  - include: handlers.yml
 
   tasks:
   - name: Install pre dependencies
