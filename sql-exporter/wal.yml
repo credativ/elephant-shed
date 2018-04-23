@@ -17,7 +17,7 @@
   version: 9.6
   values:
     - "distance"
-  query: SELECT pg_xlog_location_diff(pg_current_xlog_location(), checkpoint_location) "distance" FROM pg_control_checkpoint()
+  query: SELECT pg_xlog_location_diff(CASE WHEN pg_is_in_recovery() THEN pg_last_xlog_receive_location() ELSE pg_current_xlog_location() END, checkpoint_location) "distance" FROM pg_control_checkpoint()
 
 - name: "LastCheckpointDistance"
   help: "distance to the last checkpoint"
@@ -25,15 +25,16 @@
   min_version: 10
   values:
     - "distance"
-  query: SELECT pg_wal_lsn_diff(pg_current_wal_lsn(), checkpoint_lsn) "distance" FROM pg_control_checkpoint()
+  query: SELECT pg_wal_lsn_diff(CASE WHEN pg_is_in_recovery() THEN pg_last_wal_receive_lsn() ELSE pg_current_wal_lsn() END, checkpoint_lsn) "distance" FROM pg_control_checkpoint()
 
 - name: "waldistance"
   help: "amount of WAL written"
   scope: cluster
+  min_version: 9.2
   max_version: 9.6
   values:
     - "location"
-  query: SELECT pg_xlog_location_diff(pg_current_xlog_location(), '0/0') "location"
+  query: SELECT pg_xlog_location_diff(CASE WHEN pg_is_in_recovery() THEN pg_last_xlog_receive_location() ELSE pg_current_xlog_location() END, '0/0') "location"
 
 - name: "waldistance"
   help: "amount of WAL written"
@@ -41,4 +42,4 @@
   min_version: 10
   values:
     - "location"
-  query: SELECT pg_wal_lsn_diff(pg_current_wal_lsn(), '0/0') "location"
+  query: SELECT pg_wal_lsn_diff(CASE WHEN pg_is_in_recovery() THEN pg_last_wal_receive_lsn() ELSE pg_current_wal_lsn() END, '0/0') "location"

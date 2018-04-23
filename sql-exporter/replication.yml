@@ -19,32 +19,32 @@
 - name: "pg_stat_archiver"
   help: "archiver statistics"
   scope: cluster
+  min_version: 9.4
   values:
     - "archived_count"
     - "last_archived_time"
     - "failed_count"
     - "last_failed_time"
     - "stats_reset"
-  query: SELECT archived_count, failed_count, FROM pg_stat_archiver
+  query: SELECT archived_count, failed_count FROM pg_stat_archiver
 
 - name: "pg_stat_replication"
   help: "replication statistics"
   scope: cluster
-  min_version: 9.0
+  min_version: 9.2
   max_version: 9.6
   labels:
     - "application_name"
   values:
-    - "current_xlog_location_bytes"
     - "send_lag_bytes"
     - "flush_lag_bytes"
     - "replay_lag_bytes"
   query: >-
           SELECT
           COALESCE(application_name, '')::text AS application_name,
-          COALESCE(pg_xlog_location_diff(pg_current_xlog_location(), sent_location), 0)   AS send_lag_bytes,
-          COALESCE(pg_xlog_location_diff(pg_current_xlog_location(), flush_location), 0)  AS flush_lag_bytes,
-          COALESCE(pg_xlog_location_diff(pg_current_xlog_location(), replay_location), 0) AS replay_lag_bytes
+          COALESCE(pg_xlog_location_diff(CASE WHEN pg_is_in_recovery() THEN pg_last_xlog_receive_location() ELSE pg_current_xlog_location() END, sent_location), 0) AS send_lag_bytes,
+          COALESCE(pg_xlog_location_diff(CASE WHEN pg_is_in_recovery() THEN pg_last_xlog_receive_location() ELSE pg_current_xlog_location() END, flush_location), 0) AS flush_lag_bytes,
+          COALESCE(pg_xlog_location_diff(CASE WHEN pg_is_in_recovery() THEN pg_last_xlog_receive_location() ELSE pg_current_xlog_location() END, replay_location), 0) AS replay_lag_bytes
           FROM pg_stat_replication FULL JOIN (VALUES(0)) filler(i) ON TRUE
 
 - name: "pg_stat_replication"
@@ -54,14 +54,13 @@
   labels:
     - "application_name"
   values:
-    - "current_xlog_lsn_bytes"
     - "send_lag_bytes"
     - "flush_lag_bytes"
     - "replay_lag_bytes"
   query: >-
           SELECT
           COALESCE(application_name, '')::text AS application_name,
-          COALESCE(pg_wal_lsn_diff(pg_current_wal_lsn(), sent_lsn), 0)   AS send_lag_bytes,
-          COALESCE(pg_wal_lsn_diff(pg_current_wal_lsn(), flush_lsn), 0)  AS flush_lag_bytes,
-          COALESCE(pg_wal_lsn_diff(pg_current_wal_lsn(), replay_lsn), 0) AS replay_lag_bytes
+          COALESCE(pg_wal_lsn_diff(CASE WHEN pg_is_in_recovery() THEN pg_last_wal_receive_lsn() ELSE pg_current_wal_lsn() END, sent_lsn), 0) AS send_lag_bytes,
+          COALESCE(pg_wal_lsn_diff(CASE WHEN pg_is_in_recovery() THEN pg_last_wal_receive_lsn() ELSE pg_current_wal_lsn() END, flush_lsn), 0) AS flush_lag_bytes,
+          COALESCE(pg_wal_lsn_diff(CASE WHEN pg_is_in_recovery() THEN pg_last_wal_receive_lsn() ELSE pg_current_wal_lsn() END, replay_lsn), 0) AS replay_lag_bytes
           FROM pg_stat_replication FULL JOIN (VALUES(0)) filler(i) ON TRUE
