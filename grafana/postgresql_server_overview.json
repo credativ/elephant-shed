@@ -2779,7 +2779,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max by (datname) (sql_pg_stat_activity{col=\"max_tx_duration\"})",
+          "expr": "max by (datname) (sql_pg_stat_activity{col=\"max_tx_duration\",host='$host',job=~'$job'})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{datname}}",
