@@ -2,7 +2,9 @@
 
 set -eu
 
-. "$(dirname $0)/aptly.conf"
+REPO="$1"
+FILES_PATTERN=".*\.(deb|changes|dsc|tgz|tar\.xz|tar\.gz|tar\.bz2)"
+SERVER="http://172.26.251.70:8080"
 
 cmd="curl -fX POST"
 
@@ -20,7 +22,7 @@ done
 echo -e "Uploading the following files:\n$files"
 
 # no trailing slash!
-cmd+=" $SERVER/api/files/elephant-shed"
+cmd+=" $SERVER/api/files/$REPO"
 
 set -x
 $cmd

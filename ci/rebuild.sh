@@ -10,12 +10,19 @@
 
 set -eu
 
-export DEBFULLNAME="Gitlab CI (credativ)"
+DISTTAG="$1"
+IS_RELEASE_BUILD="${2:-}" # leave empty for CI build
+
+export DEBFULLNAME="credativ GmbH"
 export DEBEMAIL="dbteam@credativ.com"
 
 orig_version=$(dpkg-parsechangelog -S version)
-commit_count=$(git log `git describe --tags --abbrev=0`..HEAD --oneline | wc -l)
-new_version="${orig_version}~${commit_count}"
+if [ "$IS_RELEASE_BUILD" ]; then
+  new_version="${orig_version}~$DISTTAG+1"
+else
+  commit_count=$(git log `git describe --tags --abbrev=0`..HEAD --oneline | wc -l)
+  new_version="${orig_version}~$DISTTAG~${commit_count}"
+fi
 
 dch --force-bad-version -v ${new_version} "Automatic CI rebuild"
-dch -r "Rebuild"
+dch -r "Build for $DISTTAG"
