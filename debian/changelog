@@ -1,14 +1,15 @@
-elephant-shed (1.1.2) UNRELEASED; urgency=medium
+elephant-shed (1.2) UNRELEASED; urgency=medium
 
-  * Upgrade to grafana 5 and prometheus 2. (Existing monitoring data is not
-    migrated.)
-  * Upgrade to prometheus-node-exporter 0.15.
+  * This release bundles a series of breaking changes:
+    + Upgrade to grafana 5 and prometheus 2. (Existing monitoring data is not
+      migrated.)
+    + Upgrade to prometheus-node-exporter 0.15.
+    + Rewrite update-prometheus-sql-exporter-config using PgCommon.pm, and
+      refactor its config file handling.
   * prometheus: Use 'localhost' as job_name to bundle this machine's node and
     sql exporter results.
-  * Rewrite update-prometheus-sql-exporter-config using PgCommon.pm, and
-    refactor its config file handling.
 
- -- Adrian Vondendriesch <adrian.vondendriesch@credativ.de>  Thu, 25 Jan 2018 17:45:43 +0100
+ -- Adrian Vondendriesch <adrian.vondendriesch@credativ.de>  Mon, 23 Apr 2018 14:32:07 +0200
 
 elephant-shed (1.1.1) unstable; urgency=medium
 
