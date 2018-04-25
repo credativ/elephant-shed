@@ -8,10 +8,11 @@ SERVER="http://172.26.251.70:8080"
 
 cmd="curl -fX POST"
 
-if [ -d "${1:-}" ]; then
-    DIR="$1"
+if [ -d "${2:-}" ]; then
+    DIR="$2"
     files=$(find "$DIR" -maxdepth 1 -regextype posix-egrep -regex "$FILES_PATTERN")
 else
+    shift
     files="$@"
 fi
 
