@@ -18,7 +18,7 @@ sub filter_queries($$$$;$)
     next if $query->{scope} ne $scope;
     next if $query->{min_version} and $version < $query->{min_version};
     next if $query->{max_version} and $version > $query->{max_version};
-    next if $query->{version} and $cluster !~ /$query->{version}/;
+    next if $query->{version} and $version !~ /$query->{version}/;
     next if $query->{cluster} and $cluster !~ /$query->{cluster}/;
     next if $query->{database} and $database !~ /$query->{database}/;
 
