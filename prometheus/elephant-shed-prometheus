@@ -5,8 +5,8 @@ GOMAXPROCS=2
 # Set the command-line arguments to pass to the server.
 ARGS="--config.file /etc/prometheus/elephant-shed-prometheus.yml \
       --web.external-url http://127.0.0.1:9090/prometheus/ \
-      --web.listen-address 127.0.0.1:9090" \
-      --storage.tsdb.retention=90d
+      --web.listen-address 127.0.0.1:9090 \
+      --storage.tsdb.retention=90d"
 
 # Prometheus supports the following options:
 #  --config.file="/etc/prometheus/prometheus.yml"
