@@ -136,8 +136,8 @@ deploy:bionic-x86:
   only:
     - master
   environment:
-    name: elephant-shed-ppc64el
-    url: https://elephant-shed-ppc64el.dev.credativ.lan
+    name: elephant-shed-bionic
+    url: https://elephant-shed-bionic.dev.credativ.lan
 
 # Build release packages.
 #
