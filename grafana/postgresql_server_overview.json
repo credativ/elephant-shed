@@ -59,7 +59,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1525421033556,
+  "iteration": 1525438378809,
   "links": [],
   "panels": [
     {
@@ -483,7 +483,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "max(sql_pg_stat_database{host=~'$host', col='freeze_age',job=~'$job'})/max(sql_settings{host=~'$host', col='autovacuum_freeze_max_age',job=~'$job'})",
+          "expr": "max(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='freeze_age'})/max(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='autovacuum_freeze_max_age'})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{ host }}/{{ datname }}",
@@ -568,7 +568,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(avg_over_time(sql_pg_stat_activity{host=~'$host',col=\"count\",job=~'$job'}[$rate_interval])) / (sum(sql_settings{host=~'$host', col='max_connections',job=~'$job'})-sum(sql_settings{host=~'$host', col='superuser_reserved_connections',job=~'$job'}))",
+          "expr": "sum(avg_over_time(sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col=\"count\"}[$rate_interval])) / (sum(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_connections'})-sum(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='superuser_reserved_connections'}))",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -654,7 +654,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sql_archive_ready{host='$host',job=~'$job'}",
+          "expr": "sql_archive_ready{job=~'$job', host=~'$host', sql_job=~'$cluster'}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -739,7 +739,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "delta(sql_archive_ready{host='$host',job=~'$job'}[1h])*16/60/60",
+          "expr": "delta(sql_archive_ready{job=~'$job', host=~'$host', sql_job=~'$cluster'}[1h])*16/60/60",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -824,7 +824,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "increase(sql_pg_stat_archiver{host='$host', col='failed_count',job=~'$job'}[$rate_interval]) ",
+          "expr": "increase(sql_pg_stat_archiver{job=~'$job', host=~'$host', sql_job=~'$cluster', col='failed_count'}[$rate_interval]) ",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -909,7 +909,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "count(sql_pg_stat_replication{col='pid',job=~'$job'}>0) / scalar(sql_settings{host='$host', col='max_wal_senders',job=~'$job'}) ",
+          "expr": "count(sql_pg_stat_replication{job=~'$job', host=~'$host', sql_job=~'$cluster', col='pid'}>0) / scalar(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_wal_senders'})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -994,7 +994,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(sql_prepared_transactions{host='$host', col='count', datname=~'$datname',job=~'$job'}) / sum(sql_settings{host='$host', col='max_prepared_transactions',job=~'$job'})",
+          "expr": "sum(sql_prepared_transactions{job=~'$job', host=~'$host', sql_job=~'$cluster', col='count', datname=~'$datname'}) / sum(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_prepared_transactions'})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -1079,7 +1079,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "max(sql_pg_stat_replication{host='$host',col=~'(send_lag_bytes|flush_lag_bytes|replay_lag_bytes)',job=~'$job'})",
+          "expr": "max(sql_pg_stat_replication{job=~'$job', host=~'$host', sql_job=~'$cluster', col=~'(send_lag_bytes|flush_lag_bytes|replay_lag_bytes)'})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -2501,7 +2501,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (state) (sql_pg_stat_activity{col='count',datname=~'$datname',host=~'$host', sql_job=~'$cluster', job='$job'})",
+          "expr": "sum by (state) (sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col='count',datname=~'$datname'})",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -4220,13 +4220,16 @@
       "id": 61,
       "legend": {
         "alignAsTable": false,
-        "avg": true,
+        "avg": false,
         "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
         "max": false,
         "min": false,
+        "rightSide": false,
         "show": true,
         "total": false,
-        "values": true
+        "values": false
       },
       "lines": true,
       "linewidth": 1,
@@ -4243,12 +4246,37 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_pg_stat_replication{job=~'$job', host=~'$host', sql_job=~'$cluster', col=~'send_lag_bytes|flush_lag_bytes|replay_lag_bytes'}",
+          "expr": "sql_pg_stat_replication{job=~'$job', host=~'$host', sql_job=~'$cluster', col='send_lag_bytes', application_name != ''}",
           "format": "time_series",
+          "hide": false,
           "intervalFactor": 2,
-          "legendFormat": "{{col}} {{application_name}}",
+          "legendFormat": "{{application_name}} (send)",
           "refId": "A",
           "step": 40
+        },
+        {
+          "expr": "sql_pg_stat_replication{job=~'$job', host=~'$host', sql_job=~'$cluster', col='flush_lag_bytes', application_name != ''}",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 1,
+          "legendFormat": "{{application_name}} (flush)",
+          "refId": "B"
+        },
+        {
+          "expr": "sql_pg_stat_replication{job=~'$job', host=~'$host', sql_job=~'$cluster', col='replay_lag_bytes', application_name != ''}",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 1,
+          "legendFormat": "{{application_name}} (replay)",
+          "refId": "C"
+        },
+        {
+          "expr": "sql_pg_stat_replication{job=~'$job', host=~'$host', sql_job=~'$cluster', col=~'replay_lag_bytes|flush_lag_bytes|send_lag_bytes', application_name=''}>0",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 1,
+          "legendFormat": "MISSING application_name ({{col}})",
+          "refId": "D"
         }
       ],
       "thresholds": [],
@@ -4257,7 +4285,7 @@
       "title": "Replication Lag",
       "tooltip": {
         "shared": true,
-        "sort": 0,
+        "sort": 2,
         "value_type": "individual"
       },
       "type": "graph",
@@ -4790,7 +4818,7 @@
         "query": "label_values(sql_settings{job='$job'}, sql_job) ",
         "refresh": 2,
         "regex": "",
-        "sort": 0,
+        "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
@@ -5035,5 +5063,5 @@
   "timezone": "browser",
   "title": "PostgreSQL Server Overview",
   "uid": "5CGjHlRiz",
-  "version": 9
+  "version": 14
 }
