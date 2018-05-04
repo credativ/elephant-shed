@@ -126,6 +126,7 @@
   postgresql_user:
     name: '{{ admin_user }}'
     role_attr_flags: LOGIN,SUPERUSER
+  ignore_errors: True # Fails on read-only standby
 
 - name: Generate ssh keys for user postgres
   user:
