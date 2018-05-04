@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "5.0.3"
+      "version": "5.0.4"
     },
     {
       "type": "panel",
@@ -59,7 +59,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1522930793833,
+  "iteration": 1525421033556,
   "links": [],
   "panels": [
     {
@@ -1643,7 +1643,7 @@
       "fill": 5,
       "gridPos": {
         "h": 7,
-        "w": 6,
+        "w": 24,
         "x": 0,
         "y": 30
       },
@@ -2321,7 +2321,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "delta(sql_pg_stat_database{host=~'$host', datname=~'$datname', col='dbsize',job=~'$job'}[$rate_interval])",
+          "expr": "delta(sql_pg_stat_database{host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='dbsize',job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2405,7 +2405,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_pg_stat_database{host=~'$host', datname=~'$datname', col='dbsize',job=~'$job'}",
+          "expr": "sql_pg_stat_database{host=~'$host', sql_job=~'$cluster', sql_job=~'$cluster', datname=~'$datname', col='dbsize',job=~'$job'}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2501,7 +2501,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (state) (sql_pg_stat_activity{col='count',datname=~'$datname',host='$host',job='$job'})",
+          "expr": "sum by (state) (sql_pg_stat_activity{col='count',datname=~'$datname',host=~'$host', sql_job=~'$cluster', job='$job'})",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2585,7 +2585,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (datname) (sql_pg_stat_activity{col='count', datname=~'$datname',host=~'$host',job=~'$job'})",
+          "expr": "sum by (datname) (sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col='count', datname=~'$datname'})",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2681,7 +2681,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (datname) (rate(sql_pg_stat_database{col='xact_commit', datname=~'$datname', host=~'$host',job=~'$job'}[$rate_interval]))",
+          "expr": "sum by (datname) (rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='xact_commit', datname=~'$datname', host=~'$host'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2691,7 +2691,7 @@
           "step": 60
         },
         {
-          "expr": "sum by (datname) (rate(sql_pg_stat_database{col='xact_rollback', datname=~'$datname', host=~'$host',job=~'$job'}[$rate_interval]))",
+          "expr": "sum by (datname) (rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='xact_rollback', datname=~'$datname', host=~'$host'}[$rate_interval]))",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "rollbacks {{datname}}",
@@ -2699,7 +2699,7 @@
           "step": 60
         },
         {
-          "expr": "rate(sql_txid{host=~'$host',job=~'$job'}[$rate_interval])",
+          "expr": "rate(sql_txid{job=~'$job', host=~'$host', sql_job=~'$cluster'}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "TXIDs (global)",
@@ -2779,7 +2779,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max by (datname) (sql_pg_stat_activity{col=\"max_tx_duration\",host='$host',job=~'$job'})",
+          "expr": "max by (datname) (sql_pg_stat_activity{job=~'$job', host=~'$host',  sql_job=~'$cluster', col='max_tx_duration'})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{datname}}",
@@ -2873,7 +2873,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum (sql_pg_locks{host='$host',datname=~'$datname',job=~'$job'}) by (mode)",
+          "expr": "sum (sql_pg_locks{job=~'$job', host=~'$host',  sql_job=~'$cluster', datname=~'$datname'}) by (mode)",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{ mode }}",
@@ -2971,7 +2971,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(sql_pg_stat_database{host='$host',datname=~'$datname',col=~'tup_inserted',job=~'$job'}[$rate_interval])",
+          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_inserted'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -2980,7 +2980,7 @@
           "step": 120
         },
         {
-          "expr": "rate(sql_pg_stat_database{host='$host',datname=~'$datname',col=~'tup_updated',job=~'$job'}[$rate_interval])",
+          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_updated'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -2989,7 +2989,7 @@
           "step": 120
         },
         {
-          "expr": "rate(sql_pg_stat_database{host='$host',datname=~'$datname',col=~'tup_deleted',job=~'$job'}[$rate_interval])",
+          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_deleted'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -3073,7 +3073,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, sql_pg_stat_user_tables{col='n_live_tup',database=~'$datname', host=~'$host',job=~'$job'})",
+          "expr": "topk($ntop_relations, sql_pg_stat_user_tables{job='$job', host=~'$host', sql_job=~'$cluster.*', col='n_live_tup', datname=~'$datname'})",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3158,7 +3158,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, sql_pg_stat_user_tables{col='n_tup_del',database=~'$datname', host=~'$host',job=~'$job'})",
+          "expr": "topk($ntop_relations, sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='n_tup_del', database=~'$datname'}) ",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3257,7 +3257,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{col='seq_scan',database=~'$datname', host=~'$host',job=~'$job'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='seq_scan',database=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3342,7 +3342,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{col='idx_scan',database=~'$datname', host=~'$host',job=~'$job'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='idx_scan', datname=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3425,7 +3425,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(sql_pg_stat_database{host=~'$host',datname=~'$datname',col='blks_hit',job=~'$job'}[$rate_interval]))",
+          "expr": "sum(rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='blks_hit'}[$rate_interval]))",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Hits",
@@ -3433,7 +3433,7 @@
           "step": 60
         },
         {
-          "expr": "sum(rate(sql_pg_stat_database{host=~'$host',datname=~'$datname',col='blks_read',job=~'$job'}[$rate_interval]))",
+          "expr": "sum(rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='blks_read'}[$rate_interval]))",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Misses",
@@ -3532,7 +3532,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(sql_waldistance{host=~'$host',job=~'$job'}[$rate_interval])",
+          "expr": "rate(sql_waldistance{job=~'$job', host=~'$host', sql_job=~'$cluster'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3615,7 +3615,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "60 * rate(sql_checkpoints{host=~'$host',job=~'$job'}[$rate_interval])",
+          "expr": "60 * rate(sql_checkpoints{job=~'$job', host=~'$host', sql_job=~'$cluster'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3700,7 +3700,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_LastCheckpointDistance{host=~'$host',job=~'$job'}",
+          "expr": "sql_LastCheckpointDistance{job=~'$job', host=~'$host', sql_job=~'$cluster'}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3802,7 +3802,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "60 * rate(sql_Maintenancecounters{host=~'$host', database=~'$datname',job=~'$job'}[$rate_interval])",
+          "expr": "60 * rate(sql_Maintenancecounters{job=~'$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3887,7 +3887,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_Maintenancecounters{host=~'$host', database=~'$datname',job=~'$job'}",
+          "expr": "sql_Maintenancecounters{job=~'$job', host=~'$host', sql_job=~'$cluster.*', database=~'$datname'}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3970,7 +3970,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_pg_stat_database{col='freeze_age', host=~'$host',job=~'$job'}",
+          "expr": "sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='freeze_age'}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -4024,93 +4024,11 @@
         "x": 0,
         "y": 112
       },
-      "id": 84,
+      "id": 85,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL Archiving",
+      "title": "PostgreSQL Archiving and Replication",
       "type": "row"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "description": "The amount of WAL data that still needs to be archived.",
-      "fill": 1,
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 0,
-        "y": 113
-      },
-      "id": 52,
-      "legend": {
-        "avg": true,
-        "current": true,
-        "max": true,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "delta(sql_archive_ready{host='$host',job=~'$job'}[$rate_interval]) * 16",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "WAL file growth",
-          "refId": "A",
-          "step": 60
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "WAL Files Ready Growth [$rate_interval]",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "MBs",
-          "label": "",
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ]
     },
     {
       "aliasColors": {},
@@ -4122,8 +4040,8 @@
       "fill": 1,
       "gridPos": {
         "h": 7,
-        "w": 8,
-        "x": 8,
+        "w": 7,
+        "x": 0,
         "y": 113
       },
       "id": 51,
@@ -4150,7 +4068,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_archive_ready{host='$host',job=~'$job'}",
+          "expr": "sql_archive_ready{job=~'$job', host=~'$host', sql_job=~'$cluster'}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "WAL Files Ready",
@@ -4206,8 +4124,8 @@
       "fill": 1,
       "gridPos": {
         "h": 7,
-        "w": 8,
-        "x": 16,
+        "w": 7,
+        "x": 7,
         "y": 113
       },
       "id": 47,
@@ -4234,7 +4152,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "60 * rate(sql_pg_stat_archiver{host='$host',job=~'$job',col=~'archived_count|failed_count'}[$rate_interval]) ",
+          "expr": "60 * rate(sql_pg_stat_archiver{job=~'$job', host=~'$host', sql_job=~'$cluster', col=~'archived_count|failed_count'}[$rate_interval]) ",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -4282,20 +4200,6 @@
       ]
     },
     {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 120
-      },
-      "id": 85,
-      "panels": [],
-      "repeat": null,
-      "title": "PostgreSQL Replication",
-      "type": "row"
-    },
-    {
       "aliasColors": {
         "flush_lag_bytes": "#E5AC0E",
         "replay_lag_bytes": "#629E51",
@@ -4309,98 +4213,9 @@
       "fill": 1,
       "gridPos": {
         "h": 7,
-        "w": 12,
-        "x": 0,
-        "y": 121
-      },
-      "id": 60,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "hideEmpty": false,
-        "hideZero": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null as zero",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "repeat": null,
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "rate(sql_pg_stat_replication{host='$host',col=~'send_lag_bytes|flush_lag_bytes|replay_lag_bytes',job=~'$job'}[$rate_interval])",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "{{col}} {{application_name}}",
-          "refId": "A",
-          "step": 40
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Replication Lag Growth [$rate_interval] - $application_name",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "Bps",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ]
-    },
-    {
-      "aliasColors": {
-        "flush_lag_bytes": "#E5AC0E",
-        "replay_lag_bytes": "#629E51",
-        "send_lag_bytes": "#BF1B00"
-      },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "prometheus",
-      "description": "The amount of data a stream receiver like a standby server lags behind the master.\n\nsend_lag: Data that still needs to be send (should be small).\n\nflush_lag: Data that was received but must be flushed to persistent storage (this data can be lost if the standby is terminated).\n\nreplay_lag: Data that still needs to be replayed by PostgreSQL on the standby (can lag behind during writes in asynchronous configurations).",
-      "fill": 1,
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 121
+        "w": 10,
+        "x": 14,
+        "y": 113
       },
       "id": 61,
       "legend": {
@@ -4428,7 +4243,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_pg_stat_replication{host='$host',col=~'send_lag_bytes|flush_lag_bytes|replay_lag_bytes',job=~'$job'}",
+          "expr": "sql_pg_stat_replication{job=~'$job', host=~'$host', sql_job=~'$cluster', col=~'send_lag_bytes|flush_lag_bytes|replay_lag_bytes'}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{col}} {{application_name}}",
@@ -4478,7 +4293,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 128
+        "y": 120
       },
       "id": 83,
       "panels": [],
@@ -4497,7 +4312,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 129
+        "y": 121
       },
       "id": 57,
       "legend": {
@@ -4527,7 +4342,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, increase(sql_pg_stat_statements{host='$host', col='total_time', datname=~'$datname',job=~'$job'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, increase(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', col='total_time', datname=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -4583,7 +4398,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 129
+        "y": 121
       },
       "id": 59,
       "legend": {
@@ -4613,7 +4428,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, increase(sql_pg_stat_statements{host='$host', col='calls', datname=~'$datname',job=~'$job'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, increase(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', col='calls', datname=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -4667,7 +4482,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 137
+        "y": 129
       },
       "id": 58,
       "links": [],
@@ -4915,7 +4730,7 @@
       ],
       "targets": [
         {
-          "expr": "increase(sql_pg_stat_statements{host='$host', col='total_time', datname=~'$datname',job=~'$job'}[$rate_interval])",
+          "expr": "increase(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', host=~'$host', col='total_time', datname=~'$datname'}[$rate_interval])",
           "format": "table",
           "interval": "",
           "intervalFactor": 2,
@@ -4968,6 +4783,26 @@
         "datasource": "prometheus",
         "hide": 0,
         "includeAll": false,
+        "label": "Cluster",
+        "multi": false,
+        "name": "cluster",
+        "options": [],
+        "query": "label_values(sql_settings{job='$job'}, sql_job) ",
+        "refresh": 2,
+        "regex": "",
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "prometheus",
+        "hide": 2,
+        "includeAll": true,
         "label": "PostgreSQL Cluster",
         "multi": false,
         "name": "host",
@@ -4992,7 +4827,7 @@
         "multi": false,
         "name": "datname",
         "options": [],
-        "query": "label_values(sql_pg_stat_database{col='dbsize', host='$host'}, datname)",
+        "query": "label_values(sql_pg_stat_database{col='dbsize', host=~'$host', sql_job=~'$cluster'}, datname)",
         "refresh": 2,
         "regex": "",
         "sort": 1,
@@ -5007,20 +4842,20 @@
         "auto_count": 30,
         "auto_min": "10s",
         "current": {
-          "text": "1m",
-          "value": "1m"
+          "text": "5m",
+          "value": "5m"
         },
         "hide": 0,
         "label": "Rate Interval",
         "name": "rate_interval",
         "options": [
           {
-            "selected": true,
+            "selected": false,
             "text": "1m",
             "value": "1m"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "5m",
             "value": "5m"
           },
@@ -5200,5 +5035,5 @@
   "timezone": "browser",
   "title": "PostgreSQL Server Overview",
   "uid": "5CGjHlRiz",
-  "version": 3
+  "version": 9
 }
