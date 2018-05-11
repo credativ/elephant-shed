@@ -3158,7 +3158,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='n_tup_del', database=~'$datname'}) ",
+          "expr": "topk($ntop_relations, sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='n_dead_tup', database=~'$datname'}) ",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -5063,5 +5063,5 @@
   "timezone": "browser",
   "title": "PostgreSQL Server Overview",
   "uid": "5CGjHlRiz",
-  "version": 14
+  "version": 15
 }
