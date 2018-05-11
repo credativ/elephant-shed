@@ -71,6 +71,12 @@ foreach my $version (get_versions()) {
         queries => filter_queries($queries, 'database', $version, $cluster, $database),
       };
     }
+
+    # create pg_stat_statements in "postgres" database if missing
+    next if $info{recovery}; # cluster is in recovery mode, skip it
+    open PSQL, "|-", "su -c 'psql -q -h $socket -p $info{port} postgres' $owner";
+    print PSQL "DO \$\$DECLARE ext name; BEGIN SELECT INTO ext extname FROM pg_extension WHERE extname = 'pg_stat_statements'; IF NOT FOUND THEN RAISE NOTICE 'Creating pg_stat_statements extension in cluster $version/$cluster'; CREATE EXTENSION pg_stat_statements; END IF; END\$\$ LANGUAGE plpgsql;\n";
+    close PSQL;
   }
 }
 
