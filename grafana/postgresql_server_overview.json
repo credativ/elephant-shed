@@ -139,7 +139,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "100-(avg by (instance) (rate(node_cpu{mode=\"idle\",job=~'$job'}[$rate_interval])) * 100)",
+          "expr": "100 - (avg by (instance) (rate(node_cpu{mode=\"idle\", job=~'$job'}[$rate_interval])) * 100)",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -225,7 +225,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "1-(node_memory_MemFree{job=~'$job'} + node_memory_Buffers{job=~'$job'} + node_memory_Cached{job=~'$job'})/node_memory_MemTotal{job=~'$job'}",
+          "expr": "1 - (node_memory_MemFree{job=~'$job'} + node_memory_Buffers{job=~'$job'} + node_memory_Cached{job=~'$job'}) / node_memory_MemTotal{job=~'$job'}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -312,7 +312,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "1-min(node_filesystem_free{job=~'$job'} / node_filesystem_size{job=~'$job'})",
+          "expr": "1 - min(node_filesystem_free{job=~'$job'} / node_filesystem_size{job=~'$job'})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -398,7 +398,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "node_memory_SwapCached{job=~'$job'}/(node_memory_SwapCached{job=~'$job'}+node_memory_SwapFree{job=~'$job'})",
+          "expr": "node_memory_SwapCached{job=~'$job'} / (node_memory_SwapCached{job=~'$job'} + node_memory_SwapFree{job=~'$job'})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -483,7 +483,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "max(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='freeze_age'})/max(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='autovacuum_freeze_max_age'})",
+          "expr": "max(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='freeze_age'}) / max(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='autovacuum_freeze_max_age'})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{ host }}/{{ datname }}",
@@ -568,7 +568,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(avg_over_time(sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col=\"count\"}[$rate_interval])) / (sum(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_connections'})-sum(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='superuser_reserved_connections'}))",
+          "expr": "sum(avg_over_time(sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col=\"count\"}[$rate_interval])) / (sum(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_connections'}) - sum(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='superuser_reserved_connections'}))",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -739,7 +739,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "delta(sql_archive_ready{job=~'$job', host=~'$host', sql_job=~'$cluster'}[1h])*16/60/60",
+          "expr": "delta(sql_archive_ready{job=~'$job', host=~'$host', sql_job=~'$cluster'}[1h]) * 16 / 3600",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -824,7 +824,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "increase(sql_pg_stat_archiver{job=~'$job', host=~'$host', sql_job=~'$cluster', col='failed_count'}[$rate_interval]) ",
+          "expr": "increase(sql_pg_stat_archiver{job=~'$job', host=~'$host', sql_job=~'$cluster', col='failed_count'}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -1159,7 +1159,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (mode) (rate(node_cpu{mode!='idle',job=~'$job'}[$rate_interval]))",
+          "expr": "sum by (mode) (rate(node_cpu{mode!='idle', job=~'$job'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -1244,7 +1244,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (cpu) (irate(node_cpu{mode!='idle',job=~'$job'}[$rate_interval]))",
+          "expr": "sum by (cpu) (irate(node_cpu{mode!='idle', job=~'$job'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -1685,7 +1685,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_filesystem_size{mountpoint=~'$filesystem',job=~'$job'}-node_filesystem_avail{mountpoint=~'$filesystem',device!~'rootfs',job=~'$job'}",
+          "expr": "node_filesystem_size{mountpoint=~'$filesystem', job=~'$job'} - node_filesystem_avail{mountpoint=~'$filesystem', device!~'rootfs', job=~'$job'}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -1695,7 +1695,7 @@
           "step": 120
         },
         {
-          "expr": "node_filesystem_avail{mountpoint=~'$filesystem',device!~'rootfs',job=~'$job'}",
+          "expr": "node_filesystem_avail{mountpoint=~'$filesystem', device!~'rootfs', job=~'$job'}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -1799,7 +1799,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "-1*irate(node_disk_writes_completed{device=~'$disk',job=~'$job'}[$rate_interval])",
+          "expr": "-1 * irate(node_disk_writes_completed{device=~'$disk', job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -1809,7 +1809,7 @@
           "step": 120
         },
         {
-          "expr": "-1*irate(node_disk_writes_merged{device=~'$disk',job=~'$job'}[$rate_interval])",
+          "expr": "-1 * irate(node_disk_writes_merged{device=~'$disk', job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -1818,7 +1818,7 @@
           "step": 120
         },
         {
-          "expr": "irate(node_disk_reads_completed{device=~'$disk',job=~'$job'}[$rate_interval])",
+          "expr": "irate(node_disk_reads_completed{device=~'$disk', job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -1828,7 +1828,7 @@
           "step": 120
         },
         {
-          "expr": "irate(node_disk_reads_merged{device=~'$disk',job=~'$job'}[$rate_interval])",
+          "expr": "irate(node_disk_reads_merged{device=~'$disk', job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Reads (merged) {{device}}",
@@ -1913,7 +1913,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "-1*irate(node_disk_bytes_written{device=~'$disk',job=~'$job'}[$rate_interval])",
+          "expr": "-1 * irate(node_disk_bytes_written{device=~'$disk', job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -1923,7 +1923,7 @@
           "step": 120
         },
         {
-          "expr": "irate(node_disk_bytes_read{device=~'$disk',job=~'$job'}[$rate_interval])",
+          "expr": "irate(node_disk_bytes_read{device=~'$disk', job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2009,7 +2009,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "-1*irate(node_disk_write_time_ms{device=~'$disk',job=~'$job'}[$rate_interval])",
+          "expr": "-1 * irate(node_disk_write_time_ms{device=~'$disk', job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2020,7 +2020,7 @@
           "step": 120
         },
         {
-          "expr": "irate(node_disk_read_time_ms{device=~'$disk',job=~'$job'}[$rate_interval])",
+          "expr": "irate(node_disk_read_time_ms{device=~'$disk', job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2118,7 +2118,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(node_network_receive_bytes{device=~'$interface',job=~'$job'}[$rate_interval])",
+          "expr": "irate(node_network_receive_bytes{device=~'$interface', job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2129,7 +2129,7 @@
           "step": 60
         },
         {
-          "expr": "-1* irate(node_network_transmit_bytes{device=~'$interface',job=~'$job'}[$rate_interval])",
+          "expr": "-1 * irate(node_network_transmit_bytes{device=~'$interface', job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2212,7 +2212,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(node_network_receive_packets{device=~'$interface',job=~'$job'}[$rate_interval])",
+          "expr": "irate(node_network_receive_packets{device=~'$interface', job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2223,7 +2223,7 @@
           "step": 120
         },
         {
-          "expr": "-1 * irate(node_network_transmit_packets{device=~'$interface',job=~'$job'}[$rate_interval])",
+          "expr": "-1 * irate(node_network_transmit_packets{device=~'$interface', job=~'$job'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2321,7 +2321,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "delta(sql_pg_stat_database{host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='dbsize',job=~'$job'}[$rate_interval])",
+          "expr": "delta(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='dbsize'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2405,7 +2405,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_pg_stat_database{host=~'$host', sql_job=~'$cluster', sql_job=~'$cluster', datname=~'$datname', col='dbsize',job=~'$job'}",
+          "expr": "sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='dbsize'}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2501,7 +2501,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (state) (sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col='count',datname=~'$datname'})",
+          "expr": "sum by (state) (sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col='count', datname=~'$datname'})",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2681,7 +2681,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (datname) (rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='xact_commit', datname=~'$datname', host=~'$host'}[$rate_interval]))",
+          "expr": "sum by (datname) (rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='xact_commit', datname=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2691,7 +2691,7 @@
           "step": 60
         },
         {
-          "expr": "sum by (datname) (rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='xact_rollback', datname=~'$datname', host=~'$host'}[$rate_interval]))",
+          "expr": "sum by (datname) (rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='xact_rollback', datname=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "rollbacks {{datname}}",
@@ -2779,7 +2779,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max by (datname) (sql_pg_stat_activity{job=~'$job', host=~'$host',  sql_job=~'$cluster', col='max_tx_duration'})",
+          "expr": "max by (datname) (sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_tx_duration'})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{datname}}",
@@ -2873,7 +2873,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum (sql_pg_locks{job=~'$job', host=~'$host',  sql_job=~'$cluster', datname=~'$datname'}) by (mode)",
+          "expr": "sum (sql_pg_locks{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname'}) by (mode)",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{ mode }}",
@@ -3158,7 +3158,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='n_dead_tup', database=~'$datname'}) ",
+          "expr": "topk($ntop_relations, sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='n_dead_tup', database=~'$datname'})",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3257,7 +3257,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='seq_scan',database=~'$datname'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='seq_scan', database=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -4152,7 +4152,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "60 * rate(sql_pg_stat_archiver{job=~'$job', host=~'$host', sql_job=~'$cluster', col=~'archived_count|failed_count'}[$rate_interval]) ",
+          "expr": "60 * rate(sql_pg_stat_archiver{job=~'$job', host=~'$host', sql_job=~'$cluster', col=~'archived_count|failed_count'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -4758,7 +4758,7 @@
       ],
       "targets": [
         {
-          "expr": "increase(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', host=~'$host', col='total_time', datname=~'$datname'}[$rate_interval])",
+          "expr": "increase(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', col='total_time', datname=~'$datname'}[$rate_interval])",
           "format": "table",
           "interval": "",
           "intervalFactor": 2,
@@ -4815,7 +4815,7 @@
         "multi": false,
         "name": "cluster",
         "options": [],
-        "query": "label_values(sql_settings{job='$job'}, sql_job) ",
+        "query": "label_values(sql_settings{job='$job'}, sql_job)",
         "refresh": 2,
         "regex": "",
         "sort": 1,
@@ -5029,7 +5029,7 @@
         "multi": false,
         "name": "application_name",
         "options": [],
-        "query": "label_values(sql_pg_stat_replication{host='$host'},application_name)",
+        "query": "label_values(sql_pg_stat_replication{host=~'$host', sql_job=~'$cluster'}, application_name)",
         "refresh": 2,
         "regex": "^.+.+",
         "sort": 1,
@@ -5063,5 +5063,5 @@
   "timezone": "browser",
   "title": "PostgreSQL Server Overview",
   "uid": "5CGjHlRiz",
-  "version": 15
+  "version": 16
 }
