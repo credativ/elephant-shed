@@ -1,0 +1,6 @@
+Prometheus queries
+------------------
+
+Ordering: `job=~'$job', host=~'$host', sql_job=~'$cluster'`, then other fields
+
+Cluster selection: `sql_job=~'$cluster'` on "global" queries, `sql_job=~'$cluster.*'` on "database" queries
