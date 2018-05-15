@@ -55,11 +55,11 @@
     ]
   },
   "description": "Overview over the most needed and many helpful metrics to manage and debug PostgreSQL servers.",
-  "editable": true,
+  "editable": false,
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1525438378809,
+  "iteration": 1526390577840,
   "links": [],
   "panels": [
     {
@@ -1643,7 +1643,7 @@
       "fill": 5,
       "gridPos": {
         "h": 7,
-        "w": 24,
+        "w": 6,
         "x": 0,
         "y": 30
       },
@@ -4335,10 +4335,11 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "description": "Statement average execution time",
       "fill": 1,
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 8,
         "x": 0,
         "y": 121
       },
@@ -4370,7 +4371,94 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, increase(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', col='total_time', datname=~'$datname'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, rate(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', col='total_time', datname=~'$datname'}[$rate_interval]) / ignoring(col) rate(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', col='calls', datname=~'$datname'}[$rate_interval]))",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "({{datname}}) {{query}}",
+          "refId": "A",
+          "step": 40
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Top $ntop_relations Statements by Average Execution Time [$rate_interval] - $datname",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ms",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "description": "Statement execution time per second",
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 121
+      },
+      "id": 98,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "topk($ntop_relations, rate(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', col='total_time', datname=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -4421,11 +4509,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "description": "Statements called per second",
       "fill": 1,
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
+        "w": 8,
+        "x": 16,
         "y": 121
       },
       "id": 59,
@@ -4456,7 +4545,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, increase(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', col='calls', datname=~'$datname'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, rate(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', col='calls', datname=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -4484,7 +4573,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "ops",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -4758,7 +4847,7 @@
       ],
       "targets": [
         {
-          "expr": "increase(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', col='total_time', datname=~'$datname'}[$rate_interval])",
+          "expr": "increase(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', host=~'$host', col='total_time', datname=~'$datname'}[$rate_interval])",
           "format": "table",
           "interval": "",
           "intervalFactor": 2,
@@ -4829,7 +4918,7 @@
         "allValue": null,
         "current": {},
         "datasource": "prometheus",
-        "hide": 2,
+        "hide": 1,
         "includeAll": true,
         "label": "PostgreSQL Cluster",
         "multi": false,
@@ -5063,5 +5152,5 @@
   "timezone": "browser",
   "title": "PostgreSQL Server Overview",
   "uid": "5CGjHlRiz",
-  "version": 16
+  "version": 51
 }
