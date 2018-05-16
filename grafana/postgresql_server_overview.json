@@ -2321,7 +2321,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "delta(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='dbsize'}[$rate_interval])",
+          "expr": "rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='dbsize'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
