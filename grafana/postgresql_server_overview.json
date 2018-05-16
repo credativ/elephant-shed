@@ -59,7 +59,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1526458162583,
+  "iteration": 1526458162589,
   "links": [],
   "panels": [
     {
@@ -432,10 +432,10 @@
       ],
       "datasource": "prometheus",
       "decimals": 2,
-      "description": "Determines when the first table will be freezed by autovacuum.",
+      "description": "Age of oldest XID in percent of autovacuum_max_freeze_age (default: 200 M)\n\nAt 100%, tables will be frozen by autovacuum. Values over 100% indicate autovacuum is not keeping up.",
       "format": "percentunit",
       "gauge": {
-        "maxValue": 1,
+        "maxValue": 2,
         "minValue": 0,
         "show": true,
         "thresholdLabels": false,
@@ -484,7 +484,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "max(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='freeze_age'}) / max(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='autovacuum_freeze_max_age'})",
+          "expr": "max(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='freeze_age'}) / max(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='autovacuum_freeze_max_age'})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{ host }}/{{ datname }}",
@@ -492,7 +492,7 @@
           "step": 600
         }
       ],
-      "thresholds": "0.4,0.7",
+      "thresholds": "1.01,1.2",
       "title": "Next Freeze",
       "transparent": true,
       "type": "singlestat",
@@ -4056,6 +4056,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "description": "Age of oldest XID in database\n\nWhen reaching autovacuum_max_freeze_age (default: 200 M), tables will be frozen by autovacuum.",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -4065,13 +4066,15 @@
       },
       "id": 54,
       "legend": {
+        "alignAsTable": false,
         "avg": false,
-        "current": false,
+        "current": true,
         "max": false,
         "min": false,
+        "rightSide": false,
         "show": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": true,
       "linewidth": 1,
