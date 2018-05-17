@@ -1,0 +1,6 @@
+[Unit]
+Description=Restart prometheus-sql-exporter to update config based on clusters and databases present on the system
+
+[Service]
+Type=oneshot
+ExecStart=/bin/systemctl try-restart prometheus-sql-exporter.service

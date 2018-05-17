@@ -1,8 +1,0 @@
-[Unit]
-Description=Update the prometheus sql exporter config based on clusters and databases present on the system
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/update-prometheus-sql-exporter-config /etc/prometheus-sql-exporter /var/run/postgresql/prometheus-sql-exporter.yml
-ExecStartPost=/bin/systemctl try-restart prometheus-sql-exporter.service
-Nice=10

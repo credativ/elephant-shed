@@ -1,5 +1,5 @@
 sql-exporter/elephant-shed.conf lib/systemd/system/prometheus-sql-exporter.service.d
-sql-exporter/update-prometheus-sql-exporter-config.service lib/systemd/system
-sql-exporter/update-prometheus-sql-exporter-config.timer lib/systemd/system
+sql-exporter/prometheus-sql-exporter-restart.service lib/systemd/system
+sql-exporter/prometheus-sql-exporter-restart.timer lib/systemd/system
 sql-exporter/update-prometheus-sql-exporter-config usr/bin
 sql-exporter/*.yml etc/prometheus-sql-exporter
