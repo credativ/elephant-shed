@@ -44,12 +44,6 @@ locale:
 nofiles_hard: 131072
 nofiles_soft: 65536
 
-# Monitoring
-prometheus_gomaxprocs: 2
-prometheus_sql_exporter_gomaxprocs: 1
-prometheus_node_exporter_gomaxprocs: 1
-grafana_gomaxprocs: 4
-
 # Backup
 pgbackrest_backupdir: '{{ backupdir_base }}/pgbackrest'
 pgbackrest_retention_full: 4
