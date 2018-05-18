@@ -1,4 +1,4 @@
-elephant-shed (1.2) UNRELEASED; urgency=medium
+elephant-shed (1.2) unstable; urgency=medium
 
   * This release bundles a series of breaking changes:
     + Upgrade to grafana 5 and prometheus 2. (Existing monitoring data is not
@@ -7,9 +7,12 @@ elephant-shed (1.2) UNRELEASED; urgency=medium
     + Rewrite update-prometheus-sql-exporter-config using PgCommon.pm, and
       refactor its config file handling.
   * prometheus: Use 'localhost' as job_name to bundle this machine's node and
-    sql exporter results.
+    sql exporter results. 'sql_job' contains the postgresql-common cluster
+    name now.
+  * The grafana dashboard has been updated to use rate() instead of increase()
+    in most panels to show values per second or minute.
 
- -- Adrian Vondendriesch <adrian.vondendriesch@credativ.de>  Mon, 23 Apr 2018 14:32:07 +0200
+ -- Christoph Berg <christoph.berg@credativ.de>  Fri, 18 May 2018 17:06:21 +0200
 
 elephant-shed (1.1.1) unstable; urgency=medium
 

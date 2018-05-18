@@ -28,7 +28,7 @@ Supported PostgreSQL versions, via <https://apt.postgresql.org>:
 Supported distributions:
 
 * Debian Stretch (9)
-* Ubuntu Bionic (18.04, in planning)
+* Ubuntu Bionic (18.04)
 * RHEL/CentOS (in planning)
 
 # Download
