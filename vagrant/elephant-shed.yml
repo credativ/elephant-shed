@@ -62,10 +62,6 @@
     tags: apache
   - include: tasks/postgresql.yml
     tags: postgresql
-  - include: tasks/config-monitoring.yml
-    tags:
-    - config
-    - monitoring
   - include: tasks/config-backup.yml
     tags:
     - config
