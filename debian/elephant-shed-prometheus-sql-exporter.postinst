@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -e
+
+case $1 in
+  configure)
+    systemctl daemon-reload
+
+    deb-systemd-helper enable prometheus-sql-exporter.service
+    deb-systemd-invoke restart prometheus-sql-exporter
+    ;;
+esac
+
+#DEBHELPER#
