@@ -1,3 +1,9 @@
+elephant-shed (1.2.1) UNRELEASED; urgency=medium
+
+  *
+
+ -- Adrian Vondendriesch <adrian.vondendriesch@credativ.de>  Fri, 18 May 2018 17:50:17 +0200
+
 elephant-shed (1.2) unstable; urgency=medium
 
   * This release bundles a series of breaking changes:
