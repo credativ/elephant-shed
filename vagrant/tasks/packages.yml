@@ -23,6 +23,19 @@
     filename: 'pgdg'
     update_cache: false
 
+  # We want to add the debian security repository, if not already
+  # present. This is required if some 3rd party package depends on
+  # versions that are not included in stretch main but in
+  # stretch/updates main.  We use lineinfile instead of apt_repository
+  # to not add it if its already configured in
+  # /etc/apt/sources.list. apt_repository would add a new entry within
+  # /etc/apt/sources.list.d.
+- name: Setup debian security repository if not already present.
+  lineinfile:
+    path: /etc/apt/sources.list
+    regexp: "deb\ .*security.debian.org.*"
+    line: "deb http://security.debian.org/debian-security stretch/updates main contrib"
+
 # apt
 - name: Apt Dist-Upgrade
   apt:
