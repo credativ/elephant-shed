@@ -1,3 +1,4 @@
+doc/_build/html usr/share/elephant-shed/doc
 portal/apache.pam etc/pam.d
 portal/cgi-bin usr/lib
 portal/elephant-shed.conf etc/apache2/sites-available
