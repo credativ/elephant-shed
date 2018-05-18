@@ -1,88 +1,49 @@
 # queries run once per cluster (via the 'postgres' database)
 
-- name: "running_queries"
-  help: "number of running queries"
-  scope: cluster
-  labels:
-    - "datname"
-    - "usename"
-  values:
-    - "count"
-  query: >-
-          SELECT datname::text, usename::text, COUNT(*)::float AS count
-          FROM pg_stat_activity
-          WHERE NOT datname ~ '^template(0|1)$'
-          GROUP BY datname, usename
-
 - name: "pg_stat_activity"
-  help: "running backends by database and state"
+  help: "running backends by database, user, and state"
   scope: cluster
   min_version: 9.2
   max_version: 9.5
   labels:
     - "datname"
+    - "usename"
     - "state"
+    - "wait_event_type"
+    - "wait_event"
   values:
     - "count"
     - "max_tx_duration"
   query: >-
-          SELECT
-                  pg_database.datname::text,
-                  states.state::text,
-                  COALESCE(count, 0) as count,
-                  COALESCE(max_tx_duration, 0) as max_tx_duration
-          FROM
-                  (VALUES ('active'),
-                          ('waiting'),
-                          ('idle'),
-                          ('idle in transaction'),
-                          ('idle in transaction (aborted)'),
-                          ('fastpath function call'),
-                          ('disabled')) AS states(state)
-          CROSS JOIN pg_database
-          LEFT JOIN
-                  (SELECT
-                          datname,
-                          CASE WHEN waiting THEN 'waiting' ELSE state END AS state,
-                          count(*) AS count,
-                          MAX(EXTRACT(EPOCH FROM now() - xact_start))::float AS max_tx_duration
-                  FROM pg_stat_activity
-                  GROUP BY 1, 2) AS act
-          ON states.state = act.state AND pg_database.datname = act.datname
-          WHERE NOT pg_database.datname ~ '^template(0|1)$'
+          SELECT datname::text, usename::text,
+          CASE WHEN waiting THEN 'waiting'::text ELSE state END AS state,
+          ''::text AS wait_event_type, ''::text AS wait_event,
+          COUNT(*)::float AS count,
+          COALESCE(MAX(EXTRACT(EPOCH FROM clock_timestamp() - xact_start))::float, 0) AS max_tx_duration
+          FROM pg_stat_activity
+          WHERE NOT datname ~ '^template(0|1)$'
+          GROUP BY 1, 2, 3, 4, 5
 
 - name: "pg_stat_activity"
-  help: "running backends by database and state"
+  help: "running backends by database, user, and state"
   scope: cluster
   min_version: 9.6
   labels:
     - "datname"
+    - "usename"
     - "state"
+    - "wait_event_type"
+    - "wait_event"
   values:
     - "count"
     - "max_tx_duration"
   query: >-
-          SELECT
-                  pg_database.datname::text,
-                  states.state::text,
-                  COALESCE(count, 0) as count,
-                  COALESCE(max_tx_duration, 0) as max_tx_duration
-          FROM
-                  (VALUES ('active'),
-                          ('waiting'),
-                          ('idle'),
-                          ('idle in transaction'),
-                          ('idle in transaction (aborted)'),
-                          ('fastpath function call'),
-                          ('disabled')) AS states(state)
-          CROSS JOIN pg_database
-          LEFT JOIN
-                  (SELECT
-                          datname,
-                          CASE WHEN state = 'active' AND wait_event_type IS NOT NULL THEN 'waiting' ELSE state END AS state,
-                          count(*) AS count,
-                          MAX(EXTRACT(EPOCH FROM now() - xact_start))::float AS max_tx_duration
-                  FROM pg_stat_activity
-                  GROUP BY 1, 2) AS act
-          ON states.state = act.state AND pg_database.datname = act.datname
-          WHERE NOT pg_database.datname ~ '^template(0|1)$'
+          SELECT datname::text, usename::text,
+          CASE WHEN state = 'active' AND wait_event_type IS NOT NULL THEN 'waiting'::text ELSE state END AS state,
+          COALESCE(wait_event_type::text, '') AS wait_event_type,
+          COALESCE(wait_event::text, '') AS wait_event,
+          COUNT(*)::float AS count,
+          COALESCE(MAX(EXTRACT(EPOCH FROM clock_timestamp() - xact_start))::float, 0) AS max_tx_duration
+          FROM pg_stat_activity
+          WHERE NOT datname ~ '^template(0|1)$'
+          GROUP BY 1, 2, 3, 4, 5
