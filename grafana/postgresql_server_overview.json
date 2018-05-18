@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "5.1.2"
+      "version": "5.1.3"
     },
     {
       "type": "panel",
@@ -59,7 +59,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1526458162589,
+  "iteration": 1526656162874,
   "links": [],
   "panels": [
     {
@@ -5066,9 +5066,9 @@
         "allValue": null,
         "current": {},
         "datasource": "prometheus",
-        "hide": 1,
+        "hide": 2,
         "includeAll": true,
-        "label": "PostgreSQL Cluster",
+        "label": "PostgreSQL Port",
         "multi": false,
         "name": "host",
         "options": [],
@@ -5300,5 +5300,5 @@
   "timezone": "browser",
   "title": "PostgreSQL Server Overview",
   "uid": "5CGjHlRiz",
-  "version": 52
+  "version": 54
 }
