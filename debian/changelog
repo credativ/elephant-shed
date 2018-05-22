@@ -1,6 +1,7 @@
 elephant-shed (1.2.1) UNRELEASED; urgency=medium
 
-  *
+  [ Christoph Berg ]
+  * Start prometheus-sql-exporter-restart.timer on package installation.
 
  -- Adrian Vondendriesch <adrian.vondendriesch@credativ.de>  Fri, 18 May 2018 17:50:17 +0200
 
