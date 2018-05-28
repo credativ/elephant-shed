@@ -1,46 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_PROMETHEUS",
-      "label": "prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "5.1.3"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph",
-      "version": "5.0.0"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "5.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "singlestat",
-      "name": "Singlestat",
-      "version": "5.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "table",
-      "name": "Table",
-      "version": "5.0.0"
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -58,8 +16,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": null,
-  "iteration": 1526656162874,
+  "iteration": 1527507433164,
   "links": [],
   "panels": [
     {
@@ -312,7 +269,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "1 - min(node_filesystem_free{job=~'$job'} / node_filesystem_size{job=~'$job'})",
+          "expr": "1 - min(node_filesystem_free{job=~'$job', mountpoint=~'$filesystem'} / node_filesystem_size{job=~'$job', mountpoint=~'$filesystem'})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -1664,7 +1621,7 @@
       "fill": 5,
       "gridPos": {
         "h": 7,
-        "w": 6,
+        "w": 12,
         "x": 0,
         "y": 30
       },
@@ -1689,6 +1646,137 @@
       "renderer": "flot",
       "repeat": "filesystem",
       "repeatDirection": "h",
+      "scopedVars": {
+        "filesystem": {
+          "selected": false,
+          "text": "/",
+          "value": "/"
+        }
+      },
+      "seriesOverrides": [
+        {
+          "alias": "/Used.*$/",
+          "color": "#BF1B00"
+        },
+        {
+          "alias": "/^Free .*$/",
+          "color": "#629E51",
+          "fill": 1
+        },
+        {}
+      ],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "node_filesystem_size{mountpoint=~'$filesystem', job=~'$job'} - node_filesystem_avail{mountpoint=~'$filesystem', device!~'rootfs', job=~'$job'}",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 2,
+          "legendFormat": "Used \"{{mountpoint}}\" ({{device}}, {{fstype}})",
+          "metric": "node_filesystem_si",
+          "refId": "B",
+          "step": 120
+        },
+        {
+          "expr": "node_filesystem_avail{mountpoint=~'$filesystem', device!~'rootfs', job=~'$job'}",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 2,
+          "legendFormat": "Free \"{{mountpoint}}\" ({{device}}, {{fstype}})",
+          "metric": "node_filesystem_avail",
+          "refId": "A",
+          "step": 120
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Filesystem - \"$filesystem\"",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": false,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "bytes",
+          "label": "",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {
+        "Free \"/\" (/dev/sda1, ext4)": "#629E51",
+        "Used \"/\" (/dev/sda1, ext4)": "#E5AC0E"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fill": 5,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 30
+      },
+      "id": 99,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "minSpan": null,
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1527507433164,
+      "repeatPanelId": 32,
+      "scopedVars": {
+        "filesystem": {
+          "selected": false,
+          "text": "/mnt",
+          "value": "/mnt"
+        }
+      },
       "seriesOverrides": [
         {
           "alias": "/Used.*$/",
@@ -5024,7 +5112,10 @@
     "list": [
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "text": "localhost",
+          "value": "localhost"
+        },
         "datasource": "prometheus",
         "hide": 0,
         "includeAll": false,
@@ -5044,7 +5135,10 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "text": "10/main",
+          "value": "10/main"
+        },
         "datasource": "prometheus",
         "hide": 0,
         "includeAll": false,
@@ -5064,7 +5158,10 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": "prometheus",
         "hide": 2,
         "includeAll": true,
@@ -5084,7 +5181,11 @@
       },
       {
         "allValue": "",
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": "prometheus",
         "hide": 0,
         "includeAll": true,
@@ -5146,7 +5247,12 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": "prometheus",
         "hide": 0,
         "includeAll": true,
@@ -5218,7 +5324,10 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": "prometheus",
         "hide": 0,
         "includeAll": true,
@@ -5238,17 +5347,22 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": "prometheus",
         "hide": 0,
         "includeAll": true,
         "label": "Filesystem",
-        "multi": false,
+        "multi": true,
         "name": "filesystem",
         "options": [],
         "query": "label_values(node_filesystem_size{job='$job'}, mountpoint)",
         "refresh": 2,
-        "regex": "",
+        "regex": "(?!/media).*",
         "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
@@ -5258,7 +5372,11 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": "prometheus",
         "hide": 0,
         "includeAll": true,
@@ -5300,5 +5418,5 @@
   "timezone": "browser",
   "title": "PostgreSQL Server Overview",
   "uid": "5CGjHlRiz",
-  "version": 54
+  "version": 1
 }
