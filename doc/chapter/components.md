@@ -48,7 +48,7 @@ postgresql@<version>-<name>`) or the Cockpit web interface.
 
 ![Figure: Cockpit Cluster Service](images/cockpit_postgresql_service.png)
 
-*Note:* Future versions of The Elephant Shed will include cluster managemant in the [portal](#portal).
+*Note:* Future versions of The Elephant Shed will include cluster management in the [portal](#portal).
 
 ## Portal
 
@@ -189,11 +189,11 @@ Prometheus exporter for SQL metrics - This service collects the PostgreSQL speci
 The metrics are retrieved by querying the database.
 In order to not to generate additional load the metrics are collected only every 60 seconds.
 
-**WARNING: It is not advisable to set the monitoring interval for the `prometheus-sql-exporter` lower then 60 Seconds.
+**WARNING: It is not advisable to set the monitoring interval for the `prometheus-sql-exporter` lower than 60 Seconds.
 This could interference with normal applications and has a high impact on the PostgreSQL cluster.**
 
 The `prometheus-sql-exporter.service` starts one connection to each database on startup and keeps this connection open.
-At the beginning of each connection the `prometheus-sql-exporter.service` cecks if the extension `pg_stat_statements` is present.
+At the beginning of each connection the `prometheus-sql-exporter.service` checks if the extension `pg_stat_statements` is present.
 If not, the service issues the statement `CREATE EXTENSION pg_stat_statements`.
 
 Configuration files:
@@ -203,8 +203,8 @@ Configuration files:
 #### update-prometheus-sql-exporter-config.timer
 
 This timer triggers the `update-prometheus-sql-exporter-config.service` periodically which generates a new configuration for the `prometheus-sql-exporter` every 10 minutes.
-This makes sure that every new database cluster and every new dateabase is included in the monitoring automatically.
-It's possible to call the update-prometheus-sql-exporter-config.service manually to generate a ne configration directly.
+This makes sure that every new database cluster and every new database is included in the monitoring automatically.
+It's possible to call the update-prometheus-sql-exporter-config.service manually to generate a new configuration directly.
 
 Configuration template file:
 
@@ -365,7 +365,7 @@ The gzip compression level to use (6 is the default value).
 Enables asynchronous archiving of WAL files which allows a higher archiving throughput.
 
 #### spool-path
-Where to keep additional information for asynchronous archiving (status dir).
+Where to keep additional information for asynchronous archiving (status directory).
 
 #### archive-queue-max
 How many WAL segments to keep before throwing segments away.
@@ -444,7 +444,7 @@ This timer triggers an incremental backup every Tuesday and Thursday in the earl
 
 WAL archiving is disabled by default for new PostgreSQL clusters.
 It can be activated using the portal (see [portal](#portal)) or by starting `pgbackrest-toggle-archving.service`.
-The service toggles achiving mode to on or off, depending on the former state.
+The service toggles archiving mode to on or off, depending on the former state.
 
 *Note:* If archiving is disabled and a full or incremental backup is started (manual or via timer), archiving is automatically enabled.
 This step is required to ensure all WAL files need for a restore are archived beside the basebackup.
