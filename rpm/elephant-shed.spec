@@ -112,13 +112,16 @@ Summary: PostgreSQL dashboard -- SQL exporter integration
 
 %package -n elephant-shed-cockpit
 Requires: cockpit
-#Recommends:
-# cockpit-packagekit
+Requires: cockpit-packagekit
 Summary: PostgreSQL dashboard -- cockpit integration
 %description -n elephant-shed-cockpit
  The Elephant Shed is a web-based PostgreSQL management front-end.
  .
  This package provides the integration with cockpit.
+%post -n elephant-shed-cockpit
+systemctl daemon-reload
+systemctl enable cockpit.socket
+systemctl start cockpit.socket
 
 %package -n elephant-shed-shellinabox
 Requires: shellinabox
