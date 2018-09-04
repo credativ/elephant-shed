@@ -48,12 +48,18 @@ Summary: PostgreSQL dashboard -- PostgreSQL integration
  This package provides the integration with PostgreSQL.
 
 %package -n elephant-shed-pgadmin4
-Requires: pgadmin4-apache2
+#Requires: epel-release
+Requires: pgadmin4-web
 Summary: PostgreSQL dashboard -- pgAdmin4 integration
 %description -n elephant-shed-pgadmin4
  The Elephant Shed is a web-based PostgreSQL management front-end.
  .
  This meta package provides the integration with pgAdmin4.
+%post -n elephant-shed-pgadmin4
+test -f /etc/httpd/conf.d/pgadmin4.conf || cp /etc/httpd/conf.d/pgadmin4.conf.sample /etc/httpd/conf.d/pgadmin4.conf
+systemctl restart httpd
+install -d -o apache -g apache /var/lib/pgadmin /var/log/pgadmin
+su apache -c "PGADMIN_SETUP_EMAIL=admin@localhost PGADMIN_SETUP_PASSWORD=admin python /usr/lib/python2.7/site-packages/pgadmin4-web/setup.py" -s /bin/bash
 
 %package -n elephant-shed-pgbadger
 Requires: pgbadger >= 9
@@ -184,7 +190,7 @@ EOF
 
 %files -n elephant-shed-portal                   -f files-elephant-shed-portal
 %files -n elephant-shed-postgresql               -f files-elephant-shed-postgresql
-#%files -n elephant-shed-pgadmin4                -f files-elephant-shed-pgadmin4
+%files -n elephant-shed-pgadmin4
 %files -n elephant-shed-pgbadger                 -f files-elephant-shed-pgbadger
 %files -n elephant-shed-pgbackrest               -f files-elephant-shed-pgbackrest
 %files -n elephant-shed-grafana                  -f files-elephant-shed-grafana
