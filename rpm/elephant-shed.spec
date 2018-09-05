@@ -84,6 +84,10 @@ Summary: PostgreSQL dashboard -- pgBackRest integration
  The Elephant Shed is a web-based PostgreSQL management front-end.
  .
  This package provides the integration with pgBackRest.
+%post -n elephant-shed-pgbackrest
+systemctl daemon-reload
+install -d -o postgres -g postgres /var/lib/pgbackrest /var/www/html/pgbackrest
+chown postgres: /etc/pgbackrest.conf
 
 %package -n elephant-shed-grafana
 Requires: curl
@@ -142,6 +146,10 @@ Summary: PostgreSQL dashboard -- shellinabox integration
  The Elephant Shed is a web-based PostgreSQL management front-end.
  .
  This meta package provides the integration with shellinabox.
+%post -n elephant-shed-shellinabox
+systemctl daemon-reload
+systemctl enable shellinaboxd
+systemctl start shellinaboxd
 
 %package -n elephant-shed-tmate
 Requires: tmate
@@ -204,5 +212,5 @@ EOF
 %files -n elephant-shed-prometheus-node-exporter -f files-elephant-shed-prometheus-node-exporter
 %files -n elephant-shed-prometheus-sql-exporter  -f files-elephant-shed-prometheus-sql-exporter
 %files -n elephant-shed-cockpit                  -f files-elephant-shed-cockpit
-#%files -n elephant-shed-shellinabox             -f files-elephant-shed-shellinabox
+%files -n elephant-shed-shellinabox
 %files -n elephant-shed-tmate                    -f files-elephant-shed-tmate
