@@ -6,24 +6,26 @@ PGCLUSTER="$1" # in 9.6-main format (%i)
 REPORTDIR="/var/lib/pgbadger/$PGCLUSTER"
 
 INFO="$(pg_lsclusters -h $PGCLUSTER)"
-LOGFILE=${INFO##* }
-LOGDIR=${LOGFILE%/*}
+[ "$INFO" ] || exit 1
+set -- $INFO
+PGDATA="$6"
+LOGFILE="$7"
+LOGFILE="${LOGFILE%,*}" # strip ",syslog" et al
+LOGFILE="${LOGFILE/\%?/*}" # replace logging_collector placeholders by wildcard
+case $LOGFILE in
+  /*) ;;
+  *) LOGFILE="$PGDATA/$LOGFILE" ;; # prepend PGDATA
+esac
 
-if ! test -d "$LOGDIR"; then
-  echo "Log directory $LOGDIR not found"
-  exit 1
-fi
+PREFIX="$(pg_conftool -s ${PGCLUSTER/-/ } show log_line_prefix)"
 
-CONFTOOL="pg_conftool -s ${PGCLUSTER/-/ }"
-PREFIX="$($CONFTOOL show log_line_prefix)"
-
+[ -t 1 ] || QUIET="--quiet"
 mkdir -p "$REPORTDIR"
 
 set -x
-pgbadger \
+pgbadger ${QUIET:-} \
   --format stderr ${PREFIX+--prefix="$PREFIX"} \
-  --title="${PGCLUSTER/-/\/} pgBadger report" \
+  --title="${PGCLUSTER/-//} pgBadger report" \
   --incremental --extra-files --start-monday \
   --pid-dir "$REPORTDIR" --outdir "$REPORTDIR" \
-  --quiet \
-  "$LOGDIR"/postgresql-"$PGCLUSTER"*.log*
+  $LOGFILE*
