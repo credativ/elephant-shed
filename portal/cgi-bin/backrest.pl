@@ -4,10 +4,11 @@ use strict;
 use warnings;
 use Template;
 use CGI;
+use CGI::Carp 'fatalsToBrowser';
 use Data::Dumper;
 
 my $q = CGI->new();
-my $get_cluster = $q->param('cluster');
+my $get_cluster = $q->param('cluster') // '';
 
 my $template_path = '/usr/share/elephant-shed/template';
 my $page = 'backrest.html';
@@ -30,7 +31,7 @@ while (my $file = readdir(DIR)) {
     # all other clusters.
     next unless ($file =~ m/$get_cluster(\.(backup|log))?/);
     push @backup_files, $file;
-    
+
     open (FILE, join "/",$directory,$file) || die "Could not open \"$file\", $!";
     my $content = join '', <FILE>;
     $backups{$file} = $content;
