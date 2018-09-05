@@ -69,6 +69,12 @@ Summary: PostgreSQL dashboard -- pgBadger integration
  The Elephant Shed is a web-based PostgreSQL management front-end.
  .
  This package provides the integration with pgBadger.
+%post -n elephant-shed-pgbadger
+install -d -o postgres -g postgres /var/lib/pgbadger
+systemctl daemon-reload
+systemctl enable pgbadger.timer
+systemctl start pgbadger.timer
+systemctl start pgbadger
 
 %package -n elephant-shed-pgbackrest
 Requires: pgbackrest
