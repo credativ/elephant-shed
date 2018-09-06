@@ -116,7 +116,7 @@ Description: PostgreSQL dashboard -- Prometheus integration
 Package: elephant-shed-prometheus-node-exporter
 Architecture: all
 Depends:
- prometheus-node-exporter (>= 0.15.0),
+ prometheus-node-exporter (>= 0.16.0),
  ${misc:Depends},
 Breaks: elephant-shed-prometheus (<< 1.1)
 Replaces: elephant-shed-prometheus (<< 1.1)
