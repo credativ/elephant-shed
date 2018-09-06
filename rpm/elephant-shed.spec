@@ -115,7 +115,7 @@ systemctl enable prometheus
 systemctl start prometheus
 
 %package -n elephant-shed-prometheus-node-exporter
-Requires: node_exporter >= 0.15.0
+Requires: node_exporter >= 0.16.0
 Summary: PostgreSQL dashboard -- Node exporter integration
 %description -n elephant-shed-prometheus-node-exporter
  The Elephant Shed is a web-based PostgreSQL management front-end.
