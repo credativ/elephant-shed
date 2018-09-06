@@ -222,6 +222,11 @@ EOF
 # preserve storage.tsdb.path from /etc/default/prometheus
 sed -i -e 's!^ARGS="!PROMETHEUS_OPTS="--storage.tsdb.path=/var/lib/prometheus/data !' %{buildroot}/etc/default/elephant-shed-prometheus
 
+# node exporter service is named differently on CentOS, and uses a different variable for extra arguments
+mv %{buildroot}/etc/systemd/system/prometheus-node-exporter.service.d %{buildroot}/etc/systemd/system/node_exporter.service.d
+sed -i -e 's!prometheus-node-exporter.service.d!node_exporter.service.d!' files-elephant-shed-prometheus-node-exporter
+sed -i -e 's!^ARGS=!NODE_EXPORTER_OPTS=!' %{buildroot}/etc/default/elephant-shed-prometheus-node-exporter
+
 %files -n elephant-shed-portal                   -f files-elephant-shed-portal
 %files -n elephant-shed-postgresql               -f files-elephant-shed-postgresql
 %files -n elephant-shed-pgadmin4
