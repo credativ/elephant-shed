@@ -97,34 +97,50 @@ Summary: PostgreSQL dashboard -- Grafana integration
  The Elephant Shed is a web-based PostgreSQL management front-end.
  .
  This package provides the integration with Grafana.
+%post -n elephant-shed-grafana
+systemctl daemon-reload
+systemctl enable grafana-server.service
+systemctl start grafana-server.service
 
 %package -n elephant-shed-prometheus
-Requires: prometheus >= 2.0
+Requires: prometheus2
 Summary: PostgreSQL dashboard -- Prometheus integration
 %description -n elephant-shed-prometheus
  The Elephant Shed is a web-based PostgreSQL management front-end.
  .
  This package provides the integration with Prometheus.
+%post -n elephant-shed-prometheus
+systemctl daemon-reload
+systemctl enable prometheus
+systemctl start prometheus
 
 %package -n elephant-shed-prometheus-node-exporter
-Requires: prometheus-node-exporter >= 0.15.0
+Requires: node_exporter >= 0.15.0
 Summary: PostgreSQL dashboard -- Node exporter integration
 %description -n elephant-shed-prometheus-node-exporter
  The Elephant Shed is a web-based PostgreSQL management front-end.
  .
  This package provides the integration with the Prometheus node
  exporter.
+%post -n elephant-shed-prometheus-node-exporter
+systemctl daemon-reload
+systemctl enable node_exporter
+systemctl start node_exporter
 
 %package -n elephant-shed-prometheus-sql-exporter
-Requires: libyaml-perl
+Requires: perl-YAML
 Requires: postgresql-common
-Requires: prometheus-sql-exporter
+Requires: sql_exporter
 Summary: PostgreSQL dashboard -- SQL exporter integration
 %description -n elephant-shed-prometheus-sql-exporter
  The Elephant Shed is a web-based PostgreSQL management front-end.
  .
  This package provides the integration with the Prometheus SQL
  exporter.
+%post -n elephant-shed-prometheus-sql-exporter
+systemctl daemon-reload
+systemctl enable prometheus-sql-exporter
+systemctl start prometheus-sql-exporter
 
 %package -n elephant-shed-cockpit
 Requires: cockpit
@@ -174,7 +190,7 @@ for inst in debian/*.install; do
     pkg=$(basename $inst .install)
     echo "### Reading $pkg files list from $inst ###"
     while read file dir; do
-        test -e $file || continue
+        [ "$file" = "doc/_build/html" ] && continue
         case $file in
           portal/cgi-bin) dir="var/www" ;;
           portal/elephant-shed.conf) dir="etc/httpd/conf.d" ;;
@@ -201,6 +217,10 @@ cat > %{buildroot}/etc/pam.d/apache <<EOF
 auth		include		password-auth
 account		include		password-auth
 EOF
+
+# prometheus2.rpm uses a different variable for extra arguments
+# preserve storage.tsdb.path from /etc/default/prometheus
+sed -i -e 's!^ARGS="!PROMETHEUS_OPTS="--storage.tsdb.path=/var/lib/prometheus/data !' %{buildroot}/etc/default/elephant-shed-prometheus
 
 %files -n elephant-shed-portal                   -f files-elephant-shed-portal
 %files -n elephant-shed-postgresql               -f files-elephant-shed-postgresql
