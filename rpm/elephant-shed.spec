@@ -37,6 +37,14 @@ Requires: perl-Template-Toolkit
 %description -n elephant-shed-portal
 The Elephant Shed is a web-based PostgreSQL management front-end.
 This package provides the web interface.
+%post -n elephant-shed-portal
+# add shadow group capable of reading /etc/shadow
+groupadd --system shadow || :
+usermod -a -G shadow apache
+chgrp shadow /etc/shadow /etc/gshadow
+chmod g+r /etc/shadow /etc/gshadow
+systemctl enable httpd
+systemctl restart httpd
 
 %package -n elephant-shed-postgresql
 Requires: adduser
