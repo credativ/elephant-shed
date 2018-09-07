@@ -214,6 +214,8 @@ sed -i -e 's!SSLCertificateFile.*!SSLCertificateFile /etc/pki/tls/certs/localhos
        -e 's!SSLCertificateKeyFile.*!SSLCertificateKeyFile /etc/pki/tls/private/localhost.key!' \
        -e 's!ErrorLog.*!ErrorLog /var/log/httpd/error_log!' \
        -e 's!CustomLog.*!CustomLog /var/log/httpd/access_log combined!' \
+       -e 's!Header edit.*Content-Security-Policy.*!#&!' \
+       -e '/Header unset Content-Security-Policy/s/#//' \
   %{buildroot}/etc/httpd/conf.d/elephant-shed.conf
 # load authnz_pam (it doesn't do that by itself)
 mkdir -p %{buildroot}/etc/httpd/conf.modules.d
