@@ -1,6 +1,16 @@
 doc/_build/html usr/share/elephant-shed/doc
-portal/cgi-bin usr/lib
 portal/elephant-shed.conf etc/apache2/sites-available
-portal/image usr/share/elephant-shed
-portal/template usr/share/elephant-shed
-portal/static usr/share/elephant-shed
+portal/apache.pam etc/pam.d
+portal/elephantdash.py usr/share/elephant-shed
+portal/config.py usr/share/elephant-shed
+portal/wsgi.py usr/share/elephant-shed
+portal/templates usr/share/elephant-shed
+portal/templates/frame.html usr/share/elephant-shed/templates
+portal/templates/detail.html usr/share/elephant-shed/templates
+portal/templates/clusters.html usr/share/elephant-shed/templates
+portal/templates/makros/ usr/share/elephant-shed/templates/makros/clusterview.html
+
+
+
+
+

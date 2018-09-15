@@ -41,9 +41,10 @@ Depends:
  apache2,
  libapache2-mod-authnz-external,
  libapache2-mod-authz-unixgroup,
- libtemplate-perl,
- libcgi-pm-perl,
- pwauth,
+ libjs-jquery-datatables,
+ libjs-bootstrap,
+ python3,
+ python3-flask,
  ${misc:Depends},
 Description: PostgreSQL dashboard -- web interface
  The Elephant Shed is a web-based PostgreSQL management front-end.
