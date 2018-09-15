@@ -62,10 +62,10 @@
   - ssl-cert
   - net-tools
   - ferm
-  - libjson-perl
-  - python3-pyyaml
-  - libjs-jquery-datatables
-  - libjs-bootstrap
+    #  - libjson-perl
+    #- python3-pyyaml
+    #- libjs-jquery-datatables
+    #- libjs-bootstrap
   
 - name: Configure pgadmin4 web user
   debconf:

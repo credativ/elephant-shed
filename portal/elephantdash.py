@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, Response
 #from flask_login import LoginManager, login_required, login_user, current_user, logout_user
-from flask_cors import CORS
+#from flask_cors import CORS
 import os
 import psycopg2
 import psycopg2.extras
@@ -11,7 +11,7 @@ import time
 #from .views.dash import view
 
 app = Flask(__name__, static_url_path='/static'  )
-CORS(app, resources={r"*":{"origins":"*"}})
+#CORS(app, resources={r"*":{"origins":"*"}})
 #app.register_blueprint(view)
 
 app.debug=config.debug
