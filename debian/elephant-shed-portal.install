@@ -8,7 +8,8 @@ portal/templates usr/share/elephant-shed
 portal/templates/frame.html usr/share/elephant-shed/templates
 portal/templates/detail.html usr/share/elephant-shed/templates
 portal/templates/clusters.html usr/share/elephant-shed/templates
-portal/templates/makros/ usr/share/elephant-shed/templates/makros/clusterview.html
+portal/templates/makros usr/share/elephant-shed/templates/
+portal/templates/makros/clusterview.html usr/share/elephant-shed/templates/makros/
 
 
 

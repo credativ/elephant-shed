@@ -1,0 +1,35 @@
+{% import 'makros/clusterview.html' as clusterview%}
+
+
+{% extends "frame.html" %}
+{% block mainwindow %}
+
+<div id="querying_hosts_div" class="progress" style="height: 0px;">
+	<div id="querying_hosts_bar" class="progress-bar progress-bar-success active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+	<div id="querying_hosts_bar_error" class="progress-bar progress-bar-danger active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+</div>
+
+<div class="row">
+	<div class="col-sm-4" style="min-width: 400px">
+	<div class="panel panel-default">
+		<div class="panel-heading">Elephant-Shed Hosts</div>
+		<div class="panel-body">
+		{{ clusterview.table_hosts() }}
+	      </div>
+	</div>
+</div>
+
+<div class="col-sm-8" style="min-width: 400px"> 
+	<div class="panel panel-default" >
+  		<div class="panel-heading">PostgreSQL-Instances</div>
+		<div class="panel-body">
+			<a href="#" onclick="refresh()" style="float: left;">Refresh</a>
+			{{ clusterview.table_clusters() }}
+		</div>
+	</div>
+</div>
+</div>
+
+{{ clusterview.js_clusterview( environment['hosts']) }}
+
+{% endblock %}
