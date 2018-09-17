@@ -68,7 +68,7 @@ function refresh(){
 	var query_fail = 0;
 	var parties = {{ hostlist.__len__() }} ;
 	function pullClusterInfo( _url ){
-		$.ajax({url: 'http://'+_url+':15432/cluster/',
+		$.ajax({url: 'https://'+_url+'/pgapi/cluster/',
 		       success: function(result){
 					var rawRow = $table_hosts.row.add( [ _url,
 						'<span class="label label-success">9.6</span> <span class="label label-success">10</span> <span class="label label-success">todo</span>',
@@ -90,7 +90,7 @@ function refresh(){
 								  _url,
 								  result[i]['port'],
 								  state,
-								  '<a href="/detail/'+_url+'/'+result[i]['version']+'/'+result[i]['cluster']+'"><button type="button" class="btn btn-default btn-sm">Details</button></a>'+
+								'<a href="{{ url_for("index") }}detail/'+_url+'/'+result[i]['version']+'/'+result[i]['cluster']+'"><button type="button" class="btn btn-default btn-sm">Details</button></a>'+
 								  '<a href="https://localhost/grafana/d/5CGjHlRiz/postgresql-server-overview?refresh=1m&orgId=1"> <button type="button" class="btn btn-default btn-sm">Monitoring</button></a>' 
 									]).draw(true).node() ;
 						}

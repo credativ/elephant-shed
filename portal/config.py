@@ -1,8 +1,9 @@
 debug=True
 usemin=False
 appkey="TEST"
+application_root = "/portal"
 hosts=[
-        {"address":"localhost"},
+        {"address":"localhost:4433"},
         {"address":"localhorst"},
         {"address":"127.0.0.1"},
         ]

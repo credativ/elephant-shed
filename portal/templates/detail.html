@@ -7,7 +7,7 @@
 
 <div class="panel panel-default">
   <div class="panel-heading" style="font-weight: bold">
-	  <a href="/">Shed</a> / <a href="/detail/{{ detail_host }}">{{  detail_host }}</a> / {{ detail_version }}-{{detail_cluster}}
+	  <a href="/">Shed</a> / <a href="{{ url_for("index") }}detail/{{ detail_host }}">{{  detail_host }}</a> / {{ detail_version }}-{{detail_cluster}}
   </div>
   <div class="panel-body" ><!--
 	  <iframe src="https://localhost/grafana/d-solo/5CGjHlRiz/postgresql-server-overview?refresh=1m&orgId=1&from=1536737683130&to=1536748483132&var-job=localhost&var-cluster=9.6%2Fdemo&var-host=All&var-datname=All&var-rate_interval=5m&var-disk=All&var-ntop_relations=5&var-interface=All&var-filesystem=All&var-application_name=All&theme=light&panelId=1" width="350" height="200" frameBorder="0"  style="float:right"></iframe>
@@ -106,9 +106,10 @@ log('Starting Instance...');
 }
 function pg_reload(){
 log('Reloading Instance...');
-	$.ajax({url: 'http://{{ detail_host }}:15432/cluster/{{ detail_version }}/{{ detail_cluster}}',
+	$.ajax({url: 'https://{{ detail_host }}/pgapi/cluster/{{ detail_version }}/{{ detail_cluster}}',
 	method: 'patch',
 	data: '{ "state": "reload" }',
+	contentType: "application/json; charset=utf-8",
 	success: function(data){ log("Instance Reloaded..") },
 	error: function(a,data){log("Could not Reload"); console.log(data);}
 	});
@@ -141,7 +142,7 @@ function fill_details( details, host) {
 
 function get_host( hosturl, clustername, clusterversion){
 
-	 $.ajax({ url: 'http://'+hosturl+':15432/cluster/'+clusterversion+'/'+clustername,
+	 $.ajax({ url: 'https://'+hosturl+'/pgapi/cluster/'+clusterversion+'/'+clustername,
 		 success: function(result){ fill_details( result, hosturl )  },
 		error: function(){ alert('BAD');},
 
