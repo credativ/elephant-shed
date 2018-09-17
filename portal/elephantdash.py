@@ -13,7 +13,7 @@ import time
 app = Flask(__name__, static_url_path='/static'  )
 #CORS(app, resources={r"*":{"origins":"*"}})
 #app.register_blueprint(view)
-
+app.config["APPLICATION_ROOT"]=config.application_root
 app.debug=config.debug
 app.secret_key=config.appkey
 

@@ -47,6 +47,7 @@ Depends:
  libjs-bootstrap,
  python3,
  python3-flask,
+ pgapi-apache2,
  ${misc:Depends},
 Description: PostgreSQL dashboard -- web interface
  The Elephant Shed is a web-based PostgreSQL management front-end.
