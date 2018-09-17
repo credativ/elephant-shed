@@ -25,7 +25,9 @@ else:
 
 env={"navigation":config.navigation,
      "hosts": config.hosts,
-     "usemin": config.usemin }
+     "usemin": config.usemin,
+     "deeplinks": config.deeplinks,
+     }
 
 
 @app.route("/" )
