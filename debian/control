@@ -41,6 +41,8 @@ Depends:
  apache2,
  libapache2-mod-authnz-external,
  libapache2-mod-authz-unixgroup,
+ libapache2-mod-wsgi-py3,
+ python3-psycopg2,
  libjs-jquery-datatables,
  libjs-bootstrap,
  python3,
