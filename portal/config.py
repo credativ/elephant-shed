@@ -5,7 +5,7 @@ application_root = "/portal"
 hosts=[
         {"address":"localhost:4433"},
         {"address":"localhorst"},
-        {"address":"127.0.0.1"},
+        {"address":"127.0.0.1:4433"},
         ]
 
 navigation=[
