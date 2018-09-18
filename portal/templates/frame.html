@@ -4,14 +4,16 @@
 	<meta charset="utf-8"/>
 	<link rel="stylesheet" href="/static/bootstrap/css/bootstrap{{ environment['usemin'] }}.css" >
 <!--<link rel="stylesheet" href="/static/jquery-datatables/css/dataTables.bootstrap.css" >-->
-<link rel="stylesheet" href="/static/jquery-datatables/css/jquery.dataTables{{ environment['usemin'] }}.css" >
+	<link rel="stylesheet" href="{{ url_for("index") }}static/jquery-datatables/css/jquery.dataTables{{ environment['usemin'] }}.css" >
+	<link rel="stylesheet" href="{{ url_for("index") }}static/es.css" >
 
 
-<script src="/static/jquery/jquery{{ environment['usemin'] }}.js"></script>
-<script src="/static/bootstrap/js/bootstrap{{ environment['usemin'] }}.js" ></script>
+
+<script src="{{ url_for("index") }}static/jquery/jquery{{ environment['usemin'] }}.js"></script>
+<script src="{{ url_for("index") }}static/bootstrap/js/bootstrap{{ environment['usemin'] }}.js" ></script>
 <!--<script src="/static/jquery-datatables/dataTables.jqueryui.js"></script>-->
-<script src="/static/jquery-datatables/jquery.dataTables{{ environment['usemin'] }}.js"></script>
-<script src="/static/jquery-datatables/dataTables.bootstrap{{ environment['usemin'] }}.js"></script>
+<script src="{{ url_for("index") }}static/jquery-datatables/jquery.dataTables{{ environment['usemin'] }}.js"></script>
+<script src="{{ url_for("index") }}static/jquery-datatables/dataTables.bootstrap{{ environment['usemin'] }}.js"></script>
 <style>
 .nav a {
 	padding: 3px;
@@ -57,7 +59,12 @@
 		 ">
 	 The Elephant Shed - PostgreSQL Appliance Dashboard
 	</div>
-	<div style=" padding: 20px;">
+<div style=" padding: 20px;">
+{% import 'makros/notifications.html' as notifications %}
+{{ notifications.element() }}
+{{ notifications.js() }}
+<a onclick="push_notification('WHOOP WHOOP','b');">Test_Alerts</a>
+	
        	{% block mainwindow %}{% endblock %}
 	</div>
 		</td>

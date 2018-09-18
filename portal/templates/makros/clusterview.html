@@ -100,10 +100,10 @@ function refresh(){
 							hide_and_reset_querybar();
 							}
 		      				 },
-			error: function(request, status, error){
+			error: function(request, status, err){
 					query_fail += 100. / parties;
 					$('#querying_hosts_bar_error').css("width",""+query_fail+"%");
-
+					push_notification( 'Connection to '+_url+' failed.');
 					var rawRow = $table_hosts.row.add( [_url,
 						  '',
 						  '<span class="label label-danger">unreachable</span>',

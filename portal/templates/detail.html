@@ -9,14 +9,19 @@
   <div class="panel-heading" style="font-weight: bold">
 	  <a href="/">Shed</a> / <a href="{{ url_for("index") }}detail/{{ detail_host }}">{{  detail_host }}</a> / {{ detail_version }}-{{detail_cluster}}
   </div>
-  <div class="panel-body" ><!--
-	  <iframe src="https://localhost/grafana/d-solo/5CGjHlRiz/postgresql-server-overview?refresh=1m&orgId=1&from=1536737683130&to=1536748483132&var-job=localhost&var-cluster=9.6%2Fdemo&var-host=All&var-datname=All&var-rate_interval=5m&var-disk=All&var-ntop_relations=5&var-interface=All&var-filesystem=All&var-application_name=All&theme=light&panelId=1" width="350" height="200" frameBorder="0"  style="float:right"></iframe>
-	  <iframe src="https://localhost/grafana/d-solo/5CGjHlRiz/postgresql-server-overview?refresh=1m&orgId=1&from=1536738004168&to=1536748804170&var-job=localhost&var-cluster=9.6%2Fdemo&var-host=All&var-datname=All&var-rate_interval=5m&var-disk=All&var-ntop_relations=5&var-interface=All&var-filesystem=All&var-application_name=All&theme=light&panelId=32" width="450" height="200" frameborder="0" style="float: right"></iframe>-->
+  <div class="panel-body" >
  <div class="btn-group">
- <button type="button" class="btn btn-primary state-disable-for-online" onclick="pg_start()">Start</button>
- <button type="button" class="btn btn-primary state-disable-for-offline">Stop</button>
- <button type="button" class="btn btn-primary  state-disable-for-offline" onclick="pg_reload()">Reload</button>
- <button type="button" class="btn btn-primary  state-disable-for-offline" onclick="pg_restart()">Restart</button>
+	 <!--
+	Possible States:
+	online
+	offlie
+	recovery
+	no-recovery
+	 -->
+ <button type="button" class="btn btn-primary state-disable-for-online" onclick="pg_start(this)">Start</button>
+ <button type="button" class="btn btn-primary state-disable-for-offline" onclick="pg_stop(this)">Stop</button>
+ <button type="button" class="btn btn-primary state-disable-for-offline" onclick="pg_reload(this)">Reload</button>
+ <button type="button" class="btn btn-primary state-disable-for-offline" onclick="pg_restart(this)">Restart</button>
  <button type="button" class="btn btn-primary state-disable-for-no-recovery state-disable-for-offline" >Promote</button>
  <button type="button" class="btn btn-primary state-disable-for-online">Remove</button>
  </div>
@@ -105,35 +110,114 @@
 
 <script>
 
+function clear_stateclasses(x){
+	$(x).removeClass("request-waiting");
+	$(x).removeClass("request-success");
+	$(x).removeClass("request-fail");
+};
+
+
 function log(msg){
 	var l =  $('#pg_log');
-	console.log(l);
-	l.prepend('<div class="message">'+msg+'</div>');
+	//console.log(l);
+	//l.prepend('<div class="message">'+msg+'</div>');
 }
 
-function pg_start(){
-log('Starting Instance...');
-}
-function pg_reload(){
-log('Reloading Instance...');
-	$.ajax({url: 'https://{{ detail_host }}/pgapi/cluster/{{ detail_version }}/{{ detail_cluster}}',
-	method: 'patch',
-	data: '{ "state": "reload" }',
+
+function issue_clustercall( method, data, call_success, call_fail ){
+$.ajax({url: 'https://{{ detail_host }}/pgapi/cluster/{{ detail_version }}/{{ detail_cluster}}',
+	method: method,
+	data: data,
 	contentType: "application/json; charset=utf-8",
-	success: function(data){ log("Instance Reloaded..") },
-	error: function(a,data){log("Could not Reload"); console.log(data);}
+	success: call_success,
+	error: call_fail,
 	});
+}
+
+function pg_start(x){
+log('Starting Instance...');
+clear_stateclasses(x);
+$(x).addClass("request-waiting");
+issue_clustercall("patch", '{"state" : "start"}', 
+		function( data ){ 
+		$(x).removeClass("request-waiting");
+	 	$(x).addClass("request-success");
+		fill_details(data);
+		},
+		function( data ){ 
+		$(x).removeClass("request-waiting");
+	 	$(x).addClass("request-fail");	
+		});
+}
+function pg_stop(x){
+log('Stopping Instance...');
+clear_stateclasses(x);
+$(x).addClass("request-waiting");
+issue_clustercall("patch", '{"state" : "stop"}', 
+		function( data ){ 
+		$(x).removeClass("request-waiting");
+	 	$(x).addClass("request-success");
+		fill_details(data);
+		},
+		function( data ){ 
+		$(x).removeClass("request-waiting");
+	 	$(x).addClass("request-fail");	
+		});
+}
+
+function pg_restart(x){
+log('Restarting Instance...');
+clear_stateclasses(x);
+$(x).addClass("request-waiting");
+issue_clustercall("patch", '{"state" : "restart"}', 
+		function( data ){ 
+		$(x).removeClass("request-waiting");
+	 	$(x).addClass("request-success");
+		fill_details(data);
+		},
+		function( data ){ 
+		$(x).removeClass("request-waiting");
+	 	$(x).addClass("request-fail");	
+		});
+}
+
+
+
+
+
+
+function pg_reload(x){
+clear_stateclasses(x);
+$(x).addClass("request-waiting");
+
+log('Reloading Instance...');
+issue_clustercall('patch', '{ "state": "reload" }',
+	function(data){ log("Instance Reloaded..")
+		$(x).removeClass("request-waiting");
+	 	$(x).addClass("request-success");	
+	},
+	function(a,data){
+		$(x).removeClass("request-waiting");
+		$(x).addClass("request-fail");
+		log("Could not Reload"); console.log(data);}
+	);
 }
 
 
 
 function fill_details( details, host) {
+	$('.state-disable-for-online').prop('disabled',false);
+	$('.state-disable-for-offline').prop('disabled',false);
+	$('.state-disable-for-recovery').prop('disabled',false);
+	$('.state-disable-for-no-recovery').prop('disabled',false);
+
+
 	var runstate = '';
 	if ( details['running'] == 1 ){
 		runstate='online';
 		$('.state-disable-for-online').prop('disabled',true);
 	}
-	else{ runstate='offline'	
+	else{ runstate='offline';	
 		$('.state-disable-for-offline').prop('disabled',true);
 	}
 	if ( details['recovery'] == 1 ){
