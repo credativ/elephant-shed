@@ -70,10 +70,11 @@ function refresh(){
 	var query_fail = 0;
 	var parties = {{ hostlist.__len__() }} ;
 	function pullClusterInfo( _url ){
-		pg_ctl(undefined,  _url, undefined, undefined, 'ls',
-		function(result){
+		pg_ctl({ host: _url, action: 'ls',
+		call_success : function(result){
+					var modal_identifier = 'createcluster'+ Math.floor( Math.random()*100000 );
 			                var modal =`
-<div id="myModal" class="modal fade" role="dialog">
+<div id="`+modal_identifier+`" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -83,38 +84,74 @@ function refresh(){
         <h4 class="modal-title">CreateCluster</h4>
       </div>
       <div class="modal-body">
+      <form>
 	<label >ClusterName:</label>
-	    <input type="text" id="clustername" class="form-control" >
+	    <input type="text" id="clustername" class="form-control formignore" >
 			</div>
-      <div class="btn-group btn-group-justified">
-      {% for version in [ '9.5', '9.6', '10', 'I\'m feeling Lucky!' ] %}
-	<div class="btn-group btn-group-justified">
-		<button type="button" class="btn btn-primary versionselector" onclick="$('.versionselector').removeClass('active'); $(this).addClass('active'); " data-button="{{version}}">{{ version }}</button>
-			</div>
-	  {% endfor %}
+      <div class="btn-group btn-group-justified versionlist">
 		</div>
+<div class="form-group">
 
+<label class="checkbox-inline"><input type="checkbox" value="data-checksums">Enable Heap-Checksums</label>
+
+<br>	
+  <div class="input-group">
+    <span class="input-group-addon">Port</span>
+    <input type="text" class="form-control" name="port" placeholder="auto">
+  </div>
+  <!--
+  <div class="input-group">
+    <span class="input-group-addon">Datadir</span>
+    <input type="text" class="form-control" name="datadir" placeholder="auto">
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">WAL-Dir</span>
+    <input type="text" class="form-control" name="waldir" placeholder="auto">
+  </div>	
+
+	
+  -->
+	
+	
+	</form>	
       <div class="modal-footer">
-        <button type="button" class="btn btn-default"  onclick=" //pg_ctl(this,
-					console.log( '`+_url+`',
-					$(this).closest('.modal-dialog').find('.active').attr('data-button'),
-					$(this).closest('.modal-dialog').find('#clustername').val() ,
-					'create'); 
+        <button type="button" class="btn btn-default"  onclick=" pg_ctl(
+					{ x: this,
+					 host: '`+_url+`',
+					version: $(this).closest('.modal-dialog').find('.active').attr('data-button'),
+					cluster: $(this).closest('.modal-dialog').find('#clustername').val() ,
+					action: 'create', 
+						       data: inputvalues_to_dict( $(this).closest('.modal-dialog') ) , 
+					call_success: function(){
+						refresh(); 
+						$(this).closest('.modal').modal('hide');
+						$('body').removeClass('modal-open');
+						$('.modal-backdrop').remove();
+		}}); 
 					;">Create</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Dismiss</button>
       </div>
     </div>
 
-  </div>
-						
-						`;
+  </div>`;
 					var rawRow = $table_hosts.row.add( [ _url,
-						'<span class="label label-success">9.6</span> <span class="label label-success">10</span> <span class="label label-success">todo</span>',
+							'<div class="available_versions"></div>',
 						'<span class="label label-success">connected</span>', 
-						'<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal">AddCluster</button>'+modal] ).draw(true).node() ;
+						'<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#'+modal_identifier+'">AddCluster</button>'+modal] ).draw(true).node() ;
 					        //$(rawRow).css("font-weight","bold");
 		        			//$(rawRow).css("box-shadow","0px 0px 6px lightblue inset");
-			
+					pg_ctl({host: _url, action: 'ls-system', 
+							call_success: function(data){console.log( $(data)[0]['installed_pg_versions'] ); 
+									$.each( $(data)[0]['installed_pg_versions'],
+											function(){ $(rawRow).find('.available_versions').append('<span class="label label-success">'+this+'</span>');
+												    $('#'+modal_identifier).find('.versionlist').append( `
+														    	<div class="btn-group btn-group-justified">
+															<button type="button" class="btn btn-primary versionselector" onclick="$('.versionselector').removeClass('active'); $(this).addClass('active'); " data-button="`+this+`">`+this+`</button>
+															</div>
+															`) ;
+										                    }
+										) }
+						});
 						for ( var i = 0; i < result.length ; i++ ){
 							//console.log( result ) ;
 							var state = 'Unknown';
@@ -138,7 +175,7 @@ function refresh(){
 							hide_and_reset_querybar();
 							}
 		      				 },
-			function(request, status, err){
+			call_fail: function(request, status, err){
 				        console.log(request);
 					console.log(err);
 					query_fail += 100. / parties;
@@ -154,7 +191,7 @@ function refresh(){
 					if (query_progress+query_fail >= 99) {
 						hide_and_reset_querybar();
 						}
-					}
+			}}
 			);
 		};
 	{% for host in hostlist %}
