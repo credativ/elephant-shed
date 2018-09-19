@@ -1,8 +1,8 @@
 
 @keyframes btn-pulsating {
-    0%   {box-shadow: 0px 0px 0px white inset;}
-    50% {box-shadow: 0px 0px 25px white inset;}
-    100%   {box-shadow: 0px 0px 0px white inset;}
+    0%   {box-shadow: 0px 0px 0px yellow inset;}
+    50% {box-shadow: 0px 0px 25px yellow inset;}
+    100%   {box-shadow: 0px 0px 0px yellow inset;}
 }
 @keyframes btn-success {
     0%   {box-shadow: 0px 0px 0px green inset;}

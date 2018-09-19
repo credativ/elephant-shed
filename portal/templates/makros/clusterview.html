@@ -1,3 +1,5 @@
+{% import 'makros/utils.html' as utils %}
+
 {% macro table_hosts() -%}
   <table id="hosts" class="table table-striped table-bordered cell-border compact hover">
 	  <thead>
@@ -68,12 +70,48 @@ function refresh(){
 	var query_fail = 0;
 	var parties = {{ hostlist.__len__() }} ;
 	function pullClusterInfo( _url ){
-		$.ajax({url: 'https://'+_url+'/pgapi/cluster/',
-		       success: function(result){
+		pg_ctl(undefined,  _url, undefined, undefined, 'ls',
+		function(result){
+			                var modal =`
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">CreateCluster</h4>
+      </div>
+      <div class="modal-body">
+	<label >ClusterName:</label>
+	    <input type="text" id="clustername" class="form-control" >
+			</div>
+      <div class="btn-group btn-group-justified">
+      {% for version in [ '9.5', '9.6', '10', 'I\'m feeling Lucky!' ] %}
+	<div class="btn-group btn-group-justified">
+		<button type="button" class="btn btn-primary versionselector" onclick="$('.versionselector').removeClass('active'); $(this).addClass('active'); " data-button="{{version}}">{{ version }}</button>
+			</div>
+	  {% endfor %}
+		</div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"  onclick=" //pg_ctl(this,
+					console.log( '`+_url+`',
+					$(this).closest('.modal-dialog').find('.active').attr('data-button'),
+					$(this).closest('.modal-dialog').find('#clustername').val() ,
+					'create'); 
+					;">Create</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Dismiss</button>
+      </div>
+    </div>
+
+  </div>
+						
+						`;
 					var rawRow = $table_hosts.row.add( [ _url,
 						'<span class="label label-success">9.6</span> <span class="label label-success">10</span> <span class="label label-success">todo</span>',
 						'<span class="label label-success">connected</span>', 
-						'<button type="button" class="btn btn-default btn-sm">Details</button>'] ).draw(true).node() ;
+						'<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal">AddCluster</button>'+modal] ).draw(true).node() ;
 					        //$(rawRow).css("font-weight","bold");
 		        			//$(rawRow).css("box-shadow","0px 0px 6px lightblue inset");
 			
@@ -100,7 +138,9 @@ function refresh(){
 							hide_and_reset_querybar();
 							}
 		      				 },
-			error: function(request, status, err){
+			function(request, status, err){
+				        console.log(request);
+					console.log(err);
 					query_fail += 100. / parties;
 					$('#querying_hosts_bar_error').css("width",""+query_fail+"%");
 					push_notification( 'Connection to '+_url+' failed.');
@@ -115,7 +155,7 @@ function refresh(){
 						hide_and_reset_querybar();
 						}
 					}
-			})
+			);
 		};
 	{% for host in hostlist %}
 	setTimeout(function(){ 
@@ -133,4 +173,6 @@ refresh();
 });
 
 </script>
+{{ utils.clusterctl_js() }}
+
 {%- endmacro %}
