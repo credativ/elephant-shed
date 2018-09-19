@@ -69,18 +69,27 @@ def buildRequest(url, request):
             return Response(e.read(), mimetype='application/json', status=e.code)
         except Exception as e2:
             return Response(json.dumps({ "stderr" : "UNRECOVERABLE ERROR", "msg" : str(e) }) , mimetype='application/json', status=500)
-    return Response(ret.read(), mimetype='application/json')
+    return Response(ret.read(), mimetype='application/json', status=ret.code)
 
 
-@app.route("/pgapi/proxy/<host>", methods=['POST','GET','PATCH', 'PUT','DELETE'] )
+@app.route("/pgapi/proxy/cluster/<host>", methods=['POST','GET','PATCH', 'PUT','DELETE'] )
 def pgapi_proxy(host):
     print(host)
     return  buildRequest(
                     'https://'+host+'/pgapi/cluster', 
                     request
                     )
+@app.route("/pgapi/proxy/system/<host>", methods=['POST','GET','PATCH', 'PUT','DELETE'] )
+def pgapi_proxy_system(host):
+    print(host)
+    return  buildRequest(
+                    'https://'+host+'/pgapi/system', 
+                    request
+                    )
 
-@app.route("/pgapi/proxy/<host>/<version>/<cluster>", methods=['POST','GET','PATCH','PUT','DELETE'] )
+
+
+@app.route("/pgapi/proxy/cluster/<host>/<version>/<cluster>", methods=['POST','GET','PATCH','PUT','DELETE'] )
 def pgapi_proxy_cluster(host,version,cluster):
     print (host, version, cluster)
     return buildRequest(

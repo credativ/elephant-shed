@@ -18,7 +18,7 @@ function log(msg){
 function issue_clustercall( host, version, cluster, method, data, call_success, call_fail ){
 	var deeplink = ''
 	if (version && cluster) {	deeplink = '/'+version+'/'+cluster; }
-	$.ajax({url: '{{ url_for("index") }}pgapi/proxy/'+host+deeplink,
+	$.ajax({url: '{{ url_for("index") }}pgapi/proxy/cluster/'+host+deeplink,
 	method: method,
 	data: data,
 	contentType: "application/json; charset=utf-8",
@@ -26,38 +26,86 @@ function issue_clustercall( host, version, cluster, method, data, call_success, 
 	error: call_fail,
 	});
 }
+function issue_systemcall( host, argument, call_success, call_fail ){
+	var deeplink = ''
+	if (argument) {	deeplink = '/'+argument; }
 
-function pg_ctl(x, host, version, cluster, action, call_success, call_fail ){
+	$.ajax({url: '{{ url_for("index") }}pgapi/proxy/system/'+host+deeplink,
+	method: 'get',
+	//data: data,
+	contentType: "application/json; charset=utf-8",
+	success: call_success,
+	error: call_fail,
+	});
+}
+
+
+function pg_ctl( obj ) {
+//(x, host, version, cluster, action, call_success, call_fail ){
+var x = obj.x;
+var host = obj.host;
+var version = obj.version;
+var cluster = obj.cluster;
+var action = obj.action;
+var call_success = obj.call_success;
+var call_fail = obj.call_fail;
+var rest_args = obj.data ? obj.data : {} ;
 var rest_method;
-var rest_args = "";
+
 if ( $.inArray( action.toLowerCase(), ["start","stop","reload","restart"] )!= -1 ){
-	rest_args = '{ "state" : "'+action+'"} '
+	rest_args['state'] = action;
 	rest_method = 'PATCH'}
 else if ( action == 'ls') {	
 	rest_method = 'GET';}
+else if ( action == 'create') {	
+	rest_method = 'POST';}
+else if ( action == 'remove') {	
+	rest_method = 'DELETE';}
+else if ( action == 'ls-system' ){
+	// Magic specialcase
+	issue_systemcall( host, undefined, call_success, call_fail );
+	return;
+	}
 else { console.log("pg_ctl call does not support this action! Action was '"+action+"'") }
 
 clear_stateclasses(x);
 $(x).addClass("request-waiting");
 
-issue_clustercall( host, version, cluster, rest_method, rest_args,
-		call_success ? call_success : 
+issue_clustercall( host, version, cluster, rest_method,  JSON.stringify(rest_args) ,
+		//call_success ? call_success : 
 		function( data ){ 
 		$(x).removeClass("request-waiting");
 	 	$(x).addClass("request-success");
-		fill_details(data);
-		},call_fail ? call_fail :
-		function( data, type, message ){
+		if (call_success){ call_success(data) };
+		},
+		//call_fail ? call_fail :
+		function( request,status,err ){
 		var errmsg = '';
-		try { errmsg = data.responseJSON['stderr'];}
+		try { errmsg = request.responseJSON['stderr'];}
 		catch(e){;};
 
-		push_notification( message + ' : '+ errmsg );
+		push_notification( err + ' : '+ errmsg );
 		$(x).removeClass("request-waiting");
-	 	$(x).addClass("request-fail");	
+	 	$(x).addClass("request-fail");
+		if (call_fail){call_fail(request,status,err) };
 		});
 }
 
+function inputvalues_to_dict(lowerthan){
+	var data = {};
+	$(lowerthan).find('input[type=checkbox]:not(.formignore)').each(function(index){
+		var element = $(this);
+		var value = $(element).prop('checked');
+		data[element.val() ]=value;
+	} );
+	$(lowerthan).find('input[type=text]:not(.formignore)').each(function(index){
+		var element = $(this);
+		var value = $(element).val();
+		if (value != ''){data[element.attr('name') ]=value;};
+	} );
+	console.log(data);
+	return data;
 
+}
 </script>
 {%- endmacro %}
