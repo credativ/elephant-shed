@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 	<meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 	<link rel="stylesheet" href="/static/bootstrap/css/bootstrap{{ environment['usemin'] }}.css" >
 <!--<link rel="stylesheet" href="/static/jquery-datatables/css/dataTables.bootstrap.css" >-->
 	<link rel="stylesheet" href="{{ url_for("index") }}static/jquery-datatables/css/jquery.dataTables{{ environment['usemin'] }}.css" >
@@ -36,7 +38,7 @@
 <body style="font-size: 12px">
 <table style="width:100vw ; height: 100vh">
 	<tr valign="top">
-		<td style="border-right: 2px solid dodgerblue; width: 100px">
+		<td style="border-right: 2px solid dodgerblue; width: 80px">
 	<img src="https://www.credativ.de/sites/credativ.de/files/images/Logo.png" style="padding:5px;" width="80">
 
 
@@ -59,7 +61,7 @@
 		 ">
 	 The Elephant Shed - PostgreSQL Appliance Dashboard
 	</div>
-<div style=" padding: 20px;">
+<div style=" padding: 20px; ">
 {% import 'makros/notifications.html' as notifications %}
 {{ notifications.element() }}
 {{ notifications.js() }}

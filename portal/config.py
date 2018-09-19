@@ -12,9 +12,9 @@ application_root = "/portal"    # Root-Folder this application resides in.
 
 # Hosts we consider beeing part of a Cluster.
 hosts=[
-        {"address":"localhost:4433"},
+        {"address":"localhost"},
         {"address":"localhorst"},
-        {"address":"127.0.0.1:4433"},
+        {"address":"127.0.0.1"},
         ]
 
 # Lefthand-Side Navigation to the most important links.

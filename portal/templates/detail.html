@@ -18,11 +18,11 @@
 	recovery
 	no-recovery
 	 -->
- <button type="button" class="btn btn-primary state-disable-for-online" onclick="pg_start(this)">Start</button>
- <button type="button" class="btn btn-primary state-disable-for-offline" onclick="pg_stop(this)">Stop</button>
- <button type="button" class="btn btn-primary state-disable-for-offline" onclick="pg_reload(this)">Reload</button>
- <button type="button" class="btn btn-primary state-disable-for-offline" onclick="pg_restart(this)">Restart</button>
- <button type="button" class="btn btn-primary state-disable-for-no-recovery state-disable-for-offline" >Promote</button>
+	  <button type="button" class="btn btn-primary state-disable-for-online" onclick="pg_ctl(this, '{{ detail_host }}',  '{{ detail_version }}', '{{ detail_cluster }}', 'start')">Start</button>
+ <button type="button" class="btn btn-primary state-disable-for-offline"         onclick="pg_ctl(this, '{{ detail_host }}',  '{{ detail_version }}', '{{ detail_cluster }}', 'stop')  ">Stop</button>
+ <button type="button" class="btn btn-primary state-disable-for-offline"         onclick="pg_ctl(this, '{{ detail_host }}',  '{{ detail_version }}', '{{ detail_cluster }}', 'reload') ">Reload</button>
+ <button type="button" class="btn btn-primary state-disable-for-offline"         onclick="pg_ctl(this, '{{ detail_host }}',  '{{ detail_version }}', '{{ detail_cluster }}', 'restart')">Restart</button>
+ <button type="button" class="btn btn-primary state-disable-for-no-recovery state-disable-for-offline" onclick="pg_ctl(this, '{{ detail_host }}',  '{{ detail_version }}', '{{ detail_cluster }}', 'promote')" >Promote</button>
  <button type="button" class="btn btn-primary state-disable-for-online">Remove</button>
  </div>
  <br>State: 
@@ -107,103 +107,9 @@
 
 </div>
 
-
+{% import 'makros/utils.html' as utils %}
+{{ utils.clusterctl_js() }}
 <script>
-
-function clear_stateclasses(x){
-	$(x).removeClass("request-waiting");
-	$(x).removeClass("request-success");
-	$(x).removeClass("request-fail");
-};
-
-
-function log(msg){
-	var l =  $('#pg_log');
-	//console.log(l);
-	//l.prepend('<div class="message">'+msg+'</div>');
-}
-
-
-function issue_clustercall( method, data, call_success, call_fail ){
-$.ajax({url: 'https://{{ detail_host }}/pgapi/cluster/{{ detail_version }}/{{ detail_cluster}}',
-	method: method,
-	data: data,
-	contentType: "application/json; charset=utf-8",
-	success: call_success,
-	error: call_fail,
-	});
-}
-
-function pg_start(x){
-log('Starting Instance...');
-clear_stateclasses(x);
-$(x).addClass("request-waiting");
-issue_clustercall("patch", '{"state" : "start"}', 
-		function( data ){ 
-		$(x).removeClass("request-waiting");
-	 	$(x).addClass("request-success");
-		fill_details(data);
-		},
-		function( data ){ 
-		$(x).removeClass("request-waiting");
-	 	$(x).addClass("request-fail");	
-		});
-}
-function pg_stop(x){
-log('Stopping Instance...');
-clear_stateclasses(x);
-$(x).addClass("request-waiting");
-issue_clustercall("patch", '{"state" : "stop"}', 
-		function( data ){ 
-		$(x).removeClass("request-waiting");
-	 	$(x).addClass("request-success");
-		fill_details(data);
-		},
-		function( data ){ 
-		$(x).removeClass("request-waiting");
-	 	$(x).addClass("request-fail");	
-		});
-}
-
-function pg_restart(x){
-log('Restarting Instance...');
-clear_stateclasses(x);
-$(x).addClass("request-waiting");
-issue_clustercall("patch", '{"state" : "restart"}', 
-		function( data ){ 
-		$(x).removeClass("request-waiting");
-	 	$(x).addClass("request-success");
-		fill_details(data);
-		},
-		function( data ){ 
-		$(x).removeClass("request-waiting");
-	 	$(x).addClass("request-fail");	
-		});
-}
-
-
-
-
-
-
-function pg_reload(x){
-clear_stateclasses(x);
-$(x).addClass("request-waiting");
-
-log('Reloading Instance...');
-issue_clustercall('patch', '{ "state": "reload" }',
-	function(data){ log("Instance Reloaded..")
-		$(x).removeClass("request-waiting");
-	 	$(x).addClass("request-success");	
-	},
-	function(a,data){
-		$(x).removeClass("request-waiting");
-		$(x).addClass("request-fail");
-		log("Could not Reload"); console.log(data);}
-	);
-}
-
-
 
 function fill_details( details, host) {
 	$('.state-disable-for-online').prop('disabled',false);
@@ -236,7 +142,7 @@ function fill_details( details, host) {
 
 function get_host( hosturl, clustername, clusterversion){
 
-	 $.ajax({ url: 'https://'+hosturl+'/pgapi/cluster/'+clusterversion+'/'+clustername,
+	$.ajax({ url: '{{ url_for("index") }}pgapi/proxy/'+hosturl+'/'+clusterversion+'/'+clustername,
 		 success: function(result){ fill_details( result, hosturl )  },
 		error: function(){ alert('BAD');},
 
