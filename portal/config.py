@@ -26,13 +26,13 @@ detailview_systeminformation=[
 detailview_clusterinformation=[
         {"label" : "Shared_Buffers",  "data" : "pg_config pg_shared_buffers",
                                 "formoverride" : '<font color="red"><span class="pg_config pg_shared_buffers"></span></font>'},
-        {"label" : "MaxConnections",  "data" : "pg_config pg_max_connections"},
+        {"label" : "Max_Connections",  "data" : "pg_config pg_max_connections"},
         {"label" : "Wal-Level",  "data" : "pg_config pg_wal_level"},
         {"label" : "Max-Wal-Size",  "data" : "pg_config pg_max_wal_size"},
-        {"label" : "SynchronousCommit",  "data" : "pg_config pg_synchronous_commit"},
-        {"label" : "DataDirectory",  "data" : "pg_config pg_data_dir"},
-        {"label" : "JIT-Enabled",  "data" : "pg_config pg_jit"},
-        {"label" : "MaxParallelWorkersPerGather",  "data" : "pg_config pg_max_parallel_workers_per_gather"},
+        {"label" : "Synchronous_Commit",  "data" : "pg_config pg_synchronous_commit"},
+        {"label" : "Data_Directory",  "data" : "pg_config pg_data_dir"},
+        {"label" : "JIT",  "data" : "pg_config pg_jit"},
+        {"label" : "Max_Parallel_Workers_Per_Gather",  "data" : "pg_config pg_max_parallel_workers_per_gather"},
         ]
 
 

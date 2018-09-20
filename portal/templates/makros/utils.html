@@ -70,7 +70,7 @@ else if ( action == 'ls-system' ){
 	return;
 	}
 else { console.log("pg_ctl call does not support this action! Action was '"+action+"'") }
-
+console.log(rest_args);
 clear_stateclasses(x);
 $(x).addClass("request-waiting");
 
@@ -114,15 +114,15 @@ function inputvalues_to_dict(lowerthan){
 function update_conf( x, host, version, cluster ) {
 	var newName = $(x).closest('tr').find('.config-name').val();
 	var newValue= $(x).closest('tr').find('.config-value').val();
-	var rest_args = { config : { } };
-	rest_args['config'][newName] = newValue;
-	console.log(rest_args);
+	var restArgs = { config : { } };
+	restArgs['config'][newName] = newValue;
+	console.log(restArgs);
 	pg_ctl({ host: host,
 		version: version, 
 		cluster: cluster, 
 		action :'config-only', 
-		rest_args : rest_args ,
-		success: fill_details });
+		data : restArgs ,
+		call_success: fill_details });
 }
 
 function goto_dash(){document.location.href= '{{ url_for("index") }}';  }
