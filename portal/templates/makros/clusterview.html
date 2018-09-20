@@ -44,36 +44,9 @@
 var $table_clusters;
 var $table_hosts;
 
-function hide_and_reset_querybar(){
-	setTimeout(function(){
-		$('#querying_hosts_div').css('height',0);
-		$('#querying_hosts_bar').css("width","0%");
-		$('#querying_hosts_bar_error').css("width","0%");
-		}, 500);
 
-	}
-
-
-function refresh(){
-	$('#querying_hosts_bar').css("transition","0s all");
-	$('#querying_hosts_bar').css("width","0%");
-	$('#querying_hosts_bar').css("transition","0.2s all");
-	$('#querying_hosts_div').css('height',3);
-
-	$table_clusters.clear();
-	$table_hosts.clear();
-	$table_clusters.draw();
-
-
-
-	var query_progress=0;
-	var query_fail = 0;
-	var parties = {{ hostlist.__len__() }} ;
-	function pullClusterInfo( _url ){
-		pg_ctl({ host: _url, action: 'ls',
-		call_success : function(result){
-					var modal_identifier = 'createcluster'+ Math.floor( Math.random()*100000 );
-			                var modal =`
+function addClusterModal ( modal_identifier, host ){
+        var modal =`
 <div id="`+modal_identifier+`" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -117,7 +90,7 @@ function refresh(){
       <div class="modal-footer">
         <button type="button" class="btn btn-default"  onclick=" pg_ctl(
 					{ x: this,
-					 host: '`+_url+`',
+					 host: '`+host+`',
 					version: $(this).closest('.modal-dialog').find('.active').attr('data-button'),
 					cluster: $(this).closest('.modal-dialog').find('#clustername').val() ,
 					action: 'create', 
@@ -127,70 +100,74 @@ function refresh(){
 						$(this).closest('.modal').modal('hide');
 						$('body').removeClass('modal-open');
 						$('.modal-backdrop').remove();
-		}}); 
+						}}); 
 					;">Create</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Dismiss</button>
       </div>
     </div>
 
   </div>`;
-					var rawRow = $table_hosts.row.add( [ _url,
-							'<div class="available_versions"></div>',
-						'<span class="label label-success">connected</span>', 
-						'<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#'+modal_identifier+'">AddCluster</button>'+modal] ).draw(true).node() ;
-					        //$(rawRow).css("font-weight","bold");
-		        			//$(rawRow).css("box-shadow","0px 0px 6px lightblue inset");
-					pg_ctl({host: _url, action: 'ls-system', 
-							call_success: function(data){console.log( $(data)[0]['installed_pg_versions'] ); 
-									$.each( $(data)[0]['installed_pg_versions'],
-											function(){ $(rawRow).find('.available_versions').append('<span class="label label-success">'+this+'</span>');
-												    $('#'+modal_identifier).find('.versionlist').append( `
-														    	<div class="btn-group btn-group-justified">
-															<button type="button" class="btn btn-primary versionselector" onclick="$('.versionselector').removeClass('active'); $(this).addClass('active'); " data-button="`+this+`">`+this+`</button>
-															</div>
-															`) ;
-										                    }
-										) }
-						});
-						for ( var i = 0; i < result.length ; i++ ){
-							//console.log( result ) ;
-							var state = 'Unknown';
-							if (result[i]['running']=='1'){state='<span class="label label-success">ONLINE</span>';}
-							else if ( result[i]['running']=='0')  {state='<span class="label label-danger">OFFLINE</span>';}
-							if (result[i]['recovery']=='1'){state+='<span class="label label-info">IN RECOVERY</span>';}
-	
-							var dbelement = $table_clusters.row.add([
-								  result[i]['cluster'],
-								  result[i]['version'],
-								  _url,
-								  result[i]['port'],
-								  state,
-								'<a href="{{ url_for("index") }}detail/'+_url+'/'+result[i]['version']+'/'+result[i]['cluster']+'"><button type="button" class="btn btn-default btn-sm">Details</button></a>'+
-								  '<a href="https://localhost/grafana/d/5CGjHlRiz/postgresql-server-overview?refresh=1m&orgId=1"> <button type="button" class="btn btn-default btn-sm">Monitoring</button></a>' 
-									]).draw(true).node() ;
-						}
-						query_progress += 100. / parties;
-						$('#querying_hosts_bar').css("width",""+query_progress+"%");
-						if (query_progress+query_fail >= 99) {
-							hide_and_reset_querybar();
-							}
-		      				 },
+
+	return modal;}
+
+function pushClusterInfo ( result, _url ){
+	var modal_identifier = 'createcluster'+ Math.floor( Math.random()*100000 );
+	var modal = addClusterModal ( modal_identifier, _url ) ;
+	var rawRow = $table_hosts.row.add( [ _url,
+		'<div class="available_versions"></div>',
+		'<span class="label label-success">connected</span>', 
+		'<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#'+modal_identifier+'">AddCluster</button>'+modal] )
+			.draw(true).node() ;
+	pg_ctl({host: _url, action: 'ls-system',
+		call_success: function(data){
+			console.log( $(data)[0]['installed_pg_versions'] ); 
+			$.each( $(data)[0]['installed_pg_versions'],
+				function(){ $(rawRow).find('.available_versions').append('<span class="label label-success">'+this+'</span>');
+				$('#'+modal_identifier).find('.versionlist').append( `
+					<div class="btn-group btn-group-justified">
+					<button type="button" class="btn btn-primary versionselector" onclick="$('.versionselector').removeClass('active'); $(this).addClass('active'); " data-button="`+this+`">`+this+`</button>
+					</div>`) ;
+				})}});
+	for ( var i = 0; i < result.length ; i++ ){
+		var state = 'Unknown';
+		if (result[i]['running']=='1'){state='<span class="label label-success">ONLINE</span>';}
+		else if ( result[i]['running']=='0')  {state='<span class="label label-danger">OFFLINE</span>';}
+		if (result[i]['recovery']=='1'){state+='<span class="label label-info">IN RECOVERY</span>';}
+		var dbelement = $table_clusters.row.add([
+			result[i]['cluster'],
+			result[i]['version'],
+			_url,
+			result[i]['port'],
+			state,
+			'<a href="{{ url_for("index") }}detail/'+_url+'/'+result[i]['version']+'/'+result[i]['cluster']+'"><button type="button" class="btn btn-default btn-sm">Details</button></a>'+
+			'<a href="https://localhost/grafana/d/5CGjHlRiz/postgresql-server-overview?refresh=1m&orgId=1"> <button type="button" class="btn btn-default btn-sm">Monitoring</button></a>' 
+			]).draw(true).node() ;
+	}
+	querybar_add_success();
+}
+
+function refresh(){
+	querybar_reset_and_init();
+
+	$table_clusters.clear();
+	$table_hosts.clear();
+	$table_clusters.draw();
+
+	querybar_set_numelements( {{ hostlist.__len__() }} );
+
+	function pullClusterInfo( _url ){
+		pg_ctl({ host: _url, action: 'ls',
+			call_success : function(result){pushClusterInfo(result,_url) },
 			call_fail: function(request, status, err){
 				        console.log(request);
 					console.log(err);
-					query_fail += 100. / parties;
-					$('#querying_hosts_bar_error').css("width",""+query_fail+"%");
+					querybar_add_fail();
 					push_notification( 'Connection to '+_url+' failed.');
 					var rawRow = $table_hosts.row.add( [_url,
 						  '',
 						  '<span class="label label-danger">unreachable</span>',
 						  ''
 						] ).draw(true).node() ;
-				        //$(rawRow).css("font-weight","bold");
-				        //$(rawRow).css("box-shadow","0px 0px 3px #ff0000 inset");
-					if (query_progress+query_fail >= 99) {
-						hide_and_reset_querybar();
-						}
 			}}
 			);
 		};
@@ -203,9 +180,7 @@ function refresh(){
 
 $(document).ready(function() {
 	$table_clusters = $('#clusters').DataTable({"order":[[0, "asc"] ], "paging": false }); 
-		//"ajax": '/state'
 	$table_hosts = $('#hosts').DataTable({"order":[[0, "asc"]], "paging": false });
-		//"ajax": '/state'
 refresh();
 });
 

@@ -151,6 +151,74 @@ function get_host( hosturl, clustername, clusterversion){
 	 });
 	};
 
+
+function querybar_hide_and_reset(){
+	setTimeout(function(){
+		$('#querying_hosts_div').css('height',0);
+		$('#querying_hosts_bar').css("width","0%");
+		$('#querying_hosts_bar_error').css("width","0%");
+		}, 500);
+	}
+
+function querybar_get(){
+	var querybar = {
+		bar: '#querying_hosts_div',
+		success : '#querying_hosts_bar',
+		fail : '#querying_hosts_bar_error',
+	};
+	return querybar;
+}
+function querybar_set_numelements( numelements ){
+	$('#querybar_elements').attr( 'numElements', numelements );
+}
+function querybar_get_numelements( ){
+	return $('#querybar_elements').attr('numElements');
+}
+
+function querybar_hide_if_full(){
+	var querybar = querybar_get();
+ 	if ( (Number($(querybar.fail).attr("aria-valuenow")) + 	
+	Number($(querybar.success).attr("aria-valuenow")))  >=99)
+	{querybar_hide_and_reset() }
+}
+
+function querybar_reset_and_init(){
+	var querybar = querybar_get();
+
+	$(querybar.bar).css("transition","0s all");
+	$(querybar.success).css("width","0%");
+	$(querybar.fail).css("width","0%");
+
+	$(querybar.success).attr("aria-valuenow","0");
+	$(querybar.fail).attr("aria-valuenow","0");
+
+	$(querybar.bar).css("transition","0.2s all");
+	$(querybar.bar).css('height',3);
+	return querybar;
+}
+
+function querybar_add_fail(){
+	var querybar = querybar_get();
+ 
+	$(querybar.fail).attr("aria-valuenow", 
+		Number($(querybar.fail).attr("aria-valuenow")) + 100 / Number(querybar_get_numelements())
+		);
+	$(querybar.fail).css("width", $(querybar.fail).attr("aria-valuenow") + "%");
+	querybar_hide_if_full();
+}
+function querybar_add_success(){
+	var querybar = querybar_get();
+ 
+	$(querybar.success).attr("aria-valuenow", 
+		Number($(querybar.success).attr("aria-valuenow")) + 100 / Number(querybar_get_numelements())
+		);
+	$(querybar.success).css("width", $(querybar.success).attr("aria-valuenow") + "%");
+	querybar_hide_if_full();
+}
+
+
+
+
 </script>
 
 
