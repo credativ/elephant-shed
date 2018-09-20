@@ -61,6 +61,9 @@ else if ( action == 'create') {
 	rest_method = 'POST';}
 else if ( action == 'remove') {	
 	rest_method = 'DELETE';}
+else if ( action == 'config-only'){
+	rest_method = 'PATCH';
+	}
 else if ( action == 'ls-system' ){
 	// Magic specialcase
 	issue_systemcall( host, undefined, call_success, call_fail );
@@ -106,6 +109,20 @@ function inputvalues_to_dict(lowerthan){
 	console.log(data);
 	return data;
 
+}
+
+function update_conf( x, host, version, cluster ) {
+	var newName = $(x).closest('tr').find('.config-name').val();
+	var newValue= $(x).closest('tr').find('.config-value').val();
+	var rest_args = { config : { } };
+	rest_args['config'][newName] = newValue;
+	console.log(rest_args);
+	pg_ctl({ host: host,
+		version: version, 
+		cluster: cluster, 
+		action :'config-only', 
+		rest_args : rest_args ,
+		success: fill_details });
 }
 
 function goto_dash(){document.location.href= '{{ url_for("index") }}';  }

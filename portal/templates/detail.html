@@ -95,7 +95,8 @@
 	  </div>
   <div class="panel-body" >
 	  <table class="table table-responsive">
-		  <tr><td><b>URL:</b></td><td>{{ detail_host}}:<span class="pg_port"></span>	</td></tr>
+		  <tr><td><b>URL:</b></td><td>postgresql://{{ detail_host}}:<span class="pg_port"></span>/postgres<br>
+					      host={{ detail_host}} port=<span class="pg_port"></span>	</td></tr>
 		  <tr><td><b>ClusterName:</b></td><td> <span class="pg_cluster"></span>		</td></tr>
 		  <tr><td><b>Version</b></td><td><span class="pg_version"></span>		</td></tr>
 
@@ -106,8 +107,15 @@
 				{% else %}
 					<td>{{element['label']}}</td><td><span class="{{element['data']}}">default</span> </td>
 				{% endif %}
-			    <tr>
+			  </tr>
 			  {% endfor %}
+				<tr>
+					<td><input type="text" class="config-name form-control"></td>
+					<td><input type="text" class="config-value form-control">
+						<button type="button" class="btn btn-primary" onclick="update_conf( this, '{{detail_host}}','{{detail_version}}','{{detail_cluster}}'  )">Save</button>
+					 </td>
+				</tr>
+
 			  </table>
 	 <button type="button" class="btn btn-primary"  
 		 	onclick=" ">Edit-Configuration</button>
