@@ -65,7 +65,7 @@ function addClusterModal ( modal_identifier, host ){
 		</div>
 <div class="form-group">
 
-<label class="checkbox-inline"><input type="checkbox" value="data-checksums">Enable Heap-Checksums</label>
+<label class="checkbox-inline"><input type="checkbox" value="data-checksums" checked disabled>Enable Heap-Checksums</label>
 
 <br>	
   <div class="input-group">
@@ -140,7 +140,7 @@ function pushClusterInfo ( result, _url ){
 			result[i]['port'],
 			state,
 			'<a href="{{ url_for("index") }}detail/'+_url+'/'+result[i]['version']+'/'+result[i]['cluster']+'"><button type="button" class="btn btn-default btn-sm">Details</button></a>'+
-			'<a href="https://localhost/grafana/d/5CGjHlRiz/postgresql-server-overview?refresh=1m&orgId=1"> <button type="button" class="btn btn-default btn-sm">Monitoring</button></a>' 
+			'<a href="https://localhost/grafana/d/5CGjHlRiz/postgresql-server-overview?refresh=1m&orgId=1">' 
 			]).draw(true).node() ;
 	}
 	querybar_add_success();

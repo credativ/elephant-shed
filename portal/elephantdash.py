@@ -31,6 +31,8 @@ env={"navigation":config.navigation,
      "hosts": config.hosts,
      "usemin": config.usemin,
      "deeplinks": config.deeplinks,
+     "detailview_cluster" : config.detailview_clusterinformation,
+     "detailview_system" : config.detailview_systeminformation, 
      }
 
 

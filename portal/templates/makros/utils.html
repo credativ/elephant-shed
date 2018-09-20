@@ -137,11 +137,17 @@ function fill_details( details, host) {
 					recurse(selector_key, data[key] )
 				}
 			else{
-				$(selector_key).html( data[key]); }
+				var value=data[key];
+				if ( ['free','total','used','active','available'].indexOf( key )  != -1 ){
+					value=bytes_prettyprint( value ) ;
+				}
+				$(selector_key).html( value ); 
+				$(selector_key).closest('tr').removeClass("es_disabled");
+				}
 		};
 	}
 	recurse('',details);
-	if ( host ) {$('.hostname').html( host ) ; }
+	if ( host ) {$('.pg_hostname').html( host ) ; }
 	$('.pg_state').html( runstate);
 	
 }
@@ -230,7 +236,16 @@ function querybar_add_success(){
 	querybar_hide_if_full();
 }
 
-
+function bytes_prettyprint(number){
+	var num = Number(number);
+	var sizes = ['','k','M','G','T'];
+	var iterations = 0;
+	while (num >= 1024){
+		num = num/1024;
+		iterations += 1;
+	}
+	return Math.floor(num)+sizes[iterations]+'B';
+}
 
 
 </script>

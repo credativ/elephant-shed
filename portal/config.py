@@ -12,10 +12,31 @@ application_root = "/portal"    # Root-Folder this application resides in.
 
 # Hosts we consider beeing part of a Cluster.
 hosts=[
-        {"address":"localhost"},
-        {"address":"localhorst"},
+        #{"address":"localhost"},
         {"address":"127.0.0.1"},
         ]
+
+detailview_systeminformation=[
+        {"label" : "HostFQDN",      "data" : "pg_hostname pg_fqdn"},
+        {"label" : "CpuCount",  "data" : "pg_cpu_config pg_cpu_count"},
+        {"label" : "OS",        "data" : "pg_uname pg_0"},
+        {"label" : "Memory",       "formoverride": '<span class="pg_virtual_memory pg_available"></span> (<span class="pg_virtual_memory pg_percent"></span>% Used)'}, 
+        ]
+
+detailview_clusterinformation=[
+        {"label" : "Shared_Buffers",  "data" : "pg_config pg_shared_buffers",
+                                "formoverride" : '<font color="red"><span class="pg_config pg_shared_buffers"></span></font>'},
+        {"label" : "MaxConnections",  "data" : "pg_config pg_max_connections"},
+        {"label" : "Wal-Level",  "data" : "pg_config pg_wal_level"},
+        {"label" : "Max-Wal-Size",  "data" : "pg_config pg_max_wal_size"},
+        {"label" : "SynchronousCommit",  "data" : "pg_config pg_synchronous_commit"},
+        {"label" : "DataDirectory",  "data" : "pg_config pg_data_dir"},
+        {"label" : "JIT-Enabled",  "data" : "pg_config pg_jit"},
+        {"label" : "MaxParallelWorkersPerGather",  "data" : "pg_config pg_max_parallel_workers_per_gather"},
+        ]
+
+
+
 
 # Lefthand-Side Navigation to the most important links.
 navigation=[
@@ -27,14 +48,14 @@ navigation=[
 
 # Detail-views deeplinks to elephant-shed components for a given cluster.
 deeplinks=[
-        {"url" :"/", "label" : "Monitoring", "image": "button_grafana.png"},
-        {"url" :"/", "label" : "Administration", "image": "button_pgadmin.png"},
-        {"url" :"/", "label" : "Reports", "image": "button_pgbadger.png"},
-        {"url" :"/", "label" : "Metrics", "image": "button_prometheus.png"},
-        {"url" :"/", "label" : "Backups", "image": "button_pgbackrest.png"},
-        {"url" :"/", "label" : "Shell", "image": "button_shellinabox.png"},
-        {"url" :"/", "label" : "Cockpit", "image": "button_cockpit.png"},
-        {"url" :"/", "label" : "Documentation", "image": "button_doc.png"},
+        {"url" :"/grafana/", "label" : "Monitoring", "image": "button_grafana.png"},
+        {"url" :"/pgadmin4/browser", "label" : "Administration", "image": "button_pgadmin.png"},
+        {"url" :"/prometheus/", "label" : "Reports", "image": "button_pgbadger.png"},
+        {"url" :"/pgbadger/", "label" : "Metrics", "image": "button_prometheus.png"},
+        {"url" :"/", "label" : "Backups TODO", "image": "button_pgbackrest.png"},
+        {"url" :"/shellinabox/", "label" : "Shell", "image": "button_shellinabox.png"},
+        {"url" :"/system", "label" : "Cockpit", "image": "button_cockpit.png"},
+        {"url" :"/doc/html/", "label" : "Documentation", "image": "button_doc.png"},
 
 
         ]
