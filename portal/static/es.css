@@ -33,3 +33,7 @@
     animation-iteration-count: 1;
     }
 
+
+.es_disabled{
+    color: gray;
+    }
