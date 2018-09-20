@@ -122,7 +122,7 @@ function pushClusterInfo ( result, _url ){
 		call_success: function(data){
 			console.log( $(data)[0]['installed_pg_versions'] ); 
 			$.each( $(data)[0]['installed_pg_versions'],
-				function(){ $(rawRow).find('.available_versions').append('<span class="label label-success">'+this+'</span>');
+				function(){ $(rawRow).find('.available_versions').append('<span class="label label-success">'+this+'</span> ');
 				$('#'+modal_identifier).find('.versionlist').append( `
 					<div class="btn-group btn-group-justified">
 					<button type="button" class="btn btn-primary versionselector" onclick="$('.versionselector').removeClass('active'); $(this).addClass('active'); " data-button="`+this+`">`+this+`</button>
