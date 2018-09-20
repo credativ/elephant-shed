@@ -74,12 +74,7 @@
 		  <div class="panel-heading" style="font-weight: bold"> System-Information  </div>
 		  <div class="panel-body" >
 	  Host: {{ detail_host}}<br>
-	  Cluster: <span class="pg_cluster"></span><br>
-	  PG_Version: <span class="pg_version"></span><br>
-	  data_dir: <span class="pg_pgdata"></span><br>
-	  logfile: <span class="pg_logfile"></span><br>
-	  system_start: <span class="pg_start"></span><br>
-    <a href="#">Grafana</a> / <a href="#">pgAdmin4</a>
+	  CPU: <span class="pg_cpu_config pg_cpu_count"></span><br>
 		  </div>
 		</div>
 	</div>
@@ -89,13 +84,15 @@
 	  Cluster-Configuration
 	  </div>
   <div class="panel-body" >
-	  Host: {{ detail_host}}<br>
-	  Cluster: <span class="pg_cluster"></span><br>
-	  PG_Version: <span class="pg_version"></span><br>
+	  Host: {{ detail_host}}:<span class="pg_port"></span><br>
+	  ClusterName: <span class="pg_cluster"></span><br>
+	  PG_Version: <span class="pg_version"></span><br><hr>
 	  data_dir: <span class="pg_pgdata"></span><br>
 	  logfile: <span class="pg_logfile"></span><br>
 	  system_start: <span class="pg_start"></span><br>
-    <a href="#">Grafana</a> / <a href="#">pgAdmin4</a>
+	  SSL: <span class="pg_config pg_ssl"></span><br>
+	  SharedBuffers: <span class="pg_config pg_shared_buffers"></span><br>
+	  MaxConnections: <span class="pg_config pg_max_connections"></span><br>
   </div>
 </div>
 

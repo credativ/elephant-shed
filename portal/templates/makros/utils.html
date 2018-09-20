@@ -132,8 +132,12 @@ function fill_details( details, host) {
 	}
 
 	for ( var key in details){
-		$('.pg_'+key).html( details[key]);
-		//alert(key);
+		if (details[key] instanceof Object ){
+			for ( var key2 in details[key] ){
+				$('.pg_'+key+'.pg_'+key2).html( details[key][key2]); }
+			}
+		else{
+			$('.pg_'+key).html( details[key]); }
 	};
 	if ( host ) {$('.hostname').html( host ) ; }
 	$('.pg_state').html( runstate);
@@ -149,6 +153,14 @@ function get_host( hosturl, clustername, clusterversion){
 			call_fail: function(){ alert('BAD');},
 
 	 });
+	pg_ctl({host: hosturl, 
+			cluster : clustername, 
+			version: clusterversion, 
+			action: 'ls-system', 
+			call_success: function(result){ fill_details( result, hosturl )  },
+			call_fail: function(){ alert('BAD');},
+	 });
+
 	};
 
 
