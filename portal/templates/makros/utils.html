@@ -107,5 +107,51 @@ function inputvalues_to_dict(lowerthan){
 	return data;
 
 }
+
+function goto_dash(){document.location.href= '{{ url_for("index") }}';  }
+
+
+function fill_details( details, host) {
+	$('.state-disable-for-online').prop('disabled',false);
+	$('.state-disable-for-offline').prop('disabled',false);
+	$('.state-disable-for-recovery').prop('disabled',false);
+	$('.state-disable-for-no-recovery').prop('disabled',false);
+
+
+	var runstate = '';
+	if ( details['running'] == 1 ){
+		runstate='online';
+		$('.state-disable-for-online').prop('disabled',true);
+	}
+	else{ runstate='offline';	
+		$('.state-disable-for-offline').prop('disabled',true);
+	}
+	if ( details['recovery'] == 1 ){
+		runstate+=' in recovery';
+		$('.state-disable-for-no-recovery').prop('disabled',true);
+	}
+
+	for ( var key in details){
+		$('.pg_'+key).html( details[key]);
+		//alert(key);
+	};
+	if ( host ) {$('.hostname').html( host ) ; }
+	$('.pg_state').html( runstate);
+	
+}
+
+function get_host( hosturl, clustername, clusterversion){
+	pg_ctl({host: hosturl, 
+			cluster : clustername, 
+			version: clusterversion, 
+			action: 'ls', 
+			call_success: function(result){ fill_details( result, hosturl )  },
+			call_fail: function(){ alert('BAD');},
+
+	 });
+	};
+
 </script>
+
+
 {%- endmacro %}
