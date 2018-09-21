@@ -1,4 +1,6 @@
 /usr/share/javascript/bootstrap/ /usr/share/elephant-shed/static/bootstrap
 /usr/share/javascript/jquery-datatables/ /usr/share/elephant-shed/static/jquery-datatables
 /usr/share/javascript/jquery/ /usr/share/elephant-shed/static/jquery
+/usr/share/javascript/d3/ /usr/share/elephant-shed/static/d3
+/usr/share/javascript/rickshaw/ /usr/share/elephant-shed/static/rickshaw
 

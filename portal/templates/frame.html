@@ -8,7 +8,7 @@
 <!--<link rel="stylesheet" href="/static/jquery-datatables/css/dataTables.bootstrap.css" >-->
 	<link rel="stylesheet" href="{{ url_for("index") }}static/jquery-datatables/css/jquery.dataTables{{ environment['usemin'] }}.css" >
 	<link rel="stylesheet" href="{{ url_for("index") }}static/es.css" >
-
+	<link rel="stylesheet" href="{{ url_for("index") }}static/rickshaw/rickshaw{{ environment['usemin'] }}.css" >
 
 
 <script src="{{ url_for("index") }}static/jquery/jquery{{ environment['usemin'] }}.js"></script>
@@ -16,6 +16,11 @@
 <!--<script src="/static/jquery-datatables/dataTables.jqueryui.js"></script>-->
 <script src="{{ url_for("index") }}static/jquery-datatables/jquery.dataTables{{ environment['usemin'] }}.js"></script>
 <script src="{{ url_for("index") }}static/jquery-datatables/dataTables.bootstrap{{ environment['usemin'] }}.js"></script>
+<script src="{{ url_for("index") }}static/d3/d3{{ environment['usemin'] }}.js"></script>
+
+<script src="{{ url_for("index") }}static/rickshaw/rickshaw{{ environment['usemin'] }}.js"></script>
+
+
 <style>
 .nav a {
 	padding: 3px;
@@ -38,7 +43,7 @@
 <body style="font-size: 12px">
 <table style="width:100vw ; height: 100vh">
 	<tr valign="top">
-		<td style="border-right: 2px solid dodgerblue; width: 80px">
+		<td style="border-right: 2px solid lightblue; width: 80px">
 	<img src="https://www.credativ.de/sites/credativ.de/files/images/Logo.png" style="padding:5px;" width="80">
 
 
@@ -65,8 +70,6 @@
 {% import 'makros/notifications.html' as notifications %}
 {{ notifications.element() }}
 {{ notifications.js() }}
-<a onclick="push_notification('WHOOP WHOOP','b');">Test_Alerts</a>
-	
        	{% block mainwindow %}{% endblock %}
 	</div>
 		</td>

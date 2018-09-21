@@ -45,6 +45,7 @@ Depends:
  python3-psycopg2,
  libjs-jquery-datatables,
  libjs-bootstrap,
+ libjs-rickshaw,
  python3,
  python3-flask,
  pgapi-apache2,
