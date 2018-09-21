@@ -67,7 +67,7 @@ checkpoint_timeout: 15min
 max_wal_size: 4GB
 min_wal_size: 160MB
 checkpoint_completion_target: 0.8
-random_page_cost: 0.4
+random_page_cost: 2
 effective_cache_size: 5GB
 autovacuum_max_workers: 5
 autovacuum_naptime: 1min

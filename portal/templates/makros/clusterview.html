@@ -141,17 +141,18 @@ function pushClusterInfo ( result, _url ){
 			state,
 			'<a href="{{ url_for("index") }}detail/'+_url+'/'+result[i]['version']+'/'+result[i]['cluster']+'"><button type="button" class="btn btn-default btn-sm">Details</button></a>'+
 			'<a href="https://localhost/grafana/d/5CGjHlRiz/postgresql-server-overview?refresh=1m&orgId=1">' 
-			]).draw(true).node() ;
+			]).node() ;// .draw(true).node() ;
 	}
+	$table_clusters.draw(true);
 	querybar_add_success();
 }
 
-function refresh(){
+function refresh(repeat){
 	querybar_reset_and_init();
 
 	$table_clusters.clear();
 	$table_hosts.clear();
-	$table_clusters.draw();
+	//$table_clusters.draw();
 
 	querybar_set_numelements( {{ hostlist.__len__() }} );
 
@@ -176,12 +177,14 @@ function refresh(){
 			pullClusterInfo( '{{ host['address'] }}' )
 			}, 1);
 	{% endfor %}
+	if ( repeat ) {	setTimeout(function(){refresh(true)}, 30000); }
 }
 
 $(document).ready(function() {
 	$table_clusters = $('#clusters').DataTable({"order":[[0, "asc"] ], "paging": false }); 
 	$table_hosts = $('#hosts').DataTable({"order":[[0, "asc"]], "paging": false });
-refresh();
+
+refresh(true);
 });
 
 </script>
