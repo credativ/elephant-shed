@@ -115,9 +115,10 @@ function update_conf( x, host, version, cluster ) {
 	var newName = $(x).closest('tr').find('.config-name').val();
 	var newValue= $(x).closest('tr').find('.config-value').val();
 	var restArgs = { config : { } };
-	restArgs['config'][newName] = newValue;
+	restArgs['config'][newName.toLowerCase()] = newValue;
 	console.log(restArgs);
-	pg_ctl({ host: host,
+	pg_ctl({ x : x,
+		host: host,
 		version: version, 
 		cluster: cluster, 
 		action :'config-only', 
