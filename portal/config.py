@@ -40,10 +40,10 @@ detailview_clusterinformation=[
 
 # Lefthand-Side Navigation to the most important links.
 navigation=[
-        {"url" :"/", "label" :"Home"},
-        {"url" :"/", "label" :"Support"},
-        {"url" :"/", "label" :"elephantshed.io"},
-        {"url" :"/", "label" :"postgresql.org"}, 
+        #{"url" :"/", "label" :"Home"},
+        #{"url" :"/", "label" :"Support"},
+        #{"url" :"/", "label" :"elephantshed.io"},
+        #{"url" :"/", "label" :"postgresql.org"}, 
         ]
 
 # Detail-views deeplinks to elephant-shed components for a given cluster.
