@@ -24,15 +24,14 @@ detailview_systeminformation=[
         ]
 
 detailview_clusterinformation=[
-        {"label" : "Shared_Buffers",  "data" : "pg_config pg_shared_buffers",
-                                "formoverride" : '<font color="red"><span class="pg_config pg_shared_buffers"></span></font>'},
-        {"label" : "MaxConnections",  "data" : "pg_config pg_max_connections"},
-        {"label" : "Wal-Level",  "data" : "pg_config pg_wal_level"},
-        {"label" : "Max-Wal-Size",  "data" : "pg_config pg_max_wal_size"},
-        {"label" : "SynchronousCommit",  "data" : "pg_config pg_synchronous_commit"},
-        {"label" : "DataDirectory",  "data" : "pg_config pg_data_dir"},
-        {"label" : "JIT-Enabled",  "data" : "pg_config pg_jit"},
-        {"label" : "MaxParallelWorkersPerGather",  "data" : "pg_config pg_max_parallel_workers_per_gather"},
+        {"label" : "shared_buffers",  "data" : "pg_config pg_shared_buffers" },
+        {"label" : "max_connections",  "data" : "pg_config pg_max_connections"},
+        {"label" : "wal-level",  "data" : "pg_config pg_wal_level"},
+        {"label" : "max-wal-size",  "data" : "pg_config pg_max_wal_size"},
+        {"label" : "synchronous_commit",  "data" : "pg_config pg_synchronous_commit"},
+        {"label" : "data_directory",  "data" : "pg_config pg_data_dir"},
+        {"label" : "JIT",  "data" : "pg_config pg_jit"},
+        {"label" : "max_parallel_workers_per_gather",  "data" : "pg_config pg_max_parallel_workers_per_gather"},
         ]
 
 
