@@ -115,9 +115,9 @@ function update_conf( x, host, version, cluster ) {
 	var newName = $(x).closest('tr').find('.config-name').val();
 	var newValue= $(x).closest('tr').find('.config-value').val();
 	var restArgs = { config : { } };
-	restArgs['config'][newName.toLowerCase()] = newValue;
+	restArgs['config'][newName] = newValue;
 	console.log(restArgs);
-	pg_ctl({ x : x,
+	pg_ctl({ x:x,
 		host: host,
 		version: version, 
 		cluster: cluster, 
@@ -264,6 +264,37 @@ function bytes_prettyprint(number){
 	}
 	return Math.floor(num)+sizes[iterations]+'B';
 }
+
+function add_detail_graphs(){
+	console.log(   $('.pg_addgraph').closest('td') ) ;
+	$('.pg_addgraph').closest('td').append('<div class="pg_chart" style="float: right"></div>');
+	$('.pg_chart').each( function(){
+		var plotdata= [[ { x: 0, y: 0 },]];
+		var graph = new Rickshaw.Graph( {
+    			element: this, 
+    			width: 200, 
+    			height: 25,
+    			min: 0,
+   			max: 2,
+    			renderer: 'bar', 
+    			series: [{
+        			color: 'lightblue',
+       				data: plotdata[0],
+    				}]
+			});
+			graph.render();
+		function insertDummy(){
+			plotdata[0].push(
+			{ x: plotdata[0][plotdata[0].length -1]['x']+1, y: Math.random()*2});
+			graph.update();
+			setTimeout ( function(){
+				insertDummy();
+			}, 5000);
+			};
+		insertDummy();
+	});
+};
+
 
 
 </script>

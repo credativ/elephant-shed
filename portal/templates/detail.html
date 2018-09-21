@@ -3,14 +3,14 @@
 
 
 <div class="row">
-	<div class="col-sm-4">
+	<div class="col-sm-4" style="min-width: 400px">
 
 <div class="panel panel-default">
   <div class="panel-heading" style="font-weight: bold">
 	  <a href="{{url_for("index")}}">Shed</a> /  {{  detail_host }} / {{ detail_version }}-{{detail_cluster}}
   </div>
   <div class="panel-body" >
- <div class="btn-group">
+ <div class="btn-group btn-group-justified">
 	 <!--
 	Possible States:
 	online
@@ -18,13 +18,32 @@
 	recovery
 	no-recovery
 	 -->
-	  <button type="button" class="btn btn-primary state-disable-for-online" onclick="pg_ctl( { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action:  'start', call_success: fill_details} )">Start</button>
- <button type="button" class="btn btn-primary state-disable-for-offline"         onclick="pg_ctl( { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action:  'stop', call_success: fill_details}) ">Stop</button>
- <button type="button" class="btn btn-primary state-disable-for-offline"         onclick="pg_ctl( { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action:  'reload', call_success: fill_details})">Reload</button>
- <button type="button" class="btn btn-primary state-disable-for-offline"         onclick="pg_ctl( { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action:  'restart', call_success: fill_details})">Restart</button>
- <button type="button" class="btn btn-primary state-disable-for-no-recovery state-disable-for-offline" onclick="pg_ctl(  { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action:  'promote', call_success: fill_details}) )" >Promote</button>
- <button type="button" class="btn btn-primary state-disable-for-online"  onclick="pg_ctl(  { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action: 'remove', call_success: goto_dash} ) ">Remove</button>
- </div>
+	 <div class="btn-group btn-group-justified">
+
+  <button type="button" class="btn btn-primary state-disable-for-online" onclick="pg_ctl( { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action:  'start', call_success: fill_details} )">Start</button>
+	 </div>
+  <div class="btn-group btn-group-justified">
+
+  <button type="button" class="btn btn-primary state-disable-for-offline"         onclick="pg_ctl( { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action:  'stop', call_success: fill_details}) ">Stop</button>
+  </div>
+  <div class="btn-group btn-group-justified">
+
+  <button type="button" class="btn btn-primary state-disable-for-offline"         onclick="pg_ctl( { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action:  'reload', call_success: fill_details})">Reload</button>
+  </div> 
+  <div class="btn-group btn-group-justified">
+
+  <button type="button" class="btn btn-primary state-disable-for-offline"         onclick="pg_ctl( { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action:  'restart', call_success: fill_details})">Restart</button>
+  </div>
+  <div class="btn-group btn-group-justified">
+
+  <button type="button" class="btn btn-primary state-disable-for-no-recovery state-disable-for-offline" onclick="pg_ctl(  { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action:  'promote', call_success: fill_details}) )" >Promote</button>
+  </div>
+  <div class="btn-group btn-group-justified">
+
+  <button type="button" class="btn btn-primary state-disable-for-online"  onclick="pg_ctl(  { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action: 'remove', call_success: goto_dash} ) ">Remove</button>
+  </div>
+	 
+	 </div>
  <br>State: 
  <span class="pg_state"style="font-size: 32px"></span><br>
   <span id="pg_log"></span>
@@ -36,7 +55,7 @@
 
 	</div>
 
-	<div class="col-sm-8">
+	<div class="col-sm-8" style="min-width: 400px">
 
 <div class="panel panel-default">
 	<!--  <div class="panel-heading" style="font-weight: bold">Utilities</div>-->
@@ -69,7 +88,7 @@
 	</div>
 
 <div class="row">
-	<div class="col-sm-4">
+	<div class="col-sm-4" style="min-width: 400px">
 		<div class="panel panel-default">
 		  <div class="panel-heading" style="font-weight: bold"> System-Information  </div>
 		  <div class="panel-body" >
@@ -88,7 +107,7 @@
 		  </div>
 		</div>
 	</div>
-   <div class="col-sm-8">
+   <div class="col-sm-8" style="min-width: 400px">
 	<div class="panel panel-default">
 	  <div class="panel-heading" style="font-weight: bold">
 	  Cluster-Configuration
@@ -133,6 +152,7 @@
 
 $(document).ready(function() {
 	get_host( '{{ detail_host }}', '{{ detail_cluster }}', '{{ detail_version }}' ) ;
+	add_detail_graphs();
 });
 
 

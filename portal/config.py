@@ -18,21 +18,21 @@ hosts=[
 
 detailview_systeminformation=[
         {"label" : "HostFQDN",      "data" : "pg_hostname pg_fqdn"},
-        {"label" : "CpuCount",  "data" : "pg_cpu_config pg_cpu_count"},
+        {"label" : "CpuCount",  "formoverride" : '<span class="pg_cpu_config pg_cpu_count pg_addgraph"></span>'},
         {"label" : "OS",        "data" : "pg_uname pg_0"},
-        {"label" : "Memory",       "formoverride": '<span class="pg_virtual_memory pg_available"></span> (<span class="pg_virtual_memory pg_percent"></span>% Used)'}, 
+        {"label" : "Memory",       "formoverride": '<span class="pg_virtual_memory pg_available pg_addgraph"></span> (<span class="pg_virtual_memory pg_percent"></span>% Used)'}, 
         ]
 
 detailview_clusterinformation=[
         {"label" : "Shared_Buffers",  "data" : "pg_config pg_shared_buffers",
                                 "formoverride" : '<font color="red"><span class="pg_config pg_shared_buffers"></span></font>'},
-        {"label" : "Max_Connections",  "data" : "pg_config pg_max_connections"},
+        {"label" : "MaxConnections",  "data" : "pg_config pg_max_connections"},
         {"label" : "Wal-Level",  "data" : "pg_config pg_wal_level"},
         {"label" : "Max-Wal-Size",  "data" : "pg_config pg_max_wal_size"},
-        {"label" : "Synchronous_Commit",  "data" : "pg_config pg_synchronous_commit"},
-        {"label" : "Data_Directory",  "data" : "pg_config pg_data_dir"},
-        {"label" : "JIT",  "data" : "pg_config pg_jit"},
-        {"label" : "Max_Parallel_Workers_Per_Gather",  "data" : "pg_config pg_max_parallel_workers_per_gather"},
+        {"label" : "SynchronousCommit",  "data" : "pg_config pg_synchronous_commit"},
+        {"label" : "DataDirectory",  "data" : "pg_config pg_data_dir"},
+        {"label" : "JIT-Enabled",  "data" : "pg_config pg_jit"},
+        {"label" : "MaxParallelWorkersPerGather",  "data" : "pg_config pg_max_parallel_workers_per_gather"},
         ]
 
 
