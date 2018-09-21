@@ -70,7 +70,7 @@ else if ( action == 'ls-system' ){
 	return;
 	}
 else { console.log("pg_ctl call does not support this action! Action was '"+action+"'") }
-console.log(rest_args);
+//console.log(rest_args);
 clear_stateclasses(x);
 $(x).addClass("request-waiting");
 
@@ -106,16 +106,19 @@ function inputvalues_to_dict(lowerthan){
 		var value = $(element).val();
 		if (value != ''){data[element.attr('name') ]=value;};
 	} );
-	console.log(data);
+	//console.log(data);
 	return data;
 
 }
 
 function update_conf( x, host, version, cluster ) {
-	var newName = $(x).closest('tr').find('.config-name').val();
-	var newValue= $(x).closest('tr').find('.config-value').val();
+	//var newName = $(x).closest('tr').find('.config-name').val();
+	//var newValue= $(x).closest('tr').find('.config-value').val();
 	var restArgs = { config : { } };
-	restArgs['config'][newName] = newValue;
+	$('.config_modified').each(function(){
+		restArgs['config'][$(this).attr('id').split('.')[2].replace('.pg_','')] = $(this).val();	
+	});
+	//restArgs['config'][newName] = newValue;
 	console.log(restArgs);
 	pg_ctl({ x:x,
 		host: host,
@@ -160,13 +163,15 @@ function fill_details( details, host) {
 					value=bytes_prettyprint( value ) ;
 				}
 				if ( $(selector_key).length <= 0 && selector_key.indexOf('pg_config') != -1 ){ 
-		   			console.log("unknown "+selector_key);
-		   			console.log( $(selector_key).length);
-		   			$('<tr class="hidden_config" hidden><td>'+key+'</td><td><span class="'+selector_key.replace(/(\.)/g,' ')+'"></span></td></tr>').insertBefore(".below_hidden_config");
+		   			//console.log("unknown "+selector_key);
+		   			//console.log( $(selector_key).length);
+		   			$('<tr class="hidden_config" hidden><td>'+key+'</td><td><input type="text" class="'+selector_key.replace(/(\.)/g,' ')+'" id="'+selector_key+'" onKeyPress="tag_as_modified(this)" ></td></tr>').insertBefore(".below_hidden_config");
 				}
-				$(selector_key).html( value ); 
+				$(selector_key).html( value );
+				$(selector_key).val( value );
+							
 				$(selector_key).closest('tr').removeClass("es_disabled");
-				console.log(selector_key);
+				//console.log(selector_key);
 				}
 		};
 	}
@@ -198,12 +203,17 @@ function get_host( hosturl, clustername, clusterversion){
 
 function querybar_hide_and_reset(){
 	setTimeout(function(){
-		$('#querying_hosts_div').css('height',0);
+		//$('#querying_hosts_div').css('height',"0px");
+		$('#querying_hosts_div').css('opacity',0);
+
+
 		$('#querying_hosts_bar').css("width","0%");
 		$('#querying_hosts_bar_error').css("width","0%");
 		}, 500);
 	}
-
+function tag_as_modified( x ) {
+	$(x).addClass("config_modified");
+		}
 function querybar_get(){
 	var querybar = {
 		bar: '#querying_hosts_div',
@@ -237,7 +247,9 @@ function querybar_reset_and_init(){
 	$(querybar.fail).attr("aria-valuenow","0");
 
 	$(querybar.bar).css("transition","0.2s all");
-	$(querybar.bar).css('height',3);
+	$(querybar.bar).css('height',"3px");
+	$(querybar.bar).css('opacity',1);
+
 	return querybar;
 }
 
@@ -272,7 +284,7 @@ function bytes_prettyprint(number){
 }
 
 function add_detail_graphs(){
-	console.log(   $('.pg_addgraph').closest('td') ) ;
+	//console.log(   $('.pg_addgraph').closest('td') ) ;
 	$('.pg_addgraph').closest('td').append('<div class="pg_chart" style="float: right"></div>');
 	$('.pg_chart').each( function(){
 		var randomspeed = 1+Math.random();
@@ -298,7 +310,7 @@ function add_detail_graphs(){
 			});
 			graph.render();
 		function insertDummy(){
-			console.log(  Math.sin( (new Date).getTime() )  ) ;
+			//console.log(  Math.sin( (new Date).getTime() )  ) ;
 			graph.series.addData(
 					//{ x: plotdata[0][plotdata[0].length -1]['x']+1, y: Math.random()*2}
 					{ 'default' : Math.sin( (new Date).getTime()*0.0001*randomspeed )+1   }
@@ -313,6 +325,23 @@ function add_detail_graphs(){
 };
 
 
+function load_pgconf_details(){
+	console.log("-");
+	$.ajax({
+        	type: "GET",
+                url: "/pg_settings.csv",
+                dataType: "text/csv",
+                success: function (data) {
+		   console.log("GOO");
+		   console.log(data);
+                   csvData = data;
+                   console.log( csvData.getAllResponseHeaders())
+		   console.log( csvData)
+                   }
+                });
+
+}
+load_pgconf_details();
 
 </script>
 
