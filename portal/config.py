@@ -26,8 +26,8 @@ detailview_systeminformation=[
 detailview_clusterinformation=[
         {"label" : "shared_buffers",  "data" : "pg_config pg_shared_buffers" },
         {"label" : "max_connections",  "data" : "pg_config pg_max_connections"},
-        {"label" : "wal-level",  "data" : "pg_config pg_wal_level"},
-        {"label" : "max-wal-size",  "data" : "pg_config pg_max_wal_size"},
+        {"label" : "wal_level",  "data" : "pg_config pg_wal_level"},
+        {"label" : "max_wal_size",  "data" : "pg_config pg_max_wal_size"},
         {"label" : "synchronous_commit",  "data" : "pg_config pg_synchronous_commit"},
         {"label" : "data_directory",  "data" : "pg_config pg_data_dir"},
         {"label" : "JIT",  "data" : "pg_config pg_jit"},
