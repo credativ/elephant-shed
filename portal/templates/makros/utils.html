@@ -52,6 +52,8 @@ var call_fail = obj.call_fail;
 var rest_args = obj.data ? obj.data : {} ;
 var rest_method;
 
+if ( $(x).is('input') ){ x = $(x).closest('div')} ; 
+
 if ( $.inArray( action.toLowerCase(), ["start","stop","reload","restart"] )!= -1 ){
 	rest_args['state'] = action;
 	rest_method = 'PATCH'}

@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<link rel="stylesheet" href="/static/bootstrap/css/bootstrap{{ environment['usemin'] }}.css" >
+	<link rel="stylesheet" href="/static/bootstrap/css/bootstrap-theme{{ environment['usemin'] }}.css" >
 <!--<link rel="stylesheet" href="/static/jquery-datatables/css/dataTables.bootstrap.css" >-->
 	<link rel="stylesheet" href="{{ url_for("index") }}static/jquery-datatables/css/jquery.dataTables{{ environment['usemin'] }}.css" >
 	<link rel="stylesheet" href="{{ url_for("index") }}static/es.css" >
@@ -40,40 +41,62 @@
 </style>
 
 	</head>
-<body style="font-size: 12px">
-<table style="width:100vw ; height: 100vh">
-	<tr valign="top">
-		<td style="border-right: 2px solid lightblue; width: 80px">
-	<img src="https://www.credativ.de/sites/credativ.de/files/images/Logo.png" style="padding:5px;" width="80">
+<body style="font-size: 12px; background: url('/portal/static/background.jpg') no-repeat center center fixed;
+	background-size: cover;">
+
+<div id="querying_hosts_div" class="progress" style="height: 0px;">
+	<input id="querybar_elements" numElements="0">
+	<div id="querying_hosts_bar" class="progress-bar progress-bar-success active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+	<div id="querying_hosts_bar_error" class="progress-bar progress-bar-danger active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+</div>
 
 
-	<br><br><br><br><div class="nav">
+	<div class="row">
+	<div class="col-sm-12" style="white-space: nowrap; overflow: hidden;" >
+		<div style="position: absolute">
+			<a href="/"><img src="https://www.credativ.de/sites/credativ.de/files/images/Logo.png"  width="70" style="float: left"></a></div>
+<!--		 <div class="nav">
 	{% for nav_item in environment['navigation'] %}
-	<a href="{{ nav_item.url }}">{{ nav_item.label }}</a>
+			<a href="{{ nav_item.url }}">{{ nav_item.label }}</a>
 	{% endfor %}
-	</div><br>
-
-		</td>
-		<td
-		style="background-color: lightgray;
-	" >
-<div style="	width: 100%; 
+</div>-->
+	<div style="float: right;
 		#height: 24px; 
 		#border-bottom: 0px solid blue; 
 		font-weight: bold;
 		padding: 4px;
+		font-size: 46px;
+		color: white;
 		 ">
 	 The Elephant Shed - PostgreSQL Appliance Dashboard
 	</div>
-<div style=" padding: 20px; ">
+	</div>	</div>
+<div class="row" style="
+	" >
+		
+
+<div class="col-sm-12">
+
+
+
+	<!--<div style=" padding: 20px; ">-->
 {% import 'makros/notifications.html' as notifications %}
 {{ notifications.element() }}
 {{ notifications.js() }}
        	{% block mainwindow %}{% endblock %}
-	</div>
+	<!--</div>
 		</td>
 	</tr>
-</table>
+	</table>-->
+			</div></div>
+	{% if environment['hosts'].__len__() > 1 %}
+			</body ><!-- Body spacing is added, so we avoid the menue-substitute on the frontpage-->
+<div class="esmenu">
+<hr>
+<a href="">Nav Disabled</a>
+</div>
+{% else %}
 </body>
+{% endif %}
 </html>
 
