@@ -112,13 +112,10 @@ function inputvalues_to_dict(lowerthan){
 }
 
 function update_conf( x, host, version, cluster ) {
-	//var newName = $(x).closest('tr').find('.config-name').val();
-	//var newValue= $(x).closest('tr').find('.config-value').val();
 	var restArgs = { config : { } };
 	$('.config_modified').each(function(){
-		restArgs['config'][$(this).attr('id').split('.')[2].replace('.pg_','')] = $(this).val();	
+		restArgs['config'][$(this).closest('tr').find('.confname').html()] = $(this).val();	
 	});
-	//restArgs['config'][newName] = newValue;
 	console.log(restArgs);
 	pg_ctl({ x:x,
 		host: host,
@@ -131,6 +128,51 @@ function update_conf( x, host, version, cluster ) {
 
 function goto_dash(){document.location.href= '{{ url_for("index") }}';  }
 
+
+
+var mandatory_elements= [];
+function add_to_mandatory_elements(key){
+	mandatory_elements.push( key ) ;
+	console.log( mandatory_elements ) ; 
+};
+
+
+function getConfigRow( obj ){
+	var hidden = obj.hidden==true ? 'hidden' : '';
+	var selector_key = obj.selector.replace(/(\.)/g,' ');
+	var selector_split = selector_key.split(' ');
+	var returned_element;
+	console.log( selector_split) ; 
+	console.log(selector_split[selector_split.length -1 ]);
+	returned_element = $('<tr class="hidden_config" '+hidden+'><td class="confname">'
+			+(selector_split[selector_split.length -1 ]).replace('pg_','')
+			+'</td><td><input type="text" class="'
+			+selector_key 
+			+'" onKeyPress="tag_as_modified(this)" value="default"></td></tr>');
+
+	returned_element.find('input').keyup( function(event) {
+  	event.preventDefault();
+  	// Number 13 is the "Enter" key on the keyboard
+  	if (event.keyCode === 13) {
+    		// Trigger the button element with a click
+    		update_conf( this,
+			$('.settings_hostname').val(),
+			$('.settings_version').val(),
+			$('.settings_cluster').val()	
+		);
+  		}
+	});
+	return returned_element;
+}
+
+function provision_mandatory_elements(){
+	for (element in mandatory_elements){
+		var e=mandatory_elements[element];	
+		getConfigRow(
+			{ selector : e,
+				hidden: false }).insertBefore(".below_hidden_config");
+		console.log("Inserting: "+e);
+	}}
 
 function fill_details( details, host) {
 	$('.state-disable-for-online').prop('disabled',false);
@@ -163,15 +205,12 @@ function fill_details( details, host) {
 					value=bytes_prettyprint( value ) ;
 				}
 				if ( $(selector_key).length <= 0 && selector_key.indexOf('pg_config') != -1 ){ 
-		   			//console.log("unknown "+selector_key);
-		   			//console.log( $(selector_key).length);
-		   			$('<tr class="hidden_config" hidden><td>'+key+'</td><td><input type="text" class="'+selector_key.replace(/(\.)/g,' ')+'" id="'+selector_key+'" onKeyPress="tag_as_modified(this)" ></td></tr>').insertBefore(".below_hidden_config");
+						getConfigRow({ selector : selector_key,  key: key, hidden: true } ).insertBefore(".below_hidden_config");
 				}
 				$(selector_key).html( value );
 				$(selector_key).val( value );
 							
 				$(selector_key).closest('tr').removeClass("es_disabled");
-				//console.log(selector_key);
 				}
 		};
 	}
@@ -284,7 +323,6 @@ function bytes_prettyprint(number){
 }
 
 function add_detail_graphs(){
-	//console.log(   $('.pg_addgraph').closest('td') ) ;
 	$('.pg_addgraph').closest('td').append('<div class="pg_chart" style="float: right"></div>');
 	$('.pg_chart').each( function(){
 		var randomspeed = 1+Math.random();
@@ -298,10 +336,7 @@ function add_detail_graphs(){
 				new Rickshaw.Series.FixedDuration([{
 					name: 'default',
         				color: 'lightblue',
-	       				//data: plotdata[0],
 					}],
-					//new Rickshaw.Color.Palette(
-					//	{ scheme: 'spectrum2001', interpolatedStopCount: 100 }),
 					undefined,
 					{
 					maxDataPoints: 500,
@@ -310,9 +345,7 @@ function add_detail_graphs(){
 			});
 			graph.render();
 		function insertDummy(){
-			//console.log(  Math.sin( (new Date).getTime() )  ) ;
 			graph.series.addData(
-					//{ x: plotdata[0][plotdata[0].length -1]['x']+1, y: Math.random()*2}
 					{ 'default' : Math.sin( (new Date).getTime()*0.0001*randomspeed )+1   }
 					);
 			graph.update();
