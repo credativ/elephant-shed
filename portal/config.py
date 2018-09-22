@@ -19,7 +19,7 @@ detailview_systeminformation=[
         {"label" : "HostFQDN",      "data" : "pg_hostname pg_fqdn"},
         {"label" : "CpuCount",  "formoverride" : '<span class="pg_cpu_config pg_cpu_count pg_addgraph"></span>'},
         {"label" : "OS",        "data" : "pg_uname pg_0"},
-        {"label" : "Memory",       "formoverride": '<span class="pg_virtual_memory pg_available pg_addgraph"></span> (<span class="pg_virtual_memory pg_percent"></span>% Used)'}, 
+        {"label" : "Memory",       "formoverride": '<span class="pg_virtual_memory pg_total pg_addgraph"></span> (<span class="pg_virtual_memory pg_percent"></span>% Used)'}, 
         ]
 
 detailview_clusterinformation=[
