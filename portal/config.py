@@ -12,8 +12,7 @@ application_root = "/portal"    # Root-Folder this application resides in.
 
 # Hosts we consider beeing part of a Cluster.
 hosts=[
-        #{"address":"localhost"},
-        {"address":"127.0.0.1"},
+        {"address":"localhost"},
         ]
 
 detailview_systeminformation=[
