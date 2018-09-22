@@ -131,13 +131,11 @@
 			  {% endfor %}
 </script>
 				<tr class="below_hidden_config">
-					<td><!--<input type="text" class="config-name form-control">--></td>
+					<td> <button type="button" class="btn btn-primary" onclick="$('.hidden_config').toggle('hidden')">show/hide all changed parameters</button> </td>
 					<td><button type="button" class="btn btn-primary" onclick="update_conf( this, '{{detail_host}}','{{detail_version}}','{{detail_cluster}}'  )">Save</button>
 					 </td>
 				</tr>
 			  </table>
-	 <button type="button" class="btn btn-primary" onclick="$('.hidden_config').toggle('hidden')">show/hide all changed parameters</button>
-
   </div>
 </div>
 
