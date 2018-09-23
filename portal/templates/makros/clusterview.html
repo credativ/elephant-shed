@@ -88,11 +88,17 @@ function addClusterModal ( modal_identifier, host ){
 	
 	</form>	
       <div class="modal-footer">
-        <button type="button" class="btn btn-default"  onclick=" pg_ctl(
+        <button type="button" class="btn btn-default"  onclick="
+	var version	=	$(this).closest('.modal-dialog').find('.active').attr('data-button');
+	var cluster 	=	$(this).closest('.modal-dialog').find('#clustername').val() ;
+	if ( cluster == undefined || cluster == ''){ alert ('A name is required.');}
+	else if ( version == undefined){ alert ('A version is required'); }
+	else{
+       	pg_ctl(
 					{ x: this,
 					 host: '`+host+`',
-					version: $(this).closest('.modal-dialog').find('.active').attr('data-button'),
-					cluster: $(this).closest('.modal-dialog').find('#clustername').val() ,
+					version: version,
+					cluster: cluster,
 					action: 'create', 
 						       data: inputvalues_to_dict( $(this).closest('.modal-dialog') ) , 
 					call_success: function(){
@@ -101,6 +107,8 @@ function addClusterModal ( modal_identifier, host ){
 						$('body').removeClass('modal-open');
 						$('.modal-backdrop').remove();
 						}}); 
+
+	}
 					;">Create</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Dismiss</button>
       </div>
@@ -120,7 +128,6 @@ function pushClusterInfo ( result, _url ){
 			.draw(true).node() ;
 	pg_ctl({host: _url, action: 'ls-system',
 		call_success: function(data){
-			console.log( $(data)[0]['installed_pg_versions'] ); 
 			$.each( $(data)[0]['installed_pg_versions'],
 				function(){ $(rawRow).find('.available_versions').append('<span class="label label-success">'+this+'</span> ');
 				$('#'+modal_identifier).find('.versionlist').append( `
@@ -177,7 +184,7 @@ function refresh(repeat){
 			pullClusterInfo( '{{ host['address'] }}' )
 			}, 1);
 	{% endfor %}
-	if ( repeat ) {	setTimeout(function(){refresh(true)}, 30000); }
+	if ( repeat ) {	setTimeout(function(){refresh(true)}, 5*60*1000); }
 }
 
 $(document).ready(function() {
