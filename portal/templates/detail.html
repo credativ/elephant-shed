@@ -48,8 +48,13 @@
 	 
 	 </div>
  <br>State: 
- <span class="pg_state" style="font-size: 32px"></span><br>
-  <span id="pg_log"></span>
+ <span class="pg_state" style="font-size: 32px"></span>
+ <div style="float: right; font-size: -3">Essentials<hr style="margin-top: 5px; margin-bottom: 5px">
+	 <table><tr><td><b>Identifier </b></td><td> <span class="pg_pg_controldata pg_Database_s_system_s_identifier"></span></td></tr>
+		 <tr><td><b>Data Directory </b></td>  <td><span class="pg_config pg_data_directory"></span></td></tr>
+		 <tr><td><b>Config Directory </b></td> <td><span class="pg_configdir"></span></td></tr></td>
+	</table>	 
+  </div>
 
   </div>
 
@@ -65,7 +70,7 @@
   <div class="panel-body" >
  <div class="btn-group btn-group-justified">
 	 {% for deeplink in environment['deeplinks'] %}
-	 {% if loop.index0 % 4 == 0 %}
+	 {% if loop.index0 % 3 == 0 %}
 		 </div>
 	 	<div class="btn-group btn-group-justified">
 	 {% endif %}
@@ -91,25 +96,7 @@
 	</div>
 
 <div class="row">
-	<div class="col-sm-4" style="min-width: 300px">
-		<div class="panel panel-default">
-		  <div class="panel-heading" style="font-weight: bold"> System-Information  </div>
-		  <div class="panel-body" >
-			  <table class="table table-responsive">
-			  {% for element in environment['detailview_system'] %}
-			  <tr class="es_disabled">
-				{% if 'formoverride' in element %}
-					<td>{{element['label']}}</td><td>{{ element['formoverride'] | safe }}</td>
-				{% else %}
-					<td>{{element['label']}}</td><td><span class="{{element['data']}}">unknown</span> </td>
-				{% endif %}
-			    <tr>
-			  {% endfor %}
-			  </table>
-			  <br>
-		  </div>
-		</div>
-	</div>
+
    <div class="col-sm-4" style="min-width: 500px">
 	<div class="panel panel-default">
 	  <div class="panel-heading" style="font-weight: bold">
@@ -139,13 +126,146 @@
 		  </div>
 		</div>
    </div>
+
+
+	<div class="col-sm-4" style="min-width: 300px">
+		<div class="panel panel-default">
+		  <div class="panel-heading" style="font-weight: bold"> System-Information  </div>
+		  <div class="panel-body" >
+			  <table class="table table-responsive">
+			  {% for element in environment['detailview_system'] %}
+			  <tr class="es_disabled">
+				{% if 'formoverride' in element %}
+				<td><b>{{element['label']}}</b></td><td>{{ element['formoverride'] | safe }}</td>
+				{% else %}
+				<td><b>{{element['label']}}</b></td><td><span class="{{element['data']}}">unknown</span> </td>
+				{% endif %}
+			    <tr>
+			  {% endfor %}
+			  </table>
+			  <br>
+		  </div>
+		</div>
+	</div>
+
    <div class="col-sm-4" style="min-width: 500px">
 	<div class="panel panel-default">
 	  <div class="panel-heading" style="font-weight: bold">
-	  PostgreSQL Host-Based Authentication
+	  Host-Based Authentication
 	  </div>
-  <div class="panel-body" >
-  </div></div>
+	  <div class="panel-body" >
+		  <div class="form-group">
+			  <textarea class="form-control" rows="10" id="hba">
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+local   all                 postgres                                peer
+local   all                 all                                         peer
+host    all                 all             127.0.0.1/32            md5
+host    all                 all             ::1/128                 md5
+local   replication     all                                     peer
+host    replication     all             127.0.0.1/32            md5
+host    replication     all             ::1/128                 md5
+		</textarea>
+		<button type="button" class="btn btn-primary" >Update</button>
+	
+	  </div>
+	</div>
+    </div>
+   </div>
+
+
+<!--</div>
+<div class="row">-->
+   <div class="col-sm-4" style="min-width: 500px">
+	<div class="panel panel-default">
+	  <div class="panel-heading" style="font-weight: bold">
+	  Backupconfiguration
+	  </div>
+	  <div class="panel-body" >
+		  <div class="row">
+		  <div class="col-sm-4">
+			  Archiving<br>
+          <label class="switch">
+            <input type="checkbox">
+            <span class="slider round"></span>
+	</label>
+		  </div>
+	  <div class="col-sm-4">
+		  Full Backup<br>
+          <label class="switch">
+            <input type="checkbox">
+            <span class="slider round"></span>
+	</label>
+	  </div>
+	  <div class="col-sm-4">
+		  Incremental Backup<br>
+  	<label class="switch">
+	    <input type="checkbox">
+	    <span class="slider round"></span>
+	</label>
+	  </div>
+	  <div class="col-sm-6">
+		<button type="button" class="btn btn-primary" >Run Full Backup</button>
+	  </div>
+	  <div class="col-sm-6">
+		  <button type="button" class="btn btn-primary" >Run Incremental Backup</button>
+	  </div>
+
+		  </div>
+
+	  </div>
+	</div>
+    </div>
+   <div class="col-sm-4" style="min-width: 500px">
+	<div class="panel panel-default">
+	  <div class="panel-heading" style="font-weight: bold">
+	  Existing Backups
+	  </div>
+	  <div class="panel-body" >
+		<div class="row">
+		   <div class="col-sm-10">
+		 Full-Backup 20180401-0001
+		   </div>
+		   <div class="col-sm-2">
+			  <button type="button" class="btn btn-primary btn-sm" >Restore</button>
+		   </div>
+		</div>
+		<div class="row">
+		   <div class="col-sm-10">
+		 Incremental-Backup 20180331-0001
+		   </div>
+		   <div class="col-sm-2">
+			  <button type="button" class="btn btn-primary btn-sm" >Restore</button>
+		   </div>
+		</div>
+		<div class="row">
+		   <div class="col-sm-10">
+		 Incremental-Backup 20180330-0001
+		   </div>
+		   <div class="col-sm-2">
+			  <button type="button" class="btn btn-primary btn-sm" >Restore</button>
+		   </div>
+		</div>
+		<div class="row">
+		   <div class="col-sm-10">
+		 Full-Backup 20180320-0001
+		   </div>
+		   <div class="col-sm-2">
+			  <button type="button" class="btn btn-primary btn-sm" >Restore</button>
+		   </div>
+		</div>
+
+
+
+
+
+
+	  </div>
+	</div>
+    </div>
+
+
+
+
 
 
 </div>
