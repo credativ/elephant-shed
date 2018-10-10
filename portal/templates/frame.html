@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="/static/bootstrap/css/bootstrap-theme{{ environment['usemin'] }}.css" >
 <!--<link rel="stylesheet" href="/static/jquery-datatables/css/dataTables.bootstrap.css" >-->
 	<link rel="stylesheet" href="{{ url_for("index") }}static/jquery-datatables/css/jquery.dataTables{{ environment['usemin'] }}.css" >
+	<link rel="stylesheet" href="{{ url_for("index") }}static/elephant-shed.css" >
 	<link rel="stylesheet" href="{{ url_for("index") }}static/es.css" >
 	<link rel="stylesheet" href="{{ url_for("index") }}static/rickshaw/rickshaw{{ environment['usemin'] }}.css" >
 
@@ -44,7 +45,7 @@
 	</head>
 <body style="font-size: 12px; background: url('/portal/static/background.jpg') no-repeat center center fixed;
 	background-size: cover;">
-<div class="container">
+<div class="container-fluid">
 	<div id="querying_hosts_div" class="progress" style="height: 0px;">
 	<input id="querybar_elements" numElements="0">
 		<div id="querying_hosts_bar" class="progress-bar progress-bar-success active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>

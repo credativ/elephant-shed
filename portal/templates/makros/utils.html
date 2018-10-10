@@ -185,19 +185,23 @@ function fill_details( details, host) {
 
 	var runstate = '';
 	if ( details['running'] == 1 ){
-		runstate='online';
+		runstate='<span class="label label-success">online</span>';
 		$('.state-disable-for-online').prop('disabled',true);
 	}
-	else{ runstate='offline';	
+	else{ runstate='<span class="label label-danger">offline</span>';	
 		$('.state-disable-for-offline').prop('disabled',true);
 	}
 	if ( details['recovery'] == 1 ){
-		runstate+=' in recovery';
+		runstate+='<span class="label label-info">in recovery</span>';
 		$('.state-disable-for-no-recovery').prop('disabled',true);
 	}
 	function recurse(stack, data){
 		for ( var key in data ){
+			// Specialcasing most non-valid class definers
 			var selector_key = stack+'.pg_'+key.replace(/\//g,'_s_');
+			selector_key = selector_key.replace(/ /g,'_s_');
+			selector_key = selector_key.replace(/'/g,'_s_');
+
 			if (data[key] instanceof Object ){
 					recurse(selector_key, data[key] )
 				}
@@ -213,6 +217,7 @@ function fill_details( details, host) {
 				$(selector_key).val( value );
 							
 				$(selector_key).closest('tr').removeClass("es_disabled");
+				console.log( selector_key);
 				}
 		};
 	}
@@ -361,7 +366,6 @@ function add_detail_graphs(){
 
 
 function load_pgconf_details(){
-	console.log("-");
 	$.ajax({
         	type: "GET",
                 url: "/pg_settings.csv",
@@ -376,7 +380,7 @@ function load_pgconf_details(){
                 });
 
 }
-load_pgconf_details();
+//load_pgconf_details();
 
 </script>
 
