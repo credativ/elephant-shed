@@ -27,7 +27,7 @@ This meta package depends on all Elephant Shed components.
 
 %package -n elephant-shed-portal
 Summary: PostgreSQL dashboard -- web interface
-#Requires: adduser
+Requires: shadow-utils
 Requires: httpd
 Requires: mod_ssl
 Requires: mod_authnz_pam
@@ -47,7 +47,7 @@ systemctl enable httpd
 systemctl restart httpd
 
 %package -n elephant-shed-postgresql
-Requires: adduser
+Requires: shadow-utils
 Requires: postgresql-common >= 183
 Summary: PostgreSQL dashboard -- PostgreSQL integration
 %description -n elephant-shed-postgresql
@@ -56,7 +56,7 @@ Summary: PostgreSQL dashboard -- PostgreSQL integration
  This package provides the integration with PostgreSQL.
 
 %package -n elephant-shed-pgadmin4
-#Requires: epel-release
+
 Requires: pgadmin4-web
 Summary: PostgreSQL dashboard -- pgAdmin4 integration
 %description -n elephant-shed-pgadmin4

@@ -34,11 +34,16 @@ clean:
 # rpm
 
 DPKG_VERSION=$(shell sed -ne '1s/.*(//; 1s/).*//p' debian/changelog)
-RPMDIR=$(HOME)/rpmbuild
+RPMDIR=$(CURDIR)/rpm/
 TARBALL=$(RPMDIR)/SOURCES/elephant-shed_$(DPKG_VERSION).tar.xz
+TMATESOURCE=$(CURDIR)/rpm/SOURCES/$(shell rpmspec --srpm --query --queryformat '%{Source}' rpm/tmate.spec)
 
-rpmbuild: $(TARBALL)
-	rpmbuild --define='version $(DPKG_VERSION)' -ba rpm/elephant-shed.spec
+rpmbuild: $(TMATESOURCE) $(TARBALL)
+	rpmbuild -D"%_topdir $(RPMDIR)" --define='version $(DPKG_VERSION)' -ba rpm/tmate.spec
+	rpmbuild -D"%_topdir $(RPMDIR)" --define='version $(DPKG_VERSION)' -ba rpm/elephant-shed.spec
+
+$(TMATESOURCE):
+	spectool -S -g -C rpm/SOURCES rpm/tmate.spec
 
 $(TARBALL):
 	mkdir -p $(dir $(TARBALL))

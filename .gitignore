@@ -4,3 +4,9 @@ README.html
 README.pdf
 lintian.log
 *.swp
+rpm/SOURCES
+rpm/SPECS
+rpm/RPMS
+rpm/SRPMS
+rpm/BUILD
+rpm/BUILDROOT
