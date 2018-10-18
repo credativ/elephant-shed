@@ -12,6 +12,14 @@ case $1 in
 
     # We deploy a rsyslog rule.
     invoke-rc.d rsyslog restart
+
+    # Remove old config file diversion
+    if dpkg --compare-versions "$2" lt-nl "1.2.1"; then
+      dpkg-divert --package elephant-shed-postgresql --rename \
+        --divert /etc/logrotate.d/postgresql-common.real.disabled \
+        --remove /etc/logrotate.d/postgresql-common
+    fi
+
     ;;
 esac
 
