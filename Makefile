@@ -30,6 +30,7 @@ deploy_openpower: vagrant/inventory.openpower
 clean:
 	$(MAKE) -C doc clean
 	$(MAKE) -C grafana clean
+	rm -rf rpm/SOURCES/ rpm/SPECS rpm/BUILD rpm/BUILDROOT rpm/RPMS rpm/SRPMS
 
 # rpm
 
@@ -43,6 +44,7 @@ rpmbuild: $(TMATESOURCE) $(TARBALL)
 	rpmbuild -D"%_topdir $(RPMDIR)" --define='version $(DPKG_VERSION)' -ba rpm/elephant-shed.spec
 
 $(TMATESOURCE):
+	mkdir -p rpm/SOURCES
 	spectool -S -g -C rpm/SOURCES rpm/tmate.spec
 
 $(TARBALL):
