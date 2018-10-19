@@ -55,6 +55,11 @@ Summary: PostgreSQL dashboard -- PostgreSQL integration
  .
  This package provides the integration with PostgreSQL.
 
+%post -n elephant-shed-postgresql
+
+sed -i -e 's/use C as lc_messages/use en_US as lc_messages/i;s/C\.UTF-8/en_US\.UTF-8/' \
+/etc/postgresql-common/createcluster.d/elephant-shed.conf
+
 %package -n elephant-shed-pgadmin4
 
 Requires: pgadmin4-web
