@@ -40,6 +40,7 @@ This package provides the web interface.
 %post -n elephant-shed-portal
 # add shadow group capable of reading /etc/shadow
 groupadd --system shadow || :
+groupadd --system elephant-shed || :
 usermod -a -G shadow apache
 chgrp shadow /etc/shadow /etc/gshadow
 chmod g+r /etc/shadow /etc/gshadow
@@ -254,3 +255,4 @@ sed -i -e 's!^ARGS=!NODE_EXPORTER_OPTS=!' %{buildroot}/etc/default/elephant-shed
 %files -n elephant-shed-cockpit                  -f files-elephant-shed-cockpit
 %files -n elephant-shed-shellinabox
 %files -n elephant-shed-tmate                    -f files-elephant-shed-tmate
+%files -n elephant-shed
