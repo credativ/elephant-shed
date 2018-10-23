@@ -1,3 +1,8 @@
+# Default git branch to build in RPM
+ifndef GITBRANCH
+GITBRANCH=HEAD
+endif
+
 all: docs
 
 doc docs:
@@ -49,4 +54,4 @@ $(TMATESOURCE):
 
 $(TARBALL):
 	mkdir -p $(dir $(TARBALL))
-	git archive --prefix=elephant-shed-$(DPKG_VERSION)/ HEAD | xz > $(TARBALL)
+	git archive --prefix=elephant-shed-$(DPKG_VERSION)/ $(GITBRANCH) | xz > $(TARBALL)
