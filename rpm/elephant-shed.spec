@@ -30,7 +30,9 @@ Summary: PostgreSQL dashboard -- web interface
 Requires: shadow-utils
 Requires: httpd
 Requires: mod_ssl
-Requires: mod_authnz_pam
+#Requires: mod_authnz_pam
+Requires: mod_authnz_external
+Requires: pwauth
 Requires: mod_authz_unixgroup
 Requires: perl-Template-Toolkit
 #Requires: libcgi-pm-perl
@@ -222,11 +224,14 @@ sed -i -e 's!SSLCertificateFile.*!SSLCertificateFile /etc/pki/tls/certs/localhos
        -e 's!CustomLog.*!CustomLog /var/log/httpd/access_log combined!' \
        -e 's!Header edit.*Content-Security-Policy.*!#&!' \
        -e '/Header unset Content-Security-Policy/s/#//' \
+       -e 's!AuthBasicProvider.*!AuthBasicProvider external!' \
+       -e 's!AuthPAMService.*!AuthExternal pwauth!' \
+       -e '/VirtualHost.*:443/a DefineExternalAuth pwauth pipe \/usr\/bin\/pwauth/' \
   %{buildroot}/etc/httpd/conf.d/elephant-shed.conf
-# load authnz_pam (it doesn't do that by itself)
+# load authnz_external (it doesn't do that by itself)
 mkdir -p %{buildroot}/etc/httpd/conf.modules.d
-cp rpm/56-authnz_pam.conf %{buildroot}/etc/httpd/conf.modules.d
-echo /etc/httpd/conf.modules.d/56-authnz_pam.conf >> files-elephant-shed-portal
+cp rpm/56-authnz_external.conf %{buildroot}/etc/httpd/conf.modules.d
+echo /etc/httpd/conf.modules.d/56-authnz_external.conf >> files-elephant-shed-portal
 # update PAM file
 cat > %{buildroot}/etc/pam.d/apache <<EOF
 #%PAM-1.0
