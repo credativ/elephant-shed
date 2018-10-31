@@ -1,6 +1,6 @@
 Name:           elephant-shed
 Version:        %{version}
-Release:        2%{?dist}
+Release:        3%{?dist}
 BuildArch:      noarch
 Summary:        PostgreSQL dashboard
 Packager:       Debian PostgreSQL Maintainers <pkg-postgresql-public@lists.alioth.debian.org>
@@ -152,6 +152,8 @@ Summary: PostgreSQL dashboard -- SQL exporter integration
 systemctl daemon-reload
 systemctl enable prometheus-sql-exporter
 systemctl start prometheus-sql-exporter
+systemctl enable prometheus-sql-exporter-restart.timer
+systemctl start prometheus-sql-exporter-restart.timer
 
 %package -n elephant-shed-cockpit
 Requires: cockpit
