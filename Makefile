@@ -45,8 +45,8 @@ TARBALL=$(RPMDIR)/SOURCES/elephant-shed_$(DPKG_VERSION).tar.xz
 TMATESOURCE=$(CURDIR)/rpm/SOURCES/$(shell rpmspec --srpm --query --queryformat '%{Source}' rpm/tmate.spec)
 
 rpmbuild: $(TMATESOURCE) $(TARBALL)
-	rpmbuild -D"%_topdir $(RPMDIR)" --define='version $(DPKG_VERSION)' -ba rpm/tmate.spec
-	rpmbuild -D"%_topdir $(RPMDIR)" --define='version $(DPKG_VERSION)' -ba rpm/elephant-shed.spec
+	rpmbuild -D"%_topdir $(RPMDIR)" --define='package_version $(DPKG_VERSION)' -ba rpm/tmate.spec
+	rpmbuild -D"%_topdir $(RPMDIR)" --define='package_version $(DPKG_VERSION)' -ba rpm/elephant-shed.spec
 
 $(TMATESOURCE):
 	mkdir -p rpm/SOURCES

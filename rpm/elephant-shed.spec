@@ -1,5 +1,5 @@
 Name:           elephant-shed
-Version:        %{version}
+Version:        %{package_version}
 Release:        3%{?dist}
 BuildArch:      noarch
 Summary:        PostgreSQL dashboard
