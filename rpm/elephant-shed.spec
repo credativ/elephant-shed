@@ -152,11 +152,8 @@ Summary: PostgreSQL dashboard -- SQL exporter integration
 systemctl daemon-reload
 systemctl enable prometheus-sql-exporter
 systemctl start prometheus-sql-exporter
-<<<<<<< HEAD
 systemctl enable prometheus-sql-exporter-restart.timer
 systemctl start prometheus-sql-exporter-restart.timer
-=======
->>>>>>> ae88f2d30b11da8b77e8d376199e94566e9a7fe1
 
 %package -n elephant-shed-cockpit
 Requires: cockpit
