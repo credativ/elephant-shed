@@ -165,6 +165,7 @@ Summary: PostgreSQL dashboard -- cockpit integration
  This package provides the integration with cockpit.
 %post -n elephant-shed-cockpit
 systemctl daemon-reload
+systemd-tmpfiles --create
 systemctl enable cockpit.socket
 systemctl start cockpit.socket
 
