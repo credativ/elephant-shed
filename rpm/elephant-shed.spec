@@ -165,7 +165,12 @@ Summary: PostgreSQL dashboard -- cockpit integration
  This package provides the integration with cockpit.
 %post -n elephant-shed-cockpit
 systemctl daemon-reload
+# create /run/cockpit
 systemd-tmpfiles --create
+# allow cockpit to use port 10090
+semanage port -a -t websm_port_t -p tcp 10090
+# allow apache to connect to any port
+setsebool -P httpd_can_network_connect true
 systemctl enable cockpit.socket
 systemctl start cockpit.socket
 
