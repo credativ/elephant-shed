@@ -42,16 +42,21 @@ clean:
 DPKG_VERSION=$(shell sed -ne '1s/.*(//; 1s/).*//p' debian/changelog)
 RPMDIR=$(CURDIR)/rpm/
 TARBALL=$(RPMDIR)/SOURCES/elephant-shed_$(DPKG_VERSION).tar.xz
-TMATESOURCE=$(CURDIR)/rpm/SOURCES/$(shell rpmspec --srpm --query --queryformat '%{Source}' rpm/tmate.spec)
 
 rpmbuild: $(TMATESOURCE) $(TARBALL)
-	rpmbuild -D"%_topdir $(RPMDIR)" --define='package_version $(DPKG_VERSION)' -ba rpm/tmate.spec
 	rpmbuild -D"%_topdir $(RPMDIR)" --define='package_version $(DPKG_VERSION)' -ba rpm/elephant-shed.spec
-
-$(TMATESOURCE):
-	mkdir -p rpm/SOURCES
-	spectool -S -g -C rpm/SOURCES rpm/tmate.spec
 
 $(TARBALL):
 	mkdir -p $(dir $(TARBALL))
 	git archive --prefix=elephant-shed-$(DPKG_VERSION)/ $(GITBRANCH) | xz > $(TARBALL)
+
+# tmate rpm
+
+TMATESOURCE=$(CURDIR)/rpm/SOURCES/$(shell rpmspec --srpm --query --queryformat '%{Source}' rpm/tmate.spec)
+
+rpmbuild-tmate: $(TMATESOURCE)
+	rpmbuild -D"%_topdir $(RPMDIR)" --define='package_version $(DPKG_VERSION)' -ba rpm/tmate.spec
+
+$(TMATESOURCE):
+	mkdir -p rpm/SOURCES
+	spectool -S -g -C rpm/SOURCES rpm/tmate.spec
