@@ -1,6 +1,4 @@
 image: "credativ/debian-build:stretch"
-before_script:
-  - apt-get update -qq
 
 variables:
   DEPLOY_SSH_USER: "ansible"
@@ -13,10 +11,13 @@ stages:
   - deploy
   - release
 
+### build ###
+
 build:docs:
   stage: build
   image: "tianon/latex"
   script:
+    - apt-get update -qq
     - apt-get install -y --no-install-recommends make sphinx-common python3-sphinx python3-recommonmark python3-sphinx-rtd-theme
     - make docs
   artifacts:
@@ -26,6 +27,7 @@ build:docs:
 build:stretch:
   stage: build
   script:
+    - apt-get update -qq
     - apt-get -y --no-install-recommends build-dep ./
     - apt-get -y --no-install-recommends install devscripts git
     - ci/rebuild.sh deb9
@@ -43,6 +45,7 @@ build:bionic:
   #image: "ubuntu:bionic"
   stage: build
   script:
+    - apt-get update -qq
     - apt-get -y --no-install-recommends build-dep ./
     - apt-get -y --no-install-recommends install devscripts git
     - ci/rebuild.sh ubuntu18.04
@@ -54,6 +57,21 @@ build:bionic:
     paths:
       - debs/*
       - lintian.log
+
+build:centos7:
+  image: "centos:centos7"
+  stage: build
+  script:
+    - yum install -y rpm-build yum-utils git make
+    - yum-builddep -y rpm/elephant-shed.spec
+    - make rpmbuild
+  artifacts:
+    expire_in: 2 weeks
+    paths:
+      - rpm/RPMS/*/*
+      - rpm/SRPMS/*
+
+### publish ###
 
 publish:stretch:
   stage: publish
@@ -78,6 +96,22 @@ publish:bionic:
     - aptly/publish_packages.sh bionic-test
   only:
     - master
+
+publish:centos7:
+  tags:
+    - aptly
+  stage: publish
+  dependencies:
+    - build:centos7
+  script:
+    - rpm --addsign rpm/RPMS/noarch/*.rpm rpm/SRPMS/*.rpm
+    - cp rpm/RPMS/noarch/*.rpm /home/debian/postgresql/yum/el7-test/noarch
+    - cp rpm/SRPMS/*.rpm /home/debian/postgresql/yum/el7-test/src
+    - cd /home/debian; make yum-test
+  only:
+    - master
+
+### deploy ###
 
 deploy:x86:
   stage: deploy
@@ -139,9 +173,25 @@ deploy:bionic-x86:
     name: elephant-shed-bionic
     url: https://elephant-shed-bionic.dev.credativ.lan
 
-# Build release packages.
-#
+deploy:centos7-x86:
+  tags:
+    - centos7-x86
+  stage: deploy
+  dependencies:
+    - build:centos7
+  script:
+    - 'test -f /etc/yum.repos.d/credativ-test.repo || sudo yum install https://packages.credativ.com/public/postgresql/yum/credativ-test-repo.noarch.rpm'
+    - sudo yum update -y
+    - sudo yum install -y elephant-shed
+  only:
+    - master
+  environment:
+    name: elephant-shed-centos7
+    url: https://elephant-shed-centos7.dev.credativ.lan
+
+### Build release packages ###
 # These jobs should not be triggered automatically.
+
 build:stretch-release:
   stage: build
   script:
@@ -176,6 +226,8 @@ build:bionic-release:
     - master
   when: manual
 
+### publish release packages ###
+
 publish:stretch-release:
   stage: publish
   dependencies:
@@ -198,6 +250,22 @@ publish:bionic-release:
     - aptly/upload_packages.sh bionic-test debs
     - aptly/include_packages.sh bionic-test
     - aptly/publish_packages.sh bionic-test
+  only:
+    - master
+  when: manual
+
+publish:centos7-release:
+  tags:
+    - aptly
+  stage: publish
+  dependencies:
+    # no separate build:centos7-release job
+    - build:centos7
+  script:
+    - rpm --addsign rpm/RPMS/noarch/*.rpm rpm/SRPMS/*.rpm
+    - cp rpm/RPMS/noarch/*.rpm /home/debian/postgresql/yum/el7/noarch
+    - cp rpm/SRPMS/*.rpm /home/debian/postgresql/yum/el7/src
+    - cd /home/debian; make yum-release
   only:
     - master
   when: manual

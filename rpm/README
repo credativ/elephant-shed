@@ -1,19 +1,5 @@
 == CentOS/RHEL 7 package installation instructions ==
 
-IMPORTANT: The current packages are in an early *BETA* stage, use with care.
-
-* SELinux compatibility
-
-CentOS 7 normally enforces SELinux policy rules. However, the
-cockpit-selinux packages from CentOS/extras are broken currently.
-The same applies to the COPR testing repository on
-
-   https://copr.fedorainfracloud.org/coprs/g/cockpit/cockpit-preview/
-
-but in some other way. Thus, elephant-shed currently only supports
-operating on CentOS/RHEL systems with SELinux set to "permissive" (or
-turned off).
-
 elephant-shed depends on EPEL and PGDG software repositories. You
 need to enable them first, before installing elephant-shed packages.
 The following steps should be performed as root (if not noted otherwise).
@@ -47,8 +33,4 @@ Update the yum cache
 
 Install elephant-shed
 
-There are currently unsigned packages in the repository, thus you need to pass
---nogpgcheck to yum, otherwise it will complain about unsigned packages. This is going
-to be fixed asap.
-
-   $ yum -install --nogpgcheck elephant-shed
+   $ yum install elephant-shed

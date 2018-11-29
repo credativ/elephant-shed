@@ -1,6 +1,6 @@
 Name:           elephant-shed
 Version:        %{package_version}
-Release:        3%{?dist}
+Release:        %{package_release}%{?dist}
 BuildArch:      noarch
 Summary:        PostgreSQL dashboard
 Packager:       Debian PostgreSQL Maintainers <pkg-postgresql-public@lists.alioth.debian.org>
