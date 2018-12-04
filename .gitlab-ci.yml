@@ -24,7 +24,7 @@ build:docs:
     paths:
       - doc/_build/html
 
-build:stretch:
+build:stretch: &build
   stage: build
   script:
     - apt-get update -qq
@@ -40,10 +40,21 @@ build:stretch:
       - debs/*
       - lintian.log
 
-build:bionic:
+build:stretch-release:
+  <<: *build
+  script:
+    - apt-get -y --no-install-recommends build-dep ./
+    - apt-get -y --no-install-recommends install devscripts git
+    - ci/rebuild.sh deb9 release
+    - make deb
+    - mkdir -p debs
+    - mv ../*.* debs
+  when: manual
+
+build:bionic: &build_bionic
+  <<: *build
   # 2018-04-25: bionic image hanging on configuring tzdata, use stretch for now
   #image: "ubuntu:bionic"
-  stage: build
   script:
     - apt-get update -qq
     - apt-get -y --no-install-recommends build-dep ./
@@ -52,13 +63,20 @@ build:bionic:
     - make deb
     - mkdir -p debs
     - mv ../*.* debs
-  artifacts:
-    expire_in: 2 weeks
-    paths:
-      - debs/*
-      - lintian.log
 
-build:centos7:
+build:bionic-release:
+  <<: *build_bionic
+  script:
+    - apt-get update -qq
+    - apt-get -y --no-install-recommends build-dep ./
+    - apt-get -y --no-install-recommends install devscripts git
+    - ci/rebuild.sh ubuntu18.04 release
+    - make deb
+    - mkdir -p debs
+    - mv ../*.* debs
+  when: manual
+
+build:centos7: &build_centos7
   image: "centos:centos7"
   stage: build
   script:
@@ -72,48 +90,49 @@ build:centos7:
       - rpm/SRPMS/*
 
 build:centos7-release:
-  image: "centos:centos7"
-  stage: build
+  <<: *build_centos7
   script:
     - yum install -y rpm-build yum-utils git make
     - yum-builddep -y rpm/elephant-shed.spec
     - make rpmbuild
-  artifacts:
-    expire_in: 2 weeks
-    paths:
-      - rpm/RPMS/*/*
-      - rpm/SRPMS/*
+  when: manual
 
 ### publish ###
 
-publish:stretch:
+publish:stretch: &publish
+  tags:
+    - aptly
   stage: publish
   dependencies:
     - build:stretch
   script:
-    - apt-get install -y --no-install-recommends curl make
-    - aptly/upload_packages.sh stretch-test debs
-    - aptly/include_packages.sh stretch-test
-    - aptly/publish_packages.sh stretch-test
+    - aptly repo add stretch-test debs/*.dsc debs/*.deb
+    - sync_packages.sh
   only:
     - master
 
-publish:bionic:
-  stage: publish
+publish:stretch-release:
+  <<: *publish
+  dependencies:
+    - build:stretch-release
+  when: manual
+
+publish:bionic: &publish_bionic
+  <<: *publish
   dependencies:
     - build:bionic
   script:
-    - apt-get install -y --no-install-recommends curl make
-    - aptly/upload_packages.sh bionic-test debs
-    - aptly/include_packages.sh bionic-test
-    - aptly/publish_packages.sh bionic-test
-  only:
-    - master
+    - aptly repo add bionic-test debs/*.dsc debs/*.deb
+    - sync_packages.sh
+
+publish:bionic-release:
+  <<: *publish_bionic
+  dependencies:
+    - build:bionic-release
+  when: manual
 
 publish:centos7:
-  tags:
-    - aptly
-  stage: publish
+  <<: *publish
   dependencies:
     - build:centos7
   script:
@@ -121,11 +140,9 @@ publish:centos7:
     - cp rpm/RPMS/noarch/*.rpm /home/debian/postgresql/yum/el7-test/noarch
     - cp rpm/SRPMS/*.rpm /home/debian/postgresql/yum/el7-test/src
     - cd /home/debian; make yum-test
-  only:
-    - master
 
-publish:centos7-release: &publish_centos7
-  <<: *publish_centos7
+publish:centos7-release:
+  <<: *publish
   dependencies:
     - build:centos7-release
   script:
@@ -212,68 +229,3 @@ deploy:centos7-x86:
   environment:
     name: elephant-shed-centos7
     url: https://elephant-shed-centos7.dev.credativ.lan
-
-### Build release packages ###
-# These jobs should not be triggered automatically.
-
-build:stretch-release:
-  stage: build
-  script:
-    - apt-get -y --no-install-recommends build-dep ./
-    - apt-get -y --no-install-recommends install devscripts git
-    - ci/rebuild.sh deb9 release
-    - make deb
-    - mkdir -p debs
-    - mv ../*.* debs
-  artifacts:
-    paths:
-      - debs/*
-      - lintian.log
-  only:
-    - master
-  when: manual
-
-build:bionic-release:
-  stage: build
-  script:
-    - apt-get -y --no-install-recommends build-dep ./
-    - apt-get -y --no-install-recommends install devscripts git
-    - ci/rebuild.sh ubuntu18.04 release
-    - make deb
-    - mkdir -p debs
-    - mv ../*.* debs
-  artifacts:
-    paths:
-      - debs/*
-      - lintian.log
-  only:
-    - master
-  when: manual
-
-### publish release packages ###
-
-publish:stretch-release:
-  stage: publish
-  dependencies:
-    - build:stretch-release
-  script:
-    - apt-get install -y --no-install-recommends curl make
-    - aptly/upload_packages.sh stretch-test debs
-    - aptly/include_packages.sh stretch-test
-    - aptly/publish_packages.sh stretch-test
-  only:
-    - master
-  when: manual
-
-publish:bionic-release:
-  stage: publish
-  dependencies:
-    - build:bionic-release
-  script:
-    - apt-get install -y --no-install-recommends curl make
-    - aptly/upload_packages.sh bionic-test debs
-    - aptly/include_packages.sh bionic-test
-    - aptly/publish_packages.sh bionic-test
-  only:
-    - master
-  when: manual
