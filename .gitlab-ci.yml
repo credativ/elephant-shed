@@ -107,6 +107,7 @@ publish:stretch: &publish
     - build:stretch
   script:
     - aptly repo add stretch-test debs/*.dsc debs/*.deb
+    - aptly publish update stretch-test
     - sync_packages.sh
   only:
     - master
@@ -115,6 +116,10 @@ publish:stretch-release:
   <<: *publish
   dependencies:
     - build:stretch-release
+  script:
+    - aptly repo add stretch-stable debs/*.dsc debs/*.deb
+    - aptly publish update stretch-stable
+    - sync_packages.sh
   when: manual
 
 publish:bionic: &publish_bionic
@@ -123,12 +128,17 @@ publish:bionic: &publish_bionic
     - build:bionic
   script:
     - aptly repo add bionic-test debs/*.dsc debs/*.deb
+    - aptly publish update bionic-test
     - sync_packages.sh
 
 publish:bionic-release:
   <<: *publish_bionic
   dependencies:
     - build:bionic-release
+  script:
+    - aptly repo add bionic-stable debs/*.dsc debs/*.deb
+    - aptly publish update stable-test
+    - sync_packages.sh
   when: manual
 
 publish:centos7:
