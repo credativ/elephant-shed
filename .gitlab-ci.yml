@@ -64,6 +64,19 @@ build:centos7:
   script:
     - yum install -y rpm-build yum-utils git make
     - yum-builddep -y rpm/elephant-shed.spec
+    - make rpmbuild PACKAGE_RELEASE=1~$(git log --oneline | wc -l)
+  artifacts:
+    expire_in: 2 weeks
+    paths:
+      - rpm/RPMS/*/*
+      - rpm/SRPMS/*
+
+build:centos7-release:
+  image: "centos:centos7"
+  stage: build
+  script:
+    - yum install -y rpm-build yum-utils git make
+    - yum-builddep -y rpm/elephant-shed.spec
     - make rpmbuild
   artifacts:
     expire_in: 2 weeks
@@ -110,6 +123,17 @@ publish:centos7:
     - cd /home/debian; make yum-test
   only:
     - master
+
+publish:centos7-release: &publish_centos7
+  <<: *publish_centos7
+  dependencies:
+    - build:centos7-release
+  script:
+    - rpm --addsign rpm/RPMS/noarch/*.rpm rpm/SRPMS/*.rpm
+    - cp rpm/RPMS/noarch/*.rpm /home/debian/postgresql/yum/el7/noarch
+    - cp rpm/SRPMS/*.rpm /home/debian/postgresql/yum/el7/src
+    - cd /home/debian; make yum-release
+  when: manual
 
 ### deploy ###
 
@@ -250,22 +274,6 @@ publish:bionic-release:
     - aptly/upload_packages.sh bionic-test debs
     - aptly/include_packages.sh bionic-test
     - aptly/publish_packages.sh bionic-test
-  only:
-    - master
-  when: manual
-
-publish:centos7-release:
-  tags:
-    - aptly
-  stage: publish
-  dependencies:
-    # no separate build:centos7-release job
-    - build:centos7
-  script:
-    - rpm --addsign rpm/RPMS/noarch/*.rpm rpm/SRPMS/*.rpm
-    - cp rpm/RPMS/noarch/*.rpm /home/debian/postgresql/yum/el7/noarch
-    - cp rpm/SRPMS/*.rpm /home/debian/postgresql/yum/el7/src
-    - cd /home/debian; make yum-release
   only:
     - master
   when: manual

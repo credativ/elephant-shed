@@ -40,12 +40,12 @@ clean:
 # rpm
 
 DPKG_VERSION=$(shell sed -ne '1s/.*(//; 1s/).*//p' debian/changelog)
-GIT_COMMITS=$(shell git log --oneline | wc -l)
+PACKAGE_RELEASE=1
 RPMDIR=$(CURDIR)/rpm/
 TARBALL=$(RPMDIR)/SOURCES/elephant-shed_$(DPKG_VERSION).tar.xz
 
 rpmbuild: $(TMATESOURCE) $(TARBALL)
-	rpmbuild -D"%_topdir $(RPMDIR)" --define='package_version $(DPKG_VERSION)' --define='package_release $(GIT_COMMITS)' -ba rpm/elephant-shed.spec
+	rpmbuild -D"%_topdir $(RPMDIR)" --define='package_version $(DPKG_VERSION)' --define='package_release $(PACKAGE_RELEASE)' -ba rpm/elephant-shed.spec
 
 $(TARBALL):
 	mkdir -p $(dir $(TARBALL))
