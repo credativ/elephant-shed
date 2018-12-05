@@ -15,6 +15,10 @@ case $1 in
 
     # Remove old config file diversion
     if dpkg --compare-versions "$2" lt-nl "1.2.1"; then
+      SHA1SUM="$(sha1sum /etc/logrotate.d/postgresql-common)"
+      if [ "${SHA1SUM%% *}" = "6c4c0af32cf873a7050650d0ac85403410714ae7" ]; then
+        rm -fv /etc/logrotate.d/postgresql-common
+      fi
       dpkg-divert --package elephant-shed-postgresql --rename \
         --divert /etc/logrotate.d/postgresql-common.real.disabled \
         --remove /etc/logrotate.d/postgresql-common
