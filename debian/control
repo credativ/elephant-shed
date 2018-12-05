@@ -39,10 +39,11 @@ Architecture: all
 Depends:
  adduser,
  apache2,
- libapache2-mod-authnz-pam,
+ libapache2-mod-authnz-external,
  libapache2-mod-authz-unixgroup,
  libtemplate-perl,
  libcgi-pm-perl,
+ pwauth,
  ${misc:Depends},
 Description: PostgreSQL dashboard -- web interface
  The Elephant Shed is a web-based PostgreSQL management front-end.

@@ -7,11 +7,6 @@ case $1 in
     # create elephant-shed group
     addgroup --system elephant-shed
 
-    # add www-data to shadow group
-    if ! id --name --groups www-data | grep -qw shadow; then
-      adduser www-data shadow
-    fi
-
     # enable apache modules
     for module in xml2enc proxy proxy_http proxy_html proxy_connect proxy_wstunnel rewrite deflate headers ssl cgid substitute; do
       a2enmod --maintmode $module
