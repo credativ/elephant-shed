@@ -233,12 +233,6 @@ sed -i -e 's!SSLCertificateFile.*!SSLCertificateFile /etc/pki/tls/certs/localhos
 mkdir -p %{buildroot}/etc/httpd/conf.modules.d
 cp rpm/56-authnz_external.conf %{buildroot}/etc/httpd/conf.modules.d
 echo /etc/httpd/conf.modules.d/56-authnz_external.conf >> files-elephant-shed-portal
-# update PAM file
-cat > %{buildroot}/etc/pam.d/apache <<EOF
-#%PAM-1.0
-auth		include		password-auth
-account		include		password-auth
-EOF
 
 # prometheus2.rpm uses a different variable for extra arguments
 # preserve storage.tsdb.path from /etc/default/prometheus
