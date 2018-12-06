@@ -5,16 +5,16 @@ variables:
   DEPLOY_SSH_PORT: "22"
 
 stages:
+  - docbuild
   - build
   - publish
   # - test
   - deploy
-  - release
 
 ### build ###
 
-build:docs:
-  stage: build
+docbuild:docs:
+  stage: docbuild
   image: "tianon/latex"
   script:
     - apt-get update -qq
@@ -79,6 +79,8 @@ build:bionic-release:
 build:centos7: &build_centos7
   image: "centos:centos7"
   stage: build
+  dependencies:
+    - docbuild:docs
   script:
     - yum install -y rpm-build yum-utils git make
     - yum-builddep -y rpm/elephant-shed.spec

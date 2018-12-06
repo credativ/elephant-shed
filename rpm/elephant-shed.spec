@@ -30,7 +30,6 @@ Summary: PostgreSQL dashboard -- web interface
 Requires: shadow-utils
 Requires: httpd
 Requires: mod_ssl
-#Requires: mod_authnz_pam
 Requires: mod_authnz_external
 Requires: pwauth
 Requires: mod_authz_unixgroup
@@ -209,7 +208,6 @@ for inst in debian/*.install; do
     pkg=$(basename $inst .install)
     echo "### Reading $pkg files list from $inst ###"
     while read file dir; do
-        [ "$file" = "doc/_build/html" ] && continue
         case $file in
           portal/cgi-bin) dir="var/www" ;;
           portal/elephant-shed.conf) dir="etc/httpd/conf.d" ;;

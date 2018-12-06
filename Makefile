@@ -41,15 +41,19 @@ clean:
 
 DPKG_VERSION=$(shell sed -ne '1s/.*(//; 1s/).*//p' debian/changelog)
 PACKAGE_RELEASE=1
-RPMDIR=$(CURDIR)/rpm/
-TARBALL=$(RPMDIR)/SOURCES/elephant-shed_$(DPKG_VERSION).tar.xz
+RPMDIR=$(CURDIR)/rpm
+TARBALL=$(RPMDIR)/SOURCES/elephant-shed_$(DPKG_VERSION).tar
 
-rpmbuild: $(TMATESOURCE) $(TARBALL)
+rpmbuild: $(TMATESOURCE) $(TARBALL).xz
 	rpmbuild -D"%_topdir $(RPMDIR)" --define='package_version $(DPKG_VERSION)' --define='package_release $(PACKAGE_RELEASE)' -ba rpm/elephant-shed.spec
 
-$(TARBALL):
+tarball $(TARBALL).xz:
 	mkdir -p $(dir $(TARBALL))
-	git archive --prefix=elephant-shed-$(DPKG_VERSION)/ $(GITBRANCH) | xz > $(TARBALL)
+	rm -f $(TARBALL).xz
+	git archive --prefix=elephant-shed-$(DPKG_VERSION)/ $(GITBRANCH) > $(TARBALL)
+	# include pre-built documentation in tarball
+	tar --append --transform "s!^!elephant-shed-$(DPKG_VERSION)/!" -f $(TARBALL) doc/_build/html
+	xz $(TARBALL)
 
 # tmate rpm
 
