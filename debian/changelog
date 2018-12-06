@@ -6,6 +6,7 @@ elephant-shed (1.2.1) UNRELEASED; urgency=medium
   * elephant-shed-postgresql: Stop installing custom logrotate file.
   * postgresql: Don't set waldir and data checksums by default.
   * portal: Use AuthExternal pwauth instead of the buggy authnz-pam module.
+  * portal: Use HTTP_HOST instead of SSL_TLS_SNI in cockpit's CSP header.
 
  -- Adrian Vondendriesch <adrian.vondendriesch@credativ.de>  Fri, 18 May 2018 17:50:17 +0200
 
