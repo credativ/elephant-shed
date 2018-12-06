@@ -232,6 +232,7 @@ deploy:centos7-x86:
     - build:centos7
   script:
     - 'test -f /etc/yum.repos.d/credativ-test.repo || sudo yum install https://packages.credativ.com/public/postgresql/yum/credativ-test-repo.noarch.rpm'
+    - sudo yum clean expire-cache
     - sudo yum update -y
     - sudo yum install -y elephant-shed
   only:
