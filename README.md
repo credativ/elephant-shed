@@ -1,9 +1,10 @@
 <img src="portal/image/button_home.png" width="200">
 
 # Intro
+
 Elephant Shed is a web-based PostgreSQL management front-end that bundles
 several utilities and applications for use with PostgreSQL. It currently
-manages single-node Debian/Ubuntu PostgreSQL servers and appliances.
+manages single-node Linux PostgreSQL servers and appliances.
 
 The main components are:
 
@@ -20,6 +21,7 @@ The main components are:
 
 Supported PostgreSQL versions, via <https://apt.postgresql.org>:
 
+* 11
 * 10
 * 9.6
 * 9.5
@@ -29,7 +31,7 @@ Supported distributions:
 
 * Debian Stretch (9)
 * Ubuntu Bionic (18.04)
-* RHEL/CentOS (in planning)
+* RHEL/CentOS (7)
 
 # Download
 
