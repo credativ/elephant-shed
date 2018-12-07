@@ -7,7 +7,7 @@ Packager:       Debian PostgreSQL Maintainers <pkg-postgresql-public@lists.aliot
 License:        GPLv3+
 URL:            https://packages.debian.org/sid/%{name}
 Source0:        http://ftp.debian.org/debian/pool/main/p/%{name}/%{name}_%{version}.tar.xz
-BuildRequires:  python-sphinx
+#BuildRequires:  python-sphinx
 Requires: elephant-shed-cockpit
 Requires: elephant-shed-grafana
 Requires: elephant-shed-pgadmin4
@@ -52,13 +52,7 @@ Summary: PostgreSQL dashboard -- PostgreSQL integration
  .
  This package provides the integration with PostgreSQL.
 
-%post -n elephant-shed-postgresql
-
-sed -i -e 's/use C as lc_messages/use en_US as lc_messages/i;s/C\.UTF-8/en_US\.UTF-8/' \
-/etc/postgresql-common/createcluster.d/elephant-shed.conf
-
 %package -n elephant-shed-pgadmin4
-
 Requires: pgadmin4-web
 Summary: PostgreSQL dashboard -- pgAdmin4 integration
 %description -n elephant-shed-pgadmin4
@@ -231,6 +225,11 @@ sed -i -e 's!SSLCertificateFile.*!SSLCertificateFile /etc/pki/tls/certs/localhos
 mkdir -p %{buildroot}/etc/httpd/conf.modules.d
 cp rpm/56-authnz_external.conf %{buildroot}/etc/httpd/conf.modules.d
 echo /etc/httpd/conf.modules.d/56-authnz_external.conf >> files-elephant-shed-portal
+
+# PostgreSQL integration
+# CentOS 7 does not have C.UTF-8
+sed -i -e 's/C\.UTF-8/en_US.utf8/g' \
+  %{buildroot}/etc/postgresql-common/createcluster.d/elephant-shed.conf
 
 # prometheus2.rpm uses a different variable for extra arguments
 # preserve storage.tsdb.path from /etc/default/prometheus
