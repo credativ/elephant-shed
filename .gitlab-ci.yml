@@ -139,7 +139,7 @@ publish:bionic-release:
     - build:bionic-release
   script:
     - aptly repo add bionic-stable debs/*.dsc debs/*.deb
-    - aptly publish update stable-test
+    - aptly publish update bionic-stable
     - sync_packages.sh
   when: manual
 
