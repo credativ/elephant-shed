@@ -1,4 +1,4 @@
-elephant-shed (1.3) UNRELEASED; urgency=medium
+elephant-shed (1.3) unstable; urgency=medium
 
   * Start prometheus-sql-exporter-restart.timer on package installation.
   * Node exporter 0.16 renames many variables, update dashboard.
@@ -7,7 +7,7 @@ elephant-shed (1.3) UNRELEASED; urgency=medium
   * portal: Use AuthExternal pwauth instead of the buggy authnz-pam module.
   * portal: Use HTTP_HOST instead of SSL_TLS_SNI in cockpit's CSP header.
 
- -- Christoph Berg <christoph.berg@credativ.de>  Thu, 06 Dec 2018 12:56:18 +0100
+ -- Christoph Berg <christoph.berg@credativ.de>  Fri, 07 Dec 2018 16:39:19 +0100
 
 elephant-shed (1.2) unstable; urgency=medium
 
