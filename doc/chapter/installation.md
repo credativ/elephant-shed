@@ -31,6 +31,11 @@ Elephant Shed consists of the following Debian packages and their dependencies:
 
 Prebuilt packages are available from <https://packages.credativ.com/public/postgresql/>.
 
+The repository also contains packages that the `elephant-shed` packages depend
+on. This includes packages for Grafana, Cockpit and various python libraries.
+
+### Installation on Debian and Ubuntu
+
 ```
 # Install tools
 sudo apt-get install curl ca-certificates apt-transport-https
@@ -55,8 +60,32 @@ sudo apt-get install postgresql-10
 sudo adduser <USERNAME> elephant-shed
 ```
 
-The repository also contains packages that the `elephant-shed` packages depend
-on. This includes packages for Grafana, Cockpit and various python libraries.
+### Installation on RedHat and CentOS
+
+Elephant Shed works with the PostgreSQL packages from the PostgreSQL RPM building project.
+Go to <a href="https://yum.postgresql.org/"><b>yum.postgresql.org</b></a> and
+install the repository RPMs for the PostgreSQL versions you want to use.
+Then proceed to install Elephant Shed as below.
+
+```bash
+# Use credativ repository (will also pull in EPEL)
+sudo yum install https://packages.credativ.com/public/postgresql/yum/credativ-repo.rpm
+
+# On RedHat, activate additional repositories (not on CentOS)
+subscription-manager repos --enable=rhel-7-server-extras-rpms
+subscription-manager repos --enable=rhel-7-server-optional-rpms
+
+# Choose desired PostgreSQL versions to install
+sudo yum install postgresql11-server postgresql11-contrib postgresql-common
+sudo pg_createcluster 11 main --start
+
+# Install elephant-shed
+sudo yum install elephant-shed
+
+# Every user in the group "elephant-shed" is allowed to login at the portal
+# Add all needed users to this group
+sudo vigr
+```
 
 ## Installation from source
 
