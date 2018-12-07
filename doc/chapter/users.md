@@ -11,3 +11,5 @@ To create new users, use `adduser`, and add the user to the **elephant-shed** gr
 adduser myon
 adduser myon elephant-shed
 ```
+
+On RedHat/CentOS, use `vigr` to add users to the **elephant-shed** group.

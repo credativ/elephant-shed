@@ -16,6 +16,7 @@
 
   * A direct relogin after a logout does not work. Reloading the page is necessary.
 
-## Cockpit
+## RedHat / CentOS
 
-  * The current version of cockpit-packagekit is not usable on ppc64el systems due to a bug.
+  * pgAdmin4 does not work when SElinux is enabled.
+  * shellinabox does not work when SElinux is enabled.

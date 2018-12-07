@@ -2,6 +2,7 @@
 
 The following PostgreSQL versions are currently supported:
 
+* 11
 * 10
 * 9.6
 * 9.5
@@ -10,6 +11,6 @@ The following PostgreSQL versions are currently supported:
 Other versions are usable but not fully integrated in all components.
 This might make additional manual tuning necessary.
 
-All official supported versions are installable via the configured *apt.postgresql.org* repository.
+Packages for all PostgreSQL versions are installable via the *apt.postgresql.org* repository on Debian/Ubuntu,
+and *yum.postgresql.org* on RedHat/CentOS.
 Please see <https://apt.postgresql.org/> for more information.
-We intend to support newer versions of PostgreSQL as soon as they are released.
