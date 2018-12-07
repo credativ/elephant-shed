@@ -85,6 +85,11 @@ sudo yum install elephant-shed
 # Every user in the group "elephant-shed" is allowed to login at the portal
 # Add all needed users to this group
 sudo vigr
+
+# Unfortunately, pgAdmin4 and shellinabox do not work with SELinux enabled
+# Disable SELinux if you want to use these components
+sudo setenforce 0
+sudo sed -i -e 's/^SELINUX=.*/SELINUX=permissive/' /etc/selinux/config
 ```
 
 ## Installation from source
