@@ -30,6 +30,34 @@ sub filter_queries($$$$;$)
   return \@result;
 }
 
+# Generate jobs from the given queries. One job is created for all the queries
+# with null interval, and one job is created per query with non-null interval.
+sub push_queries_as_jobs($$$)
+{
+  my ($jobs, $queries, $job_settings) = @_;
+  my @instant;
+  foreach my $query (@$queries) {
+    if (!$query->{interval}) {
+      push @instant, $query;
+    } else {
+      # Generate separate job for query with non-null interval
+      my $job_settings_query = dclone($job_settings);
+      $job_settings_query->{interval} = $query->{interval};
+      $job_settings_query->{name} .= '/' . $query->{name};
+      my $q = dclone($query);
+      delete $q->{interval};
+      $job_settings_query->{queries} = [$q];
+
+      push @$jobs, $job_settings_query;
+    }
+  }
+
+  my $instant_job = dclone($job_settings);
+  $instant_job->{interval} = 0;
+  $instant_job->{queries} = \@instant;
+  push @$jobs, $instant_job;
+}
+
 my $queries_directory = $ARGV[0] // die "No directory for *.yml query files specified";
 my $output_yaml = $ARGV[1] // die "No output yaml file specified";
 
@@ -53,22 +81,18 @@ foreach my $version (get_versions()) {
     my $owner = (getpwuid $info{owneruid})[0] // die "Could not determine owner name of cluster $version $cluster";
     my $socket = get_cluster_socketdir($version, $cluster);
 
-    # job for cluster-wide queries
-    push @$jobs, {
+    # jobs for cluster-wide queries
+    push_queries_as_jobs $jobs, filter_queries($queries, 'cluster', $version, $cluster), {
       connections => [ "postgres://$owner\@:$info{port}/postgres?sslmode=disable&host=$socket" ],
-      interval => 0,
       name => "$version/$cluster",
-      queries => filter_queries($queries, 'cluster', $version, $cluster),
     };
 
     # jobs for per-database queries
     my @cluster_databases = get_cluster_databases($version, $cluster);
     foreach my $database (grep { $_ and $_ !~ /^template[01]$/ } @cluster_databases) {
-      push @$jobs, {
+      push_queries_as_jobs $jobs, filter_queries($queries, 'database', $version, $cluster, $database), {
         connections => [ "postgres://$owner\@:$info{port}/$database?sslmode=disable&host=$socket" ],
-        interval => 0,
         name => "$version/$cluster/$database",
-        queries => filter_queries($queries, 'database', $version, $cluster, $database),
       };
     }
 
