@@ -1,18 +1,18 @@
 # packages.credativ.com
-- name: aptly key
+- name: Install credativ aptly Apt key
   apt_key:
     data: "{{ lookup('file', 'packages.credativ.com/aptly.key') }}"
     id: F797920785697B85B92E8034C86768840A59F867
     state: present
 
-- name: credativ_postgresql repository
+- name: Setup credativ PostgreSQL repository
   apt_repository:
     repo: '{{ credativ_postgresql }}'
     filename: 'credativ_postgresql'
     update_cache: false
 
 # pgapt
-- name: Get pgdg key
+- name: Install pgdg Apt key
   apt_key:
     data: "{{ lookup('file', 'postgresql/ACCC4CF8.asc') }}"
     id: ACCC4CF8
