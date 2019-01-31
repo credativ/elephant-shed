@@ -1,6 +1,8 @@
 {% macro clusterctl_js() -%}
 <script>
 
+var global_configurations = {};
+
 function clear_stateclasses(x){
 	$(x).removeClass("request-waiting");
 	$(x).removeClass("request-success");
@@ -115,10 +117,13 @@ function inputvalues_to_dict(lowerthan){
 
 function update_conf( x, host, version, cluster ) {
 	var restArgs = { config : { } };
-	$('.config_modified').each(function(){
-		restArgs['config'][$(this).closest('tr').find('.confname').html()] = $(this).val();	
-	});
-	console.log(restArgs);
+
+
+	$.each ( global_configurations['main_detailview'].defaults, function (i,v ) { if (v.changed == true ){ 
+		console.log(v.current_value);
+		restArgs['config'][v.data.name] = v.current_value;	
+	} } );
+	console.log( restArgs ) ; 
 	pg_ctl({ x:x,
 		host: host,
 		version: version, 
@@ -135,22 +140,32 @@ function goto_dash(){document.location.href= '{{ url_for("index") }}';  }
 var mandatory_elements= [];
 function add_to_mandatory_elements(key){
 	mandatory_elements.push( key ) ;
-	console.log( mandatory_elements ) ; 
+	//console.log( mandatory_elements ) ; 
 };
 
+function createConfigRow( initially_hidden, config_name, selector_key){
+	var hidden_config = initially_hidden ? 'hidden_config' : '';
+	//initially_hidden = '';
+	return $('<tr class="'+ hidden_config +'"  '+initially_hidden+' ><td class="confname">'
+			+ config_name
+			+'</td><td><input type="text" class="'
+			+selector_key 
+			+'" onKeyPress="tag_as_modified(this)" value="default" list="dlist_'+config_name+'" ></input></td></tr>');
+
+}
 
 function getConfigRow( obj ){
+	//console.log(obj);
 	var hidden = obj.hidden==true ? 'hidden' : '';
 	var selector_key = obj.selector.replace(/(\.)/g,' ');
 	var selector_split = selector_key.split(' ');
 	var returned_element;
-	console.log( selector_split) ; 
-	console.log(selector_split[selector_split.length -1 ]);
-	returned_element = $('<tr class="hidden_config" '+hidden+'><td class="confname">'
-			+(selector_split[selector_split.length -1 ]).replace('pg_','')
-			+'</td><td><input type="text" class="'
-			+selector_key 
-			+'" onKeyPress="tag_as_modified(this)" value="default"></td></tr>');
+	//console.log( selector_split) ; 
+	//console.log(selector_split[selector_split.length -1 ]);
+	var configName = (selector_split[selector_split.length -1 ]).replace('pg_','')
+
+
+		returned_element = createConfigRow( hidden, configName, selector_key) ;
 
 	returned_element.find('input').keyup( function(event) {
   	event.preventDefault();
@@ -167,12 +182,16 @@ function getConfigRow( obj ){
 	return returned_element;
 }
 
+function inject_config_row( obj ){
+	obj.insertBefore(".below_hidden_config");
+	}
+
 function provision_mandatory_elements(){
 	for (element in mandatory_elements){
-		var e=mandatory_elements[element];	
-		getConfigRow(
+		var e=mandatory_elements[element];
+		inject_config_row( getConfigRow(
 			{ selector : e,
-				hidden: false }).insertBefore(".below_hidden_config");
+				hidden: false }) );
 		console.log("Inserting: "+e);
 	}}
 
@@ -210,14 +229,13 @@ function fill_details( details, host) {
 				if ( ['free','total','used','active','available'].indexOf( key )  != -1 ){
 					value=bytes_prettyprint( value ) ;
 				}
-				if ( $(selector_key).length <= 0 && selector_key.indexOf('pg_config') != -1 ){ 
-						getConfigRow({ selector : selector_key,  key: key, hidden: true } ).insertBefore(".below_hidden_config");
+				if ( $(selector_key).length <= 0 && selector_key.indexOf('pg_config') != -1 ){
+						// getConfigRow({ selector : selector_key,  key: key, hidden: true } ).insertBefore(".below_hidden_config");
 				}
 				$(selector_key).html( value );
 				$(selector_key).val( value );
 							
 				$(selector_key).closest('tr').removeClass("es_disabled");
-				console.log( selector_key);
 				}
 		};
 	}
@@ -249,7 +267,6 @@ function get_host( hosturl, clustername, clusterversion){
 
 function querybar_hide_and_reset(){
 	setTimeout(function(){
-		//$('#querying_hosts_div').css('height',"0px");
 		$('#querying_hosts_div').css('opacity',0);
 
 
@@ -365,23 +382,179 @@ function add_detail_graphs(){
 };
 
 
-function load_pgconf_details(){
+function load_pgconf_details(version){
 	$.ajax({
         	type: "GET",
-                url: "/pg_settings.csv",
-                dataType: "text/csv",
+		url: "{{ url_for('index')}}/pg_settings/"+version,
+		contentType: "application/json; charset=utf-8",
+
                 success: function (data) {
-		   console.log("GOO");
-		   console.log(data);
-                   csvData = data;
-                   console.log( csvData.getAllResponseHeaders())
-		   console.log( csvData)
-                   }
+		   console.log("CSV");
+
+		   $.each(data,  function(index, value) {
+			   if ( ! $( '.pg_'+index  ).length ) { console.log("does not exist");
+			  	inject_config_row( getConfigRow(
+					{ selector : "pg_config pg_"+index,
+					hidden: true }) );
+			   }
+			   if (value.enumvals){
+				   var enumvals = value.enumvals.substr(1,value.enumvals.length -2 ).split(',');
+				   console.warn('ENUM!'); console.warn(enumvals) ;
+			  	   console.warn($( '.pg_'+index  ));
+				   var enumlist = $('<datalist id="dlist_'+index+'"></datalist>') ;
+				   $.each( enumvals, function( i,v ){ $(enumlist).append( $('<option>'+v+'</option>') ); });
+				   var target_location = $('.pg_'+index).closest('td');
+				   $(target_location).append( enumlist);
+				   $('.pg_'+index).click( function(){ $(this).val("") }) ;
+ 
+
+			   };
+			   if ( value.context == 'internal' || value.context == 'postmaster' ){ 
+				   var requiresRestart = $('<div class="tooltip"><span class="glyphicon glyphicon-refresh" aria-hidden="true"><span class="tooltiptext">Change requires restart</span></span></div>');
+				   $(requiresRestart).css( 'opacity','0.5');
+				   $( '.pg_'+index ).closest('td').append(requiresRestart);
+			   	};
+
+
+		  
+		   }) ;
+
+                   },
+		error: function(xhr, status, error){ console.log(xhr); console.log(status); console.log(error); }
                 });
 
 }
-//load_pgconf_details();
 
+function tick_changed(element){
+	var config_name =  $(element).closest('tr').find('.config_name').html() ;
+	var relevant_configelement = global_configurations['main_detailview'].defaults[ config_name ];
+	relevant_configelement.set_changed();
+
+	if ( ['bool', ].indexOf(relevant_configelement.data.vartype) >= 0 ){
+		relevant_configelement.set_current_value ( $(element).attr('value')  ) ; 
+		relevant_configelement.to_dom().insertBefore( $(element).closest('tr') );
+		$(element).closest('tr').remove();
+	}
+	if ( ['enum', ].indexOf(relevant_configelement.data.vartype) >= 0 ){
+		relevant_configelement.set_current_value ( $(element).html()   ) ; 
+		relevant_configelement.to_dom().insertBefore( $(element).closest('tr') );
+		$(element).closest('tr').remove();
+	}
+
+	if ( ['string','integer','real'].indexOf(relevant_configelement.data.vartype) >= 0 ){
+		relevant_configelement.set_current_value ( $(element).val()  ) ; 
+		console.log ( relevant_configelement.current_value) ; 
+	}
+}
+
+class configElement{
+	constructor( obj ){ this.data = obj; this.changed = false; this.current_value = null; };
+	set_current_value( value ){
+		this.current_value = value ;
+	}
+	set_changed(){ this.changed = true ;  } ;
+	input_element(){
+		var current_value = '';
+		if (this.current_value){
+					if ( ['string','integer','real'].indexOf( this.data.vartype ) >=0 ) { current_value = 'value="'+this.current_value+'"'; };
+		};
+		if ( ['string','integer','real'].indexOf(this.data.vartype) >=0  ){ return $('<div class="input-group"><span class="input-group-addon" style="width:70px">'+this.data.vartype+'</span><input type="text" class="form-control" placeholder="'+this.data.boot_val+'" aria-describedby="basic-addon2" '+ current_value+' onblur="tick_changed(this)" ><span class="input-group-addon" style="width:50px" id="basic-addon2">'+this.data.unit+'</span></div>'); };
+		
+		if (this.data.vartype == 'enum'){ 
+			var t = this;
+			var display_current_value = t.current_value;
+			if (display_current_value == null){ display_current_value = t.data.boot_val };
+			var element = $('<div class="btn-group"> <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+display_current_value+'<span class="caret"></span> </button>');
+			var list = $('<ul class="dropdown-menu"></ul>');
+			$.each (  this.data.enumvals.substr(1,this.data.enumvals.length -2 ).split(','), function(index, value){
+				$(list).append ( $('<li><a href="#" onclick="tick_changed(this); return false;" disabled >'+value+'</a></li>') )
+				});
+			$(element).append(list);
+			return element;
+			};
+		if (this.data.vartype == 'bool'){ 
+			var ON = 'btn-default';
+			var OFF= 'btn-default';
+			if ( this.data.boot_val  == 'on') { ON = 'btn-info'; } else{ OFF = 'btn-info'; }
+
+			if ( this.current_value == 'on' ){ ON = 'btn-success'; }
+			if ( this.current_value == 'off' ){ OFF = 'btn-danger'; }
+
+			return $('<div class="btn-group" role="group"><button type="button" class="btn '+ON+'" value="on" role="button" onclick="tick_changed(this);" >ON</button><button type="button" role="button" class="btn '+OFF+'" value="off" onclick="tick_changed(this);">OFF</button></div>' ); };
+	}
+
+	to_dom(){ var row = $('<tr><td class="config_name">'+this.data.name+'</td><td class="input_cell"></td></tr>') ; row.find('.input_cell').append( this.input_element() ); return row; };
+};
+
+class Configuration{
+	parse_defaults( data ){
+		var parsed_dict={};
+		var t = this;
+		$.each( data, function( index,value ){ 
+			parsed_dict[index]= new configElement( value ) ;
+		} );
+		return parsed_dict;
+	}
+	parse_settings( data ){
+		var t = this;
+		$.each( data['config'] , function( index,value ){
+			if ( t.defaults[index]){ t.defaults[index].set_current_value( value ) ; }
+		} );
+
+		return null;
+	}
+
+
+
+	load_settings(){
+		var t = this;
+		var deeplink = '';
+		if (t.version && t.clustername) {	deeplink = '/'+t.version+'/'+t.clustername; }
+		$.ajax({
+			type: "GET",	
+			url: "{{ url_for('index')}}/pgapi/proxy/cluster/"+t.host+deeplink,
+			contentType: "application/json; charset=utf-8",
+			success: function (data) {  t.settings=t.parse_settings( data ); t.display_configuration(); },
+			error: function (){}	
+			}) ; 
+	};	
+
+
+	load_defaults(){
+		var t = this;
+		$.ajax({
+			type: "GET",
+			url: "{{ url_for('index')}}/pg_settings/"+t.version,
+			contentType: "application/json; charset=utf-8",
+			success: function (data) { t.defaults=t.parse_defaults( data ); t.load_settings( ); },
+			error: function (){}	
+			}) ; 
+	};	
+
+	display_configuration(){
+		console.log("DISPLAY FUNCTION EMPTY");
+		$.each(this.defaults, function(index, value){  
+			value.to_dom().insertBefore(".below_hidden_config");
+
+			}
+		);
+	}
+
+	init_data(){ 
+		this.load_defaults();
+	}
+
+	constructor( host, version, clustername) {
+		this.version = version;
+		this.host = host;
+		this.clustername = clustername;
+		this.defaults = {};
+		this.settings= {}
+
+		global_configurations['main_detailview'] = this;
+		this.init_data();  //(host, version, clustername );
+			}
+}
 </script>
 
 

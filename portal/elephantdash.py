@@ -42,7 +42,6 @@ def index():
     #response.headers['Access-Control-Allow-Origin'] = 'http://127.0.0.1:15432/cluster/'
     return response
 
-
 def buildRequest(url, request):
     method = request.method
     payload = "{}"
@@ -103,9 +102,25 @@ def pgapi_proxy_cluster(host,version,cluster):
 @app.route("/detail/<host>")
 def details_host(host):
     return render_template('detail.html', environment=env, detail_host=host)
+
 @app.route("/detail/<host>/<version>/<cluster>")
 def details_cluster(host, version, cluster):
     return render_template('detail.html', environment=env, detail_host=host, detail_version=version, detail_cluster=cluster)
+
+@app.route("/pg_settings/<version>")
+def pgsettings(version):
+    settingsfolder = os.path.join( os.path.dirname(__file__),'static','pg_settings' )
+    if version+'.csv' in os.listdir( settingsfolder ):
+        import csv
+        output = {}
+        with open( os.path.join( settingsfolder, version+'.csv' ) ) as csvfile:
+            reader = csv.DictReader( csvfile )
+            for row in reader:
+                output[row['name']]=row
+                #output[row['name']]= {}
+                #for fieldname in reader.fieldnames:
+                #    output[row['name']][fieldname]=row[fieldname]
+    return jsonify( output )
 
 
 
