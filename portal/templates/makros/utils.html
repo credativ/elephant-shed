@@ -43,59 +43,59 @@ function issue_systemcall( host, argument, call_success, call_fail ){
 
 
 function pg_ctl( obj ) {
-//(x, host, version, cluster, action, call_success, call_fail ){
-var x = obj.x;
-var host = obj.host;
-var version = obj.version;
-var cluster = obj.cluster;
-var action = obj.action;
-var call_success = obj.call_success;
-var call_fail = obj.call_fail;
-var rest_args = obj.data ? obj.data : {} ;
-var rest_method;
+	//(x, host, version, cluster, action, call_success, call_fail ){
+	var x = obj.x;
+	var host = obj.host;
+	var version = obj.version;
+	var cluster = obj.cluster;
+	var action = obj.action;
+	var call_success = obj.call_success;
+	var call_fail = obj.call_fail;
+	var rest_args = obj.data ? obj.data : {} ;
+	var rest_method;
 
-if ( $(x).is('input') ){ x = $(x).closest('div')} ; 
+	if ( $(x).is('input') ){ x = $(x).closest('div')} ; 
 
-if ( $.inArray( action.toLowerCase(), ["start","stop","reload","restart"] )!= -1 ){
-	rest_args['state'] = action;
-	rest_method = 'PATCH'}
-else if ( action == 'ls') {	
-	rest_method = 'GET';}
-else if ( action == 'create') {	
-	rest_method = 'POST';}
-else if ( action == 'remove') {	
-	rest_method = 'DELETE';}
-else if ( action == 'config-only'){
-	rest_method = 'PATCH';
-	}
-else if ( action == 'ls-system' ){
-	// Magic specialcase
-	issue_systemcall( host, undefined, call_success, call_fail );
-	return;
-	}
-else { console.log("pg_ctl call does not support this action! Action was '"+action+"'") }
-//console.log(rest_args);
-clear_stateclasses(x);
-$(x).addClass("request-waiting");
+	if ( $.inArray( action.toLowerCase(), ["start","stop","reload","restart"] )!= -1 ){
+		rest_args['state'] = action;
+		rest_method = 'PATCH'}
+	else if ( action == 'ls') {	
+		rest_method = 'GET';}
+	else if ( action == 'create') {	
+		rest_method = 'POST';}
+	else if ( action == 'remove') {	
+		rest_method = 'DELETE';}
+	else if ( action == 'config-only'){
+		rest_method = 'PATCH';
+		}
+	else if ( action == 'ls-system' ){
+		// Magic specialcase
+		issue_systemcall( host, undefined, call_success, call_fail );
+		return;
+		}
+	else { console.log("pg_ctl call does not support this action! Action was '"+action+"'") }
+	//console.log(rest_args);
+	clear_stateclasses(x);
+	$(x).addClass("request-waiting");
 
-issue_clustercall( host, version, cluster, rest_method,  JSON.stringify(rest_args) ,
-		//call_success ? call_success : 
-		function( data ){ 
-		$(x).removeClass("request-waiting");
-	 	$(x).addClass("request-success");
-		if (call_success){ call_success(data) };
-		},
-		//call_fail ? call_fail :
-		function( request,status,err ){
-		var errmsg = '';
-		try { errmsg = request.responseJSON['stderr'];}
-		catch(e){;};
+	issue_clustercall( host, version, cluster, rest_method,  JSON.stringify(rest_args) ,
+			//call_success ? call_success : 
+			function( data ){ 
+				$(x).removeClass("request-waiting");
+				$(x).addClass("request-success");
+				if (call_success){ call_success(data) };
+				},
+				//call_fail ? call_fail :
+				function( request,status,err ){
+				var errmsg = '';
+				try { errmsg = request.responseJSON['stderr'];}
+				catch(e){;};
 
-		push_notification( err + ' : '+ errmsg );
-		$(x).removeClass("request-waiting");
-	 	$(x).addClass("request-fail");
-		if (call_fail){call_fail(request,status,err) };
-		});
+				push_notification( err + ' : '+ errmsg );
+				$(x).removeClass("request-waiting");
+				$(x).addClass("request-fail");
+				if (call_fail){call_fail(request,status,err) };
+			});
 }
 
 function inputvalues_to_dict(lowerthan){
@@ -196,24 +196,27 @@ function provision_mandatory_elements(){
 	}}
 
 function fill_details( details, host) {
-	$('.state-disable-for-online').prop('disabled',false);
-	$('.state-disable-for-offline').prop('disabled',false);
-	$('.state-disable-for-recovery').prop('disabled',false);
-	$('.state-disable-for-no-recovery').prop('disabled',false);
+	console.log( details );
+	if (details['cluster']) { // details is mostlikely a system-ls. No need to reset variables
+		$('.state-disable-for-online').prop('disabled',false);
+		$('.state-disable-for-offline').prop('disabled',false);
+		$('.state-disable-for-recovery').prop('disabled',false);
+		$('.state-disable-for-no-recovery').prop('disabled',false);
 
-
-	var runstate = '';
-	if ( details['running'] == 1 ){
-		runstate='<span class="label label-success">online</span>';
-		$('.state-disable-for-online').prop('disabled',true);
-	}
-	else{ runstate='<span class="label label-danger">offline</span>';	
-		$('.state-disable-for-offline').prop('disabled',true);
-	}
-	if ( details['recovery'] == 1 ){
-		runstate+='<span class="label label-info">in recovery</span>';
-		$('.state-disable-for-no-recovery').prop('disabled',true);
-	}
+		var runstate = '';
+		if ( details['running'] == 1 ){
+			runstate='<span class="label label-success">online</span>';
+			$('.state-disable-for-online').prop('disabled',true);
+		}
+		else{ runstate='<span class="label label-danger">offline</span>';	
+			$('.state-disable-for-offline').prop('disabled',true);
+		}
+		if ( details['recovery'] == 1 ){
+			runstate+='<span class="label label-info">in recovery</span>';
+			$('.state-disable-for-no-recovery').prop('disabled',true);
+		}
+	};
+		
 	function recurse(stack, data){
 		for ( var key in data ){
 			// Specialcasing most non-valid class definers
@@ -254,13 +257,18 @@ function get_host( hosturl, clustername, clusterversion){
 			call_fail: function(){ alert('BAD');},
 
 	 });
-	pg_ctl({host: hosturl, 
-			cluster : clustername, 
-			version: clusterversion, 
-			action: 'ls-system', 
-			call_success: function(result){ fill_details( result, hosturl )  },
-			call_fail: function(){ alert('BAD');},
-	 });
+	function poll_metrics(){	
+		pg_ctl({host: hosturl, 
+				cluster : clustername, 
+				version: clusterversion, 
+				action: 'ls-system', 
+				call_success: function(result){ fill_details( result, hosturl )  },
+				call_fail: function(){ alert('BAD');},
+		});
+		setTimeout( poll_metrics, 1000 );
+	}
+	poll_metrics();
+
 
 	};
 
