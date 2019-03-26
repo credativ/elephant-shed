@@ -124,7 +124,7 @@ function pushClusterInfo ( result, _url ){
 	var rawRow = $table_hosts.row.add( [ _url,
 		'<div class="available_versions"></div>',
 		'<span class="label label-success">connected</span>', 
-		'<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#'+modal_identifier+'">AddCluster</button>'+modal] )
+		'<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#'+modal_identifier+'">Add Instance</button>'+modal] )
 			.draw(true).node() ;
 	pg_ctl({host: _url, action: 'ls-system',
 		call_success: function(data){
@@ -134,7 +134,8 @@ function pushClusterInfo ( result, _url ){
 					<div class="btn-group btn-group-justified">
 					<button type="button" class="btn btn-primary versionselector" onclick="$('.versionselector').removeClass('active'); $(this).addClass('active'); " data-button="`+version+`">`+version+`</button>
 					</div>`) ;
-				})}});
+				})
+			}});
 	for ( var i = 0; i < result.length ; i++ ){
 		var state = 'Unknown';
 		if (result[i]['running']=='1'){state='<span class="label label-success">ONLINE</span>';}
