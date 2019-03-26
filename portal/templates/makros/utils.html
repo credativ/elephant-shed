@@ -197,7 +197,7 @@ function provision_mandatory_elements(){
 
 function fill_details( details, host) {
 	console.log( details );
-	if (details['cluster']) { // details is mostlikely a system-ls. No need to reset variables
+	if (details['cluster']) { // details is most likely a system-ls. No need to reset variables
 		$('.state-disable-for-online').prop('disabled',false);
 		$('.state-disable-for-offline').prop('disabled',false);
 		$('.state-disable-for-recovery').prop('disabled',false);
@@ -236,6 +236,16 @@ function fill_details( details, host) {
 						// getConfigRow({ selector : selector_key,  key: key, hidden: true } ).insertBefore(".below_hidden_config");
 				}
 				$(selector_key).html( value );
+				var nestedGraphs = $(selector_key).closest('tr').find('.pg_chart');
+				if (nestedGraphs.length > 0){
+					console.log("OK");
+					console.log( nestedGraphs );
+					var graph = $(nestedGraphs).data("graph");
+			        graph.series.addData(
+						{ 'default': value }
+						);
+					graph.update();
+				}
 				$(selector_key).val( value );
 							
 				$(selector_key).closest('tr').removeClass("es_disabled");
@@ -265,7 +275,7 @@ function get_host( hosturl, clustername, clusterversion){
 				call_success: function(result){ fill_details( result, hosturl )  },
 				call_fail: function(){ alert('BAD');},
 		});
-		setTimeout( poll_metrics, 1000 );
+		setTimeout( poll_metrics, 10000 );
 	}
 	poll_metrics();
 
@@ -367,25 +377,16 @@ function add_detail_graphs(){
     			series: 
 				new Rickshaw.Series.FixedDuration([{
 					name: 'default',
-        				color: 'lightblue',
+        			color: 'lightblue',
 					}],
 					undefined,
 					{
-					maxDataPoints: 500,
+					maxDataPoints: 10,
 					timeInterval: 1000,
 					})
 			});
 			graph.render();
-		function insertDummy(){
-			graph.series.addData(
-					{ 'default' : Math.sin( (new Date).getTime()*0.0001*randomspeed )+1   }
-					);
-			graph.update();
-			setTimeout ( function(){
-				insertDummy();
-			}, 1000);
-			};
-		insertDummy();
+		$(this).data( "graph", graph );	
 	});
 };
 
