@@ -17,7 +17,7 @@ hosts=[
 
 detailview_systeminformation=[
         {"label" : "Hostname (FQDN)",      "data" : "pg_hostname pg_fqdn"},
-        {"label" : "CPU Count",  "data" : "pg_cpu_config pg_cpu_count"},
+        {"label" : "VCPU Count",  "data" : "pg_cpu_config pg_cpu_count_logical"},
         {"label" : "Kernel",        "formoverride" : '<span class="pg_uname pg_kernel_name"></span> <span class="pg_uname pg_kernel_version"</span> <span class="pg_uname pg_machine"></span>'},
         {"label" : "Load Average",  "formoverride" : '<span class="pg_load pg_15min pg_addgraph"></span>'},
         {"label" : "Memory",       "formoverride": '<span class="pg_virtual_memory pg_total pg_addgraph"></span> (<span class="pg_virtual_memory pg_percent"></span>% Used)'},
