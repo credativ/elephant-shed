@@ -13,6 +13,7 @@ application_root = "/portal"    # Root-Folder this application resides in.
 # Hosts we consider beeing part of a Cluster.
 hosts=[
         {"address":"localhost"},
+        {"address":"localhost"},
         ]
 
 detailview_systeminformation=[
@@ -20,7 +21,9 @@ detailview_systeminformation=[
         {"label" : "VCPU Count",  "data" : "pg_cpu_config pg_cpu_count_logical"},
         {"label" : "Kernel",        "formoverride" : '<span class="pg_uname pg_kernel_name"></span> <span class="pg_uname pg_kernel_version"</span> <span class="pg_uname pg_machine"></span>'},
         {"label" : "Load Average",  "formoverride" : '<span class="pg_load pg_15min pg_addgraph"></span>'},
-        {"label" : "Memory",       "formoverride": '<span class="pg_virtual_memory pg_total pg_addgraph"></span> (<span class="pg_virtual_memory pg_percent"></span>% Used)'},
+        {"label" : "vFS Cache", "data": 'pg_virtual_memory pg_cached pg_addgraph'}, 
+        {"label" : "Memory Active",       "data": 'pg_virtual_memory pg_used pg_addgraph'},
+        {"label" : "Memory Shared",       "data": 'pg_virtual_memory pg_shared pg_addgraph'},        
         {"label" : "Disk Usage (%)", "data" : "pg_disk_usage pg__s_ pg_percent"},
 
 

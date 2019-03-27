@@ -229,23 +229,22 @@ function fill_details( details, host) {
 				}
 			else{
 				var value=data[key];
-				if ( ['free','total','used','active','available'].indexOf( key )  != -1 ){
-					value=bytes_prettyprint( value ) ;
-				}
-				if ( $(selector_key).length <= 0 && selector_key.indexOf('pg_config') != -1 ){
-						// getConfigRow({ selector : selector_key,  key: key, hidden: true } ).insertBefore(".below_hidden_config");
-				}
-				$(selector_key).html( value );
 				var nestedGraphs = $(selector_key).closest('tr').find('.pg_chart');
 				if (nestedGraphs.length > 0){
-					console.log("OK");
-					console.log( nestedGraphs );
 					var graph = $(nestedGraphs).data("graph");
 			        graph.series.addData(
 						{ 'default': value }
 						);
 					graph.update();
 				}
+				if ( ['free','total','used','active','available','cached','shared'].indexOf( key )  != -1 ){
+					value=bytes_prettyprint( value ) ;
+				}
+				if ( $(selector_key).length <= 0 && selector_key.indexOf('pg_config') != -1 ){
+						// getConfigRow({ selector : selector_key,  key: key, hidden: true } ).insertBefore(".below_hidden_config");
+				}
+				$(selector_key).html( value );
+
 				$(selector_key).val( value );
 							
 				$(selector_key).closest('tr').removeClass("es_disabled");
@@ -275,7 +274,7 @@ function get_host( hosturl, clustername, clusterversion){
 				call_success: function(result){ fill_details( result, hosturl )  },
 				call_fail: function(){ alert('BAD');},
 		});
-		setTimeout( poll_metrics, 10000 );
+		setTimeout( poll_metrics, 2000 );
 	}
 	poll_metrics();
 
@@ -371,9 +370,9 @@ function add_detail_graphs(){
 		var plotdata= [[ { x: 0, y: 0 },]];
 		var graph = new Rickshaw.Graph( {
     			element: this, 
-    			width: 200,
+    			width: 100,
     			height: 15,
-    			renderer: 'bar', 
+    			renderer: 'line', 
     			series: 
 				new Rickshaw.Series.FixedDuration([{
 					name: 'default',
@@ -381,8 +380,8 @@ function add_detail_graphs(){
 					}],
 					undefined,
 					{
-					maxDataPoints: 10,
-					timeInterval: 1000,
+					maxDataPoints: 30,
+					timeInterval: 2000,
 					})
 			});
 			graph.render();
@@ -543,7 +542,7 @@ class Configuration{
 	display_configuration(){
 		console.log("DISPLAY FUNCTION EMPTY");
 		$.each(this.defaults, function(index, value){  
-			value.to_dom().insertBefore(".below_hidden_config");
+			  //value.to_dom().insertBefore(".below_hidden_config");
 
 			}
 		);
