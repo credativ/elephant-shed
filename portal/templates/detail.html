@@ -6,7 +6,36 @@
 
 
 <div class="row">
-	<div class="col-sm-4" style="min-width: 400px">
+
+
+		<div class="col-sm-12" style="min-width: 400px">
+
+				<div class="panel panel-default">
+					<!--  <div class="panel-heading" style="font-weight: bold">Utilities</div>-->
+					<div class="panel-body" >
+				 <div class="btn-group btn-group-justified">
+					 {% for deeplink in environment['deeplinks'] %}
+					 {% if loop.index0 % 10 == 0 %}
+						 </div>
+						 <div class="btn-group btn-group-justified">
+					 {% endif %}
+					 <div class="btn-group btn-group-justified">
+						 <button type="button" class="btn btn-primary" onclick="window.location='https://{{ detail_host }}{{deeplink['url'] }}'" >
+							 <img src="{{ url_for('index') }}static/{{ deeplink["image"] }}" style="height:40px"><br>
+								 {{ deeplink["label"] }}
+						 </button>
+					 </div>
+					{% endfor %}
+				 </div>
+				 
+					</div>
+				
+					
+				</div>
+				
+					</div>
+
+	<div class="col-sm-6" style="min-width: 400px">
 
 <div class="panel panel-default">
   <div class="panel-heading" style="font-weight: bold">
@@ -63,41 +92,33 @@
 
 	</div>
 
-	<div class="col-sm-8" style="min-width: 400px">
 
-<div class="panel panel-default">
-	<!--  <div class="panel-heading" style="font-weight: bold">Utilities</div>-->
-  <div class="panel-body" >
- <div class="btn-group btn-group-justified">
-	 {% for deeplink in environment['deeplinks'] %}
-	 {% if loop.index0 % 3 == 0 %}
-		 </div>
-	 	<div class="btn-group btn-group-justified">
-	 {% endif %}
-	 <div class="btn-group btn-group-justified">
-		 <button type="button" class="btn btn-primary" onclick="window.location='https://{{ detail_host }}{{deeplink['url'] }}'" >
-			 <img src="{{ url_for('index') }}static/{{ deeplink["image"] }}" style="height:40px"><br>
-			 	{{ deeplink["label"] }}
-		 </button>
-	 </div>
-	{% endfor %}
- </div>
- 
-  </div>
 
-	
+
+	<div class="col-sm-6" style="min-width: 300px">
+			<div class="panel panel-default">
+				<div class="panel-heading" style="font-weight: bold"> System-Information  </div>
+				<div class="panel-body" >
+					<table class="table table-responsive">
+					{% for element in environment['detailview_system'] %}
+					<tr class="es_disabled">
+					{% if 'formoverride' in element %}
+					<td><b>{{element['label']}}</b></td><td>{{ element['formoverride'] | safe }}</td>
+					{% else %}
+					<td><b>{{element['label']}}</b></td><td><span class="{{element['data']}}">unknown</span> </td>
+					{% endif %}
+						<tr>
+					{% endfor %}
+					</table>
+				</div>
+			</div>
+		</div>
+
 </div>
-
-	</div>
-
-
-
-
-	</div>
 
 <div class="row">
 
-   <div class="col-sm-5" style="min-width: 500px">
+   <div class="col-sm-8" style="min-width: 500px">
 	<div class="panel panel-default">
 	  <div class="panel-heading" style="font-weight: bold">
 	  Cluster-Configuration
@@ -131,25 +152,6 @@
    </div>
 
 
-	<div class="col-sm-4" style="min-width: 300px">
-		<div class="panel panel-default">
-		  <div class="panel-heading" style="font-weight: bold"> System-Information  </div>
-		  <div class="panel-body" >
-			  <table class="table table-responsive">
-			  {% for element in environment['detailview_system'] %}
-			  <tr class="es_disabled">
-				{% if 'formoverride' in element %}
-				<td><b>{{element['label']}}</b></td><td>{{ element['formoverride'] | safe }}</td>
-				{% else %}
-				<td><b>{{element['label']}}</b></td><td><span class="{{element['data']}}">unknown</span> </td>
-				{% endif %}
-			    <tr>
-			  {% endfor %}
-			  </table>
-			  <br>
-		  </div>
-		</div>
-	</div>
 <!--</div>
 <div class="row">-->
    <div class="col-sm-4" style="min-width: 500px">
@@ -253,6 +255,7 @@ $(document).ready(function() {
 	add_detail_graphs();
 	//provision_mandatory_elements();
 	new Configuration( '{{ detail_host }}', '{{ detail_version }}', '{{ detail_cluster }}' );
+	//$('.configtable').DataTable({"order":[[0, "asc"]], "paging": true });
 });
 
 </script>
