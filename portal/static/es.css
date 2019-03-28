@@ -34,20 +34,19 @@
     animation-iteration-count: infinite;
     transition: all 0.5s;
     }
-    
 
-.request-success {
-    animation-name: btn-success;
-    animation-duration: 1s;
-    animation-iteration-count: 2;
-    }
-.request-fail {
-    animation-name: btn-fail;
-    animation-duration: 1s;
-    animation-iteration-count: 1;
-    }
+.btn span {
+        display: inline-block;
+        position: relative;
+        transition: 0.5s;
+      }
+
 
 
 .es_disabled{
     color: gray;
     }
+
+.essentials_table td{
+    padding: 5px;
+}

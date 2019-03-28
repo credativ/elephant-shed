@@ -1,7 +1,25 @@
 /* General */
 body {
-    font-family: Arial, Sans-serif;
+    font-family: Roboto, sans-serif;
+    padding-top: 50px;
+    font-size: 12px;
+    #background: url('/portal/static/background.jpg') no-repeat center center fixed;
+    #background-size: cover;
+    background-color: #CCC;
 }
+.navbar-inverse{ 
+  #background:#7777DD;
+  color: #FFFFFF;
+}
+.navbar-inverse .navbar-nav li a {
+  color:#FFFFFF;
+  text-shadow: none;
+  font-weight: bold;
+}
+.navbar-inverse a:visited{
+  color:#FFFFFF;
+}
+
 
 /* Links */
 a {

@@ -8,9 +8,9 @@
 <div class="row">
 
 
-		<div class="col-sm-12" style="min-width: 400px">
+		<div class="col-sm-12" style="min-width: 400px;  ">
 
-				<div class="panel panel-default">
+				<div class="panel panel-default" >
 					<!--  <div class="panel-heading" style="font-weight: bold">Utilities</div>-->
 					<div class="panel-body" >
 				 <div class="btn-group btn-group-justified">
@@ -20,9 +20,9 @@
 						 <div class="btn-group btn-group-justified">
 					 {% endif %}
 					 <div class="btn-group btn-group-justified">
-						 <button type="button" class="btn btn-primary" onclick="window.location='https://{{ detail_host }}{{deeplink['url'] }}'" >
-							 <img src="{{ url_for('index') }}static/{{ deeplink["image"] }}" style="height:40px"><br>
-								 {{ deeplink["label"] }}
+						 <button type="button" class="btn btn-default" onclick="window.location='https://{{ detail_host }}{{deeplink['url'] }}'" >
+							 <img src="{{ url_for('index') }}static/{{ deeplink["image"] }}" style="height:40px; padding: 5px" ="ok">
+							 {{ deeplink["label"] }}
 						 </button>
 					 </div>
 					{% endfor %}
@@ -35,9 +35,9 @@
 				
 					</div>
 
-	<div class="col-sm-6" style="min-width: 400px">
+	<div class="col-sm-6" style="min-width: 400px;">
 
-<div class="panel panel-default">
+<div class="panel panel-default"  style="height: 350px">
   <div class="panel-heading" style="font-weight: bold">
 	  <a href="{{url_for("index")}}">Shed</a> /  {{  detail_host }} / {{ detail_version }}-{{detail_cluster}}
   </div>
@@ -115,7 +115,7 @@
 
 
 	<div class="col-sm-6" style="min-width: 300px">
-			<div class="panel panel-default">
+			<div class="panel panel-default " style="height: 350px">
 				<div class="panel-heading" style="font-weight: bold"> System-Information  </div>
 				<div class="panel-body" >
 					<table class="table table-responsive">

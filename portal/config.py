@@ -62,7 +62,7 @@ deeplinks=[
         # {"url" :":4433/", "label" : "Backups TODO", "image": "button_pgbackrest.png"},
         {"url" :":4433/shellinabox/", "label" : "Shell", "image": "button_shellinabox.png"},
         {"url" :":4433/system", "label" : "Cockpit", "image": "button_cockpit.png"},
-        {"url" :":4433/doc/html/", "label" : "Documentation", "image": "button_doc.png"},
+        #{"url" :":4433/doc/html/", "label" : "Documentation", "image": "button_doc.png"},
 
 
         ]
