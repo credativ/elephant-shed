@@ -25,21 +25,18 @@
     animation-name: btn-pulsating;
     animation-duration: 1s;
     animation-iteration-count: infinite;
-    transition: all 0.5s;
     }
-.active span{
-    display: inline-block;
-    animation-name: btn-rotate;
+.request-success {
+    animation-name: btn-success;
     animation-duration: 1s;
-    animation-iteration-count: infinite;
-    transition: all 0.5s;
+    animation-iteration-count: 2;
+    }
+.request-fail {
+    animation-name: btn-fail;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
     }
 
-.btn span {
-        display: inline-block;
-        position: relative;
-        transition: 0.5s;
-      }
 
 
 

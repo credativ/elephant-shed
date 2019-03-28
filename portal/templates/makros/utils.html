@@ -77,9 +77,12 @@
 		}
 		else { console.log("pg_ctl call does not support this action! Action was '" + action + "'") }
 		$(x).addClass("active");
+		$(x).addClass("request-waiting");
 		issue_clustercall(host, version, cluster, rest_method, JSON.stringify(rest_args),
 			function (data) {
 				$(x).removeClass("active");
+				$(x).addClass("request-waiting");
+				$(x).addClass("request-success");
 				if (call_success) { call_success(data) };
 			},
 			function (request, status, err) {
@@ -89,6 +92,7 @@
 
 				push_notification(err + ' : ' + errmsg);
 				$(x).removeClass("active");
+				$(x).addClass("request-waiting");
 				$(x).addClass("request-fail");
 				if (call_fail) { call_fail(request, status, err) };
 			});

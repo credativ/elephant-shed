@@ -46,27 +46,27 @@
 
 					<div class="btn-group btn-group-justified">
 
-						<button type="button" class="btn btn-primary state-disable-for-online"
+						<button type="button" class="btn btn-success state-disable-for-online"
 							onclick="pg_ctl( { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action:  'start', call_success: fill_details} )"><span>Start</span></button>
 					</div>
 					<div class="btn-group btn-group-justified">
 
-						<button type="button" class="btn btn-primary state-disable-for-offline"
+						<button type="button" class="btn btn-warning state-disable-for-offline"
 							onclick="pg_ctl( { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action:  'stop', call_success: fill_details}) "><span>Stop</span></button>
 					</div>
 					<div class="btn-group btn-group-justified">
 
-						<button type="button" class="btn btn-primary state-disable-for-offline"
+						<button type="button" class="btn btn-default state-disable-for-offline"
 							onclick="pg_ctl( { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action:  'reload', call_success: fill_details})"><span>Reload</span></button>
 					</div>
 					<div class="btn-group btn-group-justified">
 
-						<button type="button" class="btn btn-primary state-disable-for-offline"
+						<button type="button" class="btn btn-default state-disable-for-offline"
 							onclick="pg_ctl( { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action:  'restart', call_success: fill_details})"><span>Restart</span></button>
 					</div>
 					<div class="btn-group btn-group-justified">
 
-						<button type="button" class="btn btn-primary state-disable-for-no-recovery state-disable-for-offline"
+						<button type="button" class="btn btn-default state-disable-for-no-recovery state-disable-for-offline"
 							onclick="pg_ctl(  { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action:  'promote', call_success: fill_details}) )"><span>Promote</span></button>
 					</div>
 					<div class="btn-group btn-group-justified">
@@ -157,7 +157,7 @@
 						</tr>
 					</thead>
 				</table>
-				<button type="button" class="btn btn-primary"
+				<button type="button" class="btn btn-default"
 					onclick="update_conf( this, '{{detail_host}}','{{detail_version}}','{{detail_cluster}}'  )"><span>APPLY</span></button>
 			</div>
 		</div>
@@ -193,10 +193,10 @@
 						</label>
 					</div>
 					<div class="col-sm-6">
-						<button type="button" class="btn btn-primary">Run Full Backup</button>
+						<button type="button" class="btn btn-default">Run Full Backup</button>
 					</div>
 					<div class="col-sm-6">
-						<button type="button" class="btn btn-primary">Run Incremental Backup</button>
+						<button type="button" class="btn btn-default">Run Incremental Backup</button>
 					</div>
 				</div>
 			</div>
@@ -213,7 +213,7 @@
 						Full-Backup 20180401-0001
 					</div>
 					<div class="col-sm-2">
-						<button type="button" class="btn btn-primary btn-sm">Restore</button>
+						<button type="button" class="btn btn-default btn-sm">Restore</button>
 					</div>
 				</div>
 				<div class="row">
@@ -221,7 +221,7 @@
 						Incremental-Backup 20180331-0001
 					</div>
 					<div class="col-sm-2">
-						<button type="button" class="btn btn-primary btn-sm">Restore</button>
+						<button type="button" class="btn btn-default btn-sm">Restore</button>
 					</div>
 				</div>
 				<div class="row">
@@ -229,7 +229,7 @@
 						Incremental-Backup 20180330-0001
 					</div>
 					<div class="col-sm-2">
-						<button type="button" class="btn btn-primary btn-sm">Restore</button>
+						<button type="button" class="btn btn-default btn-sm">Restore</button>
 					</div>
 				</div>
 				<div class="row">
@@ -237,7 +237,7 @@
 						Full-Backup 20180320-0001
 					</div>
 					<div class="col-sm-2">
-						<button type="button" class="btn btn-primary btn-sm">Restore</button>
+						<button type="button" class="btn btn-default btn-sm">Restore</button>
 					</div>
 				</div>
 			</div>
