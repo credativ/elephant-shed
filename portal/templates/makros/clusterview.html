@@ -89,7 +89,7 @@ function addClusterModal ( modal_identifier, host ){
 	
 	</form>	
       <div class="modal-footer">
-        <button type="button" class="btn btn-default"  onclick="
+        <button type="button" class="btn btn-primary"  onclick="
 	var version	=	$(this).closest('.modal-dialog').find('.active').attr('data-button');
 	var cluster 	=	$(this).closest('.modal-dialog').find('#clustername').val() ;
 	if ( cluster == undefined || cluster == ''){ alert ('A name is required.');}
@@ -108,10 +108,9 @@ function addClusterModal ( modal_identifier, host ){
 						$('body').removeClass('modal-open');
 						$('.modal-backdrop').remove();
 						}}); 
-
-	}
-					;">Create</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Dismiss</button>
+						}
+					;"><span>Create</span></button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span>Dismiss</span></button>
       </div>
     </div>
 

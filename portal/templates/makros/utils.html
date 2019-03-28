@@ -2,6 +2,7 @@
 <script>
 
 var global_configurations = {};
+var mandatory_elements= [];
 
 function clear_stateclasses(x){
 	$(x).removeClass("request-waiting");
@@ -9,13 +10,11 @@ function clear_stateclasses(x){
 	$(x).removeClass("request-fail");
 };
 
-
 function log(msg){
 	var l =  $('#pg_log');
 	//console.log(l);
 	//l.prepend('<div class="message">'+msg+'</div>');
 }
-
 
 function issue_clustercall( host, version, cluster, method, data, call_success, call_fail ){
 	var deeplink = ''
@@ -28,6 +27,7 @@ function issue_clustercall( host, version, cluster, method, data, call_success, 
 	error: call_fail,
 	});
 }
+
 function issue_systemcall( host, argument, call_success, call_fail ){
 	var deeplink = ''
 	if (argument) {	deeplink = '/'+argument; }
@@ -74,15 +74,12 @@ function pg_ctl( obj ) {
 		return;
 		}
 	else { console.log("pg_ctl call does not support this action! Action was '"+action+"'") }
-	//console.log(rest_args);
-	clear_stateclasses(x);
-	$(x).addClass("request-waiting");
-
+	$(x).addClass("active");
 	issue_clustercall( host, version, cluster, rest_method,  JSON.stringify(rest_args) ,
 			//call_success ? call_success : 
 			function( data ){ 
-				$(x).removeClass("request-waiting");
-				$(x).addClass("request-success");
+				$(x).removeClass("active");
+				//$(x).addClass("request-success");
 				if (call_success){ call_success(data) };
 				},
 				//call_fail ? call_fail :
@@ -92,7 +89,7 @@ function pg_ctl( obj ) {
 				catch(e){;};
 
 				push_notification( err + ' : '+ errmsg );
-				$(x).removeClass("request-waiting");
+				$(x).removeClass("active");
 				$(x).addClass("request-fail");
 				if (call_fail){call_fail(request,status,err) };
 			});
@@ -135,9 +132,6 @@ function update_conf( x, host, version, cluster ) {
 
 function goto_dash(){document.location.href= '{{ url_for("index") }}';  }
 
-
-
-var mandatory_elements= [];
 function add_to_mandatory_elements(key){
 	mandatory_elements.push( key ) ;
 	//console.log( mandatory_elements ) ; 
@@ -232,9 +226,7 @@ function fill_details( details, host) {
 				var nestedGraphs = $(selector_key).closest('tr').find('.pg_chart');
 				if (nestedGraphs.length > 0){
 					var graph = $(nestedGraphs).data("graph");
-			        graph.series.addData(
-						{ 'default': value }
-						);
+			        graph.series.addData( { 'default': value } );
 					graph.update();
 				}
 				if ( ['free','total','used','active','available','cached','shared'].indexOf( key )  != -1 ){
@@ -281,7 +273,6 @@ function get_host( hosturl, clustername, clusterversion){
 
 	};
 
-
 function querybar_hide_and_reset(){
 	setTimeout(function(){
 		$('#querying_hosts_div').css('opacity',0);
@@ -291,9 +282,11 @@ function querybar_hide_and_reset(){
 		$('#querying_hosts_bar_error').css("width","0%");
 		}, 500);
 	}
+
 function tag_as_modified( x ) {
 	$(x).addClass("config_modified");
 		}
+
 function querybar_get(){
 	var querybar = {
 		bar: '#querying_hosts_div',
@@ -302,9 +295,11 @@ function querybar_get(){
 	};
 	return querybar;
 }
+
 function querybar_set_numelements( numelements ){
 	$('#querybar_elements').attr( 'numElements', numelements );
 }
+
 function querybar_get_numelements( ){
 	return $('#querybar_elements').attr('numElements');
 }
@@ -342,6 +337,7 @@ function querybar_add_fail(){
 	$(querybar.fail).css("width", $(querybar.fail).attr("aria-valuenow") + "%");
 	querybar_hide_if_full();
 }
+
 function querybar_add_success(){
 	var querybar = querybar_get();
  
@@ -385,10 +381,10 @@ function add_detail_graphs(){
 					})
 			});
 			graph.render();
-		$(this).data( "graph", graph );	
+		$(this).data( "graph", graph );
+		//global_configurations[]
 	});
 };
-
 
 function load_pgconf_details(version){
 	$.ajax({
@@ -563,6 +559,7 @@ class Configuration{
 		this.init_data();  //(host, version, clustername );
 			}
 }
+
 </script>
 
 
