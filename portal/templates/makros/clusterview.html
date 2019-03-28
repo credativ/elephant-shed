@@ -44,92 +44,18 @@
 	var $table_clusters;
 	var $table_hosts;
 
-
-	function addClusterModal(modal_identifier, host) {
-		var modal = `
-<div id="`+ modal_identifier + `" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">CreateCluster</h4>
-      </div>
-      <div class="modal-body">
-      <form>
-	<label >ClusterName:</label>
-	    <input type="text" id="clustername" class="form-control formignore" >
-			</div>
-      <div class="btn-group btn-group-justified versionlist">
-		</div>
-<div class="form-group">
-
-<!--<label class="checkbox-inline"><input type="checkbox" value="data-checksums" checked disabled>Enable Heap-Checksums</label>
-</div> Checksums are always enabled-->
-<div class="form-group">
-<br>
-  <div class="input-group">
-    <span class="input-group-addon">Port</span>
-    <input type="text" class="form-control" name="port" placeholder="auto">
-  </div>
-  <!--
-  <div class="input-group">
-    <span class="input-group-addon">Datadir</span>
-    <input type="text" class="form-control" name="datadir" placeholder="auto">
-  </div>
-  <div class="input-group">
-    <span class="input-group-addon">WAL-Dir</span>
-    <input type="text" class="form-control" name="waldir" placeholder="auto">
-  </div>
-
-
-  -->
-
-
-	</form>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary"  onclick="
-	var version	=	$(this).closest('.modal-dialog').find('.active').attr('data-button');
-	var cluster 	=	$(this).closest('.modal-dialog').find('#clustername').val() ;
-	if ( cluster == undefined || cluster == ''){ alert ('A name is required.');}
-	else if ( version == undefined){ alert ('A version is required'); }
-	else{
-       	pg_ctl(
-					{ x: this,
-					 host: '`+ host + `',
-					version: version,
-					cluster: cluster,
-					action: 'create',
-						       data: inputvalues_to_dict( $(this).closest('.modal-dialog') ) ,
-					call_success: function(){
-						refresh();
-						$(this).closest('.modal').modal('hide');
-						$('body').removeClass('modal-open');
-						$('.modal-backdrop').remove();
-						}});
-						}
-					;"><span>Create</span></button>
-        <button type="button" class="btn btn-default" data-dismiss="modal"><span>Dismiss</span></button>
-      </div>
-    </div>
-
-  </div>`;
-
-		return modal;
-	}
-
 	function pushClusterInfo(result, _url) {
 		var modal_identifier = 'createcluster' + Math.floor(Math.random() * 100000);
-		var modal = addClusterModal(modal_identifier, _url);
+		//var modal = new Modal_addInstance(_url, [1,2,3,4],modal_identifier).html();
 		var rawRow = $table_hosts.row.add([_url,
 			'<div class="available_versions"></div>',
 			'<span class="label label-success">connected</span>',
-			'<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#' + modal_identifier + '">Add Instance</button>' + modal])
+			'<span class="addButton"></span>']) //<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#' + modal_identifier + '">Add Instance</button>' + modal])
 			.draw(true).node();
 		pg_ctl({
 			host: _url, action: 'ls-system',
 			call_success: function (data) {
+				$(rawRow).find('.addButton').append($('<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#' + modal_identifier + '">Add Instance</button>' + new Modal_addInstance(_url, [1, 2, 3, 4], modal_identifier).html()));
 				$.each($(data)[0]['installed_pg_versions'],
 					function (version) {
 						$(rawRow).find('.available_versions').append('<span class="label label-success">' + version + '</span> ');
@@ -137,7 +63,7 @@
 					<div class="btn-group btn-group-justified">
 					<button type="button" class="btn btn-primary versionselector" onclick="$('.versionselector').removeClass('active'); $(this).addClass('active'); " data-button="`+ version + `">` + version + `</button>
 					</div>`);
-					})
+					});
 			}
 		});
 		for (var i = 0; i < result.length; i++) {
