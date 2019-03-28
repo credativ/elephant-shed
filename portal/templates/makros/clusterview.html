@@ -147,7 +147,31 @@ function pushClusterInfo ( result, _url ){
 			_url,
 			result[i]['port'],
 			state,
-			'<a href="{{ url_for("index") }}detail/'+_url+'/'+result[i]['version']+'/'+result[i]['cluster']+'"><button type="button" class="btn btn-default btn-sm">Details</button></a>'+
+			'<a href="{{ url_for("index") }}detail/'+_url+'/'+result[i]['version']+'/'+result[i]['cluster']+'">'+
+			'<button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></a> '+
+			'<div class="btn-group" role="group">'+
+			'<div class="btn-group" role="group"><button type="button" class="btn btn-success btn-sm" '+
+				'onclick="pg_ctl( { x: this, host:  \''+
+																			_url+'\', version:  \''+
+																			result[i]['version']+'\', cluster: \''+
+																			result[i]['cluster']+
+					'\',action:  \'start\', call_success: refresh})">'+
+					'<span class="glyphicon glyphicon-play"    aria-hidden="true"></span></button></div>'+
+			'<div class="btn-group" role="group"><button type="button" class="btn btn-default btn-sm"' +
+				'onclick="pg_ctl( { x: this, host:  \''+
+																			_url+'\', version:  \''+
+																			result[i]['version']+'\', cluster: \''+
+																			result[i]['cluster']+
+					'\',action:  \'reload\', call_success: refresh})">'+
+				'<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button></div>'+
+			'<div class="btn-group" role="group"><button type="button" class="btn btn-danger  btn-sm"'+
+				'onclick="pg_ctl( { x: this, host:  \''+
+																			_url+'\', version:  \''+
+																			result[i]['version']+'\', cluster: \''+
+																			result[i]['cluster']+
+					'\',action:  \'stop\', call_success: refresh})">'+
+				'<span class="glyphicon glyphicon-stop"    aria-hidden="true"></span></button></div>'+
+			'</div>'+
 			'<a href="https://localhost/grafana/d/5CGjHlRiz/postgresql-server-overview?refresh=1m&orgId=1">' 
 			]).node() ;// .draw(true).node() ;
 	}
