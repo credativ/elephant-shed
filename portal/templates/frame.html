@@ -7,7 +7,6 @@
 
 	<link rel="stylesheet" href="/static/bootstrap/css/bootstrap{{ environment['usemin'] }}.css" >
 	<link rel="stylesheet" href="/static/bootstrap/css/bootstrap-theme{{ environment['usemin'] }}.css" >
-<!--<link rel="stylesheet" href="/static/jquery-datatables/css/dataTables.bootstrap.css" >-->
 	<link rel="stylesheet" href="{{ url_for("index") }}static/jquery-datatables/css/jquery.dataTables{{ environment['usemin'] }}.css" >
 	<link rel="stylesheet" href="{{ url_for("index") }}static/elephant-shed.css" >
 	<link rel="stylesheet" href="{{ url_for("index") }}static/es.css" >
@@ -18,7 +17,6 @@
 
 	<script src="{{ url_for("index") }}static/jquery/jquery{{ environment['usemin'] }}.js"></script>
 	<script src="{{ url_for("index") }}static/bootstrap/js/bootstrap{{ environment['usemin'] }}.js" ></script>
-	<!--<script src="/static/jquery-datatables/dataTables.jqueryui.js"></script>-->
 	<script src="{{ url_for("index") }}static/jquery-datatables/jquery.dataTables{{ environment['usemin'] }}.js"></script>
 	<script src="{{ url_for("index") }}static/jquery-datatables/dataTables.bootstrap{{ environment['usemin'] }}.js"></script>
 	<script src="{{ url_for("index") }}static/d3/d3{{ environment['usemin'] }}.js"></script>
@@ -36,7 +34,6 @@
 
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container-fluid">
-			  <!-- Brand and toggle get grouped for better mobile display -->
 			  <div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
 				  <span class="sr-only">Toggle navigation</span>
@@ -46,35 +43,24 @@
 				</button>
 				<a class="navbar-brand" href="/">Home</a>
 			  </div>
-		  
-			  <!-- Collect the nav links, forms, and other content for toggling -->
 			  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<!--<ul class="nav navbar-nav">
-				  <li><a href="elephant-shed.io">Elephant-Shed.io</a></li>
-					</ul>
-				  </li>
-				</ul>-->
-
 				<ul class="nav navbar-nav navbar-right">
 				  <li style="font-size: 18px"><a href="https://elephant-shed.io"><img src="https://www.credativ.de/sites/credativ.de/files/images/Logo.png"  height="18" style="padding-right: 10px">ELEPHANT SHED</a></li>
 				</ul>
-			  </div><!-- /.navbar-collapse -->
-			</div><!-- /.container-fluid -->
+			  </div>
+			</div>
 		  </nav>
 
 
 	<div class="row" style="" >
 		<div class="col-sm-12">
 
-	<!--<div style=" padding: 20px; ">-->
+
 {% import 'makros/notifications.html' as notifications %}
 {{ notifications.element() }}
 {{ notifications.js() }}
        	{% block mainwindow %}{% endblock %}
-	<!--</div>
-		</td>
-	</tr>
-	</table>-->
+
 		</div>
 	</div>
 

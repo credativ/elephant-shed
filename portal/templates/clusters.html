@@ -5,23 +5,23 @@
 
 <div class="row">
 	<div class="col-sm-4" style="min-width: 400px">
-	<div class="panel panel-default">
-		<div class="panel-heading" style="font-weight: bold">Elephant-Shed Hosts</div>
-		<div class="panel-body">
-		{{ clusterview.table_hosts() }}
-	      </div>
-	</div>
-</div>
-
-<div class="col-sm-8" style="min-width: 400px"> 
-	<div class="panel panel-default" >
-  		<div class="panel-heading" style="font-weight: bold">PostgreSQL-Instances</div>
-		<div class="panel-body">
-		
-			{{ clusterview.table_clusters() }}
+		<div class="panel panel-default">
+			<div class="panel-heading" style="font-weight: bold">Elephant-Shed Hosts</div>
+			<div class="panel-body">
+				{{ clusterview.table_hosts() }}
+			</div>
 		</div>
 	</div>
-</div>
+
+	<div class="col-sm-8" style="min-width: 400px">
+		<div class="panel panel-default">
+			<div class="panel-heading" style="font-weight: bold">PostgreSQL-Instances</div>
+			<div class="panel-body">
+
+				{{ clusterview.table_clusters() }}
+			</div>
+		</div>
+	</div>
 </div>
 
 <!--<button type="button" class="btn-small" onclick="refresh()" style="float: right;">Page-Refresh</button>-->

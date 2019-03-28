@@ -1,53 +1,53 @@
 {% import 'makros/utils.html' as utils %}
 
 {% macro table_hosts() -%}
-  <table id="hosts" class="table table-striped table-bordered cell-border compact hover">
-	  <thead>
-<tr>	
-<th>Host</th>
-<th>Available Versions</th>
-<th>State</th>
-<th>Actions</th>
-</tr>
+<table id="hosts" class="table table-striped table-bordered cell-border compact hover">
+	<thead>
+		<tr>
+			<th>Host</th>
+			<th>Available Versions</th>
+			<th>State</th>
+			<th>Actions</th>
+		</tr>
 	</thead>
 
-<tbody id="hostlist">
+	<tbody id="hostlist">
 
 
-</tbody>
-  </table>
- {%- endmacro %}
+	</tbody>
+</table>
+{%- endmacro %}
 
- {% macro table_clusters() -%}
-  <table id="clusters" class="table table-striped table-bordered cell-border compact hover">
-	  <thead>
-<tr>	
-<th>Name</th>
-<th>Version</th>
-<th>Host</th>
-<th>Port</th>
-<th>State</th>
-<th>Actions</th>
-</tr>
+{% macro table_clusters() -%}
+<table id="clusters" class="table table-striped table-bordered cell-border compact hover">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Version</th>
+			<th>Host</th>
+			<th>Port</th>
+			<th>State</th>
+			<th>Actions</th>
+		</tr>
 	</thead>
 
-<tbody id="clusterlist">
+	<tbody id="clusterlist">
 
 
-</tbody>
-  </table>
+	</tbody>
+</table>
 {%- endmacro %}
 
 
 {% macro js_clusterview(hostlist) -%}
 <script>
-var $table_clusters;
-var $table_hosts;
+	var $table_clusters;
+	var $table_hosts;
 
 
-function addClusterModal ( modal_identifier, host ){
-        var modal =`
-<div id="`+modal_identifier+`" class="modal fade" role="dialog">
+	function addClusterModal(modal_identifier, host) {
+		var modal = `
+<div id="`+ modal_identifier + `" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -68,7 +68,7 @@ function addClusterModal ( modal_identifier, host ){
 <!--<label class="checkbox-inline"><input type="checkbox" value="data-checksums" checked disabled>Enable Heap-Checksums</label>
 </div> Checksums are always enabled-->
 <div class="form-group">
-<br>	
+<br>
   <div class="input-group">
     <span class="input-group-addon">Port</span>
     <input type="text" class="form-control" name="port" placeholder="auto">
@@ -81,13 +81,13 @@ function addClusterModal ( modal_identifier, host ){
   <div class="input-group">
     <span class="input-group-addon">WAL-Dir</span>
     <input type="text" class="form-control" name="waldir" placeholder="auto">
-  </div>	
+  </div>
 
-	
+
   -->
-	
-	
-	</form>	
+
+
+	</form>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary"  onclick="
 	var version	=	$(this).closest('.modal-dialog').find('.active').attr('data-button');
@@ -97,17 +97,17 @@ function addClusterModal ( modal_identifier, host ){
 	else{
        	pg_ctl(
 					{ x: this,
-					 host: '`+host+`',
+					 host: '`+ host + `',
 					version: version,
 					cluster: cluster,
-					action: 'create', 
-						       data: inputvalues_to_dict( $(this).closest('.modal-dialog') ) , 
+					action: 'create',
+						       data: inputvalues_to_dict( $(this).closest('.modal-dialog') ) ,
 					call_success: function(){
-						refresh(); 
+						refresh();
 						$(this).closest('.modal').modal('hide');
 						$('body').removeClass('modal-open');
 						$('.modal-backdrop').remove();
-						}}); 
+						}});
 						}
 					;"><span>Create</span></button>
         <button type="button" class="btn btn-default" data-dismiss="modal"><span>Dismiss</span></button>
@@ -116,108 +116,114 @@ function addClusterModal ( modal_identifier, host ){
 
   </div>`;
 
-	return modal;}
-
-function pushClusterInfo ( result, _url ){
-	var modal_identifier = 'createcluster'+ Math.floor( Math.random()*100000 );
-	var modal = addClusterModal ( modal_identifier, _url ) ;
-	var rawRow = $table_hosts.row.add( [ _url,
-		'<div class="available_versions"></div>',
-		'<span class="label label-success">connected</span>', 
-		'<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#'+modal_identifier+'">Add Instance</button>'+modal] )
-			.draw(true).node() ;
-	pg_ctl({host: _url, action: 'ls-system',
-		call_success: function(data){
-			$.each( $(data)[0]['installed_pg_versions'],
-				function( version ){  $(rawRow).find('.available_versions').append('<span class="label label-success">'+version+'</span> ');
-				$('#'+modal_identifier).find('.versionlist').append( `
-					<div class="btn-group btn-group-justified">
-					<button type="button" class="btn btn-primary versionselector" onclick="$('.versionselector').removeClass('active'); $(this).addClass('active'); " data-button="`+version+`">`+version+`</button>
-					</div>`) ;
-				})
-			}});
-	for ( var i = 0; i < result.length ; i++ ){
-		var state = 'Unknown';
-		if (result[i]['running']=='1'){state='<span class="label label-success">ONLINE</span>';}
-		else if ( result[i]['running']=='0')  {state='<span class="label label-danger">OFFLINE</span>';}
-		if (result[i]['recovery']=='1'){state+='<span class="label label-info">IN RECOVERY</span>';}
-		var dbelement = $table_clusters.row.add([
-			result[i]['cluster'],
-			result[i]['version'],
-			_url,
-			result[i]['port'],
-			state,
-			'<a href="{{ url_for("index") }}detail/'+_url+'/'+result[i]['version']+'/'+result[i]['cluster']+'">'+
-			'<button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></a> '+
-			'<div class="btn-group" role="group">'+
-			'<div class="btn-group" role="group"><button type="button" class="btn btn-success btn-sm" '+
-				'onclick="pg_ctl( { x: this, host:  \''+
-																			_url+'\', version:  \''+
-																			result[i]['version']+'\', cluster: \''+
-																			result[i]['cluster']+
-					'\',action:  \'start\', call_success: refresh})">'+
-					'<span class="glyphicon glyphicon-play"    aria-hidden="true"></span></button></div>'+
-			'<div class="btn-group" role="group"><button type="button" class="btn btn-default btn-sm"' +
-				'onclick="pg_ctl( { x: this, host:  \''+
-																			_url+'\', version:  \''+
-																			result[i]['version']+'\', cluster: \''+
-																			result[i]['cluster']+
-					'\',action:  \'reload\', call_success: refresh})">'+
-				'<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button></div>'+
-			'<div class="btn-group" role="group"><button type="button" class="btn btn-danger  btn-sm"'+
-				'onclick="pg_ctl( { x: this, host:  \''+
-																			_url+'\', version:  \''+
-																			result[i]['version']+'\', cluster: \''+
-																			result[i]['cluster']+
-					'\',action:  \'stop\', call_success: refresh})">'+
-				'<span class="glyphicon glyphicon-stop"    aria-hidden="true"></span></button></div>'+
-			'</div>'+
-			'<a href="https://localhost/grafana/d/5CGjHlRiz/postgresql-server-overview?refresh=1m&orgId=1">' 
-			]).node() ;// .draw(true).node() ;
+		return modal;
 	}
-	$table_clusters.draw(true);
-	querybar_add_success();
-}
 
-function refresh(repeat){
-	querybar_reset_and_init();
+	function pushClusterInfo(result, _url) {
+		var modal_identifier = 'createcluster' + Math.floor(Math.random() * 100000);
+		var modal = addClusterModal(modal_identifier, _url);
+		var rawRow = $table_hosts.row.add([_url,
+			'<div class="available_versions"></div>',
+			'<span class="label label-success">connected</span>',
+			'<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#' + modal_identifier + '">Add Instance</button>' + modal])
+			.draw(true).node();
+		pg_ctl({
+			host: _url, action: 'ls-system',
+			call_success: function (data) {
+				$.each($(data)[0]['installed_pg_versions'],
+					function (version) {
+						$(rawRow).find('.available_versions').append('<span class="label label-success">' + version + '</span> ');
+						$('#' + modal_identifier).find('.versionlist').append(`
+					<div class="btn-group btn-group-justified">
+					<button type="button" class="btn btn-primary versionselector" onclick="$('.versionselector').removeClass('active'); $(this).addClass('active'); " data-button="`+ version + `">` + version + `</button>
+					</div>`);
+					})
+			}
+		});
+		for (var i = 0; i < result.length; i++) {
+			var state = 'Unknown';
+			if (result[i]['running'] == '1') { state = '<span class="label label-success">ONLINE</span>'; }
+			else if (result[i]['running'] == '0') { state = '<span class="label label-danger">OFFLINE</span>'; }
+			if (result[i]['recovery'] == '1') { state += '<span class="label label-info">IN RECOVERY</span>'; }
+			var dbelement = $table_clusters.row.add([
+				result[i]['cluster'],
+				result[i]['version'],
+				_url,
+				result[i]['port'],
+				state,
+				'<a href="{{ url_for("index") }}detail/' + _url + '/' + result[i]['version'] + '/' + result[i]['cluster'] + '">' +
+				'<button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></a> ' +
+				'<div class="btn-group" role="group">' +
+				'<div class="btn-group" role="group"><button type="button" class="btn btn-success btn-sm" ' +
+				'onclick="pg_ctl( { x: this, host:  \'' +
+				_url + '\', version:  \'' +
+				result[i]['version'] + '\', cluster: \'' +
+				result[i]['cluster'] +
+				'\',action:  \'start\', call_success: refresh})">' +
+				'<span class="glyphicon glyphicon-play"    aria-hidden="true"></span></button></div>' +
+				'<div class="btn-group" role="group"><button type="button" class="btn btn-default btn-sm"' +
+				'onclick="pg_ctl( { x: this, host:  \'' +
+				_url + '\', version:  \'' +
+				result[i]['version'] + '\', cluster: \'' +
+				result[i]['cluster'] +
+				'\',action:  \'reload\', call_success: refresh})">' +
+				'<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button></div>' +
+				'<div class="btn-group" role="group"><button type="button" class="btn btn-danger  btn-sm"' +
+				'onclick="pg_ctl( { x: this, host:  \'' +
+				_url + '\', version:  \'' +
+				result[i]['version'] + '\', cluster: \'' +
+				result[i]['cluster'] +
+				'\',action:  \'stop\', call_success: refresh})">' +
+				'<span class="glyphicon glyphicon-stop"    aria-hidden="true"></span></button></div>' +
+				'</div>' +
+				'<a href="https://localhost/grafana/d/5CGjHlRiz/postgresql-server-overview?refresh=1m&orgId=1">'
+			]).node();// .draw(true).node() ;
+		}
+		$table_clusters.draw(true);
+		querybar_add_success();
+	}
 
-	$table_clusters.clear();
-	$table_hosts.clear();
-	//$table_clusters.draw();
+	function refresh(repeat) {
+		querybar_reset_and_init();
 
-	querybar_set_numelements( {{ hostlist.__len__() }} );
+		$table_clusters.clear();
+		$table_hosts.clear();
+		//$table_clusters.draw();
 
-	function pullClusterInfo( _url ){
-		pg_ctl({ host: _url, action: 'ls',
-			call_success : function(result){pushClusterInfo(result,_url) },
-			call_fail: function(request, status, err){
-				        console.log(request);
-					console.log(err);
-					querybar_add_fail();
-					push_notification( 'Connection to '+_url+' failed.');
-					var rawRow = $table_hosts.row.add( [_url,
-						  '',
-						  '<span class="label label-danger">unreachable</span>',
-						  ''
-						] ).draw(true).node() ;
-			}}
-			);
-		};
+		querybar_set_numelements({{ hostlist.__len__() }} );
+
+	function pullClusterInfo(_url) {
+		pg_ctl({
+			host: _url, action: 'ls',
+			call_success: function (result) { pushClusterInfo(result, _url) },
+			call_fail: function (request, status, err) {
+				console.log(request);
+				console.log(err);
+				querybar_add_fail();
+				push_notification('Connection to ' + _url + ' failed.');
+				var rawRow = $table_hosts.row.add([_url,
+					'',
+					'<span class="label label-danger">unreachable</span>',
+					''
+				]).draw(true).node();
+			}
+		}
+		);
+	};
 	{% for host in hostlist %}
-	setTimeout(function(){ 
-			pullClusterInfo( '{{ host['address'] }}' )
-			}, 1);
+	setTimeout(function () {
+		pullClusterInfo('{{ host['address'] }}')
+	}, 1);
 	{% endfor %}
-	if ( repeat ) {	setTimeout(function(){refresh(true)}, 5*60*1000); }
+	if (repeat) { setTimeout(function () { refresh(true) }, 5 * 60 * 1000); }
 }
 
-$(document).ready(function() {
-	$table_clusters = $('#clusters').DataTable({"order":[[0, "asc"] ], "paging": false }); 
-	$table_hosts = $('#hosts').DataTable({"order":[[0, "asc"]], "paging": false });
+	$(document).ready(function () {
+		$table_clusters = $('#clusters').DataTable({ "order": [[0, "asc"]], "paging": false });
+		$table_hosts = $('#hosts').DataTable({ "order": [[0, "asc"]], "paging": false });
 
-refresh(true);
-});
+		refresh(true);
+	});
 
 </script>
 {{ utils.clusterctl_js() }}
