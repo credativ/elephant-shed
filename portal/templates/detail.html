@@ -130,23 +130,17 @@
    <!-- table table-responsive --> 
 	  <table class=" configtable table table-striped table-bordered cell-border compact hover" id="configtable">
 		<thead><tr>
+		<th>frontpage</th>
 		<th>name</th>
 		<th>setting</th>
 			</tr></thead>
-		  <tr><td><b>URL:</b></td><td>postgresql://{{ detail_host}}:<span class="pg_port"></span>/postgres<br>
+		  <tr><td>1</td><td><b>URL:</b></td><td>postgresql://{{ detail_host}}:<span class="pg_port"></span>/postgres<br>
 					      host={{ detail_host}} port=<span class="pg_port"></span>	</td></tr>
-		  <tr><td><b>ClusterName:</b></td><td> <span class="pg_cluster"></span>		</td></tr>
-		  <tr><td><b>Version</b></td><td><span class="pg_version"></span>		</td></tr>
-<script> 
-			  {% for element in environment['detailview_cluster'] %}
-				add_to_mandatory_elements( '{{ element['data' ] }}' );
-			  {% endfor %}
-</script>
-				<tr class="below_hidden_config">
-					<td><button type="button" class="btn btn-primary" onclick="$('.hidden_config').toggle() ">show/hide all changed parameters</button> </td>
-					<td><button type="button" class="btn btn-primary" onclick="update_conf( this, '{{detail_host}}','{{detail_version}}','{{detail_cluster}}'  )"><span>Save</span></button> </td>
-				</tr>
-			  </table>
+		  <tr><td>1</td><td><b>ClusterName:</b></td><td> <span class="pg_cluster"></span>		</td></tr>
+		  <tr><td>1</td><td><b>Version</b></td><td><span class="pg_version"></span>		</td></tr>
+
+				</table>
+				<button type="button" class="btn btn-primary" onclick="update_conf( this, '{{detail_host}}','{{detail_version}}','{{detail_cluster}}'  )"><span>APPLY</span></button>
 		  </div>
 		</div>
    </div>
@@ -254,7 +248,13 @@ $(document).ready(function() {
 	get_host( '{{ detail_host }}', '{{ detail_cluster }}', '{{ detail_version }}' ) ;
 	add_detail_graphs();
 	//provision_mandatory_elements();
-	new Configuration( '{{ detail_host }}', '{{ detail_version }}', '{{ detail_cluster }}' );
+	var frontpage_items ={
+			  {% for element in environment['detailview_cluster'] %}
+				'{{ element['label' ] }}' : true,
+				{% endfor %}
+	};
+  
+	new Configuration( '{{ detail_host }}', '{{ detail_version }}', '{{ detail_cluster }}', frontpage_items );
 	//$('.configtable').DataTable({"order":[[0, "asc"]], "paging": true });
 });
 

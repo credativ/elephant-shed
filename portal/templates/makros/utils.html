@@ -2,7 +2,6 @@
 <script>
 
 var global_configurations = {};
-var mandatory_elements= [];
 
 function clear_stateclasses(x){
 	$(x).removeClass("request-waiting");
@@ -107,7 +106,6 @@ function inputvalues_to_dict(lowerthan){
 		var value = $(element).val();
 		if (value != ''){data[element.attr('name') ]=value;};
 	} );
-	//console.log(data);
 	return data;
 
 }
@@ -132,10 +130,6 @@ function update_conf( x, host, version, cluster ) {
 
 function goto_dash(){document.location.href= '{{ url_for("index") }}';  }
 
-function add_to_mandatory_elements(key){
-	mandatory_elements.push( key ) ;
-	//console.log( mandatory_elements ) ; 
-};
 
 function createConfigRow( initially_hidden, config_name, selector_key){
 	var hidden_config = initially_hidden ? 'hidden_config' : '';
@@ -149,13 +143,10 @@ function createConfigRow( initially_hidden, config_name, selector_key){
 }
 
 function getConfigRow( obj ){
-	//console.log(obj);
 	var hidden = obj.hidden==true ? 'hidden' : '';
 	var selector_key = obj.selector.replace(/(\.)/g,' ');
 	var selector_split = selector_key.split(' ');
 	var returned_element;
-	//console.log( selector_split) ; 
-	//console.log(selector_split[selector_split.length -1 ]);
 	var configName = (selector_split[selector_split.length -1 ]).replace('pg_','')
 
 
@@ -177,20 +168,11 @@ function getConfigRow( obj ){
 }
 
 function inject_config_row( obj ){
-	obj.insertBefore(".below_hidden_config");
+	//obj.insertBefore(".below_hidden_config");
 	}
 
-function provision_mandatory_elements(){
-	for (element in mandatory_elements){
-		var e=mandatory_elements[element];
-		inject_config_row( getConfigRow(
-			{ selector : e,
-				hidden: false }) );
-		console.log("Inserting: "+e);
-	}}
 
 function fill_details( details, host) {
-	console.log( details );
 	if (details['cluster']) { // details is most likely a system-ls. No need to reset variables
 		$('.state-disable-for-online').prop('disabled',false);
 		$('.state-disable-for-offline').prop('disabled',false);
@@ -396,7 +378,7 @@ function load_pgconf_details(version){
 		   console.log("CSV");
 
 		   $.each(data,  function(index, value) {
-			   if ( ! $( '.pg_'+index  ).length ) { console.log("does not exist");
+			   if ( ! $( '.pg_'+index  ).length ) { console.warn("does not exist");
 			  	inject_config_row( getConfigRow(
 					{ selector : "pg_config pg_"+index,
 					hidden: true }) );
@@ -430,7 +412,8 @@ function load_pgconf_details(version){
 }
 
 function tick_changed(element){
-	var config_name =  $(element).closest('tr').find('.config_name').html() ;
+	var config_name =  $(element).closest('.configname').attr('configname') ;
+
 	var relevant_configelement = global_configurations['main_detailview'].defaults[ config_name ];
 	relevant_configelement.set_changed();
 
@@ -484,10 +467,14 @@ class configElement{
 			if ( this.current_value == 'on' ){ ON = 'btn-success'; }
 			if ( this.current_value == 'off' ){ OFF = 'btn-danger'; }
 
-			return $('<div class="btn-group" role="group"><button type="button" class="btn '+ON+'" value="on" role="button" onclick="tick_changed(this);" >ON</button><button type="button" role="button" class="btn '+OFF+'" value="off" onclick="tick_changed(this);">OFF</button></div>' ); };
+			return $('<div class="btn-group" role="group"><button type="button" class="btn '+ON+'" value="on" role="button" onclick="tick_changed(this);" >ON</button><button type="button" role="button" class="btn '+OFF+'" value="off" onclick="tick_changed(this);">OFF</button></div>'); };
 	}
 
 	to_dom(){ var row = $('<tr><td class="config_name">'+this.data.name+'</td><td class="input_cell"></td></tr>') ; row.find('.input_cell').append( this.input_element() ); return row; };
+	to_object(){ var row = { "name" : this.data.name,
+												   "value":'<span class="configname" configname="'+this.data.name+'">'+(this.input_element().prop('outerHTML'))+'</span>' }; 
+												//'<div>'];
+							return row; };
 };
 
 class Configuration{
@@ -536,24 +523,41 @@ class Configuration{
 	};	
 
 	display_configuration(){
-		console.log("DISPLAY FUNCTION EMPTY");
+		var datatable = this.datatable;
+		var frontpage_items = this.frontpage_items;
 		$.each(this.defaults, function(index, value){  
-			  //value.to_dom().insertBefore(".below_hidden_config");
+			var row_object = value.to_object();
+			var is_frontpage = 0;
 
+			if ( frontpage_items[row_object['name'] ] ) { is_frontpage = 1; };
+				datatable.row.add( [is_frontpage , row_object['name'], row_object['value']] ).draw(false);
 			}
 		);
 	}
 
 	init_data(){ 
+		this.datatable = $('.configtable').DataTable(
+			{"order":[[0, "desc"]], 
+			"paging": true,
+			"columnDefs": [
+            {
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            },]
+		});
 		this.load_defaults();
+		
 	}
 
-	constructor( host, version, clustername) {
+	constructor( host, version, clustername, frontpage_items) {
 		this.version = version;
 		this.host = host;
 		this.clustername = clustername;
 		this.defaults = {};
 		this.settings= {}
+		this.datatable = null;
+		this.frontpage_items = frontpage_items;
 
 		global_configurations['main_detailview'] = this;
 		this.init_data();  //(host, version, clustername );
