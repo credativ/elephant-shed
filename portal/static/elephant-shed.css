@@ -25,13 +25,18 @@ body {
 .panel {
   border: 0px solid;
 }
+.navbar-brand span:hover {
+  color: var(--off2);
+}
 
 .navbar-default .navbar-nav li a {
-  color: #FFFFFF;
+  color: var(--off2);
   text-shadow: none;
   font-weight: bold;
 }
-
+.navbar-default .navbar-nav li a:hover {
+  color: var(--off2);
+}
 .navbar-default a:visited {
   color: var(--off2);
 }
