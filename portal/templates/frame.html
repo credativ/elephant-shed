@@ -1,70 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title> Elephant Shed</title>
-	<meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<link rel="stylesheet" href="/static/bootstrap/css/bootstrap{{ environment['usemin'] }}.css" >
-	<link rel="stylesheet" href="/static/bootstrap/css/bootstrap-theme{{ environment['usemin'] }}.css" >
-	<link rel="stylesheet" href="{{ url_for("index") }}static/jquery-datatables/css/jquery.dataTables{{ environment['usemin'] }}.css" >
-	<link rel="stylesheet" href="{{ url_for("index") }}static/elephant-shed.css" >
-	<link rel="stylesheet" href="{{ url_for("index") }}static/es.css" >
-	<link rel="stylesheet" href="{{ url_for("index") }}static/rickshaw/rickshaw{{ environment['usemin'] }}.css" >
-	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto+Mono">
+<head>
+	<title> Elephant Shed</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link rel="stylesheet" href="/static/bootstrap/css/bootstrap{{ environment['usemin'] }}.css">
+	<link rel="stylesheet" href="/static/bootstrap/css/bootstrap-theme{{ environment['usemin'] }}.css">
+	<link rel="stylesheet"
+		href="{{ url_for("index") }}static/jquery-datatables/css/jquery.dataTables{{ environment['usemin'] }}.css">
+	<link rel="stylesheet" href="{{ url_for("index") }}static/elephant-shed.css">
+	<link rel="stylesheet" href="{{ url_for("index") }}static/es.css">
+	<link rel="stylesheet" href="{{ url_for("index") }}static/rickshaw/rickshaw{{ environment['usemin'] }}.css">
+	<link rel="stylesheet"
+		href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto+Mono">
 
 
 
 	<script src="{{ url_for("index") }}static/jquery/jquery{{ environment['usemin'] }}.js"></script>
-	<script src="{{ url_for("index") }}static/bootstrap/js/bootstrap{{ environment['usemin'] }}.js" ></script>
+	<script src="{{ url_for("index") }}static/bootstrap/js/bootstrap{{ environment['usemin'] }}.js"></script>
 	<script src="{{ url_for("index") }}static/jquery-datatables/jquery.dataTables{{ environment['usemin'] }}.js"></script>
-	<script src="{{ url_for("index") }}static/jquery-datatables/dataTables.bootstrap{{ environment['usemin'] }}.js"></script>
+	<script
+		src="{{ url_for("index") }}static/jquery-datatables/dataTables.bootstrap{{ environment['usemin'] }}.js"></script>
 	<script src="{{ url_for("index") }}static/d3/d3{{ environment['usemin'] }}.js"></script>
 
 	<script src="{{ url_for("index") }}static/rickshaw/rickshaw{{ environment['usemin'] }}.js"></script>
 
-	</head>
-<body style="">
-<div class="container-fluid">
-	<div id="querying_hosts_div" class="progress" style="height: 0px;">
-	<input id="querybar_elements" numElements="0">
-		<div id="querying_hosts_bar" class="progress-bar progress-bar-success active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-		<div id="querying_hosts_bar_error" class="progress-bar progress-bar-danger active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-	</div>
+</head>
 
-	<nav class="navbar navbar-default navbar-fixed-top">
-			<div class="container-fluid">
-			  <div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-				  <span class="sr-only">Toggle navigation</span>
-				  <span class="icon-bar"></span>
-				  <span class="icon-bar"></span>
-				  <span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="/"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a>
-			  </div>
-			  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav navbar-right">
-				  <li style="font-size: 18px"><a href="https://elephant-shed.io"><img src="https://www.credativ.de/sites/credativ.de/files/images/Logo.png"  height="18" style="padding-right: 10px">ELEPHANT SHED</a></li>
-				</ul>
-			  </div>
-			</div>
-		  </nav>
-
-
-	<div class="row" style="" >
-		<div class="col-sm-12">
-
-
-{% import 'makros/notifications.html' as notifications %}
-{{ notifications.element() }}
-{{ notifications.js() }}
-       	{% block mainwindow %}{% endblock %}
-
+<body ><!-- Body spacing is added, so we avoid the menue-substitute on the frontpage-->
+	<div class="container-fluid">
+		<div id="querying_hosts_div" class="progress" style="height: 0px;">
+			<input id="querybar_elements" numElements="0">
+			<div id="querying_hosts_bar" class="progress-bar progress-bar-success active" role="progressbar"
+				aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+			<div id="querying_hosts_bar_error" class="progress-bar progress-bar-danger active" role="progressbar"
+				aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
 		</div>
+
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+						data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li style="font-size: 18px"><a href="https://elephant-shed.io"><img
+									src="https://www.credativ.de/sites/credativ.de/files/images/Logo.png" height="18"
+									style="padding-right: 10px">ELEPHANT SHED</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+
+		<div class="row" style="">
+			<div class="col-sm-12">
+
+
+				{% import 'makros/notifications.html' as notifications %}
+				{{ notifications.element() }}
+				{{ notifications.js() }}
+				{% block mainwindow %}{% endblock %}
+
+			</div>
+		</div>
+
 	</div>
+</body><!-- Body spacing is added, so we avoid the menue-substitute on the frontpage-->
 
-</div>
-</body ><!-- Body spacing is added, so we avoid the menue-substitute on the frontpage-->
 </html>
-
