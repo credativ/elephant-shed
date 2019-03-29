@@ -1,68 +1,93 @@
 /* General */
+
+:root {
+  --primary: #0064a6;
+  --secondary: #141e2b;
+  --off1: #959595;
+  --off2: #EFEFEF;
+}
+
 body {
-    font-family: Roboto, sans-serif;
-    padding-top: 50px;
-    font-size: 12px;
-    #background: url('/portal/static/background.jpg') no-repeat center center fixed;
-    #background-size: cover;
-    background-color: #CCC;
+  font-family: Roboto, sans-serif;
+  padding-top: 50px;
+  font-size: 12px;
+  #background: url('/portal/static/background.jpg') no-repeat center center fixed;
+  #background-size: cover;
+  background-color: var(--off1);
 }
-.navbar-inverse{ 
-  #background:#7777DD;
+
+.navbar-default {
+  background: var(--primary);
+  color: var(--off1);
+  border: 0px solid;
+}
+
+.panel {
+  border: 0px solid;
+}
+
+.navbar-default .navbar-nav li a {
   color: #FFFFFF;
-}
-.navbar-inverse .navbar-nav li a {
-  color:#FFFFFF;
   text-shadow: none;
   font-weight: bold;
 }
-.navbar-inverse a:visited{
-  color:#FFFFFF;
-}
 
+.navbar-default a:visited {
+  color: var(--off2);
+}
 
 /* Links */
+
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
+
 a:link {
-    color: #000000;
+  color: #000000;
 }
+
 a:visited {
-    color: #000000;
+  color: #000000;
 }
+
 a:hover {
-    color: #FF0000;
-    text-decoration: none;
+  color: #FF0000;
+  text-decoration: none;
 }
 
 /* Header and Footer */
+
 .el-header {
-    border-bottom: 0.2em solid red;
+  border-bottom: 0.2em solid red;
 }
 
 .el-footer {
-    border-top: 0.2em solid red;
+  border-top: 0.2em solid red;
 }
 
 /* Dashboard Buttons */
+
 .dash td {
-    padding:1em;
+  padding: 1em;
 }
+
 .dash div div a:hover img {
-    filter: brightness(50%);
-    transition: filter 0.1s;
+  filter: brightness(50%);
+  transition: filter 0.1s;
 }
 
 /* Icons */
+
 .main_icon {
   width: 100px;
   height: 100px;
-  box-shadow: 5px 10px 5px 0px rgba(0,0,0,0.15);
+  box-shadow: 5px 10px 5px 0px rgba(0, 0, 0, 0.15);
   border-radius: 24px;
   margin-bottom: 15px;
 }
+
 /* Switch */
+
 .switch {
   position: relative;
   display: inline-block;
@@ -71,7 +96,7 @@ a:hover {
 }
 
 .switch input {
-    display:none;
+  display: none;
 }
 
 .slider {
@@ -98,21 +123,22 @@ a:hover {
   transition: .4s;
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: #5c5;
 }
 
-input:focus + .slider {
+input:focus+.slider {
   box-shadow: 0 0 1px #5c5;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
 
 /* Rounded sliders */
+
 .slider.round {
   border-radius: 34px;
 }
@@ -122,6 +148,7 @@ input:checked + .slider:before {
 }
 
 /* Status */
+
 .status {
   width: 24px;
   height: 24px;
@@ -153,26 +180,27 @@ input:checked + .slider:before {
 }
 
 /* Define the hover highlight color for the table row */
+
 /*.clusterRow:hover{
   background-color: #eee;
 }*/
 
-.important{
+.important {
   font-weight: bold;
 }
 
 /* Detail view */
+
 .detail {
-  margin-right:auto;
-  margin-left:auto;
+  margin-right: auto;
+  margin-left: auto;
   text-align: center;
   border: none;
 }
 
 /* Disable bootstrap table-hover for "detail" */
-.detail table tr:hover,
-.detail table tr:hover td,
-.detail table tr:hover th {
+
+.detail table tr:hover, .detail table tr:hover td, .detail table tr:hover th {
   background-color: transparent;
 }
 
@@ -185,7 +213,7 @@ input:checked + .slider:before {
   font-weight: bold;
   text-align: center;
   font-size: 24px;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .more_button:hover {

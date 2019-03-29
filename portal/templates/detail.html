@@ -4,31 +4,34 @@
 {% import 'makros/utils.html' as utils %}
 {{ utils.clusterctl_js() }}
 
-
-<div class="row">
-	<div class="col-sm-12" style="min-width: 400px;  ">
-		<div class="panel panel-default">
-			<!--  <div class="panel-heading" style="font-weight: bold">Utilities</div>-->
-			<div class="panel-body">
-				<div class="btn-group btn-group-justified">
-					{% for deeplink in environment['deeplinks'] %}
-					{% if loop.index0 % 10 == 0 %}
-				</div>
-				<div class="btn-group btn-group-justified">
-					{% endif %}
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12" style="min-width: 400px;  ">
+			<div class="panel panel-default">
+				<!--  <div class="panel-heading" style="font-weight: bold">Utilities</div>-->
+				<div class="panel-body">
 					<div class="btn-group btn-group-justified">
-						<button type="button" class="btn btn-default"
-							onclick="window.location='https://{{ detail_host }}{{deeplink['url'] }}'">
-							<img src="{{ url_for('index') }}static/{{ deeplink["image"] }}" style="height:40px; padding: 5px"="ok">
-							{{ deeplink["label"] }}
-						</button>
+						{% for deeplink in environment['deeplinks'] %}
+						{% if loop.index0 % 10 == 0 %}
 					</div>
-					{% endfor %}
+					<div class="btn-group btn-group-justified">
+						{% endif %}
+						<div class="btn-group btn-group-justified">
+							<button type="button" class="btn btn-default"
+								onclick="window.location='https://{{ detail_host }}{{deeplink['url'] }}'">
+								<img src="{{ url_for('index') }}static/{{ deeplink["image"] }}"
+									style="height:40px; padding: 5px"="ok">
+								{{ deeplink["label"] }}
+							</button>
+						</div>
+						{% endfor %}
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
+</div>
+<div class="row">
 	<div class="col-sm-6" style="min-width: 400px;">
 		<div class="panel panel-default" style="height: 350px">
 			<div class="panel-heading" style="font-weight: bold">
@@ -66,7 +69,8 @@
 					</div>
 					<div class="btn-group btn-group-justified">
 
-						<button type="button" class="btn btn-default state-disable-for-no-recovery state-disable-for-offline"
+						<button type="button"
+							class="btn btn-default state-disable-for-no-recovery state-disable-for-offline"
 							onclick="pg_ctl(  { x: this, host:  '{{ detail_host }}', version:  '{{ detail_version }}', cluster: '{{ detail_cluster }}',action:  'promote', call_success: fill_details}) )"><span>Promote</span></button>
 					</div>
 					<div class="btn-group btn-group-justified">
@@ -99,7 +103,8 @@
 					</tr>
 					<tr>
 						<td><b>URL:</b></td>
-						<td>postgresql://{{ detail_host}}:<span class="pg_port"></span>/postgres<br>host={{ detail_host}} port=<span
+						<td>postgresql://{{ detail_host}}:<span
+								class="pg_port"></span>/postgres<br>host={{ detail_host}} port=<span
 								class="pg_port"></span> </td>
 					</tr>
 				</table>
@@ -148,7 +153,8 @@
 				<input class="settings_hostname" value="{{ detail_host }}" hidden>
 				<input class="settings_version" value="{{ detail_version }}" hidden>
 				<input class="settings_cluster" value="{{ detail_cluster }}" hidden>
-				<table class=" configtable table table-striped table-bordered cell-border compact hover" id="configtable">
+				<table class=" configtable table table-striped table-bordered cell-border compact hover"
+					id="configtable">
 					<thead>
 						<tr>
 							<th>frontpage</th>
