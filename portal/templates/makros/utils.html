@@ -238,6 +238,21 @@
 		$('.pg_state').html(runstate);
 
 	}
+	function online() { $('.no-signal').remove(); $('body').removeClass('no-conn'); };
+	function offline() {
+		if ($('.no-signal').length) { return; };
+		$('body').addClass('no-conn');
+		var disabled = $('<li>');
+		var msg = $('<span>');
+		$(disabled).addClass('no-signal');
+
+		$(msg).addClass("glyphicon");
+		$(msg).addClass("glyphicon-signal");
+		$(msg).attr("aria-hidden", "true");
+
+		$(disabled).append($('<a>').append($(msg)));
+		$('.navbar-right').prepend($(disabled));
+	};
 
 	function get_host(hosturl, clustername, clusterversion) {
 		pg_ctl({
@@ -245,8 +260,8 @@
 			cluster: clustername,
 			version: clusterversion,
 			action: 'ls',
-			call_success: function (result) { fill_details(result, hosturl) },
-			call_fail: function () { alert('BAD'); },
+			call_success: function (result) { fill_details(result, hosturl); online(); },
+			call_fail: function () { offline(); },
 
 		});
 		function poll_metrics() {
@@ -255,8 +270,8 @@
 				cluster: clustername,
 				version: clusterversion,
 				action: 'ls-system',
-				call_success: function (result) { fill_details(result, hosturl) },
-				call_fail: function () { alert('BAD'); },
+				call_success: function (result) { fill_details(result, hosturl); online(); },
+				call_fail: function () { offline(); },
 			});
 			setTimeout(poll_metrics, 2000);
 		}
@@ -546,9 +561,10 @@
 				var is_frontpage = 0;
 
 				if (frontpage_items[row_object['name']]) { is_frontpage = 1; };
-				datatable.row.add([is_frontpage, row_object['name'], row_object['value']]).draw(false);
+				datatable.row.add([is_frontpage, row_object['name'], row_object['value']]);
 			}
 			);
+			datatable.draw(false);
 		}
 
 		init_data() {
@@ -642,7 +658,11 @@
   <div class="input-group">
     <span class="input-group-addon">Port</span>
     <input type="text" class="form-control" name="port" placeholder="auto">
-  </div>
+  </div><br>
+  <div class="input-group" style="width: 100%">
+    <span class="input-group-addon">Primary_conninfo</span>
+    <input type="text" class="form-control" name="primary_conninfo" placeholder="host='somehost' user='repli' password='secret'">
+	</div>
 
 	</form> <div class="modal-footer">
         <button type="button" class="btn btn-primary"  onclick="

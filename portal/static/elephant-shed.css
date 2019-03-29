@@ -11,9 +11,8 @@ body {
   font-family: Roboto, sans-serif;
   padding-top: 50px;
   font-size: 12px;
-  #background: url('/portal/static/background.jpg') no-repeat center center fixed;
-  #background-size: cover;
   background-color: var(--off1);
+  transition: background 1s;
 }
 
 .navbar-default {
@@ -25,6 +24,7 @@ body {
 .panel {
   border: 0px solid;
 }
+
 .navbar-brand span:hover {
   color: var(--off2);
 }
@@ -34,9 +34,11 @@ body {
   text-shadow: none;
   font-weight: bold;
 }
+
 .navbar-default .navbar-nav li a:hover {
   color: var(--off2);
 }
+
 .navbar-default a:visited {
   color: var(--off2);
 }
