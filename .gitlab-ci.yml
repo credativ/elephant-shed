@@ -171,6 +171,7 @@ deploy:x86:
   dependencies:
     - publish:stretch
   script:
+    - sudo apt-get update -qq
     - sudo apt-get install -y ansible
     - cd vagrant
     - echo "$DEPLOY_X86_SSH_KEY" > id_file
@@ -191,6 +192,7 @@ deploy:ppc64el:
   dependencies:
     - publish:stretch
   script:
+    - sudo apt-get update -qq
     - sudo apt-get install -y ansible
     - cd vagrant
     - echo "$DEPLOY_PPC64EL_SSH_KEY" > id_file
@@ -211,6 +213,7 @@ deploy:bionic-x86:
   dependencies:
     - publish:bionic
   script:
+    - sudo apt-get update -qq
     - sudo apt-get install -y ansible
     - cd vagrant
     - echo "$DEPLOY_X86_SSH_KEY" > id_file
