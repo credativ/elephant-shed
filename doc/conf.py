@@ -62,7 +62,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'elephant-shed'
-copyright = u'2017-2018, credativ'
+copyright = u'2017-2017, credativ'
 author = u'credativ'
 
 # The version info for the project you're documenting, acts as replacement for
