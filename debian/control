@@ -28,6 +28,7 @@ Depends:
  elephant-shed-prometheus-sql-exporter,
  elephant-shed-shellinabox,
  elephant-shed-tmate,
+ ${keyring:Depends},
  ${misc:Depends},
 Description: PostgreSQL dashboard
  The Elephant Shed is a web-based PostgreSQL management front-end.

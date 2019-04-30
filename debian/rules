@@ -7,3 +7,10 @@ override_dh_link:
 	mkdir -p debian/elephant-shed-tmate/etc/skel
 	ln -s /etc/tmate.conf debian/elephant-shed-tmate/etc/skel/.tmate.conf
 	dh_link -X'tmate.conf' # don't fix /etc/skel link
+
+override_dh_gencontrol:
+	# when building for packages.credativ.com (from ci/rebuild.sh), add dependency on credativ-postgresql-keyring
+	set -x; case $$(dpkg-parsechangelog -SVersion) in \
+	  *deb*|*ubuntu*) dh_gencontrol -- -Vkeyring:Depends=credativ-postgresql-keyring ;; \
+	  *) dh_gencontrol ;; \
+	esac
