@@ -124,7 +124,7 @@ publish:bionic-release:
     repo: bionic-stable
   when: manual
 
-publish:centos7:
+publish:centos7: &publish_centos
   <<: *publish
   dependencies:
     - build:centos7
@@ -137,7 +137,7 @@ publish:centos7:
     repo: el7-test
 
 publish:centos7-release:
-  <<: *publish
+  <<: *publish_centos
   dependencies:
     - build:centos7-release
   variables:
