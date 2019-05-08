@@ -61,7 +61,7 @@
 						$(rawRow).find('.available_versions').append('<span class="label label-success">' + version + '</span> ');
 						$('#' + modal_identifier).find('.versionlist').append(`
 					<div class="btn-group btn-group-justified">
-					<button type="button" class="btn btn-primary versionselector" onclick="$('.versionselector').removeClass('active'); $(this).addClass('active'); " data-button="`+ version + `">` + version + `</button>
+					<button type="button" class="btn btn-default versionselector" onclick="$('.versionselector').removeClass('active'); $(this).addClass('active'); " data-button="`+ version + `">` + version + `</button>
 					</div>`);
 					});
 			}
