@@ -38,7 +38,9 @@ body {
 .navbar-default .navbar-nav li a:hover {
   color: var(--off2);
 }
-
+.navbar-default .navbar-brand:hover{
+  color: var(--off2);
+}
 .navbar-default a:visited {
   color: var(--off2);
 }

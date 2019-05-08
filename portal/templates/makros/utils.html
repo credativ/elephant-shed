@@ -366,14 +366,14 @@
 	}
 
 	function add_detail_graphs() {
-		$('.pg_addgraph').closest('td').append('<div class="pg_chart" style="float: right"></div>');
+		$('.pg_addgraph').closest('td').append('<div class="pg_chart" style="float: right; border: 1px solid #aaaaaa;"></div>');
 		$('.pg_chart').each(function () {
 			var randomspeed = 1 + Math.random();
 			var plotdata = [[{ x: 0, y: 0 },]];
 			var graph = new Rickshaw.Graph({
 				element: this,
-				width: 100,
-				height: 15,
+				width: 120,
+				height: 18,
 				renderer: 'line',
 				series:
 					new Rickshaw.Series.FixedDuration([{
