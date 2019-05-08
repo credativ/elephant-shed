@@ -43,6 +43,7 @@
 <script>
 	var $table_clusters;
 	var $table_hosts;
+	var $within_dialog = false;
 
 	function pushClusterInfo(result, _url) {
 		var modal_identifier = 'createcluster' + Math.floor(Math.random() * 100000);
@@ -51,7 +52,7 @@
 			'<div class="available_versions"></div>',
 			'<span class="label label-success">connected</span>',
 			'<span class="addButton"></span>']) //<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#' + modal_identifier + '">Add Instance</button>' + modal])
-			.draw(true).node();
+			.node();
 		pg_ctl({
 			host: _url, action: 'ls-system',
 			call_success: function (data) {
@@ -59,6 +60,8 @@
 				$.each($(data)[0]['installed_pg_versions'],
 					function (version) {
 						$(rawRow).find('.available_versions').append('<span class="label label-success">' + version + '</span> ');
+						$('#' + modal_identifier).on('shown.bs.modal', function(){ $within_dialog=true;} );
+						$('#' + modal_identifier).on('hidden.bs.modal', function(){$within_dialog=false;} );
 						$('#' + modal_identifier).find('.versionlist').append(`
 					<div class="btn-group btn-group-justified">
 					<button type="button" class="btn btn-default versionselector" onclick="$('.versionselector').removeClass('active'); $(this).addClass('active'); " data-button="`+ version + `">` + version + `</button>
@@ -101,11 +104,12 @@
 				result[i]['cluster'] +
 				'\',action:  \'stop\', call_success: refresh})">' +
 				'<span class="glyphicon glyphicon-stop"    aria-hidden="true"></span></button></div>' +
-				'</div>' +
-				'<a href="https://localhost/grafana/d/5CGjHlRiz/postgresql-server-overview?refresh=1m&orgId=1">'
+				'</div>' 
+				//+'<a href="https://localhost/grafana/d/5CGjHlRiz/postgresql-server-overview?refresh=1m&orgId=1">'
 			]).node();// .draw(true).node() ;
 		}
-		$table_clusters.draw(true);
+		$table_hosts.draw(false);
+		$table_clusters.draw(false);
 		querybar_add_success();
 	}
 
@@ -131,18 +135,20 @@
 					'',
 					'<span class="label label-danger">unreachable</span>',
 					''
-				]).draw(true).node();
+				]); //.draw(true).node();
 			}
-		}
-		);
-	};
+		});
+		};
+	if ($within_dialog == false ){
 	{% for host in hostlist %}
 	setTimeout(function () {
 		pullClusterInfo('{{ host['address'] }}')
-	}, 1);
+		}, 1);
 	{% endfor %}
-	if (repeat) { setTimeout(function () { refresh(true) }, 5 * 60 * 1000); }
-}
+	};
+	if (repeat) { setTimeout(function () { refresh(true) }, 30 * 1 * 1000); }
+
+	}
 
 	$(document).ready(function () {
 		$table_clusters = $('#clusters').DataTable({ "order": [[0, "asc"]], "paging": false });
