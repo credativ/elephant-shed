@@ -643,28 +643,37 @@
 			this.host = host;
 			this.title = 'Add Instance';
 			this.content = `
-			<form>
-	<label >ClusterName:</label>
-	    <input type="text" id="clustername" class="form-control formignore" >
-			</div>
+			<div style="padding: 15px">
+			<form>	
+			<!--			<label >ClusterName:</label>
+	    <input type="text" id="clustername" class="form-control formignore" ><br><br>
+			-->
+			<!--</div>-->
       <div class="btn-group btn-group-justified versionlist">
 		</div>
-<div class="form-group">
+		<br><br>
+		<div class="form-inline">
+				<div class="input-group">
+    		<span class="input-group-addon">Name</span>
+    		<input type="text" class="form-control formignore" id="clustername" placeholder="">
+  			</div>
 <!--
 <label class="checkbox-inline"><input type="checkbox" value="data-checksums" checked disabled>Enable Heap-Checksums</label>
-</div> Checksums are always enabled-->
-<div class="form-group">
+</div> Checksums are always enabled
+<div class="form-group">-->
 <br>
   <div class="input-group">
     <span class="input-group-addon">Port</span>
     <input type="text" class="form-control" name="port" placeholder="auto">
   </div><br>
+	<!--
   <div class="input-group" style="width: 100%">
     <span class="input-group-addon">Primary_conninfo</span>
     <input type="text" class="form-control" name="primary_conninfo" placeholder="host='somehost' user='repli' password='secret'">
-	</div>
+	</div>-->
 
-	</form> <div class="modal-footer">
+	</form><br>
+	<div class="modal-footer">
         <button type="button" class="btn btn-primary"  onclick="
 	var version	=	$(this).closest('.modal-dialog').find('.active').attr('data-button');
 	var cluster 	=	$(this).closest('.modal-dialog').find('#clustername').val() ;
@@ -679,14 +688,15 @@
 					action: 'create',
 						       data: inputvalues_to_dict( $(this).closest('.modal-dialog') ) ,
 					call_success: function(){
-						refresh();
 						$(this).closest('.modal').modal('hide');
 						$('body').removeClass('modal-open');
 						$('.modal-backdrop').remove();
+						$within_dialog = false;
+						refresh();
 						}});
 						}
 					;"><span>Create</span></button>
-        <button type="button" class="btn btn-default" data-dismiss="modal"><span>Dismiss</span></button>`;
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span>Dismiss</span></button></div>`;
 			//console.warn(this.content);
 		}
 	}
