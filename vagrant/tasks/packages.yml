@@ -2,7 +2,6 @@
 - name: Install credativ aptly Apt key
   apt_key:
     data: "{{ lookup('file', 'packages.credativ.com/aptly.key') }}"
-    id: F797920785697B85B92E8034C86768840A59F867
     state: present
 
 - name: Setup credativ PostgreSQL repository
