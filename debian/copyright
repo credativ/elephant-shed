@@ -1,7 +1,7 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 
 Files: *
-Copyright: (c) 2017-2018 <credativ GmbH <info@credativ.de>
+Copyright: (c) 2017-2019 credativ GmbH <info@credativ.de>
 License: GPL-3
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

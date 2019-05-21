@@ -30,7 +30,7 @@
   - check-postgres
   - python-psycopg2 # for postgresql_user
 
-- name: Create Data Volume
+- name: Create data volume
   file:
     path: '{{ datadir_base }}'
     owner: postgres
@@ -40,7 +40,7 @@
     recurse: true
 
 
-- name: Create WAL Volume
+- name: Create WAL volume
   file:
     path: '{{ waldir_base }}'
     owner: postgres
@@ -49,7 +49,7 @@
     state: directory
     recurse: true
 
-- name: Create Backup Volume
+- name: Create backup volume
   file:
     path: '{{ backupdir_base }}'
     owner: postgres
@@ -84,7 +84,7 @@
     line: "data_directory = '{{ datadir_base }}/%v/%c'"
     insertafter: '^# Default data directory'
 
-- name: Change waldir for new clusters
+- name: Config waldir for new clusters
   lineinfile:
     dest: /etc/postgresql-common/createcluster.d/elephant-shed.conf
     state: present

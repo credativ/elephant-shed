@@ -15,7 +15,7 @@ case $1 in
 
     # Remove old config file diversion
     if dpkg --compare-versions "$2" lt-nl "1.2.1"; then
-      SHA1SUM="$(sha1sum /etc/logrotate.d/postgresql-common)"
+      SHA1SUM="$(sha1sum /etc/logrotate.d/postgresql-common 2> /dev/null || :)"
       if [ "${SHA1SUM%% *}" = "6c4c0af32cf873a7050650d0ac85403410714ae7" ]; then
         rm -fv /etc/logrotate.d/postgresql-common
       fi

@@ -30,10 +30,12 @@ build:stretch: &build
     - apt-get update -qq
     - apt-get -y --no-install-recommends build-dep ./
     - apt-get -y --no-install-recommends install devscripts git
-    - ci/rebuild.sh deb9
+    - ci/rebuild.sh $dist $is_release
     - make deb
     - mkdir -p debs
     - mv ../*.* debs
+  variables:
+    dist: deb9
   artifacts:
     expire_in: 2 weeks
     paths:
@@ -42,38 +44,21 @@ build:stretch: &build
 
 build:stretch-release:
   <<: *build
-  script:
-    - apt-get -y --no-install-recommends build-dep ./
-    - apt-get -y --no-install-recommends install devscripts git
-    - ci/rebuild.sh deb9 release
-    - make deb
-    - mkdir -p debs
-    - mv ../*.* debs
+  variables:
+    dist: deb9
+    is_release: release
   when: manual
 
 build:bionic: &build_bionic
   <<: *build
-  # 2018-04-25: bionic image hanging on configuring tzdata, use stretch for now
-  #image: "ubuntu:bionic"
-  script:
-    - apt-get update -qq
-    - apt-get -y --no-install-recommends build-dep ./
-    - apt-get -y --no-install-recommends install devscripts git
-    - ci/rebuild.sh ubuntu18.04
-    - make deb
-    - mkdir -p debs
-    - mv ../*.* debs
+  variables:
+    dist: ubuntu18.04
 
 build:bionic-release:
   <<: *build_bionic
-  script:
-    - apt-get update -qq
-    - apt-get -y --no-install-recommends build-dep ./
-    - apt-get -y --no-install-recommends install devscripts git
-    - ci/rebuild.sh ubuntu18.04 release
-    - make deb
-    - mkdir -p debs
-    - mv ../*.* debs
+  variables:
+    dist: ubuntu18.04
+    is_release: release
   when: manual
 
 build:centos7: &build_centos7
@@ -108,9 +93,11 @@ publish:stretch: &publish
   dependencies:
     - build:stretch
   script:
-    - aptly repo add stretch-test debs/*.dsc debs/*.deb
-    - aptly publish update stretch-test
+    - aptly repo add $repo debs/*.dsc debs/*.deb
+    - aptly publish update $repo
     - sync_packages.sh
+  variables:
+    repo: stretch-test
   only:
     - master
 
@@ -118,68 +105,66 @@ publish:stretch-release:
   <<: *publish
   dependencies:
     - build:stretch-release
-  script:
-    - aptly repo add stretch-stable debs/*.dsc debs/*.deb
-    - aptly publish update stretch-stable
-    - sync_packages.sh
+  variables:
+    repo: stretch-stable
   when: manual
 
 publish:bionic: &publish_bionic
   <<: *publish
   dependencies:
     - build:bionic
-  script:
-    - aptly repo add bionic-test debs/*.dsc debs/*.deb
-    - aptly publish update bionic-test
-    - sync_packages.sh
+  variables:
+    repo: bionic-test
 
 publish:bionic-release:
   <<: *publish_bionic
   dependencies:
     - build:bionic-release
-  script:
-    - aptly repo add bionic-stable debs/*.dsc debs/*.deb
-    - aptly publish update bionic-stable
-    - sync_packages.sh
+  variables:
+    repo: bionic-stable
   when: manual
 
-publish:centos7:
+publish:centos7: &publish_centos
   <<: *publish
   dependencies:
     - build:centos7
   script:
     - rpm --addsign rpm/RPMS/noarch/*.rpm rpm/SRPMS/*.rpm
-    - cp rpm/RPMS/noarch/*.rpm /home/debian/postgresql/yum/el7-test/noarch
-    - cp rpm/SRPMS/*.rpm /home/debian/postgresql/yum/el7-test/src
-    - cd /home/debian; make yum-test
+    - cp rpm/RPMS/noarch/*.rpm /home/debian/postgresql/yum/$repo/noarch
+    - cp rpm/SRPMS/*.rpm /home/debian/postgresql/yum/$repo/src
+    - cd /home/debian; make $repo
+  variables:
+    repo: el7-test
 
 publish:centos7-release:
-  <<: *publish
+  <<: *publish_centos
   dependencies:
     - build:centos7-release
-  script:
-    - rpm --addsign rpm/RPMS/noarch/*.rpm rpm/SRPMS/*.rpm
-    - cp rpm/RPMS/noarch/*.rpm /home/debian/postgresql/yum/el7/noarch
-    - cp rpm/SRPMS/*.rpm /home/debian/postgresql/yum/el7/src
-    - cd /home/debian; make yum-release
+  variables:
+    repo: el7
   when: manual
 
 ### deploy ###
 
-deploy:x86:
+deploy:x86: &deploy
   stage: deploy
   dependencies:
     - publish:stretch
   script:
+    - sudo apt-get update -qq
     - sudo apt-get install -y ansible
     - cd vagrant
-    - echo "$DEPLOY_X86_SSH_KEY" > id_file
+    - echo "$DEPLOY_SSH_KEY" > id_file
     - chmod 0600 id_file
     - echo "[test]" > inventory
-    - echo "$DEPLOY_X86_NAME ansible_ssh_host=${DEPLOY_X86_IP} ansible_ssh_port=${DEPLOY_SSH_PORT} ansible_ssh_user=${DEPLOY_SSH_USER} ansible_ssh_private_key_file=id_file" >> inventory
-    # We can't provide this envirionment variable throught "variables" for some reason.
+    - echo "$DEPLOY_NAME ansible_ssh_host=${DEPLOY_IP} ansible_ssh_port=${DEPLOY_SSH_PORT} ansible_ssh_user=${DEPLOY_SSH_USER} ansible_ssh_private_key_file=id_file" >> inventory
+    # We can't provide this envirionment variable through "variables" for some reason.
     - export ANSIBLE_HOST_KEY_CHECKING=False
     - ansible-playbook -i inventory elephant-shed.yml
+  variables:
+    DEPLOY_NAME: $DEPLOY_X86_NAME
+    DEPLOY_IP: $DEPLOY_X86_IP
+    DEPLOY_SSH_KEY: $DEPLOY_X86_SSH_KEY
   only:
     - master
   environment:
@@ -187,41 +172,23 @@ deploy:x86:
     url: https://elephant-shed.dev.credativ.lan
 
 deploy:ppc64el:
-  stage: deploy
-  dependencies:
-    - publish:stretch
-  script:
-    - sudo apt-get install -y ansible
-    - cd vagrant
-    - echo "$DEPLOY_PPC64EL_SSH_KEY" > id_file
-    - chmod 0600 id_file
-    - echo "[test]" > inventory
-    - echo "$DEPLOY_PPC64EL_NAME ansible_ssh_host=${DEPLOY_PPC64EL_IP} ansible_ssh_port=${DEPLOY_SSH_PORT} ansible_ssh_user=${DEPLOY_SSH_USER} ansible_ssh_private_key_file=id_file" >> inventory
-    # We can't provide this envirionment variable throught "variables" for some reason.
-    - export ANSIBLE_HOST_KEY_CHECKING=False
-    - ansible-playbook -i inventory elephant-shed.yml
-  only:
-    - master
+  <<: *deploy
+  variables:
+    DEPLOY_NAME: $DEPLOY_PPC64EL_NAME
+    DEPLOY_IP: $DEPLOY_PPC64EL_IP
+    DEPLOY_SSH_KEY: $DEPLOY_PPC64EL_SSH_KEY
   environment:
     name: elephant-shed-ppc64el
     url: https://elephant-shed-ppc64el.dev.credativ.lan
 
 deploy:bionic-x86:
-  stage: deploy
+  <<: *deploy
   dependencies:
     - publish:bionic
-  script:
-    - sudo apt-get install -y ansible
-    - cd vagrant
-    - echo "$DEPLOY_X86_SSH_KEY" > id_file
-    - chmod 0600 id_file
-    - echo "[test]" > inventory
-    - echo "$DEPLOY_X86_BIONIC_NAME ansible_ssh_host=${DEPLOY_X86_BIONIC_IP} ansible_ssh_port=${DEPLOY_SSH_PORT} ansible_ssh_user=${DEPLOY_SSH_USER} ansible_ssh_private_key_file=id_file" >> inventory
-    # We can't provide this envirionment variable throught "variables" for some reason.
-    - export ANSIBLE_HOST_KEY_CHECKING=False
-    - ansible-playbook -i inventory elephant-shed.yml
-  only:
-    - master
+  variables:
+    DEPLOY_NAME: $DEPLOY_X86_BIONIC_NAME
+    DEPLOY_IP: $DEPLOY_X86_BIONIC_IP
+    DEPLOY_SSH_KEY: $DEPLOY_X86_SSH_KEY
   environment:
     name: elephant-shed-bionic
     url: https://elephant-shed-bionic.dev.credativ.lan

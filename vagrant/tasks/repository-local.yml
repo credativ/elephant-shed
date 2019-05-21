@@ -3,7 +3,7 @@
     name: apt-utils
     state: present
 
-- name: /srv/repository
+- name: Create directory /srv/repository
   file:
     path: /srv/repository
     state: directory
