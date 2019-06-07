@@ -910,7 +910,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "count(sql_pg_stat_replication{job=~'$job', host=~'$host', sql_job=~'$cluster', col='pid'}>0) / scalar(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_wal_senders'})",
+          "expr": "count(sql_pg_stat_replication{job=~'$job', host=~'$host', sql_job=~'$cluster', pid!='0', col='flush_lag_bytes'})/ scalar(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_wal_senders'})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
