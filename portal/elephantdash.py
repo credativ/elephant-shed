@@ -42,6 +42,11 @@ def index():
     #response.headers['Access-Control-Allow-Origin'] = 'http://127.0.0.1:15432/cluster/'
     return response
 
+@app.route("/error" )
+def error():
+    response = Response ( render_template('error.html', environment=env) )
+    return response
+
 def buildRequest(url, request):
     method = request.method
     payload = "{}"
