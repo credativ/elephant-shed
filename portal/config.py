@@ -9,6 +9,7 @@ appkey="TEST"                   # App-Key for encryption. Change in production.
 
 application_root = "/portal"    # Root-Folder this application resides in.
                                 # Should match with apache.conf.
+hostlist='hostlist'
 
 # Hosts we consider beeing part of a Cluster.
 hosts=[

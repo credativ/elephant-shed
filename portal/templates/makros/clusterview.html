@@ -45,6 +45,17 @@
 	var $table_hosts;
 	var $within_dialog = false;
 
+function remove_host( t ){
+console.log( $(t).attr('data')  );
+$.ajax({url: "/portal/host_del/"+$(t).attr('data')  } );
+}
+
+function join_cluster( t ){
+console.log( $(t).closest('div').find('#joinaddress').val()  );
+$.ajax({url: "/portal/host_init/"+ $(t).closest('div').find('#host_ip').val()+'/'+ $(t).closest('div').find('#cluster_ip').val() } );
+
+}
+
 	function pushClusterInfo(result, _url) {
 		var modal_identifier = 'createcluster' + Math.floor(Math.random() * 100000);
 		//var modal = new Modal_addInstance(_url, [1,2,3,4],modal_identifier).html();
@@ -56,7 +67,8 @@
 		pg_ctl({
 			host: _url, action: 'ls-system',
 			call_success: function (data) {
-				$(rawRow).find('.addButton').append($('<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#' + modal_identifier + '"><span class="glyphicon glyphicon-plus"></span></button>' + new Modal_addInstance(_url, [1, 2, 3, 4], modal_identifier).html()));
+				$(rawRow).find('.addButton').append($('<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#' + modal_identifier + '"><span class="glyphicon glyphicon-plus"></span></button>'+
+				'<button type="button" class="btn btn-danger btn-sm" data="' + _url + '" onclick="'+ 'remove_host(this);' +'" ><span class="glyphicon glyphicon-trash"></span></button>  ' + new Modal_addInstance(_url, [1, 2, 3, 4], modal_identifier).html()));
 				
 				if ( Object.keys( $(data)[0]['installed_pg_versions'] ).length == 0 ){
 					$(rawRow).find('.available_versions').append('<span class="label label-danger">None</span> ');
@@ -65,8 +77,10 @@
 					<button type="button" class="btn btn-default versionselector">None</button>
 					</div>`);
 				};
-				$.each($(data)[0]['installed_pg_versions'],
+				console.log($(data)[0]['installed_pg_versions'] );
+				$.each( $(data)[0]['installed_pg_versions']  ,
 					function (version) {
+						version = $(data)[0]['installed_pg_versions'][version];
 						$(rawRow).find('.available_versions').append('<span class="label label-success">' + version + '</span> ');
 						$('#' + modal_identifier).on('shown.bs.modal', function(){ $within_dialog=true;} );
 						$('#' + modal_identifier).on('hidden.bs.modal', function(){$within_dialog=false;} );

@@ -28,7 +28,7 @@ else:
     config.usemin=""
 
 env={"navigation":config.navigation,
-     "hosts": config.hosts,
+     #"hosts": config.hosts,
      "usemin": config.usemin,
      "deeplinks": config.deeplinks,
      "detailview_cluster" : config.detailview_clusterinformation,
@@ -36,18 +36,96 @@ env={"navigation":config.navigation,
      }
 
 
+def get_hostlist():
+    h_list = []
+    try:
+        with open(config.hostlist, 'r') as f:
+            for line in f:
+                #print(line)
+                line = line.strip()
+                if line != '':
+                    h_list.append({'address': line}) 
+    except:
+        pass
+    return h_list
+
+def write_hostlist(hostlist):
+    with open(config.hostlist, 'w') as f:
+        for line in hostlist:
+            f.write(line['address']+'\n')
+            
+
+
 @app.route("/" )
 def index():
+    env['hosts'] = get_hostlist()
     response = Response ( render_template('clusters.html', environment=env) )
     #response.headers['Access-Control-Allow-Origin'] = 'http://127.0.0.1:15432/cluster/'
     return response
+
+@app.route("/host_list/" )
+def host_list():
+    return jsonify( get_hostlist() )
+
+@app.route("/host_init/<string:hostname>/<string:clustername>" )
+def host_init(hostname,clustername):
+    
+    if clustername != '':
+        
+        host_add(clustername)
+        r= buildRequest(
+                    'https://'+clustername+'/portal/host_list/',
+                    request, raw=True
+                    )
+        r= json.load( r )
+        print(r)
+        for i in r:
+            print(i)
+            host_add(i['address'], False)
+    host_add(hostname)
+    return 'OK'
+                    
+@app.route("/host_add/<string:hostname>" )
+def host_add(hostname, distribute=True):
+    currentlist= get_hostlist()
+    for host in currentlist:
+        if host['address'] == hostname:
+            return 'OK'
+    write_hostlist(currentlist + [{'address':hostname},])
+    if not distribute:
+        return 'OK'
+    for host in currentlist:
+        buildRequest(
+                    'https://'+host['address']+'/portal/host_add/'+hostname ,
+                    request
+                    )
+    return 'OK'
+
+@app.route("/host_del/<string:hostname>" )
+def host_del(hostname):
+    currentlist = get_hostlist()
+    exists=False
+    for line in currentlist:
+        if line['address'] == hostname:
+            exists = True
+    if not exists:
+        return 'OK'
+    write_hostlist([line for line in currentlist if line['address'] != hostname])
+    for host in get_hostlist():
+        buildRequest(
+                    'https://'+host['address']+'/portal/host_del/'+hostname ,
+                    request
+                    )
+    return 'OK'
+
+
 
 @app.route("/error" )
 def error():
     response = Response ( render_template('error.html', environment=env) )
     return response
 
-def buildRequest(url, request):
+def buildRequest(url, request, raw=False):
     method = request.method
     payload = "{}"
     try:
@@ -72,9 +150,15 @@ def buildRequest(url, request):
         #print( e.code   )
         #print( e.read() )
         try:
+            if raw:
+                return e
             return Response(e.read(), mimetype='application/json', status=e.code)
         except Exception as e2:
-            return Response(json.dumps({ "stderr" : "UNRECOVERABLE ERROR", "msg" : str(e) }) , mimetype='application/json', status=500)
+            if raw:
+                return 'ERROR'
+            return Response(json.dumps({"stderr": "UNRECOVERABLE ERROR", "msg": str(e)}), mimetype='application/json', status=500)
+    if raw:
+        return ret
     return Response(ret.read(), mimetype='application/json', status=ret.code)
 
 

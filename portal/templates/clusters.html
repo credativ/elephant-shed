@@ -3,6 +3,37 @@
 {% extends "frame.html" %}
 {% block mainwindow %}
 
+{% if environment['hosts']|length == 0 %}
+<div id="alone" class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title">Welcome!</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+				<center><font size="24"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></font></center><br>
+		  <b>You just launched the ElephantShed!</b><br>
+			It seems that no cluster is configured. In order to properly work, please configure the remorely-used IP/Hostname and 
+			optionally join a cluster.
+<br>
+
+		</div>
+		<div class="modal-footer">
+		  
+				Hostaddress:<input id="host_ip" type="text" > <br>Clusteraddress:<input type="text" id="cluster_ip"> <br> <button type="button" class="btn btn-primary" onclick="join_cluster(this);">JOIN</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+  <script>
+  $('#alone').modal('toggle');
+  </script>
+{% endif %}
+
+
 <div class="row">
 	<div class="col-sm-4" style="min-width: 400px">
 		<div class="panel panel-default">
