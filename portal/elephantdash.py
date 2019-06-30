@@ -144,13 +144,9 @@ def buildRequest(url, request, raw=False):
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE    # FIX ME  ## TODO
-    print (payload)
     try:
         ret =  urllib.request.urlopen( req, payload, context=ctx )
     except Exception as e:
-        #print( "-----"  )
-        #print( e.code   )
-        #print( e.read() )
         try:
             if raw:
                 return e
@@ -208,9 +204,6 @@ def pgsettings(version):
             reader = csv.DictReader( csvfile )
             for row in reader:
                 output[row['name']]=row
-                #output[row['name']]= {}
-                #for fieldname in reader.fieldnames:
-                #    output[row['name']][fieldname]=row[fieldname]
     return jsonify( output )
 
 
@@ -218,10 +211,5 @@ def pgsettings(version):
 @app.route("/state")
 def state():
     time.sleep(2)
-    #response = app.response_class(
-    #        response=json.dumps(hosts),
-    #        mimetype='application/json'
-    #        )
-    #return response
     return jsonify( hosts )
 
