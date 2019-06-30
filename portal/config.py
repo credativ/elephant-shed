@@ -11,6 +11,8 @@ application_root = "/portal"    # Root-Folder this application resides in.
                                 # Should match with apache.conf.
 hostlist='/etc/elephant-shed-portal/hostlist'
 
+version='v2.0 Beta'
+
 # Hosts we consider beeing part of a Cluster.
 hosts=[
         {"address":"localhost"},

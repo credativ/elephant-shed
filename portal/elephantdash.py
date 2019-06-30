@@ -33,6 +33,7 @@ env={"navigation":config.navigation,
      "deeplinks": config.deeplinks,
      "detailview_cluster" : config.detailview_clusterinformation,
      "detailview_system" : config.detailview_systeminformation, 
+     "version": config.version
      }
 
 
