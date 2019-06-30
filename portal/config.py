@@ -9,7 +9,7 @@ appkey="TEST"                   # App-Key for encryption. Change in production.
 
 application_root = "/portal"    # Root-Folder this application resides in.
                                 # Should match with apache.conf.
-hostlist='hostlist'
+hostlist='/etc/elephant-shed-portal/hostlist'
 
 # Hosts we consider beeing part of a Cluster.
 hosts=[

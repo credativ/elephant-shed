@@ -16,6 +16,11 @@ case $1 in
     a2dissite 000-default
     a2ensite elephant-shed
 
+    # create and fix permissions on /etc/elephant-shed-portal/
+    mkdir -p /etc/elephant-shed-portal/
+    touch /etc/elephant-shed-portal/hostlist
+    chown www-data:www-data /etc/elephant-shed-portal/hostlist
+
     # restart apache
     invoke-rc.d apache2 restart
     ;;
@@ -23,6 +28,8 @@ case $1 in
   remove)
     # disable site
     a2dissite elephant-shed
+    rm /etc/elephant-shed-portal/hostlist
+    rmdir /etc/elephant-shed-portal/ --ignore-fail-on-non-empty
     ;;
 
 esac

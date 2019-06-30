@@ -6,9 +6,3 @@ portal/config.py usr/share/elephant-shed
 portal/wsgi.py usr/share/elephant-shed
 portal/templates usr/share/elephant-shed
 portal/static usr/share/elephant-shed
-
-
-
-
-
-
