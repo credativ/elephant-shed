@@ -4,6 +4,14 @@ Log into your web browser and go to the server's IP address (e.g.
 <https://your-server/>). The default setup will redirect HTTP requests to
 HTTPS.
 
+
+![Figure: Elephant Shed portal Setup](images/portal_01_init.png)
+On first Launch the ElephantShed needs to be provisioned. This step can alternatively
+be done by adding all Hosts of the ElephantShed to `/etc/elephant-shed-portal/hostlist`.
+
+If Multihost-Clustering is required, it is essential for the users credentials to be
+valid on all systems.
+
 The Elephant Shed portal provides information about
 running PostgreSQL instances and their status. Moreover you get
 access to all other installed components.
@@ -19,8 +27,6 @@ management system which is decoupled from all system users. You should
 have been asked about the initial user within the installation
 setup. If you deployed a Vagrant VM the initial user is **admin@localhost**
 and **admin** as password.
-
-![Figure: Elephant Shed portal](images/el-portal.png)
 
 On a new installation you will find one cluster running the current PostgreSQL major version with the name `main`.
 

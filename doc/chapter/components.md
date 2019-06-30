@@ -50,6 +50,11 @@ postgresql@<version>-<name>`) or the Cockpit web interface.
 
 *Note:* Future versions of The Elephant Shed will include cluster management in the [portal](#portal).
 
+#### Cluster Administration API
+
+To allow for remote management and provisioning all commands from Cluster Administration have been
+wrapped into a Web-API `pgapi`. 
+
 ## Portal
 
 The portal serves as an entry point to all other web-based
@@ -60,9 +65,6 @@ The portal also shows the status of all
 PostgreSQL cluster including links to the Cockpit service (in order to start or
 stop the cluster), the log files, pgBadger reports and the backup software pgBackRest.
 
-A navigation bar at the top allows switching between the different web
-services.
-
 By default only a self signed certificate for HTTPS is deployed. A
 corresponding security warning is shown in most browsers. You can change the
 certificate with a signed one (e.g. from your company CA, or from [Let’s Encrypt](https://letsencrypt.org/)).
@@ -70,21 +72,11 @@ The web services are served by Apache2. It also acts as a reverse proxy to serve
 
 ### PostgreSQL Cluster
 
-![Figure: PostgreSQL Cluster](images/portal_cluster_list.png)
+![Figure: PostgreSQL Cluster](images/portal_02_dash.png)
 
 This section presents an overview of the existing PostgreSQL clusters and their status.
 For each cluster, a set of switches shows the current status.
 By clicking on a cluster an additional menu with buttons opens.
-Currently all buttons link to the corresponding components where a confirmation is required so no actions are triggered directly, but this may change in the future.
-
-### systemd - Service
-
-This links to the configuration of this PostgreSQL cluster in Cockpit.
-Here it is possible to configure the corresponding service to be enabled or disabled on system start and also trigger actions like start, stop and reload.
-
-### systemd - Log
-
-Links to the corresponding log entries in Cockpit if syslog is enabled for this cluster (which is the default for clusters created by Elephant Shed).
 
 ### Report - Run
 
