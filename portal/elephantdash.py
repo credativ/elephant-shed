@@ -67,14 +67,15 @@ def index():
 def host_list():
     return jsonify( get_hostlist() )
 
-@app.route("/host_init/<string:hostname>/<string:clustername>" )
-def host_init(hostname,clustername):
-    
-    if clustername != '':
+@app.route("/host_init/", methods=['GET'] )
+def host_init():
+    hostaddress = request.args.get('hostaddress')
+    clusteraddress = request.args.get('clusteraddress')
+    if clusteraddress != '':
         
-        host_add(clustername)
+        host_add(clusteraddress)
         r= buildRequest(
-                    'https://'+clustername+'/portal/host_list/',
+                    'https://'+clusteraddress+'/portal/host_list/',
                     request, raw=True
                     )
         r= json.load( r )
@@ -82,7 +83,7 @@ def host_init(hostname,clustername):
         for i in r:
             print(i)
             host_add(i['address'], False)
-    host_add(hostname)
+    host_add(hostaddress)
     return 'OK'
                     
 @app.route("/host_add/<string:hostname>" )

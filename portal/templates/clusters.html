@@ -16,9 +16,8 @@
 		<div class="modal-body">
 				<center><font size="24"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></font></center><br>
 		  <b>You just launched the ElephantShed!</b><br>
-			Yet no cluster is configured. In order to continue, please configure the remorely-used IP/Hostname of this machine and join a cluster.
-			If this is the first member of the cluster just configure this hosts remote-address twice.
-<br>
+			In order to continue, please configure the remorely-used IP/Hostname of this machine and join a cluster.<br><br>
+			Keep 'Clusteraddress' empty, if there is no cluster yet.<br>
 
 		</div>
 		<div class="modal-footer">
@@ -30,6 +29,7 @@
   </div>
   <script>
   $('#alone').modal('toggle');
+  $('#host_ip').val( window.location.hostname ); 
   </script>
 {% endif %}
 
