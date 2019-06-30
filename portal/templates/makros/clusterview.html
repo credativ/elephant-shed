@@ -86,7 +86,6 @@
 				console.log($(data)[0]['installed_pg_versions']);
 				$.each($(data)[0]['installed_pg_versions'],
 					function (version) {
-						version = $(data)[0]['installed_pg_versions'][version];
 						$(rawRow).find('.available_versions').append('<span class="label label-success">' + version + '</span> ');
 						$('#' + modal_identifier).on('shown.bs.modal', function () { $within_dialog = true; });
 						$('#' + modal_identifier).on('hidden.bs.modal', function () { $within_dialog = false; });
