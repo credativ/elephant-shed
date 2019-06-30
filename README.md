@@ -1,4 +1,4 @@
-<img src="portal/image/button_home.png" width="200">
+<img src="portal/static/logo.png" width="200">
 
 # Intro
 
@@ -49,7 +49,7 @@ The main portal webpage has links to all bundled applications. It also shows
 the PostgreSQL status, and allows starting/stopping the clusters, backup, and
 log reports.
 
-![Figure: Elephant Shed portal](images/el-portal.png)
+![Figure: Elephant Shed portal](images/portal_02_dash.png)
 
 ## Cockpit
 
