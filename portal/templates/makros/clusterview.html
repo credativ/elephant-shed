@@ -56,7 +56,7 @@
 
 	function join_cluster(t) {
 		$.ajax({
-			url: "/portal/host_init/?hostaddress=" + $(t).closest('div').find('#host_ip').val() + '&&clusteraddress' + $(t).closest('div').find('#cluster_ip').val(),
+			url: "/portal/host_init/?hostaddress=" + $(t).closest('div').find('#host_ip').val() + '&&clusteraddress=' + $(t).closest('div').find('#cluster_ip').val(),
 			complete: function () { location.reload() }
 		});
 
