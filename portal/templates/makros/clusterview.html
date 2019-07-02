@@ -163,7 +163,7 @@
 				var rawRow = $table_hosts.row.add([_url,
 					'',
 					'<span class="label label-danger">unreachable</span>',
-					''
+					'<button type="button" class="btn btn-danger btn-sm" data="' + _url + '" onclick="' + 'remove_host(this);' + '" ><span class="glyphicon glyphicon-trash"></span></button> '
 				]).draw(true).node();
 			}
 		});
