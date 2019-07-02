@@ -7,7 +7,13 @@
 {% macro js() -%}
 <script>
     function push_notification(text, level) {
-        $('#notificationdiv').prepend('<div class="alert alert-danger alert-dismissible fade_in">' + text + '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
+        var msg = $('<div class="alert alert-danger alert-dismissible fade_in">' + text + '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>');
+        $('#notificationdiv').prepend(msg);
+        var i = 0;
+        $('#notificationdiv').find('.alert').each(function (i, elem) {
+            if (i >= 5) { $(elem).fadeOut('slow'); }
+        });
+
     }
 
 </script>

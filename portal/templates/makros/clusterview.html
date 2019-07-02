@@ -156,15 +156,15 @@
 			host: _url, action: 'ls',
 			call_success: function (result) { pushClusterInfo(result, _url) },
 			call_fail: function (request, status, err) {
-				console.log(request);
-				console.log(err);
+				console.error(request);
+				console.error(err);
 				querybar_add_fail();
 				push_notification('Connection to ' + _url + ' failed.');
 				var rawRow = $table_hosts.row.add([_url,
 					'',
 					'<span class="label label-danger">unreachable</span>',
 					''
-				]); //.draw(true).node();
+				]).draw(true).node();
 			}
 		});
 	};
