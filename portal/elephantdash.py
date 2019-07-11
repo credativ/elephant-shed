@@ -11,12 +11,11 @@ import time
 import urllib.request
 import base64
 import ssl
-#import jinja2
-#from .views.dash import view
+
+from collections import deque
 
 app = Flask(__name__, static_url_path='/static'  )
-#CORS(app, resources={r"*":{"origins":"*"}})
-#app.register_blueprint(view)
+
 app.config["APPLICATION_ROOT"]=config.application_root
 app.debug=config.debug
 app.secret_key=config.appkey
@@ -28,7 +27,6 @@ else:
     config.usemin=""
 
 env={"navigation":config.navigation,
-     #"hosts": config.hosts,
      "usemin": config.usemin,
      "deeplinks": config.deeplinks,
      "detailview_cluster" : config.detailview_clusterinformation,
@@ -36,6 +34,7 @@ env={"navigation":config.navigation,
      "version": config.version
      }
 
+logged_actions = deque([], 5)
 
 def get_hostlist():
     h_list = []
@@ -61,8 +60,12 @@ def write_hostlist(hostlist):
 def index():
     env['hosts'] = get_hostlist()
     response = Response ( render_template('clusters.html', environment=env) )
-    #response.headers['Access-Control-Allow-Origin'] = 'http://127.0.0.1:15432/cluster/'
     return response
+
+
+@app.route("/log" )
+def log():
+    return jsonify( [ action for action in logged_actions ] )
 
 @app.route("/host_list/" )
 def host_list():
@@ -163,23 +166,41 @@ def buildRequest(url, request, raw=False):
 @app.route("/pgapi/proxy/cluster/<host>", methods=['POST','GET','PATCH', 'PUT','DELETE'] )
 def pgapi_proxy(host):
     print(host)
+    logged_actions.append( 'Pushed something to %s'%(host) )    
     return  buildRequest(
                     'https://'+host+'/pgapi/cluster', 
                     request
                     )
+    
 @app.route("/pgapi/proxy/system/<host>", methods=['POST','GET','PATCH', 'PUT','DELETE'] )
 def pgapi_proxy_system(host):
     print(host)
+    logged_actions.append( 'Pushed something to %s'%(host) )    
     return  buildRequest(
                     'https://'+host+'/pgapi/system', 
                     request
                     )
 
-
+@app.route("/pgapi/proxy/backup/<host>", methods=['POST','GET','PATCH', 'PUT','DELETE'] )
+@app.route("/pgapi/proxy/backup/<host>/<stanza>", methods=['POST','GET','PATCH', 'PUT','DELETE'] )
+def pgapi_proxy_backup(host, stanza=''):
+    stanza='/'+stanza if stanza != '' else '';
+    logged_actions.append( 'Pushed something to %s'%(host) )    
+    return  buildRequest(
+                    'https://'+host+'/pgapi/backup'+stanza, 
+                    request
+                    )
+@app.route("/pgapi/proxy/backup_activity/<host>", methods=['POST','GET','PATCH', 'PUT','DELETE'] )
+def pgapi_proxy_backupactivity(host):
+    logged_actions.append( 'Pushed something to %s'%(host) )    
+    return  buildRequest(
+                    'https://'+host+'/pgapi/backup_activity/',
+                    request
+                    )
 
 @app.route("/pgapi/proxy/cluster/<host>/<version>/<cluster>", methods=['POST','GET','PATCH','PUT','DELETE'] )
 def pgapi_proxy_cluster(host,version,cluster):
-    print (host, version, cluster)
+    logged_actions.append( 'Pushed something to %s'%(host) )    
     return buildRequest(
                     'https://'+host+'/pgapi/cluster/'+version+'/'+cluster, 
                     request
