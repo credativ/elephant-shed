@@ -26,7 +26,7 @@ credativ_postgresql: 'deb https://packages.credativ.com/public/postgresql/ stret
 io_scheduler: noop
 overcommit_ratio: 90
 grub_cmdline_linux: crashkernel=auto rhgb quiet elevator={{ io_scheduler }}
-version: 10
+version: 11
 clustername: main
 confdir: /etc/postgresql/{{ version }}/{{ clustername }}
 datadir: '{{ datadir_base }}/{{ version }}/{{ clustername }}'
@@ -56,7 +56,7 @@ pgbackrest_archive_push_process_max: '10'
 # PostgreSQL Tuning
 max_connections: 100
 superuser_reserved_connections: 8
-shared_buffers: 8GB
+shared_buffers: 512MB
 temp_buffers: 64MB
 work_mem: 64MB
 maintenance_work_mem: 1GB
