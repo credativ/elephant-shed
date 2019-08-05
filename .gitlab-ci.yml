@@ -49,6 +49,19 @@ build:stretch-release:
     is_release: release
   when: manual
 
+build:buster: &build_buster
+  <<: *build
+  image: "credativ/debian-build:buster"
+  variables:
+    dist: deb10
+
+build:buster-release:
+  <<: *build_buster
+  variables:
+    dist: deb10
+    is_release: release
+  when: manual
+
 build:bionic: &build_bionic
   <<: *build
   variables:
@@ -107,6 +120,21 @@ publish:stretch-release:
     - build:stretch-release
   variables:
     repo: stretch-stable
+  when: manual
+
+publish:buster: &publish_buster
+  <<: *publish
+  dependencies:
+    - build:buster
+  variables:
+    repo: buster-test
+
+publish:buster-release:
+  <<: *publish_buster
+  dependencies:
+    - build:buster-release
+  variables:
+    repo: buster-stable
   when: manual
 
 publish:bionic: &publish_bionic
@@ -169,7 +197,7 @@ deploy:x86: &deploy
     - master
   environment:
     name: elephant-shed
-    url: https://elephant-shed.dev.credativ.lan
+    url: https://elephant-shed.dev.credativ.de
 
 deploy:ppc64el:
   <<: *deploy
@@ -179,7 +207,19 @@ deploy:ppc64el:
     DEPLOY_SSH_KEY: $DEPLOY_PPC64EL_SSH_KEY
   environment:
     name: elephant-shed-ppc64el
-    url: https://elephant-shed-ppc64el.dev.credativ.lan
+    url: https://elephant-shed-ppc64el.dev.credativ.de
+
+deploy:buster-x86:
+  <<: *deploy
+  dependencies:
+    - publish:buster
+  variables:
+    DEPLOY_NAME: elephant-shed-buster
+    DEPLOY_IP: 172.26.248.46
+    DEPLOY_SSH_KEY: $DEPLOY_X86_SSH_KEY
+  environment:
+    name: elephant-shed-buster
+    url: https://elephant-shed-buster.dev.credativ.de
 
 deploy:bionic-x86:
   <<: *deploy
@@ -191,7 +231,7 @@ deploy:bionic-x86:
     DEPLOY_SSH_KEY: $DEPLOY_X86_SSH_KEY
   environment:
     name: elephant-shed-bionic
-    url: https://elephant-shed-bionic.dev.credativ.lan
+    url: https://elephant-shed-bionic.dev.credativ.de
 
 deploy:centos7-x86:
   tags:
@@ -208,4 +248,4 @@ deploy:centos7-x86:
     - master
   environment:
     name: elephant-shed-centos7
-    url: https://elephant-shed-centos7.dev.credativ.lan
+    url: https://elephant-shed-centos7.dev.credativ.de
