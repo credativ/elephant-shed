@@ -1,3 +1,10 @@
+elephant-shed (1.3.2) unstable; urgency=medium
+
+  * Grafana: Fix "WAL Senders"-panel.
+  * Build infrastructure updates.
+
+ -- Christoph Berg <myon@debian.org>  Tue, 06 Aug 2019 15:38:38 +0200
+
 elephant-shed (1.3.1) unstable; urgency=medium
 
   * update-prometheus-sql-exporter-config: Support setting interval.
