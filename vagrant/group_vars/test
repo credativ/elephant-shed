@@ -3,7 +3,6 @@
 # However, no partitioning tests are done.
 
 use_local_repo: False
-credativ_postgresql: "deb https://packages.credativ.com/public/postgresql/ stretch-test main"
 
 # PostgreSQL Tuning
 max_connections: 100

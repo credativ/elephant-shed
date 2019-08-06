@@ -3,7 +3,6 @@
 # Therefore the stretch-test distritubion is used.
 
 use_local_repo: True
-credativ_postgresql: "deb https://packages.credativ.com/public/postgresql/ stretch-test main"
 
 # PostgreSQL Tuning
 max_connections: 100
