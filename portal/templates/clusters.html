@@ -15,14 +15,14 @@
 		</div>
 		<div class="modal-body">
 				<center><font size="24"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></font></center><br>
-		  <b>You just launched the ElephantShed!</b><br>
-			In order to continue, please configure the remorely-used IP/Hostname of this machine and join a cluster.<br><br>
-			Keep 'Clusteraddress' empty, if there is no cluster yet.<br>
+		  <b>You just launched the Elephant Shed!</b><br>
+			To continue, please configure the IP/hostname of this machine and join a cluster.<br><br>
+			Keep 'Cluster address' empty if there is no cluster yet.<br>
 
 		</div>
 		<div class="modal-footer">
 		  
-				Hostaddress:<input id="host_ip" type="text" > <br>Clusteraddress:<input type="text" id="cluster_ip"> <br> <button type="button" class="btn btn-primary" onclick="join_cluster(this);">JOIN</button>
+				Host address:<input id="host_ip" type="text" > <br>Cluster address:<input type="text" id="cluster_ip"> <br> <button type="button" class="btn btn-primary" onclick="join_cluster(this);">JOIN</button>
 		</div>
 	  </div>
 	</div>
@@ -37,7 +37,7 @@
 <div class="row">
 	<div class="col-sm-4" style="min-width: 400px">
 		<div class="panel panel-default">
-			<div class="panel-heading" style="font-weight: bold">Elephant-Shed Hosts</div>
+			<div class="panel-heading" style="font-weight: bold">Elephant Shed Hosts</div>
 			<div class="panel-body">
 				{{ clusterview.table_hosts() }}
 			</div>
@@ -46,7 +46,7 @@
 
 	<div class="col-sm-8" style="min-width: 400px">
 		<div class="panel panel-default">
-			<div class="panel-heading" style="font-weight: bold">PostgreSQL-Instances</div>
+			<div class="panel-heading" style="font-weight: bold">PostgreSQL Instances</div>
 			<div class="panel-body">
 
 				{{ clusterview.table_clusters() }}
