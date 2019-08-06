@@ -113,6 +113,7 @@ publish:stretch: &publish
     repo: stretch-test
   only:
     - master
+    - rel1_3
 
 publish:stretch-release:
   <<: *publish
@@ -195,6 +196,7 @@ deploy:x86: &deploy
     DEPLOY_SSH_KEY: $DEPLOY_X86_SSH_KEY
   only:
     - master
+    - rel1_3
   environment:
     name: elephant-shed
     url: https://elephant-shed.dev.credativ.de
@@ -246,6 +248,7 @@ deploy:centos7-x86:
     - sudo yum install -y elephant-shed
   only:
     - master
+    - rel1_3
   environment:
     name: elephant-shed-centos7
     url: https://elephant-shed-centos7.dev.credativ.de
