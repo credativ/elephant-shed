@@ -1,7 +1,7 @@
 Source: elephant-shed
 Section: database
 Priority: optional
-Maintainer: Debian PostgreSQL Maintainers <pkg-postgresql-public@lists.alioth.debian.org>
+Maintainer: credativ GmbH <info@credativ.de>
 Uploaders:
  Christoph Berg <myon@debian.org>,
  Adrian Vondendriesch <adrian.vondendriesch@credativ.de>,

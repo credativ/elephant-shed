@@ -3,7 +3,7 @@ Version:        %{package_version}
 Release:        %{package_release}%{?dist}
 BuildArch:      noarch
 Summary:        PostgreSQL dashboard
-Packager:       Debian PostgreSQL Maintainers <pkg-postgresql-public@lists.alioth.debian.org>
+Packager:       credativ GmbH <info@credativ.de>
 License:        GPLv3+
 URL:            https://packages.debian.org/sid/%{name}
 Source0:        http://ftp.debian.org/debian/pool/main/p/%{name}/%{name}_%{version}.tar.xz
