@@ -59,7 +59,7 @@ def write_hostlist(hostlist):
 @app.route("/" )
 def index():
     env['hosts'] = get_hostlist()
-    response = Response ( render_template('clusters.html', environment=env) )
+    response = Response ( render_template('clusters.jinja2', environment=env) )
     return response
 
 
@@ -127,7 +127,7 @@ def host_del(hostname):
 
 @app.route("/error" )
 def error():
-    response = Response ( render_template('error.html', environment=env) )
+    response = Response ( render_template('error.jinja2', environment=env) )
     return response
 
 def buildRequest(url, request, raw=False):
@@ -209,11 +209,11 @@ def pgapi_proxy_cluster(host,version,cluster):
 
 @app.route("/detail/<host>")
 def details_host(host):
-    return render_template('detail.html', environment=env, detail_host=host)
+    return render_template('detail.jinja2', environment=env, detail_host=host)
 
 @app.route("/detail/<host>/<version>/<cluster>")
 def details_cluster(host, version, cluster):
-    return render_template('detail.html', environment=env, detail_host=host, detail_version=version, detail_cluster=cluster)
+    return render_template('detail.jinja2', environment=env, detail_host=host, detail_version=version, detail_cluster=cluster)
 
 @app.route("/pg_settings/<version>")
 def pgsettings(version):

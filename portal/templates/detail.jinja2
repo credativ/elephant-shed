@@ -1,7 +1,7 @@
-{% extends "frame.html" %}
+{% extends "frame.jinja2" %}
 {% block mainwindow %}
 
-{% import 'makros/utils.html' as utils %}
+{% import 'makros/utils.jinja2' as utils %}
 {{ utils.clusterctl_js() }}
 
 <div class="container">

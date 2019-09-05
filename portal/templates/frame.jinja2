@@ -68,7 +68,7 @@
 			<div class="col-sm-12">
 
 
-				{% import 'makros/notifications.html' as notifications %}
+				{% import 'makros/notifications.jinja2' as notifications %}
 				{{ notifications.element() }}
 				{{ notifications.js() }}
 				{% block mainwindow %}{% endblock %}

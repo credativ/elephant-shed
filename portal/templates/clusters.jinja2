@@ -1,6 +1,6 @@
-{% import 'makros/clusterview.html' as clusterview%}
+{% import 'makros/clusterview.jinja2' as clusterview%}
 
-{% extends "frame.html" %}
+{% extends "frame.jinja2" %}
 {% block mainwindow %}
 
 {% if environment['hosts']|length == 0 %}
