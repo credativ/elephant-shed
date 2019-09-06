@@ -212,6 +212,9 @@ for inst in debian/*.install; do
     done < $inst
 done
 
+# remove python object files
+find %{buildroot} -name '*.py[co]' -delete
+
 # update httpd paths for CentOS
 sed -i -e 's!SSLCertificateFile.*!SSLCertificateFile /etc/pki/tls/certs/localhost.crt!' \
        -e 's!SSLCertificateKeyFile.*!SSLCertificateKeyFile /etc/pki/tls/private/localhost.key!' \
