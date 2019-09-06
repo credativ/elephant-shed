@@ -181,15 +181,20 @@ def pgapi_proxy_system(host):
                     request
                     )
 
+
 @app.route("/pgapi/proxy/backup/<host>", methods=['POST','GET','PATCH', 'PUT','DELETE'] )
-@app.route("/pgapi/proxy/backup/<host>/<stanza>", methods=['POST','GET','PATCH', 'PUT','DELETE'] )
-def pgapi_proxy_backup(host, stanza=''):
-    stanza='/'+stanza if stanza != '' else '';
+@app.route("/pgapi/proxy/backup/<host>/<stanza>", methods=['POST', 'GET', 'PATCH', 'PUT', 'DELETE'])
+@app.route("/pgapi/proxy/backup/<host>/<stanza>/<backup_id>", methods=['POST', 'GET', 'PATCH', 'PUT', 'DELETE'])
+def pgapi_proxy_backup(host, stanza='', backup_id=''):
+    stanza = '/' + stanza if stanza != '' else '';
+    if backup_id:
+        stanza += '/'+backup_id
     logged_actions.append( 'Pushed something to %s'%(host) )    
     return  buildRequest(
                     'https://'+host+'/pgapi/backup'+stanza, 
                     request
                     )
+
 @app.route("/pgapi/proxy/backup_activity/<host>", methods=['POST','GET','PATCH', 'PUT','DELETE'] )
 def pgapi_proxy_backupactivity(host):
     logged_actions.append( 'Pushed something to %s'%(host) )    
