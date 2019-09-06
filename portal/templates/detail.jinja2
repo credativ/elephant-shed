@@ -198,10 +198,10 @@
 						</label>
 					</div>
 					<div class="col-sm-6">
-						<button type="button" class="btn btn-default">Run Full Backup</button>
+						<button type="button" class="btn btn-default" onclick="btn_backup( this, '{{detail_host}}','{{detail_version}}','{{detail_cluster}}' ,'backup-full' )">Run Full Backup</button>
 					</div>
 					<div class="col-sm-6">
-						<button type="button" class="btn btn-default">Run Incremental Backup</button>
+						<button type="button" class="btn btn-default" onclick="btn_backup( this, '{{detail_host}}','{{detail_version}}','{{detail_cluster}}' ,'backup-incremental' )">Run Incremental Backup</button>
 					</div>
 				</div>
 			</div>
@@ -230,6 +230,18 @@
 </div>
 
 <script>
+function btn_backup(ptr, host, version, cluster, kind){
+	var task = {};
+	task.host=host;
+	task.version=version;
+	task.cluster=cluster;
+	task.action = kind;
+	task.dom_element = ptr;
+
+	pg_backup_ctl ( task );
+
+}
+
 
 	$(document).ready(function () {
 		get_host('{{ detail_host }}', '{{ detail_cluster }}', '{{ detail_version }}');
