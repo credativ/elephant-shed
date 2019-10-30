@@ -63,80 +63,11 @@
 	}
 
 	function pushClusterInfo(result, _url) {
-		var modal_identifier = 'createcluster' + Math.floor(Math.random() * 100000);
-		//var modal = new Modal_addInstance(_url, [1,2,3,4],modal_identifier).html();
-		var rawRow = $table_hosts.row.add([_url,
-			'<div class="available_versions"></div>',
-			'<span class="label label-success">connected</span>',
-			'<span class="addButton"></span>']) //<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#' + modal_identifier + '"></button>' + modal])
-			.node();
-		pg_ctl({
-			host: _url, action: 'ls-system',
-			call_success: function (data) {
-				$(rawRow).find('.addButton').append($('<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#' + modal_identifier + '"><span class="glyphicon glyphicon-plus"></span></button>' +
-					'<button type="button" class="btn btn-danger btn-sm" data="' + _url + '" onclick="' + 'remove_host(this);' + '" ><span class="glyphicon glyphicon-trash"></span></button>  ' + new Modal_addInstance(_url, [1, 2, 3, 4], modal_identifier).html()));
+		var Host = new ES_Host(_url, result);
+		Host.add_to_table($table_hosts);
+		Host.apisync();
+		Host.get_clusters();		
 
-				if (Object.keys($(data)[0]['installed_pg_versions']).length == 0) {
-					$(rawRow).find('.available_versions').append('<span class="label label-danger">None</span> ');
-					$('#' + modal_identifier).find('.versionlist').append(`
-					<div class="btn-group btn-group-justified">
-					<button type="button" class="btn btn-default versionselector">None</button>
-					</div>`);
-				};
-				console.log($(data)[0]['installed_pg_versions']);
-				$.each($(data)[0]['installed_pg_versions'],
-					function (version) {
-						$(rawRow).find('.available_versions').append('<span class="label label-success">' + version + '</span> ');
-						$('#' + modal_identifier).on('shown.bs.modal', function () { $within_dialog = true; });
-						$('#' + modal_identifier).on('hidden.bs.modal', function () { $within_dialog = false; });
-						$('#' + modal_identifier).find('.versionlist').append(`
-					<div class="btn-group btn-group-justified">
-					<button type="button" class="btn btn-default versionselector" onclick="$('.versionselector').removeClass('active'); $(this).addClass('active'); " data-button="`+ version + `">` + version + `</button>
-					</div>`);
-					});
-			}
-		});
-		for (var i = 0; i < result.length; i++) {
-			var state = 'Unknown';
-			var disable_start = '';
-			var disable_stop = '';
-			if (result[i]['running'] == '1') { state = '<span class="label label-success">ONLINE</span>'; disable_start = 'disabled'; }
-			else if (result[i]['running'] == '0') { state = '<span class="label label-danger">OFFLINE</span>'; disable_stop = 'disabled'; }
-			if (result[i]['recovery'] == '1') { state += '<span class="label label-info">IN RECOVERY</span>'; }
-			var dbelement = $table_clusters.row.add([
-				result[i]['cluster'],
-				result[i]['version'],
-				_url,
-				result[i]['port'],
-				state,
-				'<a href="{{ url_for("index") }}detail/' + _url + '/' + result[i]['version'] + '/' + result[i]['cluster'] + '">' +
-				'<button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></button></a> ' +
-				'<div class="btn-group" role="group">' +
-				'<div class="btn-group" role="group"><button type="button" class="btn btn-success btn-sm" ' +
-				'onclick="pg_ctl( { x: this, host:  \'' +
-				_url + '\', version:  \'' +
-				result[i]['version'] + '\', cluster: \'' +
-				result[i]['cluster'] +
-				'\',action:  \'start\', call_success: refresh})" ' + disable_start + '>' +
-				'<span class="glyphicon glyphicon-play"    aria-hidden="true"></span></button></div>' +
-				'<div class="btn-group" role="group"><button type="button" class="btn btn-default btn-sm"' +
-				'onclick="pg_ctl( { x: this, host:  \'' +
-				_url + '\', version:  \'' +
-				result[i]['version'] + '\', cluster: \'' +
-				result[i]['cluster'] +
-				'\',action:  \'reload\', call_success: refresh})" ' + disable_stop + ' >' +
-				'<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button></div>' +
-				'<div class="btn-group" role="group"><button type="button" class="btn btn-warning  btn-sm"' +
-				'onclick="pg_ctl( { x: this, host:  \'' +
-				_url + '\', version:  \'' +
-				result[i]['version'] + '\', cluster: \'' +
-				result[i]['cluster'] +
-				'\',action:  \'stop\', call_success: refresh})" ' + disable_stop + ' >' +
-				'<span class="glyphicon glyphicon-stop" aria-hidden="true" ></span></button></div>' +
-				'</div>'
-				//+'<a href="https://localhost/grafana/d/5CGjHlRiz/postgresql-server-overview?refresh=1m&orgId=1">'
-			]).node();// .draw(true).node() ;
-		}
 		$table_hosts.draw(false);
 		$table_clusters.draw(false);
 		querybar_add_success();
