@@ -1,23 +1,23 @@
 {% macro clusterctl_js() -%}
 <script>
 	class ES_Host {
-		constructor(hostname, pgapi_clusterobject) {
+		constructor(hostname) {
 			this.hostname = hostname;
-			this.co = pgapi_clusterobject; // clusterobject
+			this.co = null; // clusterobject
 			this.so = null;					// systemobject
 
 			this.table = null;
 			this.data_in_table = null;
+			this.apisync();
+			this._sync_clusters()
+			
 		};
 		get_clusters() {
 			for (let i = 0; i < this.co.length; i++) {
-
-				console.debug(i);
 				var Cluster = new ES_Cluster(this.hostname, this.co[i]);
-				console.debug(Cluster);
 				$table_clusters.row.add(Cluster.to_table_row());
+				$table_clusters.rows().draw(false);
 			}
-
 		}
 		_update() {
 			this.reference[0] = this.hostname;
@@ -48,12 +48,11 @@
 					+ '"><span class="glyphicon glyphicon-plus"></span></button>'
 					+ '<button type="button" class="btn btn-danger btn-sm" data="' + this.hostname + '" onclick="' + 'remove_host(this);'
 					+ '" ><span class="glyphicon glyphicon-trash"></span></button>  '
-					+ new Modal_addInstance(this.hostname, [1,2,3,4], modal_identifier).html()));
+					+ new Modal_addInstance(this.hostname, [1, 2, 3, 4], modal_identifier).html()));
 			$(button).find('#' + modal_identifier).on('shown.bs.modal', function () { $within_dialog = true; });
 			$(button).find('#' + modal_identifier).on('hidden.bs.modal', function () { $within_dialog = false; });
 			$.each(this.so['installed_pg_versions'],
 				function (version) {
-					console.log("ADDED VERSION TO MODAL")
 					$(button).find('.versionlist').append(`
 					<div class="btn-group btn-group-justified">
 					<button type="button" class="btn btn-default versionselector" onclick="$('.versionselector').removeClass('active'); $(this).addClass('active'); " data-button="`+ version + `">` + version + `</button>
@@ -75,16 +74,40 @@
 				this.make_row()
 			).data();
 		};
-		apisync() {
+		_sync_clusters() {
+			var HostObject = this; // namespacing
+			pg_ctl({
+				host: this.hostname, action: 'ls',
+				call_success: function (data) {
+					HostObject.co = data;
+					console.log(HostObject.co);
+					HostObject.get_clusters();
+				},
+				call_fail: function (request, status, err) {
+					console.error(request);
+					console.error(err);
+				}
+			});
+		};
+		_sync_system() {
 			var HostObject = this; // namespacing
 			pg_ctl({
 				host: this.hostname, action: 'ls-system',
 				call_success: function (data) {
 					HostObject.so = data;
 					HostObject._update();
+				},
+
+				call_fail: function (request, status, err) {
+					console.error(request);
+					console.error(err);
+					//querybar_add_fail();
+					push_notification('Connection to ' + _url + ' failed.');
 				}
 			});
-
+		};
+		apisync() {
+			this._sync_system();
 		};
 	};
 

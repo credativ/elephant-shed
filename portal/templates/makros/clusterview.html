@@ -62,59 +62,28 @@
 
 	}
 
-	function pushClusterInfo(result, _url) {
-		var Host = new ES_Host(_url, result);
+	function pushClusterInfo(_url) {
+		var Host = new ES_Host(_url);
 		Host.add_to_table($table_hosts);
-		Host.apisync();
-		Host.get_clusters();		
 
 		$table_hosts.draw(false);
 		$table_clusters.draw(false);
 		querybar_add_success();
 	}
 
-	function refresh(repeat) {
-		querybar_reset_and_init();
-
-		$table_clusters.clear();
-		$table_hosts.clear();
-		//$table_clusters.draw();
-
-		querybar_set_numelements({{ hostlist.__len__() }} );
-
-	function pullClusterInfo(_url) {
-		pg_ctl({
-			host: _url, action: 'ls',
-			call_success: function (result) { pushClusterInfo(result, _url) },
-			call_fail: function (request, status, err) {
-				console.error(request);
-				console.error(err);
-				querybar_add_fail();
-				push_notification('Connection to ' + _url + ' failed.');
-				var rawRow = $table_hosts.row.add([_url,
-					'',
-					'<span class="label label-danger">unreachable</span>',
-					'<button type="button" class="btn btn-danger btn-sm" data="' + _url + '" onclick="' + 'remove_host(this);' + '" ><span class="glyphicon glyphicon-trash"></span></button> '
-				]).draw(true).node();
-			}
-		});
-	};
-	if ($within_dialog == false) {
+	function refresh() {
+		if (!$table_clusters) {
+			$table_clusters = $('#clusters').DataTable({ "order": [[0, "asc"]], "paging": false });
+			$table_hosts = $('#hosts').DataTable({ "order": [[0, "asc"]], "paging": false });
+		}else { $table_clusters.clear(); $table_hosts.clear(); }
 		{% for host in hostlist %}
 		setTimeout(function () {
-			pullClusterInfo('{{ host['address'] }}')
+			pushClusterInfo('{{ host['address'] }}')
 		}, 1);
 		{% endfor %}
-	};
-	if (repeat) { setTimeout(function () { refresh(true) }, 30 * 1 * 1000); }
-
 	}
-
 	$(document).ready(function () {
-		$table_clusters = $('#clusters').DataTable({ "order": [[0, "asc"]], "paging": false });
-		$table_hosts = $('#hosts').DataTable({ "order": [[0, "asc"]], "paging": false });
-
-		refresh(true);
+		refresh();
 	});
 
 </script>
