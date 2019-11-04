@@ -1,11 +1,14 @@
 {% import 'makros/utils.html' as utils %}
 
-{% macro table_hosts() -%}
+{% macro table_hosts(environment) -%}
 <table id="hosts" class="table table-striped table-bordered cell-border compact hover">
 	<thead>
 		<tr>
 			<th>Host</th>
 			<th>Available Versions</th>
+			{% if "backups" not in environment.disabled_features %}
+			<th>Backup</th>
+			{% endif %}
 			<th>State</th>
 			<th>Actions</th>
 		</tr>

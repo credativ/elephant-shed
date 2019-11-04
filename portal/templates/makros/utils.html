@@ -206,6 +206,45 @@
 		});
 	}
 
+	function issue_backupcall(host, version, cluster,backup_id , method, data, call_success, call_fail) {
+		var deeplink = '';
+
+		if (version && cluster) { deeplink = '/' + version + '-' + cluster; }
+		if (backup_id) { deeplink += '/'+ backup_id; }
+		console.debug('{{ url_for("index") }}pgapi/proxy/backup/' + host + deeplink)
+		$.ajax({
+			url: '{{ url_for("index") }}pgapi/proxy/backup/' + host + deeplink,
+			method: method,
+			contentType: "application/json; charset=utf-8",
+			success: call_success,
+			error: call_fail
+		});
+	}
+
+	function issue_backupactivitycall(host, method, data, call_success, call_fail) {
+		$.ajax({
+			url: '{{ url_for("index") }}pgapi/proxy/backup_activity/' + host,
+			method: 'get',
+			contentType: "application/json; charset=utf-8",
+			success: call_success,
+			error: call_fail,
+		});
+	}
+	function pg_backup_ctl( obj ){
+		var cluster = obj.cluster;
+		var host = obj.host;
+		var version = obj.version;
+		var action = obj.action;
+		console.warn("Triggering Backup.."+obj.action);
+		if (action == 'backup-full'){
+			console.warn("Going full");
+			var call_success = function(){console.warn("BACKUP SUCCESS");};
+			var call_fail = function(data){console.warn("BACKUP FAILED"); console.warn(data)};
+			
+			issue_backupcall(host, version, cluster, 'NEW', 'put', null, call_success, call_fail )
+
+		}
+	}
 
 	function pg_ctl(obj) {
 		//(x, host, version, cluster, action, call_success, call_fail ){
@@ -242,7 +281,17 @@
 			issue_systemcall(host, undefined, call_success, call_fail);
 			return;
 		}
+		else if (action == 'ls-backup') {
+			issue_backupcall(host, version, cluster, null,  rest_method, JSON.stringify(rest_args), call_success, call_fail);
+			return;
+		}
+		else if (action == 'ls-backupactivity') {
+			issue_backupactivitycall(host, rest_method, JSON.stringify(rest_args), call_success, call_fail);
+			return;
+		}
+
 		else { console.log("pg_ctl call does not support this action! Action was '" + action + "'") }
+
 		$(x).addClass("active");
 		$(x).addClass("request-waiting");
 		issue_clustercall(host, version, cluster, rest_method, JSON.stringify(rest_args),
@@ -430,6 +479,35 @@
 			call_success: function (result) { fill_details(result, hosturl); online(); },
 			call_fail: function () { offline(); },
 
+		});
+		pg_ctl({
+			host: hosturl,
+			cluster: clustername,
+			version: clusterversion,
+			action: 'ls-backup',
+			call_success: function (result) {
+				$('.backuplist').empty();
+				$.each(result, function (i, data) {
+					console.log(i);
+					console.log(data);
+					if (i != 'info') {
+						$('.backuplist').append('['+Math.floor(data.info.size/ (1024*1024) )+'MB] <b>'+i+ '</b> '+ '<br>');
+					}
+				});
+
+			},
+			call_fail: function (e) { console.log(e); },
+		});
+		pg_ctl({
+			host: hosturl,
+			action: 'ls-backupactivity',
+			call_success: function (result) {
+				console.log(result);
+				$.each(result, function (i, data) {
+					console.log(i);
+				})
+			},
+			call_fail: function (e) { console.log(e); },
 		});
 		function poll_metrics() {
 			pg_ctl({

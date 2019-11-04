@@ -14,7 +14,7 @@ hostlist='/etc/elephant-shed-portal/hostlist'
 version='v2.0 Beta'
 
 disabled_features=[
-        #"backups",
+        "backups",
         ]
 
 # Hosts we consider beeing part of a Cluster.
