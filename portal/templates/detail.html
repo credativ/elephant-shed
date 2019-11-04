@@ -169,7 +169,7 @@
 		</div>
 	</div>
 
-<!--
+	{% if "backups" not in environment.disabled_features %}
 	<div class="col-sm-4" style="min-width: 500px">
 		<div class="panel panel-default">
 			<div class="panel-heading" style="font-weight: bold">
@@ -199,10 +199,10 @@
 						</label>
 					</div>
 					<div class="col-sm-6">
-						<button type="button" class="btn btn-default">Run Full Backup</button>
+						<button type="button" class="btn btn-default" onclick="btn_backup( this, '{{detail_host}}','{{detail_version}}','{{detail_cluster}}' ,'backup-full' )">Run Full Backup</button>
 					</div>
 					<div class="col-sm-6">
-						<button type="button" class="btn btn-default">Run Incremental Backup</button>
+						<button type="button" class="btn btn-default" onclick="btn_backup( this, '{{detail_host}}','{{detail_version}}','{{detail_cluster}}' ,'backup-incremental' )">Run Incremental Backup</button>
 					</div>
 				</div>
 			</div>
@@ -213,46 +213,27 @@
 			<div class="panel-heading" style="font-weight: bold">
 				Existing Backups
 			</div>
-			<div class="panel-body">
-				<div class="row">
-					<div class="col-sm-10">
-						Full-Backup 20180401-0001
-					</div>
-					<div class="col-sm-2">
-						<button type="button" class="btn btn-default btn-sm">Restore</button>
-					</div>
-				</div>
-				<div class="row" style="margin-top: 15px;">
-					<div class="col-sm-10">
-						Incremental-Backup 20180331-0001
-					</div>
-					<div class="col-sm-2">
-						<button type="button" class="btn btn-default btn-sm">Restore</button>
-					</div>
-				</div>
-				<div class="row" style="margin-top: 15px;">
-					<div class="col-sm-10">
-						Incremental-Backup 20180330-0001
-					</div>
-					<div class="col-sm-2">
-						<button type="button" class="btn btn-default btn-sm">Restore</button>
-					</div>
-				</div>
-				<div class="row" style="margin-top: 15px;">
-					<div class="col-sm-10">
-						Full-Backup 20180320-0001
-					</div>
-					<div class="col-sm-2">
-						<button type="button" class="btn btn-default btn-sm">Restore</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	-->
+			<div class="panel-body backuplist">
+		{% endif %}
+</div>
+</div>
+</div>
+
 </div>
 
 <script>
+function btn_backup(ptr, host, version, cluster, kind){
+	var task = {};
+	task.host=host;
+	task.version=version;
+	task.cluster=cluster;
+	task.action = kind;
+	task.dom_element = ptr;
+
+	pg_backup_ctl ( task );
+
+}
+
 
 	$(document).ready(function () {
 		get_host('{{ detail_host }}', '{{ detail_cluster }}', '{{ detail_version }}');
