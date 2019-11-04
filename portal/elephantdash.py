@@ -29,7 +29,8 @@ env={"navigation":config.navigation,
      "deeplinks": config.deeplinks,
      "detailview_cluster" : config.detailview_clusterinformation,
      "detailview_system" : config.detailview_systeminformation, 
-     "version": config.version
+     "version": config.version,
+     "disabled_features": config.disabled_features
      }
 
 logged_actions = deque([], 5)
