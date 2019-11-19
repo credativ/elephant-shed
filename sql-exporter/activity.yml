@@ -11,7 +11,7 @@
   query: >-
           SELECT datname::text, usename::text, COUNT(*)::float AS count
           FROM pg_stat_activity
-          WHERE NOT datname ~ '^template(0|1)$'
+          WHERE NOT datname ~ '^template(0|1)$' AND usename IS NOT NULL
           GROUP BY datname, usename
 
 - name: "pg_stat_activity"
