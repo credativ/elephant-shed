@@ -221,7 +221,7 @@
           COALESCE(autovacuum_count, 0)::float AS autovacuum_count,
           COALESCE(analyze_count, 0)::float AS analyze_count,
           COALESCE(autoanalyze_count, 0)::float AS autoanalyze_count
-          FROM pg_stat_user_tables FULL JOIN (VALUES(0)) filler(i) ON TRUE
+          FROM pg_stat_user_tables FULL JOIN (VALUES(0)) filler(i) ON TRUE  ORDER BY n_live_tup DESC LIMIT 1000
 
 - name: "pg_statio_user_tables"
   help: "IO statistics"
@@ -244,7 +244,7 @@
           COALESCE(heap_blks_hit::float, 0) AS heap_blks_hit,
           COALESCE(idx_blks_read::float, 0) AS idx_blks_read,
           COALESCE(idx_blks_hit::float, 0) AS idx_blks_hit
-          FROM pg_statio_user_tables FULL JOIN (VALUES(0)) filler(i) ON TRUE
+          FROM pg_statio_user_tables FULL JOIN (VALUES(0)) filler(i) ON TRUE ORDER BY 6 DESC LIMIT 1000
 
 - name: "BufferAccess"
   help: "buffer access statistics"
@@ -269,7 +269,7 @@
           + COALESCE(tidx_blks_hit, 0)
           + COALESCE(tidx_blks_read, 0)) * 8192::bigint as reads
           FROM pg_statio_user_tables FULL JOIN (VALUES(0)) filler(i) ON TRUE
-          GROUP BY 1, 2, 3
+          GROUP BY 1, 2, 3 ORDER BY 3 DESC,2,1 LIMIT 1000
 
 - name: "Maintenancecounters"
   help: "table maintenance job counters"
@@ -288,4 +288,4 @@
           COALESCE(SUM(autovacuum_count), 0) autovacuum_count,
           COALESCE(SUM(analyze_count), 0) analyze_count,
           COALESCE(SUM(autoanalyze_count), 0) autoanalyze_count
-          FROM pg_stat_user_tables
+          FROM pg_stat_user_tables  ORDER BY 1,2,3 LIMIT 1000
