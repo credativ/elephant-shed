@@ -1,3 +1,10 @@
+elephant-shed (1.3.3) unstable; urgency=medium
+
+  * Added limits to monitoring-queries.
+  * Fixed "Column 'usename' must be type text (string)".
+
+ -- Christoph Berg <myon@debian.org>  Thu, 09 Jan 2020 14:23:31 +0100
+
 elephant-shed (1.3.2) unstable; urgency=medium
 
   * Grafana: Fix "WAL Senders"-panel.
