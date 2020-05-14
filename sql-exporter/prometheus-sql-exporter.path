@@ -1,0 +1,8 @@
+[Unit]
+Description=Trigger prometheus-sql-exporter-restart once the configuration file is available
+
+[Path]
+PathExists=/var/run/postgresql/prometheus-sql-exporter.yml
+
+[Install]
+WantedBy=multi-user.target

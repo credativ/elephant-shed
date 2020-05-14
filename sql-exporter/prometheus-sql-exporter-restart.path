@@ -1,0 +1,8 @@
+[Unit]
+Description=Trigger prometheus-sql-exporter-restart once a cluster becomes available
+
+[Path]
+PathExistsGlob=/etc/postgresql/*/*/postgresql.conf
+
+[Install]
+WantedBy=multi-user.target

@@ -6,10 +6,12 @@ case $1 in
   configure)
     systemctl daemon-reload
 
-    systemctl enable prometheus-sql-exporter.service
-    systemctl restart prometheus-sql-exporter.service
+    systemctl enable prometheus-sql-exporter.path
+    systemctl start prometheus-sql-exporter.path
     systemctl enable prometheus-sql-exporter-restart.timer
     systemctl start prometheus-sql-exporter-restart.timer
+    systemctl enable prometheus-sql-exporter-restart.path
+    systemctl start prometheus-sql-exporter-restart.path
     ;;
 esac
 
