@@ -3,4 +3,7 @@ Description=Restart prometheus-sql-exporter to update config based on clusters a
 
 [Service]
 Type=oneshot
+# before starting the sql exporter, generate config (as root)
+PermissionsStartOnly=true
+ExecStartPre=/usr/bin/update-prometheus-sql-exporter-config /etc/prometheus-sql-exporter /var/run/postgresql/prometheus-sql-exporter.yml
 ExecStart=/bin/systemctl try-restart prometheus-sql-exporter.service
