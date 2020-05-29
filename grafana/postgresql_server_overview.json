@@ -4090,7 +4090,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='freeze_age'}",
+          "expr": "sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='freeze_age', datname=~'$datname'}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -4103,7 +4103,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Database Freeze Age",
+      "title": "Database Freeze Age - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
