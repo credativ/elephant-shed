@@ -101,6 +101,7 @@
   shell: "pg_createcluster {{ version }} main --start"
   args:
     creates: /etc/postgresql/{{version}}/main/postgresql.conf
+  notify: restart prometheus-sql-exporter
 
 - name: Deploy pg_hba.conf
   copy:
