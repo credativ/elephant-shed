@@ -9,9 +9,9 @@
 
 ## Do you need professional support or additional services?
 
-Elephant Shed is an open source project, developed and maintained by cre<span style="color: red;">d</span>ativ.
+Elephant Shed is an open source project, developed and maintained by credativ.
 
-For the Elephant Shed PostgreSQL appliance, cre<span style="color: red;">d</span>ativ offers comprehensive
+For the Elephant Shed PostgreSQL appliance, credativ offers comprehensive
 technical support with service level agreements, which are also available
 on 365 days a year and 24 hours a day as an option.
 
