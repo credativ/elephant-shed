@@ -201,16 +201,6 @@ deploy:x86: &deploy
     name: elephant-shed
     url: https://elephant-shed.dev.credativ.de
 
-deploy:ppc64el:
-  <<: *deploy
-  variables:
-    DEPLOY_NAME: $DEPLOY_PPC64EL_NAME
-    DEPLOY_IP: $DEPLOY_PPC64EL_IP
-    DEPLOY_SSH_KEY: $DEPLOY_PPC64EL_SSH_KEY
-  environment:
-    name: elephant-shed-ppc64el
-    url: https://elephant-shed-ppc64el.dev.credativ.de
-
 deploy:buster-x86:
   <<: *deploy
   dependencies:
