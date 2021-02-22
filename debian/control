@@ -18,7 +18,7 @@ Architecture: all
 Depends:
  elephant-shed-cockpit,
  elephant-shed-grafana,
- elephant-shed-pgadmin4,
+ elephant-shed-omnidb,
  elephant-shed-pgbackrest,
  elephant-shed-pgbadger,
  elephant-shed-portal,
@@ -62,15 +62,15 @@ Description: PostgreSQL dashboard -- PostgreSQL integration
  .
  This package provides the integration with PostgreSQL.
 
-Package: elephant-shed-pgadmin4
+Package: elephant-shed-omnidb
 Architecture: all
 Depends:
- pgadmin4-apache2,
+ omnidb-server,
  ${misc:Depends},
-Description: PostgreSQL dashboard -- pgAdmin4 integration
+Description: PostgreSQL dashboard -- OmniDB integration
  The Elephant Shed is a web-based PostgreSQL management front-end.
  .
- This meta package provides the integration with pgAdmin4.
+ This meta package provides the integration with OmniDB.
 
 Package: elephant-shed-pgbadger
 Architecture: all

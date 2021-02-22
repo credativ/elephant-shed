@@ -9,7 +9,7 @@ manages single-node Linux PostgreSQL servers and appliances.
 The main components are:
 
 * PostgreSQL - <https://www.postgresql.org/>
-* pgAdmin4 - <https://www.pgadmin.org/>
+* OmniDB - <https://omnidb.org/>
 * postgresql-common - <https://salsa.debian.org/postgresql/postgresql-common>
 * pgBadger - <http://dalibo.github.io/pgbadger/>
 * pgBackRest - <http://www.pgbackrest.org/>
@@ -72,12 +72,12 @@ Grafana bundles metrics collected by Prometheus and presents them in a dashboard
 
 ![Figure: Grafana - PostgreSQL Server Overview](images/grafana-overview.png)
 
-## DBA Tool - pgAdmin4
+## DBA Tool - OmniDB
 
-pgAdmin4 is a management tool for PostgreSQL to help DBAs execute many different tasks.
+OmniDB is a management tool for PostgreSQL to help DBAs execute many different tasks.
 It provides user management, DDL functionality, an interactive SQL shell, and more.
 
-![Figure: pgAdmin4](images/pgadmin.png)
+![Figure: OmniDB](images/omnidb.png)
 
 ## Backup - pgBackRest
 

@@ -7,10 +7,9 @@
     working. To drop databases, stop `prometheus-sql-exporter` first.
     This is possible via the web interface Cockpit: [services#/prometheus-sql-exporter.service](/system/services#/prometheus-sql-exporter.service).
 
-## pgadmin4
+## OmniDB
 
-  * pgadmin4 does not use PAM authentication.
-  * By default, pgadmin4 does not show local databases.
+  * OmniDB does not use PAM authentication.
 
 ## Portal
 

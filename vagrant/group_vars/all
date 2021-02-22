@@ -33,8 +33,6 @@ datadir: '{{ datadir_base }}/{{ version }}/{{ clustername }}'
 waldir: '{{ waldir_base }}/{{ version }}/{{ clustername }}'
 admin_user: 'admin'
 admin_pass: '$6$smIbQ.WUs$pOjJEGx4nk3tBGJtebUXAToQsT/DTM8BESdD/pZ4SUxfvn.q8B15YR5o0rib1QMCJicUdtj1FYAYWnZRIZ6XS1' # admin
-pgadmin4_mail: '{{ admin_user }}@localhost'
-pgadmin4_pass: 'admin'
 local_repo: 'deb [trusted=yes] file:/srv/repository ./'
 use_local_repo: False
 sql_exporter_version: '0.2.0.1'

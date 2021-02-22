@@ -263,16 +263,16 @@ To filter one or more databases the template filter `Database` could be used.
 * <http://docs.grafana.org/>
 * <https://github.com/grafana/grafana>
 
-## DBA Tool - pgAdmin4
+## DBA Tool - OmniDB
 
-![Figure: pgAdmin4](images/pgadmin.png)
+![Figure: OmniDB](images/omnidb.png)
 
-pgAdmin4 is a management tool for PostgreSQL to help DBAs execute many different tasks.
+OmniDB is a management tool for PostgreSQL to help DBAs execute many different tasks.
 It provides user management, DDL functionality, an interactive SQL shell, and more.
 
 ### Additional Resources
 
-* <https://www.pgadmin.org/docs/pgadmin4/1.x/>
+* <https://omnidb.org/>
 
 ## Backup - pgBackRest
 

@@ -12,8 +12,8 @@ Elephant Shed consists of the following Debian packages and their dependencies:
   * `elephant-shed-grafana`:
     Preconfigured Prometheus datasource and dashboard that includes various system
     and PostgreSQL metrics.
-  * `elephant-shed-pgadmin4`:
-    Configuration files for pgAdmin4.
+  * `elephant-shed-omnidb`:
+    Configuration files for OmniDB.
   * `elephant-shed-pgbackrest`:
     Systemd service files and generators, helper scripts and preset configuration.
   * `elephant-shed-pgbadger`:

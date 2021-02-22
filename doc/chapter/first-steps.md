@@ -12,13 +12,11 @@ The server will ask you for your user credentials. Depending on the
 deployment process the required user will differ. On a test
 installation (e.g. using Vagrant) the initial user is **admin** with
 password **admin**. See also: [Users](users.html). All bundled components except
-for pgAdmin4 have been configured to use PAM authentication.
+for OmniDB have been configured to use PAM authentication.
 
-pgAdmin4 doesn't support PAM authentication yet. It has its own user
-management system which is decoupled from all system users. You should
-have been asked about the initial user within the installation
-setup. If you deployed a Vagrant VM the initial user is **admin@localhost**
-and **admin** as password.
+OmniDB doesn't support PAM authentication yet. It has its own user
+management system which is decoupled from all system users.
+The default initial user is **admin** with **admin** as password.
 
 ![Figure: Elephant Shed portal](images/el-portal.png)
 
@@ -45,7 +43,7 @@ To use PostgreSQL from external application servers only a few steps are needed.
     * Portal: Click on the button `Service` next to the cluster and choose "Reload" from the dropdown menu
     * `psql`: `SELECT pg_reload_conf();`
 
-7. (optional) Configure a superuser to be able to use pgAdmin4 <https://your-server/pgadmin4> or other management tools
+7. (optional) Configure a superuser to be able to use OmniDB <https://your-server/omnidb> or other management tools
     * Create password for user postgres: `\password`
     * Create personalized superusers: `CREATE USER "sosna" SUPERUSER;`, `\password "sosna"`
 

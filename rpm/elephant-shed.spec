@@ -200,6 +200,7 @@ rm -rf %{buildroot}
 # install in subpackages using the Debian files
 for inst in debian/*.install; do
     pkg=$(basename $inst .install)
+    [ "$pkg" = "elephant-shed-omnidb" ] && continue # not supported on RH yet
     echo "### Reading $pkg files list from $inst ###"
     while read file dir; do
         case $file in

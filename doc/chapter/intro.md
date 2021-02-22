@@ -6,7 +6,7 @@ manages single-node Debian/Ubuntu PostgreSQL servers and appliances.
 The main components are:
 
 * PostgreSQL - <https://www.postgresql.org/>
-* pgAdmin4 - <https://www.pgadmin.org/>
+* OmniDB - <https://omnidb.org/>
 * postgresql-common - <https://anonscm.debian.org/cgit/pkg-postgresql/postgresql-common.git>
 * pgBadger - <http://dalibo.github.io/pgbadger/>
 * pgBackRest - <http://www.pgbackrest.org/>
