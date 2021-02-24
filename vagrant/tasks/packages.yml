@@ -69,6 +69,13 @@
   - net-tools
   - ferm
 
+- name: Install Django for OmniDB
+  package:
+    name: python3-django
+    state: present
+    default_release: buster-backports
+  when: ansible_distribution_release == "buster"
+
 # elephant shed
 # separate tasks, so we can see the progress better
 - name:               Install elephant-shed-portal
