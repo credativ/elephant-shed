@@ -23,6 +23,13 @@
     filename: 'pgdg'
     update_cache: false
 
+- name: Setup backports repository for OmniDB
+  apt_repository:
+    repo: 'deb http://deb.debian.org/debian {{ ansible_distribution_release }}-backports main'
+    filename: 'backports'
+    update_cache: false
+  when: ansible_distribution_release == "buster"
+
   # We want to add the debian security repository, if not already
   # present. This is required if some 3rd party package depends on
   # versions that are not included in stretch main but in
