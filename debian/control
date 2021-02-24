@@ -64,7 +64,7 @@ Description: PostgreSQL dashboard -- PostgreSQL integration
 
 Package: elephant-shed-omnidb
 Architecture: all
-Build-Profiles: !stretch
+Build-Profiles: <!stretch>
 Depends:
  omnidb-server,
  ${misc:Depends},
