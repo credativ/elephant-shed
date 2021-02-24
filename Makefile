@@ -9,7 +9,7 @@ doc docs:
 	$(MAKE) -C doc html
 
 deb:
-	dpkg-buildpackage -us -uc
+	dpkg-buildpackage -us -uc $(BUILD_ARGS)
 	lintian | tee -a lintian.log
 
 upload_packages: deb

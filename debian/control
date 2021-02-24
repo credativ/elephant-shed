@@ -18,7 +18,7 @@ Architecture: all
 Depends:
  elephant-shed-cockpit,
  elephant-shed-grafana,
- elephant-shed-omnidb,
+ elephant-shed-omnidb <!stretch>,
  elephant-shed-pgbackrest,
  elephant-shed-pgbadger,
  elephant-shed-portal,
@@ -64,6 +64,7 @@ Description: PostgreSQL dashboard -- PostgreSQL integration
 
 Package: elephant-shed-omnidb
 Architecture: all
+Build-Profiles: !stretch
 Depends:
  omnidb-server,
  ${misc:Depends},

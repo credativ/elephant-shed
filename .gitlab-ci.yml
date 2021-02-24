@@ -31,7 +31,7 @@ build:stretch: &build
     - apt-get -y --no-install-recommends build-dep ./
     - apt-get -y --no-install-recommends install devscripts git
     - ci/rebuild.sh $dist $is_release
-    - make deb
+    - make deb BUILD_ARGS=-Pstretch
     - mkdir -p debs
     - mv ../*.* debs
   variables:
