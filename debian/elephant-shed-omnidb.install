@@ -1,2 +1,1 @@
-omnidb/config.py etc/elephant-shed-omnidb
-omnidb/elephant-shed-omnidb-server.conf /etc/systemd/system/omnidb-server.service.d
+omnidb/wsgi.py /usr/share/elephant-shed/omnidb

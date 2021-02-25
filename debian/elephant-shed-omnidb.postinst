@@ -4,8 +4,8 @@ set -eu
 
 case $1 in
   configure)
-    systemctl enable omnidb-server
-    invoke-rc.d omnidb-server restart
+    systemctl disable omnidb-server
+    invoke-rc.d omnidb-server stop
     ;;
 esac
 
