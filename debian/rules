@@ -3,6 +3,12 @@
 %:
 	dh $@ --with=systemd
 
+ifneq ($(filter stretch,$(DEB_BUILD_PROFILES)),)
+override_dh_install:
+	dh_install
+	sed -i -e '/WSGI/d' debian/elephant-shed-portal/etc/apache2/sites-available/elephant-shed.conf
+endif
+
 override_dh_link:
 	mkdir -p debian/elephant-shed-tmate/etc/skel
 	ln -s /etc/tmate.conf debian/elephant-shed-tmate/etc/skel/.tmate.conf
