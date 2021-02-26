@@ -170,7 +170,7 @@ Description: PostgreSQL dashboard -- shellinabox integration
 Package: elephant-shed-tmate
 Architecture: all
 Depends:
- tmate,
+ tmate (>= 2.4),
  ${misc:Depends},
 Description: PostgreSQL dashboard -- tmate integration
  The Elephant Shed is a web-based PostgreSQL management front-end.
