@@ -1,19 +1,19 @@
-elephant-shed (1.3.4) UNRELEASED; urgency=medium
+elephant-shed (1.3.4) unstable; urgency=medium
 
-  [ credativ GmbH ]
   * Move from pgadmin4 to OmniDB; pgadmin4 is no longer provided on
-    apt.postgresql.org and OmniDB's .deb packages are better anyway.
+    apt.postgresql.org.
   * Grafana: Fix syntax in datasource provisioning yaml.
   * Grafana: Display only the currently selected database(s) in the Freeze Age
     panel.
   * ansible: restart prometheus-sql-exporter after postgres cluster creation.
   * ansible: skip sysctl, io scheduler an grub tasks in LXC containers.
   * sql-exporter: Add final newline to queries.yml.
-
-  [ Christoph Berg ]
   * Require tmate >= 2.4 since the hostkey syntax changed.
 
- -- credativ GmbH <info@credativ.de>  Tue, 22 Sep 2020 15:03:13 +0200
+  [ Nicolas Dandrimont ]
+  * Update pg_stat_statements SQL exporter query for Postgres 13
+
+ -- Christoph Berg <myon@debian.org>  Mon, 01 Mar 2021 11:44:22 +0100
 
 elephant-shed (1.3.3) unstable; urgency=medium
 
