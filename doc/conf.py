@@ -35,6 +35,7 @@ from recommonmark.transform import AutoStructify
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'recommonmark',
     'sphinx.ext.todo',
     'sphinx.ext.githubpages',
 ]
