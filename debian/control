@@ -12,6 +12,7 @@ Build-Depends:
  python3-sphinx-rtd-theme,
  python3-sphinx,
  sphinx-common,
+ tmate,
 
 Package: elephant-shed
 Architecture: all
@@ -170,7 +171,7 @@ Description: PostgreSQL dashboard -- shellinabox integration
 Package: elephant-shed-tmate
 Architecture: all
 Depends:
- tmate (>= 2.4),
+ tmate ${tmate:Depends},
  ${misc:Depends},
 Description: PostgreSQL dashboard -- tmate integration
  The Elephant Shed is a web-based PostgreSQL management front-end.

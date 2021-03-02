@@ -1,11 +1,28 @@
 #!/usr/bin/make -f
 
+TMATE_VERSION = $(shell dpkg-query --showformat '$${Version}' --show tmate)
+TMATE_24 = $(shell dpkg --compare-versions $(TMATE_VERSION) ge 2.4 && echo yes)
+ifeq ($(TMATE_24),yes)
+	TMATE_DEPENDS = (>= 2.4)
+else
+	TMATE_DEPENDS = (<< 2.4)
+endif
+
+# when building for packages.credativ.com (from ci/rebuild.sh), add dependency on credativ-postgresql-keyring
+ifneq ($(findstring deb, $(shell dpkg-parsechangelog -SVersion))$(findstring ubuntu, $(shell dpkg-parsechangelog -SVersion)),)
+	CREDATIV_KEYRING=-Vkeyring:Depends=credativ-postgresql-keyring
+endif
+
 %:
 	dh $@ --with=systemd
 
-ifneq ($(filter stretch,$(DEB_BUILD_PROFILES)),)
 override_dh_install:
 	dh_install
+ifneq ($(TMATE_24),yes)
+	sed -i -e 's/^\(set.*fingerprint.*\)/##\1/' debian/elephant-shed-tmate/etc/tmate.conf
+	sed -i -e 's/^#\(set.*fingerprint.*\)/\1/' debian/elephant-shed-tmate/etc/tmate.conf
+endif
+ifneq ($(filter stretch,$(DEB_BUILD_PROFILES)),)
 	sed -i -e '/WSGI/d' debian/elephant-shed-portal/etc/apache2/sites-available/elephant-shed.conf
 endif
 
@@ -15,8 +32,4 @@ override_dh_link:
 	dh_link -X'tmate.conf' # don't fix /etc/skel link
 
 override_dh_gencontrol:
-	# when building for packages.credativ.com (from ci/rebuild.sh), add dependency on credativ-postgresql-keyring
-	set -x; case $$(dpkg-parsechangelog -SVersion) in \
-	  *deb*|*ubuntu*) dh_gencontrol -- -Vkeyring:Depends=credativ-postgresql-keyring ;; \
-	  *) dh_gencontrol ;; \
-	esac
+	dh_gencontrol -- -Vtmate:Depends='$(TMATE_DEPENDS)' $(CREDATIV_KEYRING)
