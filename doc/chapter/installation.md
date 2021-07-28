@@ -86,8 +86,8 @@ sudo yum install elephant-shed
 # Add all needed users to this group
 sudo vigr
 
-# Unfortunately, pgAdmin4 and shellinabox do not work with SELinux enabled
-# Disable SELinux if you want to use these components
+# Unfortunately, shellinabox does not work with SELinux enabled
+# Disable SELinux if you want to use this component
 sudo setenforce 0
 sudo sed -i -e 's/^SELINUX=.*/SELINUX=permissive/' /etc/selinux/config
 ```

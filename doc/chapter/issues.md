@@ -17,5 +17,4 @@
 
 ## RedHat / CentOS
 
-  * pgAdmin4 does not work when SELinux is enabled.
   * shellinabox does not work when SELinux is enabled.
