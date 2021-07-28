@@ -562,36 +562,6 @@ To change settings (e.g. the color theme) just right click anywhere on the termi
 
 * <https://github.com/shellinabox/shellinabox>
 
-## Firewall - ferm
-
-By default ferm is installed as a front-end for creating iptables rules.
-A default config is deployed in the following location:
-
-* `/etc/ferm.conf`
-* `/etc/ferm.d/elephant-shed.conf`
-
-The default policy for incoming traffic is set to DROP.
-Local traffic is allowed and we explicitly whitelisted the following incoming traffic:
-
-* state `RELATED`,`ESTABLISHED`
-* ICMP (ping)
-* SSH
-* HTTP / HTTPS
-* PostgreSQL: Ports 5432-5439 (first 8 clusters)
-
-Every additional service that should be reachable from the network needs to be whitelisted as well.
-To configure own firewall rules simply create a ferm configuration within `/etc/ferm.d/` with the extension `.conf`.
-Those configurations files are loaded by ferm automatically on restart.
-
-*Note:* Services like Prometheus and Grafana are by default only available via
-the reverse proxy which manages the authentication. If these services are made
-reachable over the network, precautions must be taken.
-
-### Additional Resources
-
-* <http://ferm.foo-projects.org/>
-* <https://wiki.debian.org/ferm>
-
 ## Remote Control - tmate
 
 tmate is a fork of the popular terminal multiplexer tmux.
