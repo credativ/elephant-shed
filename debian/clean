@@ -1,0 +1,12 @@
+ci/fact_cache/
+ci/*.retry
+doc/_build/
+rpm/BUILD/
+rpm/BUILDROOT/
+rpm/RPMS/
+rpm/SOURCES/
+rpm/SPECS/
+rpm/SRPMS/
+vagrant/*.retry
+vagrant/openstack/fact_cache/
+vagrant/.vagrant/
