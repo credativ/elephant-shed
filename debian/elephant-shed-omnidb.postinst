@@ -4,8 +4,11 @@ set -eu
 
 case $1 in
   configure)
+    echo Starting omnidb-server once to initialize /var/lib/omnidb/.omnidb/omnidb-server/ ...
+    systemctl start omnidb-server
+    sleep 5
+    systemctl stop omnidb-server
     systemctl disable omnidb-server
-    invoke-rc.d omnidb-server stop
     ;;
 esac
 
