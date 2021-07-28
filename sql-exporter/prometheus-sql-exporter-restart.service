@@ -4,3 +4,7 @@ Description=Restart prometheus-sql-exporter to update config based on clusters a
 [Service]
 Type=oneshot
 ExecStart=/bin/systemctl try-restart prometheus-sql-exporter.service
+
+[Install]
+# when enabled, start along with postgresql
+WantedBy=postgresql.service
