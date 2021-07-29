@@ -1,7 +1,4 @@
 ---
-# Goal of this ansiible configuration is to create a development machine.
-# Therefore the stretch-test distritubion is used.
-
 use_local_repo: True
 
 # PostgreSQL Tuning
