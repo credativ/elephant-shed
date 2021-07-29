@@ -52,6 +52,14 @@ build:stretch-release:
 build:buster: &build_buster
   <<: *build
   image: "credativ/debian-build:buster"
+  script:
+    - apt-get update -qq
+    - apt-get -y --no-install-recommends build-dep ./
+    - apt-get -y --no-install-recommends install devscripts git
+    - ci/rebuild.sh $dist $is_release
+    - make deb
+    - mkdir -p debs
+    - mv ../*.* debs
   variables:
     dist: deb10
 
@@ -63,7 +71,7 @@ build:buster-release:
   when: manual
 
 build:bionic: &build_bionic
-  <<: *build
+  <<: *build_buster
   variables:
     dist: ubuntu18.04
 
