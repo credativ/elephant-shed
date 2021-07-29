@@ -19,17 +19,14 @@ The main components are:
 * Shell In A Box - <https://github.com/shellinabox/shellinabox>
 * tmate - <https://tmate.io/>
 
-Supported PostgreSQL versions, via <https://apt.postgresql.org>:
-
-* 11
-* 10
-* 9.6
-* 9.5
-* 9.4
+All PostgreSQL versions are supported via <https://apt.postgresql.org>.
 
 Supported distributions:
 
+* Debian Bullseye (11)
+* Debian Buster (10)
 * Debian Stretch (9)
+* Ubuntu Focal (20.04)
 * Ubuntu Bionic (18.04)
 * RHEL/CentOS (7)
 

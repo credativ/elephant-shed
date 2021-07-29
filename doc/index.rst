@@ -15,7 +15,6 @@ Elephant Shed - Documentation
     chapter/first-steps
     chapter/components
     chapter/users
-    chapter/limits
     chapter/issues
     chapter/license
     chapter/support

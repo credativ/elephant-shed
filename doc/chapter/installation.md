@@ -76,8 +76,8 @@ subscription-manager repos --enable=rhel-7-server-extras-rpms
 subscription-manager repos --enable=rhel-7-server-optional-rpms
 
 # Choose desired PostgreSQL versions to install
-sudo yum install postgresql11-server postgresql11-contrib postgresql-common
-sudo pg_createcluster 11 main --start
+sudo yum install postgresql13-server postgresql13-contrib postgresql-common
+sudo pg_createcluster 13 main --start
 
 # Install elephant-shed
 sudo yum install elephant-shed
