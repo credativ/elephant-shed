@@ -46,29 +46,12 @@
     value: 0
   when: ansible_virtualization_type != "lxc"
 
-# IO Scheduler
-- name: Set block device to use {{ io_scheduler }} i/o scheduler
-  shell: echo {{ io_scheduler }} > /sys/block/{{ item }}/queue/scheduler
-  with_items: '{{ ansible_devices }}'
-  when: 'ansible_devices[item].scheduler_mode not in (io_scheduler, "none")
-        and ansible_virtualization_type != "lxc"'
-
 - name: Edit grub defaults
   lineinfile:
     dest: /etc/default/grub
     state: present
     regexp: GRUB_TIMEOUT
     line: GRUB_TIMEOUT=1
-  when: ansible_virtualization_type != "lxc"
-  notify:
-    - update grub2
-
-- name: Set default linux commandline (GRUB_CMDLINE_LINUX)
-  lineinfile:
-    dest: /etc/default/grub
-    state: present
-    regexp: GRUB_CMDLINE_LINUX
-    line: 'GRUB_CMDLINE_LINUX="{{ grub_cmdline_linux }}"'
   when: ansible_virtualization_type != "lxc"
   notify:
     - update grub2
