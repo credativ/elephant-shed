@@ -7,6 +7,7 @@ rpm/RPMS/
 rpm/SOURCES/
 rpm/SPECS/
 rpm/SRPMS/
+vagrant/fact_cache/
 vagrant/*.retry
 vagrant/openstack/fact_cache/
 vagrant/.vagrant/
