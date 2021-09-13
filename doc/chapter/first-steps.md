@@ -11,7 +11,7 @@ access to all other installed components.
 The server will ask you for your user credentials. Depending on the
 deployment process the required user will differ. On a test
 installation (e.g. using Vagrant) the initial user is **admin** with
-password **admin**. See also: [Users](users.html). All bundled components except
+password **admin**. See also: [Users](users.md). All bundled components except
 for OmniDB have been configured to use PAM authentication.
 
 OmniDB doesn't support PAM authentication yet. It has its own user
