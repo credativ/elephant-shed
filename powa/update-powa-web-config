@@ -1,0 +1,55 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use PgCommon;
+use JSON;
+use File::Temp qw(tempfile);
+
+my $powaconf = "/etc/powa-web.conf";
+my $servers = {};
+my ($cookie, $mode, $user, $group);
+my $json = JSON->new;
+$json->canonical(1);
+$json->indent(1);
+
+# list all clusters
+foreach my $version (get_versions()) {
+  foreach my $cluster (get_version_clusters($version)) {
+    my %info = cluster_info($version, $cluster);
+    my $socket = get_cluster_socketdir($version, $cluster);
+    my $port = get_cluster_port($version, $cluster);
+
+    $servers->{"$version/$cluster"} = {
+      'host' => $socket,
+      'port' => $port,
+      'database' => 'powa',
+      'query' => {'client_encoding' => 'utf8'},
+    };
+  }
+}
+
+# retrieve cookie and modes from existing config file
+if(open(my $fh, "<", $powaconf)) {
+  # cookie_secret="xx"
+  while (<$fh>) {
+    $cookie = $1 if /^cookie_secret="(\S+)"/;
+  }
+  close $fh;
+  ($mode, $user, $group) = (stat $powaconf)[2, 4, 5];
+}
+# if not found, generate a new one
+if (not defined $cookie) {
+  $cookie = `dd if=/dev/urandom bs=1k count=1 2>/dev/null | sha1sum | cut -d ' ' -f 1`;
+  chomp $cookie;
+  ($mode, $user, $group) = qw(0644 0 0);
+}
+
+# write output, preserving old mode and owner
+my ($fh, $filename) = tempfile("powa-web.conf.XXXXXX", DIR => "/etc", UNLINK => 1);
+my $js = $json->encode($servers);
+print $fh "servers=$js\ncookie_secret=\"$cookie\"\n" or die "$filename: $!";
+close $fh or die "$filename: $!";
+chmod $mode, $filename or die "$filename: $!";
+chown $user, $group, $filename or die "$filename: $!";
+rename $filename, $powaconf or die "$powaconf: $!";

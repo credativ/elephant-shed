@@ -24,6 +24,7 @@ Depends:
  elephant-shed-pgbadger,
  elephant-shed-portal,
  elephant-shed-postgresql,
+ elephant-shed-powa,
  elephant-shed-prometheus,
  elephant-shed-prometheus-node-exporter,
  elephant-shed-prometheus-sql-exporter,
@@ -107,6 +108,17 @@ Description: PostgreSQL dashboard -- Grafana integration
  The Elephant Shed is a web-based PostgreSQL management front-end.
  .
  This package provides the integration with Grafana.
+
+Package: elephant-shed-powa
+Architecture: all
+Depends:
+ powa-web,
+ postgresql-common,
+ ${misc:Depends},
+Description: PostgreSQL dashboard -- PoWA integration
+ The Elephant Shed is a web-based PostgreSQL management front-end.
+ .
+ This package provides the integration with PoWA.
 
 Package: elephant-shed-prometheus
 Architecture: all
