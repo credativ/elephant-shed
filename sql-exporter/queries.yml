@@ -133,7 +133,7 @@
           ORDER BY pss.total_time DESC
           LIMIT 25)
           UNION
-          SELECT
+          (SELECT
           usename::text,
           datname::text,
           queryid::text,
@@ -154,7 +154,7 @@
           FROM w_pg_stat_statements pss2 JOIN pg_database pd2 ON pss2.dbid = pd2.oid
           JOIN pg_user pu2 ON pss2.userid = pu2.usesysid
           ORDER BY calls DESC
-          LIMIT 25
+          LIMIT 25)
 
 - name: "pg_stat_statements"
   help: "statement statistics"
@@ -208,7 +208,7 @@
           ORDER BY 6 DESC
           LIMIT 25)
           UNION
-          SELECT
+          (SELECT
           usename::text,
           datname::text,
           queryid::text,
@@ -231,7 +231,7 @@
           FROM w_pg_stat_statements pss2 JOIN pg_database pd2 ON pss2.dbid = pd2.oid
           JOIN pg_user pu2 ON pss2.userid = pu2.usesysid
           ORDER BY calls DESC
-          LIMIT 25
+          LIMIT 25)
 
 - name: "txid"
   help: "current txid"
