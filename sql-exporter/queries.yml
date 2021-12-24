@@ -37,6 +37,7 @@
   help: "database statistics"
   scope: cluster
   min_version: 9.2
+  max_version: 11
   type: "counter"
   labels:
     - "datname"
@@ -79,6 +80,59 @@
           blk_read_time,
           blk_write_time,
           age(d.datfrozenxid) AS freeze_age,
+          pg_database_size(s.datname)::float AS dbsize
+          FROM pg_stat_database s
+          LEFT JOIN pg_database d ON d.datname = s.datname
+          WHERE NOT s.datname ~ '^template(0|1)$'
+
+- name: "pg_stat_database"
+  help: "database statistics"
+  scope: cluster
+  min_version: 12
+  type: "counter"
+  labels:
+    - "datname"
+  values:
+    - "numbackends:count"
+    - "xact_commit"
+    - "xact_rollback"
+    - "blks_read"
+    - "blks_hit"
+    - "tup_returned"
+    - "tup_fetched"
+    - "tup_inserted"
+    - "tup_updated"
+    - "tup_deleted"
+    - "conflicts"
+    - "temp_files"
+    - "temp_bytes"
+    - "deadlocks"
+    - "blk_read_time"
+    - "blk_write_time"
+    - "freeze_age"
+    - "checksum_failures"
+    - "dbsize"
+  query: >-
+          SELECT
+          s.datname::text,
+          numbackends::float,
+          xact_commit::float,
+          xact_rollback::float,
+          blks_read::float,
+          blks_hit::float,
+          tup_returned::float,
+          tup_fetched::float,
+          tup_inserted::float,
+          tup_updated::float,
+          tup_deleted::float,
+          conflicts::float,
+          temp_files::float,
+          temp_bytes::float,
+          deadlocks::float,
+          blk_read_time,
+          blk_write_time,
+          age(d.datfrozenxid) AS freeze_age,
+          coalesce(checksum_failures::float, 0) AS checksum_failures,
           pg_database_size(s.datname)::float AS dbsize
           FROM pg_stat_database s
           LEFT JOIN pg_database d ON d.datname = s.datname
