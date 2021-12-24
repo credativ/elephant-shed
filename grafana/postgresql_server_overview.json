@@ -4594,16 +4594,24 @@
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "WAL new",
+          "legendFormat": "WAL traffic",
           "metric": "sql_waldistance",
           "refId": "A",
           "step": 60
+        },
+        {
+          "expr": "rate(sql_checkpoints{col=\"buffers\", job=~'$job', host=~'$host', sql_job=~'$cluster'}[$rate_interval]) * 8192",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Checkpoint traffic",
+          "refId": "B"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "WAL Traffic [$rate_interval]",
+      "title": "WAL/Checkpoint Traffic [$rate_interval]",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -4684,7 +4692,7 @@
         }
       ],
       "spaceLength": 10,
-      "stack": true,
+      "stack": false,
       "steppedLine": false,
       "targets": [
         {
@@ -4713,6 +4721,18 @@
           "options": {
             "regex": "requested",
             "renamePattern": "requested (explicit, wal or backup-based)"
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Time",
+                "requested (explicit, wal or backup-based)",
+                "timed"
+              ]
+            }
           }
         }
       ],
