@@ -974,7 +974,19 @@
           },
           "unit": "none"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "requested (explicit, wal or backup-based)"
+            },
+            "properties": [
+              {
+                "id": "displayName"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 3,
@@ -4659,13 +4671,24 @@
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:795",
+          "alias": "requested (explicit, wal or backup-based)",
+          "color": "#FADE2A"
+        },
+        {
+          "$$hashKey": "object:803",
+          "alias": "timed",
+          "color": "#73BF69"
+        }
+      ],
       "spaceLength": 10,
       "stack": true,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "60 * rate(sql_checkpoints{job=~'$job', host=~'$host', sql_job=~'$cluster'}[$rate_interval])",
+          "expr": "60 * rate(sql_checkpoints{job=~'$job', host=~'$host', sql_job=~'$cluster'}[90s])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -4678,12 +4701,21 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Checkpoints per Minute [$rate_interval]",
+      "title": "Checkpoints per Minute",
       "tooltip": {
         "shared": true,
         "sort": 0,
         "value_type": "individual"
       },
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "requested",
+            "renamePattern": "requested (explicit, wal or backup-based)"
+          }
+        }
+      ],
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -4694,6 +4726,8 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:673",
+          "decimals": 0,
           "format": "opm",
           "label": null,
           "logBase": 1,
