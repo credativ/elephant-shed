@@ -3,12 +3,14 @@
   apt_key:
     data: "{{ lookup('file', 'packages.credativ.com/aptly.key') }}"
     state: present
+  when: ansible_distribution_release == "stretch"
 
 - name: Setup credativ PostgreSQL repository
   apt_repository:
     repo: '{{ credativ_postgresql }}'
     filename: 'credativ_postgresql'
     update_cache: false
+  when: ansible_distribution_release == "stretch"
 
 # pgapt
 - name: Install pgdg Apt key
@@ -41,8 +43,15 @@
   lineinfile:
     dest: /etc/apt/sources.list
     regexp: "^deb\ .*security.debian.org.*"
+    line: "deb http://security.debian.org/debian-security {{ ansible_distribution_release }}-security main contrib"
+  when: ansible_distribution == "Debian" and ansible_distribution_release == "bullseye"
+
+- name: Setup debian security repository if not already present.
+  lineinfile:
+    dest: /etc/apt/sources.list
+    regexp: "^deb\ .*security.debian.org.*"
     line: "deb http://security.debian.org/debian-security {{ ansible_distribution_release }}/updates main contrib"
-  when: ansible_distribution == "Debian"
+  when: ansible_distribution == "Debian" and ansible_distribution_release != "bullseye"
 
 # apt
 - name: Apt Dist-Upgrade

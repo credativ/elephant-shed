@@ -28,7 +28,18 @@
   - postgresql-contrib-{{ version }}
   - postgresql-{{ version }}-unit
   - check-postgres
-  - python-psycopg2 # for postgresql_user
+
+- name: Install PostgreSQL python2 driver
+  package:
+    name: python-psycopg2
+    state: present
+  when: ansible_distribution_release != "bullseye"
+
+- name: Install PostgreSQL python3 driver
+  package:
+    name: python3-psycopg2
+    state: present
+  when: ansible_distribution_release == "bullseye"
 
 - name: Create data volume
   file:
