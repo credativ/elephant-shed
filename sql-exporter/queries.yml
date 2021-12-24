@@ -1,5 +1,17 @@
 # queries run once per cluster (via the 'postgres' database)
 
+- name: "server"
+  help: "Server version and start time"
+  scope: cluster
+  labels:
+    - "server_version"
+  values:
+    - "server_start_time"
+  query: >-
+          SELECT
+          split_part(current_setting('server_version'), ' ', 1) AS server_version,
+          extract(epoch FROM pg_postmaster_start_time())::float AS server_start_time
+
 - name: "settings"
   help: "PostgreSQL settings"
   scope: cluster
