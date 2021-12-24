@@ -70,6 +70,955 @@
         "x": 0,
         "y": 0
       },
+      "id": 100,
+      "panels": [],
+      "title": "Settings",
+      "type": "row"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 0,
+        "y": 1
+      },
+      "id": 119,
+      "interval": null,
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "name"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "exemplar": false,
+          "expr": "sql_server{host=~'$host',sql_job=~'$cluster',col=\"server_start_time\"}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{server_version}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Version",
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 2,
+        "y": 1
+      },
+      "id": 115,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "count(count(node_cpu_seconds_total) without (mode)) without (cpu)",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "# Cores",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 4,
+        "y": 1
+      },
+      "id": 112,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "node_memory_MemTotal_bytes",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Memory",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 6,
+        "y": 1
+      },
+      "id": 110,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"max_connections\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Max Connections",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 9,
+        "y": 1
+      },
+      "id": 104,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"work_mem\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Work Mem",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 12,
+        "y": 1
+      },
+      "id": 105,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"shared_buffers\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Shared Buffers",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 15,
+        "y": 1
+      },
+      "id": 109,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"max_wal_size\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Max WAL Size",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [
+            {
+              "from": "",
+              "id": 1,
+              "text": "Off",
+              "to": "",
+              "type": 1,
+              "value": "0"
+            },
+            {
+              "from": "",
+              "id": 2,
+              "text": "On",
+              "to": "",
+              "type": 1,
+              "value": "1"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 18,
+        "y": 1
+      },
+      "id": 102,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"data_checksums\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Data Checksums",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "noValue": "N/A",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 21,
+        "y": 1
+      },
+      "id": 114,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sum by (checksum_failures) (sql_pg_stat_database{col=\"checksum_failures\",host=~'$host',sql_job=~'$cluster'})",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Checksum Failures",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "dateTimeFromNow"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 4
+      },
+      "id": 106,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_server{col=\"server_start_time\", host=~'$host',sql_job=~'$cluster'} * 1000",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Server Start Time",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 6,
+        "y": 4
+      },
+      "id": 120,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"max_worker_processes\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Max Worker Processes",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 9,
+        "y": 4
+      },
+      "id": 107,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"maintenance_work_mem\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Maintenance Work Mem",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 12,
+        "y": 4
+      },
+      "id": 108,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"effective_cache_size\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Effective Cache Size",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 15,
+        "y": 4
+      },
+      "id": 111,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"checkpoint_timeout\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Checkpoint Timeout",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [
+            {
+              "from": "",
+              "id": 1,
+              "text": "Off",
+              "to": "",
+              "type": 1,
+              "value": "0"
+            },
+            {
+              "from": "",
+              "id": 2,
+              "text": "On",
+              "to": "",
+              "type": 1,
+              "value": "1"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 18,
+        "y": 4
+      },
+      "id": 103,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"jit\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "JIT",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 21,
+        "y": 4
+      },
+      "id": 113,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "node_vmstat_oom_kill",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Out-of-Memory Kills",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
       "id": 69,
       "panels": [],
       "repeat": null,
@@ -100,7 +1049,7 @@
         "h": 6,
         "w": 4,
         "x": 0,
-        "y": 1
+        "y": 8
       },
       "id": 35,
       "interval": null,
@@ -186,7 +1135,7 @@
         "h": 6,
         "w": 4,
         "x": 4,
-        "y": 1
+        "y": 8
       },
       "id": 34,
       "interval": null,
@@ -273,7 +1222,7 @@
         "h": 6,
         "w": 4,
         "x": 8,
-        "y": 1
+        "y": 8
       },
       "id": 36,
       "interval": null,
@@ -360,7 +1309,7 @@
         "h": 6,
         "w": 4,
         "x": 12,
-        "y": 1
+        "y": 8
       },
       "id": 38,
       "interval": null,
@@ -445,7 +1394,7 @@
         "h": 6,
         "w": 4,
         "x": 16,
-        "y": 1
+        "y": 8
       },
       "id": 39,
       "interval": null,
@@ -530,7 +1479,7 @@
         "h": 6,
         "w": 4,
         "x": 20,
-        "y": 1
+        "y": 8
       },
       "id": 41,
       "interval": null,
@@ -616,7 +1565,7 @@
         "h": 6,
         "w": 4,
         "x": 0,
-        "y": 7
+        "y": 14
       },
       "id": 45,
       "interval": null,
@@ -701,7 +1650,7 @@
         "h": 6,
         "w": 4,
         "x": 4,
-        "y": 7
+        "y": 14
       },
       "id": 50,
       "interval": null,
@@ -786,7 +1735,7 @@
         "h": 6,
         "w": 4,
         "x": 8,
-        "y": 7
+        "y": 14
       },
       "id": 46,
       "interval": null,
@@ -871,7 +1820,7 @@
         "h": 6,
         "w": 4,
         "x": 12,
-        "y": 7
+        "y": 14
       },
       "id": 43,
       "interval": null,
@@ -956,7 +1905,7 @@
         "h": 6,
         "w": 4,
         "x": 16,
-        "y": 7
+        "y": 14
       },
       "id": 49,
       "interval": null,
@@ -1041,7 +1990,7 @@
         "h": 6,
         "w": 4,
         "x": 20,
-        "y": 7
+        "y": 14
       },
       "id": 64,
       "interval": null,
@@ -1110,7 +2059,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 13
+        "y": 20
       },
       "id": 70,
       "panels": [],
@@ -1130,7 +2079,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 14
+        "y": 21
       },
       "id": 1,
       "legend": {
@@ -1221,7 +2170,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 14
+        "y": 21
       },
       "id": 2,
       "legend": {
@@ -1305,7 +2254,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 21
+        "y": 28
       },
       "id": 71,
       "panels": [],
@@ -1329,7 +2278,7 @@
         "h": 7,
         "w": 14,
         "x": 0,
-        "y": 22
+        "y": 29
       },
       "id": 33,
       "legend": {
@@ -1453,7 +2402,7 @@
         "h": 7,
         "w": 6,
         "x": 14,
-        "y": 22
+        "y": 29
       },
       "id": 23,
       "legend": {
@@ -1546,7 +2495,7 @@
         "h": 7,
         "w": 4,
         "x": 20,
-        "y": 22
+        "y": 29
       },
       "id": 19,
       "legend": {
@@ -1644,7 +2593,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 36
       },
       "id": 72,
       "panels": [],
@@ -1666,7 +2615,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 30
+        "y": 37
       },
       "id": 32,
       "legend": {
@@ -1773,7 +2722,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 37
+        "y": 44
       },
       "id": 73,
       "panels": [],
@@ -1793,7 +2742,7 @@
         "h": 9,
         "w": 8,
         "x": 0,
-        "y": 38
+        "y": 45
       },
       "height": "",
       "id": 4,
@@ -1913,7 +2862,7 @@
         "h": 9,
         "w": 8,
         "x": 8,
-        "y": 38
+        "y": 45
       },
       "height": "",
       "id": 3,
@@ -2013,7 +2962,7 @@
         "h": 9,
         "w": 8,
         "x": 16,
-        "y": 38
+        "y": 45
       },
       "height": "",
       "id": 7,
@@ -2109,7 +3058,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 47
+        "y": 54
       },
       "id": 74,
       "panels": [],
@@ -2129,7 +3078,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 48
+        "y": 55
       },
       "id": 20,
       "legend": {
@@ -2227,7 +3176,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 48
+        "y": 55
       },
       "id": 21,
       "legend": {
@@ -2319,7 +3268,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 55
+        "y": 62
       },
       "id": 76,
       "panels": [],
@@ -2338,7 +3287,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 56
+        "y": 63
       },
       "id": 67,
       "legend": {
@@ -2426,7 +3375,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 56
+        "y": 63
       },
       "id": 68,
       "legend": {
@@ -2509,7 +3458,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 63
+        "y": 70
       },
       "id": 75,
       "panels": [],
@@ -2528,7 +3477,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 64
+        "y": 71
       },
       "id": 8,
       "legend": {
@@ -2616,7 +3565,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 64
+        "y": 73
       },
       "id": 9,
       "legend": {
@@ -2698,7 +3647,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 71
+        "y": 78
       },
       "id": 93,
       "panels": [],
@@ -2716,7 +3665,7 @@
         "h": 7,
         "w": 9,
         "x": 0,
-        "y": 72
+        "y": 79
       },
       "id": 10,
       "legend": {
@@ -2818,7 +3767,7 @@
         "h": 7,
         "w": 8,
         "x": 9,
-        "y": 72
+        "y": 79
       },
       "id": 91,
       "legend": {
@@ -2905,7 +3854,7 @@
         "h": 7,
         "w": 7,
         "x": 17,
-        "y": 72
+        "y": 79
       },
       "id": 42,
       "legend": {
@@ -2996,7 +3945,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 79
+        "y": 86
       },
       "id": 78,
       "panels": [],
@@ -3015,7 +3964,7 @@
         "h": 7,
         "w": 10,
         "x": 0,
-        "y": 80
+        "y": 87
       },
       "id": 24,
       "legend": {
@@ -3122,7 +4071,7 @@
         "h": 7,
         "w": 7,
         "x": 10,
-        "y": 80
+        "y": 87
       },
       "id": 16,
       "legend": {
@@ -3211,7 +4160,7 @@
         "h": 7,
         "w": 7,
         "x": 17,
-        "y": 80
+        "y": 87
       },
       "id": 12,
       "legend": {
@@ -3295,7 +4244,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 87
+        "y": 94
       },
       "id": 77,
       "panels": [],
@@ -3314,7 +4263,7 @@
         "h": 8,
         "w": 9,
         "x": 0,
-        "y": 88
+        "y": 95
       },
       "id": 5,
       "legend": {
@@ -3403,7 +4352,7 @@
         "h": 8,
         "w": 9,
         "x": 9,
-        "y": 88
+        "y": 95
       },
       "id": 55,
       "legend": {
@@ -3492,7 +4441,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 88
+        "y": 95
       },
       "id": 27,
       "legend": {
@@ -3580,7 +4529,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 96
+        "y": 103
       },
       "id": 80,
       "panels": [],
@@ -3599,7 +4548,7 @@
         "h": 7,
         "w": 7,
         "x": 0,
-        "y": 97
+        "y": 104
       },
       "id": 26,
       "legend": {
@@ -3690,7 +4639,7 @@
         "h": 7,
         "w": 9,
         "x": 7,
-        "y": 97
+        "y": 104
       },
       "id": 29,
       "legend": {
@@ -3779,7 +4728,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 97
+        "y": 104
       },
       "id": 31,
       "legend": {
@@ -3862,7 +4811,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 104
+        "y": 111
       },
       "id": 81,
       "panels": [],
@@ -3881,7 +4830,7 @@
         "h": 7,
         "w": 10,
         "x": 0,
-        "y": 105
+        "y": 112
       },
       "id": 30,
       "legend": {
@@ -3972,7 +4921,7 @@
         "h": 7,
         "w": 9,
         "x": 10,
-        "y": 105
+        "y": 112
       },
       "id": 53,
       "legend": {
@@ -4062,7 +5011,7 @@
         "h": 7,
         "w": 5,
         "x": 19,
-        "y": 105
+        "y": 112
       },
       "id": 54,
       "legend": {
@@ -4146,7 +5095,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 112
+        "y": 119
       },
       "id": 85,
       "panels": [],
@@ -4166,7 +5115,7 @@
         "h": 7,
         "w": 7,
         "x": 0,
-        "y": 113
+        "y": 120
       },
       "id": 51,
       "legend": {
@@ -4254,7 +5203,7 @@
         "h": 7,
         "w": 7,
         "x": 7,
-        "y": 113
+        "y": 120
       },
       "id": 47,
       "legend": {
@@ -4347,7 +5296,7 @@
         "h": 7,
         "w": 10,
         "x": 14,
-        "y": 113
+        "y": 120
       },
       "id": 61,
       "legend": {
@@ -4457,7 +5406,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 120
+        "y": 127
       },
       "id": 83,
       "panels": [],
@@ -4477,7 +5426,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 121
+        "y": 128
       },
       "id": 57,
       "legend": {
@@ -4568,7 +5517,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 121
+        "y": 128
       },
       "id": 98,
       "legend": {
@@ -4659,7 +5608,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 121
+        "y": 128
       },
       "id": 59,
       "legend": {
@@ -4747,7 +5696,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 129
+        "y": 136
       },
       "id": 58,
       "links": [],
