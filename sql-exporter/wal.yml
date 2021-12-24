@@ -1,15 +1,17 @@
 # queries run once per cluster (via the 'postgres' database)
 
 - name: "checkpoints"
-  help: "requested and timed checkpoints"
+  help: "requested/timed checkpoints and checkpoint buffers"
   scope: cluster
   values:
     - "timed"
     - "requested"
+    - "buffers"
   query: >-
           SELECT
           pg_stat_get_bgwriter_timed_checkpoints() timed,
-          pg_stat_get_bgwriter_requested_checkpoints() requested
+          pg_stat_get_bgwriter_requested_checkpoints() requested,
+          pg_stat_get_bgwriter_buf_written_checkpoints() buffers
 
 - name: "LastCheckpointDistance"
   help: "distance to the last checkpoint"
