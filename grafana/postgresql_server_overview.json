@@ -5766,7 +5766,7 @@
     {
       "columns": [],
       "datasource": "prometheus",
-      "description": "Shows how the total time increase over the last $rate_interval.",
+      "description": "Shows how long statements took in the chosen time period.",
       "fontSize": "100%",
       "gridPos": {
         "h": 12,
@@ -6020,8 +6020,9 @@
       ],
       "targets": [
         {
-          "expr": "increase(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', host=~'$host', col='total_time', datname=~'$datname'}[$rate_interval])",
+          "expr": "topk($ntop_relations, increase(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', host=~'$host', col='total_time', datname=~'$datname'}[$__range]))",
           "format": "table",
+          "instant": true,
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -6029,10 +6030,35 @@
           "step": 2
         }
       ],
-      "timeFrom": "1s",
+      "timeFrom": null,
       "timeShift": null,
-      "title": "Statements by Total Time Increase [$rate_interval] - $datname",
+      "title": "Top $ntop_relations Statements by Total Time - $datname",
       "transform": "table",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "Time": 0,
+              "Value": 10,
+              "col": 1,
+              "database": 2,
+              "datname": 3,
+              "driver": 6,
+              "host": 7,
+              "instance": 8,
+              "job": 9,
+              "query": 11,
+              "queryid": 12,
+              "sql_job": 13,
+              "usename": 4,
+              "user": 5
+            },
+            "renameByName": {}
+          }
+        }
+      ],
       "type": "table"
     }
   ],
