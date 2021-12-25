@@ -3805,7 +3805,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max by (datname) (sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_tx_duration'})",
+          "expr": "max by (datname) (sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_tx_duration', datname=~'$datname'})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{datname}}",
