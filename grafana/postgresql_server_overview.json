@@ -3975,7 +3975,7 @@
       "fill": 1,
       "gridPos": {
         "h": 7,
-        "w": 10,
+        "w": 12,
         "x": 0,
         "y": 87
       },
@@ -3984,7 +3984,7 @@
         "alignAsTable": false,
         "avg": false,
         "current": false,
-        "hideZero": true,
+        "hideZero": false,
         "max": false,
         "min": false,
         "rightSide": false,
@@ -4006,12 +4006,33 @@
       "steppedLine": false,
       "targets": [
         {
+          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_returned'}[$rate_interval])",
+          "format": "time_series",
+          "hide": false,
+          "instant": "",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Select (table scan) {{datname}}",
+          "refId": "A",
+          "step": 120
+        },
+        {
+          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_fetched'}[$rate_interval])",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Select (index scan) {{datname}}",
+          "refId": "B",
+          "step": 120
+        },
+        {
           "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_inserted'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "Insert {{datname}}",
-          "refId": "B",
+          "refId": "C",
           "step": 120
         },
         {
@@ -4020,7 +4041,7 @@
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "Update {{datname}}",
-          "refId": "C",
+          "refId": "D",
           "step": 120
         },
         {
@@ -4029,14 +4050,14 @@
           "hide": false,
           "intervalFactor": 2,
           "legendFormat": "Delete {{datname}}",
-          "refId": "D",
+          "refId": "E",
           "step": 120
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Inserts Updates Deletes [$rate_interval]",
+      "title": "Read / Change Stats [$rate_interval] - ($datname)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -4052,8 +4073,8 @@
       },
       "yaxes": [
         {
-          "format": "ops",
-          "label": "",
+          "format": "short",
+          "label": "Rows",
           "logBase": 1,
           "max": null,
           "min": "0",
@@ -4082,8 +4103,8 @@
       "fill": 5,
       "gridPos": {
         "h": 7,
-        "w": 7,
-        "x": 10,
+        "w": 6,
+        "x": 12,
         "y": 87
       },
       "id": 16,
@@ -4171,8 +4192,8 @@
       "fill": 5,
       "gridPos": {
         "h": 7,
-        "w": 7,
-        "x": 17,
+        "w": 6,
+        "x": 18,
         "y": 87
       },
       "id": 12,
