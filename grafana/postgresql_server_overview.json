@@ -3807,6 +3807,7 @@
         {
           "expr": "max by (datname) (sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_tx_duration', datname=~'$datname'})",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{datname}}",
           "refId": "A"
@@ -4303,7 +4304,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='seq_scan', database=~'$datname'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='seq_tup_read', database=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -4316,7 +4317,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Sequential Scans [$rate_interval] (top $ntop_relations) - $datname",
+      "title": "Sequential Scan Tuples [$rate_interval] (top $ntop_relations) - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -4332,7 +4333,7 @@
       },
       "yaxes": [
         {
-          "format": "ops",
+          "format": "short",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -4392,11 +4393,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='idx_scan', datname=~'$datname'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, sort_desc((sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='seq_tup_read', datname=~'$datname'} > 0 ) / ignoring(col) (sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='idx_tup_fetch', datname=~'$datname'} > 0 )))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "idx scans {{schemaname}}.{{relname}} ({{database}})",
+          "legendFormat": "seq/idx scan tuple ratio {{schemaname}}.{{relname}} ({{database}})",
           "metric": "sql_pg_stat_user_tables",
           "refId": "A",
           "step": 40
@@ -4405,7 +4406,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Index Scans [$rate_interval] (top $ntop_relations) - $datname",
+      "title": "Seq/Index Tuple Ratio [$rate_interval] (top $ntop_relations) - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -4421,7 +4422,7 @@
       },
       "yaxes": [
         {
-          "format": "ops",
+          "format": "none",
           "label": null,
           "logBase": 1,
           "max": null,
