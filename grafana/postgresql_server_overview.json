@@ -4455,7 +4455,7 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 12,
+        "w": 14,
         "x": 0,
         "y": 89
       },
@@ -4510,40 +4510,13 @@
           "legendFormat": "Select (index scan) {{datname}}",
           "refId": "B",
           "step": 120
-        },
-        {
-          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_inserted'}[$rate_interval])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 2,
-          "legendFormat": "Insert {{datname}}",
-          "refId": "C",
-          "step": 120
-        },
-        {
-          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_updated'}[$rate_interval])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 2,
-          "legendFormat": "Update {{datname}}",
-          "refId": "D",
-          "step": 120
-        },
-        {
-          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_deleted'}[$rate_interval])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 2,
-          "legendFormat": "Delete {{datname}}",
-          "refId": "E",
-          "step": 120
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Read / Change Stats [$rate_interval] - ($datname)",
+      "title": "Read Stats [$rate_interval] - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -4559,6 +4532,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:3090",
           "format": "short",
           "label": "Rows",
           "logBase": 1,
@@ -4567,6 +4541,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:3091",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -4596,8 +4571,8 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 6,
-        "x": 12,
+        "w": 10,
+        "x": 14,
         "y": 89
       },
       "hiddenSeries": false,
@@ -4694,13 +4669,135 @@
         },
         "overrides": []
       },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 14,
+        "x": 0,
+        "y": 96
+      },
+      "hiddenSeries": false,
+      "id": 122,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_inserted'}[$rate_interval])",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 2,
+          "legendFormat": "Insert {{datname}}",
+          "refId": "A",
+          "step": 120
+        },
+        {
+          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_updated'}[$rate_interval])",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 2,
+          "legendFormat": "Update {{datname}}",
+          "refId": "B",
+          "step": 120
+        },
+        {
+          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_deleted'}[$rate_interval])",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 2,
+          "legendFormat": "Delete {{datname}}",
+          "refId": "C",
+          "step": 120
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Change Stats [$rate_interval] - $datname",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:3016",
+          "format": "short",
+          "label": "Rows",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:3017",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 5,
       "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 6,
-        "x": 18,
-        "y": 89
+        "w": 5,
+        "x": 14,
+        "y": 96
       },
       "hiddenSeries": false,
       "id": 12,
@@ -4785,13 +4882,117 @@
       }
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 19,
+        "y": 96
+      },
+      "hiddenSeries": false,
+      "id": 123,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='temp_bytes', database=~'$datname'}[$rate_interval])",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "temp bytes {{database}}",
+          "metric": "",
+          "refId": "B",
+          "step": 40
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Temp Files  [$rate_interval] - $datname",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:3200",
+          "format": "binBps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:3201",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
       "collapsed": false,
       "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 96
+        "y": 103
       },
       "id": 77,
       "panels": [],
@@ -4817,7 +5018,7 @@
         "h": 8,
         "w": 9,
         "x": 0,
-        "y": 97
+        "y": 104
       },
       "hiddenSeries": false,
       "id": 5,
@@ -4919,7 +5120,7 @@
         "h": 8,
         "w": 9,
         "x": 9,
-        "y": 97
+        "y": 104
       },
       "hiddenSeries": false,
       "id": 55,
@@ -5021,7 +5222,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 97
+        "y": 104
       },
       "hiddenSeries": false,
       "id": 27,
@@ -5116,7 +5317,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 105
+        "y": 112
       },
       "id": 80,
       "panels": [],
@@ -5142,7 +5343,7 @@
         "h": 7,
         "w": 7,
         "x": 0,
-        "y": 106
+        "y": 113
       },
       "hiddenSeries": false,
       "id": 26,
@@ -5254,7 +5455,7 @@
         "h": 7,
         "w": 9,
         "x": 7,
-        "y": 106
+        "y": 113
       },
       "hiddenSeries": false,
       "id": 29,
@@ -5390,7 +5591,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 106
+        "y": 113
       },
       "hiddenSeries": false,
       "id": 31,
@@ -5479,7 +5680,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 113
+        "y": 120
       },
       "id": 81,
       "panels": [],
@@ -5505,7 +5706,7 @@
         "h": 7,
         "w": 10,
         "x": 0,
-        "y": 114
+        "y": 121
       },
       "hiddenSeries": false,
       "id": 30,
@@ -5609,7 +5810,7 @@
         "h": 7,
         "w": 9,
         "x": 10,
-        "y": 114
+        "y": 121
       },
       "hiddenSeries": false,
       "id": 53,
@@ -5712,7 +5913,7 @@
         "h": 7,
         "w": 5,
         "x": 19,
-        "y": 114
+        "y": 121
       },
       "hiddenSeries": false,
       "id": 54,
@@ -5803,7 +6004,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 121
+        "y": 128
       },
       "id": 85,
       "panels": [],
@@ -5830,7 +6031,7 @@
         "h": 7,
         "w": 7,
         "x": 0,
-        "y": 122
+        "y": 129
       },
       "hiddenSeries": false,
       "id": 51,
@@ -5931,7 +6132,7 @@
         "h": 7,
         "w": 7,
         "x": 7,
-        "y": 122
+        "y": 129
       },
       "hiddenSeries": false,
       "id": 47,
@@ -6037,7 +6238,7 @@
         "h": 7,
         "w": 10,
         "x": 14,
-        "y": 122
+        "y": 129
       },
       "hiddenSeries": false,
       "id": 61,
@@ -6154,7 +6355,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 129
+        "y": 136
       },
       "id": 83,
       "panels": [],
@@ -6181,7 +6382,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 130
+        "y": 137
       },
       "hiddenSeries": false,
       "id": 57,
@@ -6285,7 +6486,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 130
+        "y": 137
       },
       "hiddenSeries": false,
       "id": 98,
@@ -6389,7 +6590,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 130
+        "y": 137
       },
       "hiddenSeries": false,
       "id": 59,
@@ -6489,7 +6690,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 138
+        "y": 145
       },
       "id": 58,
       "links": [],
