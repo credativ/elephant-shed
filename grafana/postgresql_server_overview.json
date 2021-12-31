@@ -2800,13 +2800,6 @@
       "renderer": "flot",
       "repeat": "filesystem",
       "repeatDirection": "h",
-      "scopedVars": {
-        "filesystem": {
-          "selected": false,
-          "text": "/",
-          "value": "/"
-        }
-      },
       "seriesOverrides": [
         {
           "alias": "/Used.*$/",
@@ -4005,7 +3998,7 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 9,
+        "w": 7,
         "x": 0,
         "y": 81
       },
@@ -4083,6 +4076,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:1487",
           "format": "ops",
           "label": null,
           "logBase": 1,
@@ -4091,6 +4085,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:1488",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -4120,8 +4115,8 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 8,
-        "x": 9,
+        "w": 5,
+        "x": 7,
         "y": 81
       },
       "hiddenSeries": false,
@@ -4181,6 +4176,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:1565",
           "format": "s",
           "label": null,
           "logBase": 1,
@@ -4189,6 +4185,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:1566",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -4217,12 +4214,12 @@
         },
         "overrides": []
       },
-      "fill": 3,
+      "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 7,
-        "x": 17,
+        "w": 6,
+        "x": 12,
         "y": 81
       },
       "hiddenSeries": false,
@@ -4237,7 +4234,7 @@
         "values": false
       },
       "lines": true,
-      "linewidth": 2,
+      "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
       "options": {
@@ -4250,12 +4247,14 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:1299",
           "alias": "ExclusiveLock",
           "color": "#BF1B00",
           "fill": 6,
           "linewidth": 4
         },
         {
+          "$$hashKey": "object:1300",
           "alias": "AccessExclusiveLock",
           "color": "#58140C"
         }
@@ -4293,6 +4292,8 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:1317",
+          "decimals": 0,
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -4301,6 +4302,115 @@
           "show": true
         },
         {
+          "$$hashKey": "object:1318",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 18,
+        "y": 81
+      },
+      "hiddenSeries": false,
+      "id": 121,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:1071",
+          "alias": "/.*/",
+          "color": "#FADE2A"
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='deadlocks', datname=~'$datname'}[90s]) * 60",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "deadlocks {{datname}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Deadlocks -$datname",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:1085",
+          "decimals": 0,
+          "format": "none",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:1086",
           "format": "short",
           "label": null,
           "logBase": 1,
