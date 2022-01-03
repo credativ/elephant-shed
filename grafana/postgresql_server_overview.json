@@ -6379,7 +6379,7 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 8,
+        "h": 11,
         "w": 8,
         "x": 0,
         "y": 137
@@ -6395,7 +6395,7 @@
         "max": false,
         "min": false,
         "rightSide": false,
-        "show": false,
+        "show": true,
         "total": false,
         "values": false
       },
@@ -6483,7 +6483,7 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 8,
+        "h": 11,
         "w": 8,
         "x": 8,
         "y": 137
@@ -6499,7 +6499,7 @@
         "max": false,
         "min": false,
         "rightSide": false,
-        "show": false,
+        "show": true,
         "total": false,
         "values": false
       },
@@ -6587,7 +6587,7 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 8,
+        "h": 11,
         "w": 8,
         "x": 16,
         "y": 137
@@ -6603,7 +6603,7 @@
         "max": false,
         "min": false,
         "rightSide": false,
-        "show": false,
+        "show": true,
         "total": false,
         "values": false
       },
@@ -6690,7 +6690,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 145
+        "y": 148
       },
       "id": 58,
       "links": [],
