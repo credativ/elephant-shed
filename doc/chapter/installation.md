@@ -41,15 +41,21 @@ on. This includes packages for Grafana, Cockpit and various python libraries.
 sudo apt-get install curl ca-certificates apt-transport-https
 
 # Use official PostgreSQL repo, apt.postgresql.org
-echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" | sudo tee -a /etc/apt/sources.list.d/pgdg.list
+echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" | sudo tee -a /etc/apt/sources.list.d/pgdg.list
 curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
 # Use credativ repo, packages.credativ.com
-echo "deb https://packages.credativ.com/public/postgresql/ stretch-stable main" | sudo tee -a /etc/apt/sources.list.d/elephant-shed.list
+echo "deb https://packages.credativ.com/public/postgresql/ buster-stable main" | sudo tee -a /etc/apt/sources.list.d/elephant-shed.list
 curl https://packages.credativ.com/public/postgresql/aptly.key | sudo apt-key add -
 
 # Install elephant-shed
 sudo apt-get update
+sudo apt-get install elephant-shed
+
+# In case of dependency issues regarding omnidb on buster, add backports
+echo "deb http://deb.debian.org/debian buster-backports main" | sudo tee -a /etc/apt/sources.list.d/backports.list
+sudo apt-get update
+sudo apt-get install -t buster-backports python3-django
 sudo apt-get install elephant-shed
 
 # Choose desired PostgreSQL versions to install
