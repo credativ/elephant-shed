@@ -79,6 +79,14 @@ systemctl daemon-reload
 install -d -o postgres -g postgres /var/lib/pgbackrest /var/www/html/pgbackrest
 chown postgres: /etc/pgbackrest.conf
 
+%package -n elephant-shed-powa
+Summary: PostgreSQL dashboard -- powa
+%description -n elephant-shed-powa
+ The Elephant Shed is a web-based PostgreSQL management front-end.
+ .
+ This package provides the integration with powa
+%post -n elephant-shed-powa
+
 %package -n elephant-shed-grafana
 Requires: curl
 Requires: grafana >= 5
@@ -231,6 +239,7 @@ sed -i -e 's!^ARGS=!NODE_EXPORTER_OPTS=!' %{buildroot}/etc/default/elephant-shed
 %files -n elephant-shed-postgresql               -f files-elephant-shed-postgresql
 %files -n elephant-shed-pgbadger                 -f files-elephant-shed-pgbadger
 %files -n elephant-shed-pgbackrest               -f files-elephant-shed-pgbackrest
+%files -n elephant-shed-powa                     -f files-elephant-shed-powa
 %files -n elephant-shed-grafana                  -f files-elephant-shed-grafana
 %files -n elephant-shed-prometheus               -f files-elephant-shed-prometheus
 %files -n elephant-shed-prometheus-node-exporter -f files-elephant-shed-prometheus-node-exporter
