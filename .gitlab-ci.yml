@@ -1,4 +1,4 @@
-image: "credativ/debian-build:stretch"
+image: "debian:stretch"
 
 variables:
   DEPLOY_SSH_USER: "ansible"
@@ -51,7 +51,7 @@ build:stretch-release:
 
 build:buster: &build_buster
   <<: *build
-  image: "credativ/debian-build:buster"
+  image: "debian:buster"
   script:
     - apt-get update -qq
     - apt-get -y --no-install-recommends build-dep ./
