@@ -17,11 +17,10 @@ $json->indent(1);
 foreach my $version (get_versions()) {
   foreach my $cluster (get_version_clusters($version)) {
     my %info = cluster_info($version, $cluster);
-    my $socket = get_cluster_socketdir($version, $cluster);
     my $port = get_cluster_port($version, $cluster);
 
     $servers->{"$version/$cluster"} = {
-      'host' => $socket,
+      'host' => 'localhost',
       'port' => $port,
       'database' => 'powa',
       'query' => {'client_encoding' => 'utf8'},
@@ -48,7 +47,7 @@ if (not defined $cookie) {
 # write output, preserving old mode and owner
 my ($fh, $filename) = tempfile("powa-web.conf.XXXXXX", DIR => "/etc", UNLINK => 1);
 my $js = $json->encode($servers);
-print $fh "servers=$js\ncookie_secret=\"$cookie\"\n" or die "$filename: $!";
+print $fh "servers=$js\nurl_prefix=\"/powa\"\ncookie_secret=\"$cookie\"\n" or die "$filename: $!";
 close $fh or die "$filename: $!";
 chmod $mode, $filename or die "$filename: $!";
 chown $user, $group, $filename or die "$filename: $!";
