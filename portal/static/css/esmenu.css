@@ -73,7 +73,7 @@
 
 .esmenu:hover {
   background-color: rgba(255,255,255,1);
-  width: 500px;
+  width: 550px;
   transition: top 0.2s, width .2s, background-color 0.2s;
 }
 
