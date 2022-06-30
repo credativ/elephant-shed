@@ -25,7 +25,7 @@ build:stretch: &build
   script:
     - apt-get update -qq
     - apt-get -y --no-install-recommends build-dep ./
-    - apt-get -y --no-install-recommends install devscripts git
+    - apt-get -y --no-install-recommends install devscripts
     - ci/rebuild.sh $dist $is_release
     - make deb BUILD_ARGS=-Pstretch
     - mkdir -p debs
@@ -51,7 +51,7 @@ build:buster: &build_buster
   script:
     - apt-get update -qq
     - apt-get -y --no-install-recommends build-dep ./
-    - apt-get -y --no-install-recommends install devscripts git
+    - apt-get -y --no-install-recommends install devscripts
     - ci/rebuild.sh $dist $is_release
     - make deb
     - mkdir -p debs
@@ -86,7 +86,7 @@ build:centos7: &build_centos7
   script:
     - yum install -y rpm-build yum-utils git make
     - yum-builddep -y rpm/elephant-shed.spec
-    - make rpmbuild PACKAGE_RELEASE=1~$(git log --oneline | wc -l)
+    - make rpmbuild PACKAGE_RELEASE=1~$(date -u +%Y%m%d.%H%M%S)
   artifacts:
     expire_in: 2 weeks
     paths:

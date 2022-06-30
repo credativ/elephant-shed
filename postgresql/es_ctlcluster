@@ -45,10 +45,23 @@ shared_preload ()
 
 enable_powa ()
 {
-  POWA_PKG="postgresql-$VERSION-powa"
-  if ! dpkg -l "$POWA_PKG" | grep -q ^ii; then
-    echo "Installing $POWA_PKG ..."
-    apt-get install -y "$POWA_PKG"
+  if [ -x /usr/bin/dpkg ]; then
+    POWA_PKG="postgresql-$VERSION-powa"
+    if ! dpkg -l "$POWA_PKG" | grep -q ^ii; then
+      echo "Installing $POWA_PKG ..."
+      apt-get install -y "$POWA_PKG"
+    fi
+  elif [ -x /usr/bin/rpm ]; then
+    CONTRIB_PKG="postgresql$VERSION-contrib"
+    if ! rpm -q "$CONTRIB_PKG" > /dev/null; then
+      echo "Installing $CONTRIB_PKG ..."
+      yum install -y "$CONTRIB_PKG"
+    fi
+    POWA_PKG="powa_$VERSION"
+    if ! rpm -q "$POWA_PKG" > /dev/null; then
+      echo "Installing $POWA_PKG ..."
+      yum install -y "$POWA_PKG"
+    fi
   fi
 
   shared_preload pg_stat_statements && restart=yes

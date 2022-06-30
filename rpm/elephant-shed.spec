@@ -14,6 +14,7 @@ Requires: elephant-shed-pgbackrest
 Requires: elephant-shed-pgbadger
 Requires: elephant-shed-portal
 Requires: elephant-shed-postgresql
+Requires: elephant-shed-powa
 Requires: elephant-shed-prometheus
 Requires: elephant-shed-prometheus-node-exporter
 Requires: elephant-shed-prometheus-sql-exporter
@@ -80,12 +81,16 @@ install -d -o postgres -g postgres /var/lib/pgbackrest /var/www/html/pgbackrest
 chown postgres: /etc/pgbackrest.conf
 
 %package -n elephant-shed-powa
+Requires: powa_14-web
 Summary: PostgreSQL dashboard -- powa
 %description -n elephant-shed-powa
  The Elephant Shed is a web-based PostgreSQL management front-end.
  .
  This package provides the integration with powa
 %post -n elephant-shed-powa
+update-powa-web-config
+systemctl enable powa-web-14
+systemctl start powa-web-14
 
 %package -n elephant-shed-grafana
 Requires: curl
