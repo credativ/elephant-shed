@@ -1,9 +1,5 @@
 image: "debian:stretch"
 
-variables:
-  DEPLOY_SSH_USER: "ansible"
-  DEPLOY_SSH_PORT: "22"
-
 stages:
   - docbuild
   - build
@@ -183,25 +179,24 @@ publish:centos7-release:
 
 ### deploy ###
 
-deploy:x86: &deploy
+# requires gitlab-runner to be configured to execute shell commands as root:
+# rm /home/gitlab-runner/.bash_logout
+# systemctl edit gitlab-runner
+# [Service]
+# ExecStart=
+# ExecStart=/usr/bin/gitlab-runner "run" "--working-directory" "/home/gitlab-runner" "--config" "/etc/gitlab-runner/config.toml" "--service" --user root
+
+deploy:stretch-x86: &deploy
   stage: deploy
   dependencies:
     - publish:stretch
+  tags:
+    - stretch-amd64
   script:
-    - sudo apt-get update -qq
-    - sudo apt-get install -y ansible
-    - cd vagrant
-    - echo "$DEPLOY_SSH_KEY" > id_file
-    - chmod 0600 id_file
-    - echo "[test]" > inventory
-    - echo "$DEPLOY_NAME ansible_ssh_host=${DEPLOY_IP} ansible_ssh_port=${DEPLOY_SSH_PORT} ansible_ssh_user=${DEPLOY_SSH_USER} ansible_ssh_private_key_file=id_file" >> inventory
-    # We can't provide this envirionment variable through "variables" for some reason.
-    - export ANSIBLE_HOST_KEY_CHECKING=False
-    - ansible-playbook -i inventory elephant-shed.yml
-  variables:
-    DEPLOY_NAME: $DEPLOY_X86_NAME
-    DEPLOY_IP: $DEPLOY_X86_IP
-    DEPLOY_SSH_KEY: $DEPLOY_X86_SSH_KEY
+    - 'test -f /etc/apt/sources.list.d/credativ_postgresql.list || echo "deb https://packages.credativ.com/public/postgresql/ $(lsb_release -cs)-test main" > https://packages.credativ.com/public/postgresql/'
+    - apt-get update -q
+    #- apt-get install -y ansible
+    - apt-get install -y 'elephant-shed.*'
   only:
     - master
     - rel1_3
@@ -213,10 +208,8 @@ deploy:buster-x86:
   <<: *deploy
   dependencies:
     - publish:buster
-  variables:
-    DEPLOY_NAME: elephant-shed-buster
-    DEPLOY_IP: 172.26.248.46
-    DEPLOY_SSH_KEY: $DEPLOY_X86_SSH_KEY
+  tags:
+    - buster-amd64
   environment:
     name: elephant-shed-buster
     url: https://elephant-shed-buster.dev.credativ.de
@@ -225,28 +218,25 @@ deploy:bionic-x86:
   <<: *deploy
   dependencies:
     - publish:bionic
-  variables:
-    DEPLOY_NAME: $DEPLOY_X86_BIONIC_NAME
-    DEPLOY_IP: $DEPLOY_X86_BIONIC_IP
-    DEPLOY_SSH_KEY: $DEPLOY_X86_SSH_KEY
+  tags:
+    - bionic-amd64
   environment:
     name: elephant-shed-bionic
     url: https://elephant-shed-bionic.dev.credativ.de
 
 deploy:centos7-x86:
-  tags:
-    - centos7-x86
+  <<: *deploy
   stage: deploy
   dependencies:
     - build:centos7
+  tags:
+    - centos7-x86
   script:
-    - 'test -f /etc/yum.repos.d/credativ-test.repo || sudo yum install https://packages.credativ.com/public/postgresql/yum/credativ-test-repo.rpm'
-    - sudo yum clean expire-cache
-    - sudo yum update -y
-    - sudo yum install -y elephant-shed
-  only:
-    - master
-    - rel1_3
+    - 'test -f /etc/yum.repos.d/pgdg-redhat-all.repo || yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm'
+    - 'test -f /etc/yum.repos.d/credativ-test.repo || yum install -y https://packages.credativ.com/public/postgresql/yum/credativ-test-repo.rpm'
+    - yum clean expire-cache
+    - yum update -y
+    - yum install -y elephant-shed
   environment:
     name: elephant-shed-centos7
     url: https://elephant-shed-centos7.dev.credativ.de
