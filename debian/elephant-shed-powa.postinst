@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -eu
+
+case $1 in
+  configure)
+    update-powa-web-config
+    systemctl restart powa-web
+    ;;
+esac
+
+#DEBHELPER#
