@@ -1,2 +1,3 @@
 postgresql/elephant-shed.conf etc/postgresql-common/createcluster.d
+postgresql/es_ctlcluster usr/bin
 postgresql/rsyslog-postgresql-discard.conf etc/rsyslog.d/postgresql-discard.conf

@@ -1,0 +1,76 @@
+#!/bin/sh
+
+# This script configures PostgreSQL clusters for usage with Elephant Shed.
+
+# Usage: es_ctlcluster <cluster> {enable-powa}
+
+set -eu
+
+if [ -z "${2:-}" ]; then
+  echo "Usage: $0 <version> <cluster> {enable-powa}"
+  exit 1
+fi
+
+case $1 in
+  *-*)
+    VERSION="${1%%-*}" CLUSTER="${1#*-}" ACTION="$2" ;;
+  */*)
+    VERSION="${1%%/*}" CLUSTER="${1#*/}" ACTION="$2" ;;
+  *)
+    VERSION="$1" CLUSTER="$2" ACTION="$3" ;;
+esac
+
+pg_lsclusters -h "$VERSION/$CLUSTER" > /dev/null
+if ! pg_lsclusters -h "$VERSION/$CLUSTER" | grep -q online; then
+  echo "Cluster $VERSION $CLUSTER is not running"
+  exit 1
+fi
+
+CONFTOOL="pg_conftool -s $VERSION $CLUSTER"
+
+shared_preload ()
+{
+  local extension="$1"
+  shared_preload_libraries=$($CONFTOOL show shared_preload_libraries || :)
+  case $shared_preload_libraries in
+    *$extension*)
+      return 1 ;; # no restart required
+  esac
+  echo "Adding $extension to shared_preload_libraries ..."
+  ( set -x
+    $CONFTOOL set shared_preload_libraries "${shared_preload_libraries:+$shared_preload_libraries, }$extension"
+  )
+  return 0
+}
+
+enable_powa ()
+{
+  POWA_PKG="postgresql-$VERSION-powa"
+  if ! dpkg -l "$POWA_PKG" | grep -q ^ii; then
+    echo "Installing $POWA_PKG ..."
+    apt-get install -y "$POWA_PKG"
+  fi
+
+  shared_preload pg_stat_statements && restart=yes
+  shared_preload powa && restart=yes
+  if [ "${restart:-}" ]; then
+    echo "Restarting cluster ..."
+    pg_ctlcluster "$VERSION" "$CLUSTER" restart
+  fi
+
+  echo "Setting up powa user and database ..."
+  su postgres <<EOF
+    set -eu
+    [ \$(psql -X --cluster "$VERSION/$CLUSTER" -Atc "select datname from pg_database where datname = 'powa'") ] ||
+    createdb --cluster "$VERSION/$CLUSTER" --echo powa
+    psql -X --cluster "$VERSION/$CLUSTER" -c "create extension if not exists powa cascade" powa
+EOF
+}
+
+case $ACTION in
+  enable-powa)
+    enable_powa ;;
+  *)
+    echo "Error: unknown action '$ACTION'"
+    exit 1 ;;
+esac
