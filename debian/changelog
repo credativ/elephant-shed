@@ -1,9 +1,9 @@
-elephant-shed (1.3.7) UNRELEASED; urgency=medium
+elephant-shed (1.3.7) unstable; urgency=medium
 
   * Finish PoWA integration.
   * Add es_ctlcluster script to enable PoWA in PG clusters.
 
- -- Christoph Berg <myon@debian.org>  Wed, 29 Jun 2022 16:39:15 +0200
+ -- Christoph Berg <myon@debian.org>  Thu, 30 Jun 2022 16:58:35 +0200
 
 elephant-shed (1.3.6) unstable; urgency=medium
 
