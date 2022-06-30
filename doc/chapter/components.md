@@ -274,6 +274,33 @@ It provides user management, DDL functionality, an interactive SQL shell, and mo
 
 * <https://omnidb.org/>
 
+## PoWA - PostgreSQL Workload Analyzer
+
+The Elephant Shed includes integration with PoWA, a service that collects
+database metrics, most notably about running queries. There is some overlap
+with Prometheus and Grafana, but the PoWA statistics are much more detailed on
+the database level.
+
+### Setup
+
+The PoWA web interface maintains a list of known clusters in the system in
+`/etc/powa-web.conf`. To update that list, use:
+
+```
+update-powa-web-config
+```
+
+To enable PoWA monitoring for a cluster, run `es_ctlcluster`:
+
+```
+es_ctlcluster 14 main enable-powa
+```
+
+In case of problems, the web interface will throw "Auth failed" errors for a
+wide range of possible errors. Consulting the PostgreSQL server log in
+`/var/log/postgresql/postgresql-NN-main.log` is often a good place to start
+debugging.
+
 ## Backup - pgBackRest
 
 The Elephant Shed comes with a preinstalled backup solution, *pgBackRest*.
