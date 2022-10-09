@@ -18,6 +18,10 @@
   - include: handlers.yml
 
   tasks:
+  - name: Update package cache
+    apt:
+      update_cache: yes
+
   - name: Install pre dependencies
     package:
       name: '{{ item }}'

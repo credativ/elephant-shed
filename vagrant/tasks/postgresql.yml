@@ -28,7 +28,7 @@
   - postgresql-contrib-{{ version }}
   - postgresql-{{ version }}-unit
   - check-postgres
-  - python-psycopg2 # for postgresql_user
+  - python3-psycopg2 # for postgresql_user
 
 - name: Create data volume
   file:
