@@ -1,15 +1,3 @@
-# packages.credativ.com
-- name: Install credativ aptly Apt key
-  apt_key:
-    data: "{{ lookup('file', 'packages.credativ.com/aptly.key') }}"
-    state: present
-
-- name: Setup credativ PostgreSQL repository
-  apt_repository:
-    repo: '{{ credativ_postgresql }}'
-    filename: 'credativ_postgresql'
-    update_cache: false
-
 # pgapt
 - name: Install pgdg Apt key
   apt_key:
