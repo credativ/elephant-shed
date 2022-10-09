@@ -62,6 +62,7 @@
     tags:
     - ferm
     - firewall
+    when: ansible_virtualization_type != "lxc"
   - include: tasks/apache2.yml
     tags: apache
   - include: tasks/postgresql.yml
