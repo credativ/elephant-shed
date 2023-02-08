@@ -26,7 +26,14 @@
     - "failed_count"
     - "last_failed_time"
     - "stats_reset"
-  query: SELECT archived_count, failed_count FROM pg_stat_archiver
+  query: >-
+          SELECT
+          archived_count,
+          COALESCE(EXTRACT(EPOCH FROM last_archived_time), 0.0) AS last_archived_time,
+          failed_count,
+          COALESCE(EXTRACT(EPOCH FROM last_failed_time), 0.0) AS last_failed_time,
+          COALESCE(EXTRACT(EPOCH FROM stats_reset), 0.0) AS stats_reset
+          FROM pg_stat_archiver
 
 - name: "pg_stat_replication"
   help: "replication statistics"
