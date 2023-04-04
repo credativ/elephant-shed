@@ -22,10 +22,7 @@
   min_version: 9.4
   values:
     - "archived_count"
-    - "last_archived_time"
     - "failed_count"
-    - "last_failed_time"
-    - "stats_reset"
   query: SELECT archived_count, failed_count FROM pg_stat_archiver
 
 - name: "pg_stat_replication"
