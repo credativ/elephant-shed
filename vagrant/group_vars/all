@@ -22,7 +22,6 @@ mount_fstype: ext4
 mount_opts: noatime,nodev,noexec,nobarrier
 
 # System
-credativ_postgresql: 'deb https://packages.credativ.com/public/postgresql/ {{ ansible_distribution_release }}-test main'
 overcommit_ratio: 90
 version: 13
 clustername: main
