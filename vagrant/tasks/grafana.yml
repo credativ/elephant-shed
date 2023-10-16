@@ -1,0 +1,22 @@
+---
+- name: Get Grafana key
+  apt_key:
+    data: "{{ lookup('file', 'grafana-key.10458545.asc') }}"
+    id: 10458545
+    state: present
+
+- name: Setup Grafana repository
+  apt_repository:
+    repo: "deb https://apt.grafana.com stable main"
+    filename: 'grafana'
+    state: present
+
+- name: Update package cache
+  apt:
+    update_cache: yes
+
+- name: Install Grafana
+  apt:
+    name: grafana
+    state: present
+  notify: restart grafana

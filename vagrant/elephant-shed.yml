@@ -53,6 +53,9 @@
       state: absent
     when: use_local_repo != true
 
+  - include: tasks/grafana.yml
+    tags: packages
+
   - include: tasks/packages.yml
     tags: packages
 
