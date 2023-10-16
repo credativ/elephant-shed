@@ -23,7 +23,7 @@ mount_opts: noatime,nodev,noexec,nobarrier
 
 # System
 overcommit_ratio: 90
-version: 13
+version: 15
 clustername: main
 confdir: /etc/postgresql/{{ version }}/{{ clustername }}
 datadir: '{{ datadir_base }}/{{ version }}/{{ clustername }}'
