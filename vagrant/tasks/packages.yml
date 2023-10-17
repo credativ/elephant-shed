@@ -92,5 +92,7 @@
   package: state=present name=elephant-shed-shellinabox
 - name:               Install elephant-shed-tmate
   package: state=present name=elephant-shed-tmate
+- name:               Install elephant-shed-powa
+  package: state=present name=elephant-shed-powa
 - name:               Install elephant-shed
   package: state=present name=elephant-shed
