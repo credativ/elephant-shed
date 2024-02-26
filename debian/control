@@ -3,7 +3,7 @@ Section: database
 Priority: optional
 Maintainer: credativ GmbH <info@credativ.de>
 Uploaders:
- Christoph Berg <myon@debian.org>,
+ Michael Banck <michael.banck@credativ.de>,
  Adrian Vondendriesch <adrian.vondendriesch@credativ.de>,
 Standards-Version: 4.1.1
 Build-Depends:
