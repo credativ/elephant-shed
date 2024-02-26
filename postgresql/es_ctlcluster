@@ -2,12 +2,12 @@
 
 # This script configures PostgreSQL clusters for usage with Elephant Shed.
 
-# Usage: es_ctlcluster <cluster> {enable-powa}
+# Usage: es_ctlcluster <cluster> {enable-powa|enable-powa-addons}
 
 set -eu
 
 if [ -z "${2:-}" ]; then
-  echo "Usage: $0 <version> <cluster> {enable-powa}"
+  echo "Usage: $0 <version> <cluster> {enable-powa|enable-powa-addons}"
   exit 1
 fi
 
@@ -80,9 +80,51 @@ enable_powa ()
 EOF
 }
 
+enable_powa_addons ()
+{
+  if [ -x /usr/bin/dpkg ]; then
+    EXTENSIONS="pg-qualstats pg-wait-sampling pg-stat-kcache pg-track-settings hypopg"
+    for EXTENSION in $EXTENSIONS; do
+      PKG="postgresql-$VERSION-$EXTENSION"
+      if ! dpkg -l "$PKG" | grep -q ^ii; then
+        echo "Installing $PKG ..."
+        apt-get install -y "$PKG"
+      fi
+    done
+  elif [ -x /usr/bin/rpm ]; then
+    EXTENSIONS="pg_qualstats pg-stat-kcache pg_track_settings hypogpg"
+    for EXTENSION in $EXTENSIONS; do
+      PKG="$EXTENSION_$VERSION"
+      if ! rpm -q "$PKG" > /dev/null; then
+        echo "Installing $PKG ..."
+        yum install -y "$PKG"
+      fi
+    done
+  fi
+
+  for EXTENSION in $EXTENSIONS; do
+    if [ "$EXTENSION" = "pg-wait-sampling" -o "$EXTENSION" = "pg-track-settings" -o "$EXTENSION" = "pg_track_settings" ]; then
+      continue
+    fi
+    shared_preload $(echo $EXTENSION | tr '-' '_') && restart=yes
+  done
+  if [ "${restart:-}" ]; then
+    echo "Restarting cluster ..."
+    pg_ctlcluster "$VERSION" "$CLUSTER" restart
+  fi
+  for EXTENSION in $EXTENSIONS; do
+    su postgres <<EOF
+      set -eu
+      psql -X --cluster "$VERSION/$CLUSTER" -c "create extension if not exists $(echo $EXTENSION | tr '-' '_') cascade" powa
+EOF
+  done
+}
+
 case $ACTION in
   enable-powa)
     enable_powa ;;
+  enable-powa-addons)
+    enable_powa_addons ;;
   *)
     echo "Error: unknown action '$ACTION'"
     exit 1 ;;
