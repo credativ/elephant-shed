@@ -8,8 +8,7 @@ case $1 in
     # not restarting cockpit here, it is socket-activated
 
     if [ -z "$2" ]; then
-      # use snakeoil certificate
-      remotectl certificate /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/private/ssl-cert-snakeoil.key
+      /usr/lib/cockpit/cockpit-certificate-ensure
     fi
 
     systemctl restart cockpit.socket
