@@ -4,7 +4,7 @@
     dest: /etc/pgbackrest.conf
     state: present
     section: 'global'
-    option: 'repo-path'
+    option: 'repo1-path'
     value: '{{ pgbackrest_backupdir }}'
     no_extra_spaces: true
 
@@ -13,7 +13,7 @@
     dest: /etc/pgbackrest.conf
     state: present
     section: 'global'
-    option: 'retention-full'
+    option: 'repo1-retention-full'
     value: '{{ pgbackrest_retention_full }}'
     no_extra_spaces: true
 
@@ -33,6 +33,15 @@
     section: 'global'
     option: 'spool-path'
     value: '{{ pgbackrest_spool_path }}'
+    no_extra_spaces: true
+
+- name: Set pgBackrest process-max
+  ini_file:
+    dest: /etc/pgbackrest.conf
+    state: present
+    section: 'global'
+    option: 'process-max'
+    value: '{{ pgbackrest_process_max }}'
     no_extra_spaces: true
 
 - name: Set pgBackrest async archiving
