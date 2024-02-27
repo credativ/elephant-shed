@@ -52,3 +52,5 @@ close $fh or die "$filename: $!";
 chmod $mode, $filename or die "$filename: $!";
 chown $user, $group, $filename or die "$filename: $!";
 rename $filename, $powaconf or die "$powaconf: $!";
+# restart powa-web
+system('systemctl restart powa-web')

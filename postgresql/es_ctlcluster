@@ -95,6 +95,9 @@ enable_powa ()
     createdb --cluster "$VERSION/$CLUSTER" --echo powa
     psql -X --cluster "$VERSION/$CLUSTER" -c "create extension if not exists powa cascade" powa
 EOF
+
+  echo "Updating powa-web configuration ..."
+  update-powa-web-config
 }
 
 enable_powa_addons ()
@@ -120,7 +123,7 @@ enable_powa_addons ()
   fi
 
   for EXTENSION in $EXTENSIONS; do
-    if [ "$EXTENSION" = "pg-wait-sampling" -o "$EXTENSION" = "pg-track-settings" -o "$EXTENSION" = "pg_track_settings" ]; then
+    if [ "$EXTENSION" = "pg-track-settings" -o "$EXTENSION" = "pg_track_settings" ]; then
       continue
     fi
     shared_preload $(echo $EXTENSION | tr '-' '_') && restart=yes
