@@ -7,7 +7,7 @@
 set -eu
 
 if [ -z "${2:-}" ]; then
-  echo "Usage: $0 <version> <cluster> {enable-powa|enable-powa-addons}"
+  echo "Usage: $0 <version> <cluster> {enable-backup|enable-powa|enable-powa-addons}"
   exit 1
 fi
 
@@ -27,6 +27,23 @@ if ! pg_lsclusters -h "$VERSION/$CLUSTER" | grep -q online; then
 fi
 
 CONFTOOL="pg_conftool -s $VERSION $CLUSTER"
+
+enable_backup()
+{
+  # check whether archiving is activated already
+  archive_command=$($CONFTOOL show archive_command || :)
+  case $archive_command in
+    *true*)
+      systemctl start pgbackrest-toggle-archiving@$VERSION-$CLUSTER ;;
+    *pgbackrest*)
+      echo "archive_command already configured" ;;
+  esac
+  systemctl enable pgbackrest@$VERSION-$CLUSTER.timer
+  systemctl start pgbackrest@$VERSION-$CLUSTER.timer
+  systemctl enable pgbackrest-incr@$VERSION-$CLUSTER.timer
+  systemctl start pgbackrest-incr@$VERSION-$CLUSTER.timer
+  echo "backup for cluster $VERSION-$CLUSTER enabled"
+}
 
 shared_preload ()
 {
@@ -121,6 +138,8 @@ EOF
 }
 
 case $ACTION in
+  enable-backup)
+    enable_backup ;;
   enable-powa)
     enable_powa ;;
   enable-powa-addons)
