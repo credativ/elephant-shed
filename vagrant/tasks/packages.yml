@@ -88,8 +88,6 @@
   package: state=present name=elephant-shed-pgbackrest
 - name:               Install elephant-shed-pgbadger
   package: state=present name=elephant-shed-pgbadger
-- name:               Install elephant-shed-shellinabox
-  package: state=present name=elephant-shed-shellinabox
 - name:               Install elephant-shed-tmate
   package: state=present name=elephant-shed-tmate
 - name:               Install elephant-shed-powa

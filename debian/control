@@ -28,7 +28,6 @@ Depends:
  elephant-shed-prometheus,
  elephant-shed-prometheus-node-exporter,
  elephant-shed-prometheus-sql-exporter,
- elephant-shed-shellinabox,
  elephant-shed-tmate,
  ${keyring:Depends},
  ${misc:Depends},
