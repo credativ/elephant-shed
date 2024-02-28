@@ -31,7 +31,7 @@ waldir: '{{ waldir_base }}/{{ version }}/{{ clustername }}'
 admin_user: 'admin'
 admin_pass: '$6$smIbQ.WUs$pOjJEGx4nk3tBGJtebUXAToQsT/DTM8BESdD/pZ4SUxfvn.q8B15YR5o0rib1QMCJicUdtj1FYAYWnZRIZ6XS1' # admin
 local_repo: 'deb [trusted=yes] file:/srv/repository ./'
-use_local_repo: True
+use_local_repo: False
 sql_exporter_version: '0.2.0.1'
 locale:
   - de_DE.UTF-8 UTF-8
