@@ -70,6 +70,967 @@
         "x": 0,
         "y": 0
       },
+      "id": 100,
+      "panels": [],
+      "title": "Settings",
+      "type": "row"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 0,
+        "y": 1
+      },
+      "id": 119,
+      "interval": null,
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "name"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "exemplar": false,
+          "expr": "sql_server{host=~'$host',sql_job=~'$cluster',col=\"server_start_time\"}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{server_version}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Version",
+      "transformations": [],
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 2,
+        "y": 1
+      },
+      "id": 115,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "count(count(node_cpu_seconds_total) without (mode)) without (cpu)",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "# Cores",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 4,
+        "y": 1
+      },
+      "id": 112,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "node_memory_MemTotal_bytes",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Memory",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 6,
+        "y": 1
+      },
+      "id": 110,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"max_connections\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Max Connections",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 9,
+        "y": 1
+      },
+      "id": 104,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"work_mem\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Work Mem",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 12,
+        "y": 1
+      },
+      "id": 105,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"shared_buffers\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Shared Buffers",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 15,
+        "y": 1
+      },
+      "id": 109,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"max_wal_size\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Max WAL Size",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [
+            {
+              "from": "",
+              "id": 1,
+              "text": "Off",
+              "to": "",
+              "type": 1,
+              "value": "0"
+            },
+            {
+              "from": "",
+              "id": 2,
+              "text": "On",
+              "to": "",
+              "type": 1,
+              "value": "1"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 18,
+        "y": 1
+      },
+      "id": 102,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"data_checksums\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Data Checksums",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "noValue": "N/A",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 21,
+        "y": 1
+      },
+      "id": 114,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sum by (checksum_failures) (sql_pg_stat_database{col=\"checksum_failures\",host=~'$host',sql_job=~'$cluster'})",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Checksum Failures",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "dateTimeFromNow"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 4
+      },
+      "id": 106,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_server{col=\"server_start_time\", host=~'$host',sql_job=~'$cluster'} * 1000",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Server Start Time",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 6,
+        "y": 4
+      },
+      "id": 120,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"max_worker_processes\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Max Worker Processes",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 9,
+        "y": 4
+      },
+      "id": 107,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"maintenance_work_mem\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Maintenance Work Mem",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 12,
+        "y": 4
+      },
+      "id": 108,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"effective_cache_size\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Effective Cache Size",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 15,
+        "y": 4
+      },
+      "id": 111,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"checkpoint_timeout\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Checkpoint Timeout",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [
+            {
+              "from": "",
+              "id": 1,
+              "text": "Off",
+              "to": "",
+              "type": 1,
+              "value": "0"
+            },
+            {
+              "from": "",
+              "id": 2,
+              "text": "On",
+              "to": "",
+              "type": 1,
+              "value": "1"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 18,
+        "y": 4
+      },
+      "id": 103,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "sql_settings{col=\"jit\",host=~'$host',sql_job=~'$cluster'}",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "JIT",
+      "type": "stat"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgb(255, 255, 255)",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "requested (explicit, wal or backup-based)"
+            },
+            "properties": [
+              {
+                "id": "displayName"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 21,
+        "y": 4
+      },
+      "id": 113,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "node_vmstat_oom_kill",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "title": "Out-of-Memory Kills",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
       "id": 69,
       "panels": [],
       "repeat": null,
@@ -88,6 +1049,12 @@
       "datasource": "prometheus",
       "decimals": 1,
       "description": "The CPU usage, rate over $rate_interval.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -100,7 +1067,7 @@
         "h": 6,
         "w": 4,
         "x": 0,
-        "y": 1
+        "y": 8
       },
       "id": 35,
       "interval": null,
@@ -174,6 +1141,12 @@
       "datasource": "prometheus",
       "decimals": 1,
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "percentunit",
       "gauge": {
         "maxValue": 1,
@@ -186,7 +1159,7 @@
         "h": 6,
         "w": 4,
         "x": 4,
-        "y": 1
+        "y": 8
       },
       "id": 34,
       "interval": null,
@@ -261,6 +1234,12 @@
       "datasource": "prometheus",
       "decimals": 1,
       "description": "Shows the percentage of used storage on the most used mount.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "percentunit",
       "gauge": {
         "maxValue": 1,
@@ -273,7 +1252,7 @@
         "h": 6,
         "w": 4,
         "x": 8,
-        "y": 1
+        "y": 8
       },
       "id": 36,
       "interval": null,
@@ -348,6 +1327,12 @@
       "datasource": "prometheus",
       "decimals": null,
       "description": "Percentage of swap spaced used on system",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "percentunit",
       "gauge": {
         "maxValue": 1,
@@ -360,7 +1345,7 @@
         "h": 6,
         "w": 4,
         "x": 12,
-        "y": 1
+        "y": 8
       },
       "id": 38,
       "interval": null,
@@ -433,6 +1418,12 @@
       "datasource": "prometheus",
       "decimals": 2,
       "description": "Age of oldest XID in percent of autovacuum_max_freeze_age (default: 200 M)\n\nAt 100%, tables will be frozen by autovacuum. Values over 100% indicate autovacuum is not keeping up.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "percentunit",
       "gauge": {
         "maxValue": 2,
@@ -445,7 +1436,7 @@
         "h": 6,
         "w": 4,
         "x": 16,
-        "y": 1
+        "y": 8
       },
       "id": 39,
       "interval": null,
@@ -518,6 +1509,12 @@
       "datasource": "prometheus",
       "decimals": 2,
       "description": "The used connections in relation to the limit (reduced by superuser_reserved_connections).",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "percentunit",
       "gauge": {
         "maxValue": 1,
@@ -530,7 +1527,7 @@
         "h": 6,
         "w": 4,
         "x": 20,
-        "y": 1
+        "y": 8
       },
       "id": 41,
       "interval": null,
@@ -604,6 +1601,12 @@
       "datasource": "prometheus",
       "decimals": 0,
       "description": "Number of WAL files that still need to be archived.\n\nCan grow under write load but should not increase over longer periods of time.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 3000,
@@ -616,7 +1619,7 @@
         "h": 6,
         "w": 4,
         "x": 0,
-        "y": 7
+        "y": 14
       },
       "id": 45,
       "interval": null,
@@ -689,6 +1692,12 @@
       "datasource": "prometheus",
       "decimals": 0,
       "description": "The amount of WAL data that still needs to be archived.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "MBs",
       "gauge": {
         "maxValue": 15,
@@ -701,7 +1710,7 @@
         "h": 6,
         "w": 4,
         "x": 4,
-        "y": 7
+        "y": 14
       },
       "id": 50,
       "interval": null,
@@ -774,6 +1783,12 @@
       "datasource": "prometheus",
       "decimals": 2,
       "description": "Shows the rate/increase in failed archive actions.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 3,
@@ -786,7 +1801,7 @@
         "h": 6,
         "w": 4,
         "x": 8,
-        "y": 7
+        "y": 14
       },
       "id": 46,
       "interval": null,
@@ -859,6 +1874,12 @@
       "datasource": "prometheus",
       "decimals": null,
       "description": "Active WAL senders in relation to max_wal_senders.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "percentunit",
       "gauge": {
         "maxValue": 1,
@@ -871,7 +1892,7 @@
         "h": 6,
         "w": 4,
         "x": 12,
-        "y": 7
+        "y": 14
       },
       "id": 43,
       "interval": null,
@@ -944,6 +1965,12 @@
       ],
       "datasource": "prometheus",
       "description": "Shows the used prepared transactions in relation to max_prepared_transactions.\n\n'N/A' if not used.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "percentunit",
       "gauge": {
         "maxValue": 1,
@@ -956,7 +1983,7 @@
         "h": 6,
         "w": 4,
         "x": 16,
-        "y": 7
+        "y": 14
       },
       "id": 49,
       "interval": null,
@@ -1029,6 +2056,12 @@
       "datasource": "prometheus",
       "decimals": 1,
       "description": "Shows the maximum of send_lag_bytes, flush_lag_bytes, replay_lag_bytes over all connected streaming receivers.\nThis is not a sufficient way to monitor if a standby is up to date!\nCan only give a hint if streaming is delayed.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "format": "decbytes",
       "gauge": {
         "maxValue": 1000000000,
@@ -1041,7 +2074,7 @@
         "h": 6,
         "w": 4,
         "x": 20,
-        "y": 7
+        "y": 14
       },
       "id": 64,
       "interval": null,
@@ -1106,11 +2139,12 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 13
+        "y": 20
       },
       "id": 70,
       "panels": [],
@@ -1125,13 +2159,21 @@
       "dashes": false,
       "datasource": "prometheus",
       "decimals": 2,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 5,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 14
+        "y": 21
       },
+      "hiddenSeries": false,
       "id": 1,
       "legend": {
         "alignAsTable": false,
@@ -1150,7 +2192,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1172,6 +2218,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "CPU Usage (by mode) [$rate_interval]",
       "tooltip": {
@@ -1193,7 +2240,7 @@
           "label": "Cores",
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -1216,13 +2263,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 14
+        "y": 21
       },
+      "hiddenSeries": false,
       "id": 2,
       "legend": {
         "avg": false,
@@ -1239,7 +2294,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1261,6 +2320,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "CPU Usage (by core) [$rate_interval]",
       "tooltip": {
@@ -1282,7 +2342,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -1301,11 +2361,12 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 21
+        "y": 28
       },
       "id": 71,
       "panels": [],
@@ -1324,13 +2385,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 6,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 14,
         "x": 0,
-        "y": 22
+        "y": 29
       },
+      "hiddenSeries": false,
       "id": 33,
       "legend": {
         "alignAsTable": false,
@@ -1349,7 +2418,11 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1401,6 +2474,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Memory Distribution",
       "tooltip": {
@@ -1448,13 +2522,21 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "Modified memory that needs to be written back to permanent storage.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 6,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 6,
         "x": 14,
-        "y": 22
+        "y": 29
       },
+      "hiddenSeries": false,
       "id": 23,
       "legend": {
         "avg": false,
@@ -1469,7 +2551,11 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1492,6 +2578,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Memory Dirty",
       "tooltip": {
@@ -1541,13 +2628,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 5,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 4,
         "x": 20,
-        "y": 22
+        "y": 29
       },
+      "hiddenSeries": false,
       "id": 19,
       "legend": {
         "avg": false,
@@ -1562,7 +2657,11 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1599,6 +2698,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Swap Usage",
       "tooltip": {
@@ -1606,7 +2706,6 @@
         "sort": 0,
         "value_type": "individual"
       },
-      "transparent": false,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -1640,11 +2739,12 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 36
       },
       "id": 72,
       "panels": [],
@@ -1661,13 +2761,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 5,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 8,
+        "w": 24,
         "x": 0,
-        "y": 30
+        "y": 37
       },
+      "hiddenSeries": false,
       "id": 32,
       "legend": {
         "avg": false,
@@ -1681,9 +2789,12 @@
       "lines": true,
       "linewidth": 2,
       "links": [],
-      "minSpan": null,
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1728,6 +2839,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Filesystem - \"$filesystem\"",
       "tooltip": {
@@ -1735,7 +2847,6 @@
         "sort": 0,
         "value_type": "individual"
       },
-      "transparent": false,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -1769,11 +2880,12 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 37
+        "y": 44
       },
       "id": 73,
       "panels": [],
@@ -1788,14 +2900,22 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "Reads are shown above the \nzero line (>0) and writes are shown below (<0).",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 5,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 8,
         "x": 0,
-        "y": 38
+        "y": 45
       },
       "height": "",
+      "hiddenSeries": false,
       "id": 4,
       "legend": {
         "alignAsTable": false,
@@ -1814,7 +2934,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1863,6 +2987,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Read/Write (IOPS) [$rate_interval] - $disk",
       "tooltip": {
@@ -1908,14 +3033,22 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "Reads are shown above the \nzero line (>0) and writes are shown below (<0).",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 5,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 8,
         "x": 8,
-        "y": 38
+        "y": 45
       },
       "height": "",
+      "hiddenSeries": false,
       "id": 3,
       "legend": {
         "avg": true,
@@ -1932,7 +3065,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1963,6 +3100,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Read/Write (bytes) [$rate_interval] - $disk",
       "tooltip": {
@@ -2008,14 +3146,22 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "Reads are shown above the \nzero line (>0) and writes are shown below (<0).",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 5,
+      "fillGradient": 0,
       "gridPos": {
         "h": 9,
         "w": 8,
         "x": 16,
-        "y": 38
+        "y": 45
       },
       "height": "",
+      "hiddenSeries": false,
       "id": 7,
       "legend": {
         "avg": true,
@@ -2032,7 +3178,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2065,6 +3215,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Read/Write Time [$rate_interval] - $disk",
       "tooltip": {
@@ -2105,11 +3256,12 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 47
+        "y": 54
       },
       "id": 74,
       "panels": [],
@@ -2124,13 +3276,21 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "RX is shown above the \nzero line (>0) and TX is shown below (<0).",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 3,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 48
+        "y": 55
       },
+      "hiddenSeries": false,
       "id": 20,
       "legend": {
         "avg": false,
@@ -2145,7 +3305,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2177,6 +3341,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Network Traffic [$rate_interval] - $interface",
       "tooltip": {
@@ -2222,13 +3387,21 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "RX is shown above the \nzero line (>0) and TX is shown below (<0).",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 3,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 48
+        "y": 55
       },
+      "hiddenSeries": false,
       "id": 21,
       "legend": {
         "avg": false,
@@ -2243,7 +3416,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2275,6 +3452,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Network Packets [$rate_interval] - $interface",
       "tooltip": {
@@ -2315,11 +3493,12 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 55
+        "y": 62
       },
       "id": 76,
       "panels": [],
@@ -2333,13 +3512,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 56
+        "y": 63
       },
+      "hiddenSeries": false,
       "id": 67,
       "legend": {
         "avg": false,
@@ -2356,7 +3543,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2377,6 +3568,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Database Growth [$rate_interval] - $datname",
       "tooltip": {
@@ -2398,7 +3590,7 @@
           "label": "",
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -2421,13 +3613,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 56
+        "y": 63
       },
+      "hiddenSeries": false,
       "id": 68,
       "legend": {
         "avg": true,
@@ -2444,7 +3644,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2465,6 +3669,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Database Size - $datname",
       "tooltip": {
@@ -2505,11 +3710,12 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 63
+        "y": 70
       },
       "id": 75,
       "panels": [],
@@ -2523,38 +3729,82 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
-      "fill": 5,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
-        "h": 7,
+        "h": 9,
         "w": 12,
         "x": 0,
-        "y": 64
+        "y": 71
       },
-      "id": 8,
+      "hiddenSeries": false,
+      "id": 6,
       "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": true,
         "min": false,
+        "rightSide": false,
         "show": true,
+        "sort": "avg",
+        "sortDesc": false,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": true,
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:5500",
+          "alias": "waiting",
+          "color": "#F2495C"
+        },
+        {
+          "$$hashKey": "object:5508",
+          "alias": "idle in transaction",
+          "color": "#FF9830"
+        },
+        {
+          "$$hashKey": "object:5516",
+          "alias": "active",
+          "color": "#73BF69"
+        },
+        {
+          "$$hashKey": "object:5530",
+          "alias": "idle",
+          "color": "#5794F2"
+        },
+        {
+          "$$hashKey": "object:743",
+          "alias": "idle in transaction (aborted)",
+          "color": "#FADE2A"
+        }
+      ],
       "spaceLength": 10,
       "stack": true,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (state) (sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col='count', datname=~'$datname'})",
+          "expr": "sort_desc(sum by (state) (sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col='count', datname=~'$datname'}))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2567,13 +3817,15 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Connections by State - $datname",
       "tooltip": {
         "shared": true,
-        "sort": 0,
+        "sort": 2,
         "value_type": "individual"
       },
+      "transformations": [],
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -2584,6 +3836,8 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:5021",
+          "decimals": 0,
           "format": "short",
           "label": "",
           "logBase": 1,
@@ -2592,8 +3846,10 @@
           "show": true
         },
         {
+          "$$hashKey": "object:5022",
+          "decimals": 3,
           "format": "short",
-          "label": null,
+          "label": "",
           "logBase": 1,
           "max": null,
           "min": null,
@@ -2611,13 +3867,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
-      "fill": 5,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
-        "h": 7,
+        "h": 9,
         "w": 12,
         "x": 12,
-        "y": 64
+        "y": 71
       },
+      "hiddenSeries": false,
       "id": 9,
       "legend": {
         "avg": false,
@@ -2632,11 +3896,19 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:1166"
+        }
+      ],
       "spaceLength": 10,
       "stack": true,
       "steppedLine": false,
@@ -2654,6 +3926,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Connections by Database - $datname",
       "tooltip": {
@@ -2671,6 +3944,8 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:715",
+          "decimals": 0,
           "format": "short",
           "label": "",
           "logBase": 1,
@@ -2679,6 +3954,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:716",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2694,11 +3970,12 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 71
+        "y": 80
       },
       "id": 93,
       "panels": [],
@@ -2711,13 +3988,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 9,
+        "w": 7,
         "x": 0,
-        "y": 72
+        "y": 81
       },
+      "hiddenSeries": false,
       "id": 10,
       "legend": {
         "avg": false,
@@ -2732,7 +4017,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2769,6 +4058,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Transactions by database [$rate_interval] - $datname",
       "tooltip": {
@@ -2786,6 +4076,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:1487",
           "format": "ops",
           "label": null,
           "logBase": 1,
@@ -2794,6 +4085,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:1488",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2813,13 +4105,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 8,
-        "x": 9,
-        "y": 72
+        "w": 5,
+        "x": 7,
+        "y": 81
       },
+      "hiddenSeries": false,
       "id": 91,
       "legend": {
         "avg": false,
@@ -2834,7 +4134,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2844,8 +4148,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max by (datname) (sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_tx_duration'})",
+          "expr": "max by (datname) (sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_tx_duration', datname=~'$datname'})",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{datname}}",
           "refId": "A"
@@ -2853,6 +4158,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Maximum Transaction Age",
       "tooltip": {
@@ -2870,14 +4176,16 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:1565",
           "format": "s",
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
+          "$$hashKey": "object:1566",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2900,13 +4208,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
-      "fill": 3,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 7,
-        "x": 17,
-        "y": 72
+        "w": 6,
+        "x": 12,
+        "y": 81
       },
+      "hiddenSeries": false,
       "id": 42,
       "legend": {
         "avg": false,
@@ -2918,21 +4234,27 @@
         "values": false
       },
       "lines": true,
-      "linewidth": 2,
+      "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
         {
+          "$$hashKey": "object:1299",
           "alias": "ExclusiveLock",
           "color": "#BF1B00",
           "fill": 6,
           "linewidth": 4
         },
         {
+          "$$hashKey": "object:1300",
           "alias": "AccessExclusiveLock",
           "color": "#58140C"
         }
@@ -2952,6 +4274,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Locks - $datname",
       "tooltip": {
@@ -2969,14 +4292,17 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:1317",
+          "decimals": 0,
           "format": "short",
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
+          "$$hashKey": "object:1318",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2991,41 +4317,33 @@
       }
     },
     {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 79
-      },
-      "id": 78,
-      "panels": [],
-      "repeat": null,
-      "title": "PostgreSQL Tuple Activity",
-      "type": "row"
-    },
-    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 10,
-        "x": 0,
-        "y": 80
+        "w": 6,
+        "x": 18,
+        "y": 81
       },
-      "id": 24,
+      "hiddenSeries": false,
+      "id": 121,
       "legend": {
-        "alignAsTable": false,
         "avg": false,
         "current": false,
-        "hideZero": true,
         "max": false,
         "min": false,
-        "rightSide": false,
         "show": true,
         "total": false,
         "values": false
@@ -3034,47 +4352,39 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
-      "pointradius": 2,
+      "pluginVersion": "7.4.3",
+      "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:1071",
+          "alias": "/.*/",
+          "color": "#FADE2A"
+        }
+      ],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_inserted'}[$rate_interval])",
+          "expr": "rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='deadlocks', datname=~'$datname'}[90s]) * 60",
           "format": "time_series",
-          "hide": false,
-          "intervalFactor": 2,
-          "legendFormat": "Insert {{datname}}",
-          "refId": "B",
-          "step": 120
-        },
-        {
-          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_updated'}[$rate_interval])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 2,
-          "legendFormat": "Update {{datname}}",
-          "refId": "C",
-          "step": 120
-        },
-        {
-          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_deleted'}[$rate_interval])",
-          "format": "time_series",
-          "hide": false,
-          "intervalFactor": 2,
-          "legendFormat": "Delete {{datname}}",
-          "refId": "D",
-          "step": 120
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "deadlocks {{datname}}",
+          "refId": "A"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
-      "title": "Inserts Updates Deletes [$rate_interval]",
+      "title": "Deadlocks -$datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -3090,14 +4400,148 @@
       },
       "yaxes": [
         {
-          "format": "ops",
-          "label": "",
+          "$$hashKey": "object:1085",
+          "decimals": 0,
+          "format": "none",
+          "label": null,
           "logBase": 1,
           "max": null,
           "min": "0",
           "show": true
         },
         {
+          "$$hashKey": "object:1086",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 88
+      },
+      "id": 78,
+      "panels": [],
+      "repeat": null,
+      "title": "PostgreSQL Tuple Activity",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 14,
+        "x": 0,
+        "y": 89
+      },
+      "hiddenSeries": false,
+      "id": 24,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_returned'}[$rate_interval])",
+          "format": "time_series",
+          "hide": false,
+          "instant": "",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Select (table scan) {{datname}}",
+          "refId": "A",
+          "step": 120
+        },
+        {
+          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_fetched'}[$rate_interval])",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Select (index scan) {{datname}}",
+          "refId": "B",
+          "step": 120
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Read Stats [$rate_interval] - $datname",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:3090",
+          "format": "short",
+          "label": "Rows",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:3091",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -3117,13 +4561,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 5,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 7,
-        "x": 10,
-        "y": 80
+        "w": 10,
+        "x": 14,
+        "y": 89
       },
+      "hiddenSeries": false,
       "id": 16,
       "legend": {
         "avg": false,
@@ -3140,7 +4592,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -3162,6 +4618,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Live Tuples (top $ntop_relations) - $datname",
       "tooltip": {
@@ -3206,13 +4663,143 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
-      "fill": 5,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 7,
-        "x": 17,
-        "y": 80
+        "w": 14,
+        "x": 0,
+        "y": 96
       },
+      "hiddenSeries": false,
+      "id": 122,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_inserted'}[$rate_interval])",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 2,
+          "legendFormat": "Insert {{datname}}",
+          "refId": "A",
+          "step": 120
+        },
+        {
+          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_updated'}[$rate_interval])",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 2,
+          "legendFormat": "Update {{datname}}",
+          "refId": "B",
+          "step": 120
+        },
+        {
+          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_deleted'}[$rate_interval])",
+          "format": "time_series",
+          "hide": false,
+          "intervalFactor": 2,
+          "legendFormat": "Delete {{datname}}",
+          "refId": "C",
+          "step": 120
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Change Stats [$rate_interval] - $datname",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:3016",
+          "format": "short",
+          "label": "Rows",
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:3017",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 5,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 14,
+        "y": 96
+      },
+      "hiddenSeries": false,
       "id": 12,
       "legend": {
         "avg": false,
@@ -3229,7 +4816,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -3251,6 +4842,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Dead Tuples (top $ntop_relations) - $datname",
       "tooltip": {
@@ -3290,12 +4882,117 @@
       }
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 19,
+        "y": 96
+      },
+      "hiddenSeries": false,
+      "id": 123,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.4.3",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='temp_bytes', database=~'$datname'}[$rate_interval])",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "temp bytes {{database}}",
+          "metric": "",
+          "refId": "B",
+          "step": 40
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Temp Files  [$rate_interval] - $datname",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:3200",
+          "format": "binBps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "$$hashKey": "object:3201",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 87
+        "y": 103
       },
       "id": 77,
       "panels": [],
@@ -3309,13 +5006,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 5,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 9,
         "x": 0,
-        "y": 88
+        "y": 104
       },
+      "hiddenSeries": false,
       "id": 5,
       "legend": {
         "avg": false,
@@ -3332,7 +5037,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -3342,7 +5051,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='seq_scan', database=~'$datname'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='seq_tup_read', database=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3354,8 +5063,9 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
-      "title": "Sequential Scans [$rate_interval] (top $ntop_relations) - $datname",
+      "title": "Sequential Scan Tuples [$rate_interval] (top $ntop_relations) - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -3371,7 +5081,7 @@
       },
       "yaxes": [
         {
-          "format": "ops",
+          "format": "short",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -3398,13 +5108,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 5,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 9,
         "x": 9,
-        "y": 88
+        "y": 104
       },
+      "hiddenSeries": false,
       "id": 55,
       "legend": {
         "avg": false,
@@ -3421,7 +5139,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -3431,11 +5153,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='idx_scan', datname=~'$datname'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, sort_desc((sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='seq_tup_read', datname=~'$datname'} > 0 ) / ignoring(col) (sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='idx_tup_fetch', datname=~'$datname'} > 0 )))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "idx scans {{schemaname}}.{{relname}} ({{database}})",
+          "legendFormat": "seq/idx scan tuple ratio {{schemaname}}.{{relname}} ({{database}})",
           "metric": "sql_pg_stat_user_tables",
           "refId": "A",
           "step": 40
@@ -3443,8 +5165,9 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
-      "title": "Index Scans [$rate_interval] (top $ntop_relations) - $datname",
+      "title": "Seq/Index Tuple Ratio [$rate_interval] (top $ntop_relations) - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -3460,7 +5183,7 @@
       },
       "yaxes": [
         {
-          "format": "ops",
+          "format": "none",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -3487,13 +5210,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 88
+        "y": 104
       },
+      "hiddenSeries": false,
       "id": 27,
       "legend": {
         "avg": false,
@@ -3508,7 +5239,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -3536,6 +5271,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Buffer Hits and Misses [$rate_interval] - $datname",
       "tooltip": {
@@ -3576,11 +5312,12 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 96
+        "y": 112
       },
       "id": 80,
       "panels": [],
@@ -3594,13 +5331,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 7,
         "x": 0,
-        "y": 97
+        "y": 113
       },
+      "hiddenSeries": false,
       "id": 26,
       "legend": {
         "alignAsTable": false,
@@ -3619,7 +5364,11 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -3633,16 +5382,25 @@
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "WAL new",
+          "legendFormat": "WAL traffic",
           "metric": "sql_waldistance",
           "refId": "A",
           "step": 60
+        },
+        {
+          "expr": "rate(sql_checkpoints{col=\"buffers\", job=~'$job', host=~'$host', sql_job=~'$cluster'}[$rate_interval]) * 8192",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Checkpoint traffic",
+          "refId": "B"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
-      "title": "WAL Traffic [$rate_interval]",
+      "title": "WAL/Checkpoint Traffic [$rate_interval]",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -3662,7 +5420,7 @@
           "label": "",
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -3685,13 +5443,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 9,
         "x": 7,
-        "y": 97
+        "y": 113
       },
+      "hiddenSeries": false,
       "id": 29,
       "legend": {
         "avg": false,
@@ -3706,17 +5472,32 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:795",
+          "alias": "requested (explicit, wal or backup-based)",
+          "color": "#FADE2A"
+        },
+        {
+          "$$hashKey": "object:803",
+          "alias": "timed",
+          "color": "#73BF69"
+        }
+      ],
       "spaceLength": 10,
-      "stack": true,
+      "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "60 * rate(sql_checkpoints{job=~'$job', host=~'$host', sql_job=~'$cluster'}[$rate_interval])",
+          "expr": "60 * rate(sql_checkpoints{job=~'$job', host=~'$host', sql_job=~'$cluster'}[90s])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3728,13 +5509,35 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
-      "title": "Checkpoints per Minute [$rate_interval]",
+      "title": "Checkpoints per Minute",
       "tooltip": {
         "shared": true,
         "sort": 0,
         "value_type": "individual"
       },
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "requested",
+            "renamePattern": "requested (explicit, wal or backup-based)"
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Time",
+                "requested (explicit, wal or backup-based)",
+                "timed"
+              ]
+            }
+          }
+        }
+      ],
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -3745,11 +5548,13 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:673",
+          "decimals": 0,
           "format": "opm",
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -3774,13 +5579,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 97
+        "y": 113
       },
+      "hiddenSeries": false,
       "id": 31,
       "legend": {
         "avg": false,
@@ -3795,7 +5608,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -3817,6 +5634,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "WAL since last Checkpoint",
       "tooltip": {
@@ -3824,7 +5642,6 @@
         "sort": 0,
         "value_type": "individual"
       },
-      "transparent": false,
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -3839,7 +5656,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -3858,11 +5675,12 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 104
+        "y": 120
       },
       "id": 81,
       "panels": [],
@@ -3876,13 +5694,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 10,
         "x": 0,
-        "y": 105
+        "y": 121
       },
+      "hiddenSeries": false,
       "id": 30,
       "legend": {
         "alignAsTable": false,
@@ -3901,7 +5727,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -3923,6 +5753,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Maintenance Operations per Minute [$rate_interval] - $datname",
       "tooltip": {
@@ -3967,13 +5798,21 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 9,
         "x": 10,
-        "y": 105
+        "y": 121
       },
+      "hiddenSeries": false,
       "id": 53,
       "legend": {
         "avg": false,
@@ -3990,7 +5829,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -4012,6 +5855,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Maintenance Counters - $datname",
       "tooltip": {
@@ -4057,13 +5901,21 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "Age of oldest XID in database\n\nWhen reaching autovacuum_max_freeze_age (default: 200 M), tables will be frozen by autovacuum.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 5,
         "x": 19,
-        "y": 105
+        "y": 121
       },
+      "hiddenSeries": false,
       "id": 54,
       "legend": {
         "alignAsTable": false,
@@ -4080,7 +5932,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -4102,6 +5958,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Database Freeze Age - $datname",
       "tooltip": {
@@ -4123,7 +5980,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -4142,11 +5999,12 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 112
+        "y": 128
       },
       "id": 85,
       "panels": [],
@@ -4161,13 +6019,21 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "Number of WAL files that still need to be archived.\n\nCan grow under write load but should not increase over longer periods of time.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 7,
         "x": 0,
-        "y": 113
+        "y": 129
       },
+      "hiddenSeries": false,
       "id": 51,
       "legend": {
         "avg": false,
@@ -4182,7 +6048,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -4202,6 +6072,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "WAL Files Ready",
       "tooltip": {
@@ -4249,13 +6120,21 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "Successful and failed archive commands per minute.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 7,
         "x": 7,
-        "y": 113
+        "y": 129
       },
+      "hiddenSeries": false,
       "id": 47,
       "legend": {
         "avg": false,
@@ -4270,7 +6149,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -4293,6 +6176,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "WAL Archiving per Minute [$rate_interval]",
       "tooltip": {
@@ -4342,13 +6226,21 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "The amount of data a stream receiver like a standby server lags behind the master.\n\nsend_lag: Data that still needs to be send (should be small).\n\nflush_lag: Data that was received but must be flushed to persistent storage (this data can be lost if the standby is terminated).\n\nreplay_lag: Data that still needs to be replayed by PostgreSQL on the standby (can lag behind during writes in asynchronous configurations).",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 10,
         "x": 14,
-        "y": 113
+        "y": 129
       },
+      "hiddenSeries": false,
       "id": 61,
       "legend": {
         "alignAsTable": false,
@@ -4367,7 +6259,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null as zero",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -4413,6 +6309,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Replication Lag",
       "tooltip": {
@@ -4453,11 +6350,12 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 120
+        "y": 136
       },
       "id": 83,
       "panels": [],
@@ -4472,13 +6370,21 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "Statement average execution time",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
-        "h": 8,
+        "h": 11,
         "w": 8,
         "x": 0,
-        "y": 121
+        "y": 137
       },
+      "hiddenSeries": false,
       "id": 57,
       "legend": {
         "alignAsTable": false,
@@ -4489,7 +6395,7 @@
         "max": false,
         "min": false,
         "rightSide": false,
-        "show": false,
+        "show": true,
         "total": false,
         "values": false
       },
@@ -4497,7 +6403,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -4518,6 +6428,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Top $ntop_relations Statements by Average Execution Time [$rate_interval] - $datname",
       "tooltip": {
@@ -4563,13 +6474,21 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "Statement execution time per second",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
-        "h": 8,
+        "h": 11,
         "w": 8,
         "x": 8,
-        "y": 121
+        "y": 137
       },
+      "hiddenSeries": false,
       "id": 98,
       "legend": {
         "alignAsTable": false,
@@ -4580,7 +6499,7 @@
         "max": false,
         "min": false,
         "rightSide": false,
-        "show": false,
+        "show": true,
         "total": false,
         "values": false
       },
@@ -4588,7 +6507,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -4609,6 +6532,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Top $ntop_relations Statements by Total Time [$rate_interval] - $datname",
       "tooltip": {
@@ -4654,13 +6578,21 @@
       "dashes": false,
       "datasource": "prometheus",
       "description": "Statements called per second",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
-        "h": 8,
+        "h": 11,
         "w": 8,
         "x": 16,
-        "y": 121
+        "y": 137
       },
+      "hiddenSeries": false,
       "id": 59,
       "legend": {
         "alignAsTable": false,
@@ -4671,7 +6603,7 @@
         "max": false,
         "min": false,
         "rightSide": false,
-        "show": false,
+        "show": true,
         "total": false,
         "values": false
       },
@@ -4679,7 +6611,11 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
       "percentage": false,
+      "pluginVersion": "7.4.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -4700,6 +6636,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Top $ntop_relations Statements by Calls [$rate_interval] - $datname",
       "tooltip": {
@@ -4721,7 +6658,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -4741,13 +6678,19 @@
     {
       "columns": [],
       "datasource": "prometheus",
-      "description": "Shows how the total time increase over the last $rate_interval.",
+      "description": "Shows how long statements took in the chosen time period.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fontSize": "100%",
       "gridPos": {
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 129
+        "y": 148
       },
       "id": 58,
       "links": [],
@@ -4761,12 +6704,14 @@
       "styles": [
         {
           "alias": "Time",
+          "align": "auto",
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "pattern": "Time",
           "type": "hidden"
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4782,6 +6727,7 @@
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4797,6 +6743,7 @@
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4812,6 +6759,7 @@
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4827,6 +6775,7 @@
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4842,6 +6791,7 @@
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4857,6 +6807,7 @@
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4872,6 +6823,7 @@
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4887,6 +6839,7 @@
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4902,6 +6855,7 @@
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4917,6 +6871,7 @@
         },
         {
           "alias": "Total Time",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4932,6 +6887,7 @@
         },
         {
           "alias": "Query",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4949,6 +6905,7 @@
         },
         {
           "alias": "Database",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4964,6 +6921,7 @@
         },
         {
           "alias": "User",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4979,6 +6937,7 @@
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -4995,8 +6954,9 @@
       ],
       "targets": [
         {
-          "expr": "increase(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', host=~'$host', col='total_time', datname=~'$datname'}[$rate_interval])",
+          "expr": "topk($ntop_relations, increase(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', host=~'$host', col='total_time', datname=~'$datname'}[$__range]))",
           "format": "table",
+          "instant": true,
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -5004,15 +6964,40 @@
           "step": 2
         }
       ],
-      "timeFrom": "1s",
+      "timeFrom": null,
       "timeShift": null,
-      "title": "Statements by Total Time Increase [$rate_interval] - $datname",
+      "title": "Top $ntop_relations Statements by Total Time - $datname",
       "transform": "table",
-      "type": "table"
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "Time": 0,
+              "Value": 10,
+              "col": 1,
+              "database": 2,
+              "datname": 3,
+              "driver": 6,
+              "host": 7,
+              "instance": 8,
+              "job": 9,
+              "query": 11,
+              "queryid": 12,
+              "sql_job": 13,
+              "usename": 4,
+              "user": 5
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "table-old"
     }
   ],
   "refresh": "1m",
-  "schemaVersion": 16,
+  "schemaVersion": 27,
   "style": "dark",
   "tags": [
     "prometheus",
@@ -5024,17 +7009,28 @@
     "list": [
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "localhost",
+          "value": "localhost"
+        },
         "datasource": "prometheus",
+        "definition": "",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Server",
         "multi": false,
         "name": "job",
         "options": [],
-        "query": "label_values(sql_settings{col='max_connections'}, job)",
+        "query": {
+          "query": "label_values(sql_settings{col='max_connections'}, job)",
+          "refId": "prometheus-job-Variable-Query"
+        },
         "refresh": 2,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
@@ -5044,17 +7040,28 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "11/main",
+          "value": "11/main"
+        },
         "datasource": "prometheus",
+        "definition": "",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Cluster",
         "multi": false,
         "name": "cluster",
         "options": [],
-        "query": "label_values(sql_settings{job='$job'}, sql_job)",
+        "query": {
+          "query": "label_values(sql_settings{job='$job'}, sql_job)",
+          "refId": "prometheus-cluster-Variable-Query"
+        },
         "refresh": 2,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
@@ -5064,17 +7071,28 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": "prometheus",
+        "definition": "",
+        "description": null,
+        "error": null,
         "hide": 2,
         "includeAll": true,
         "label": "PostgreSQL Port",
         "multi": false,
         "name": "host",
         "options": [],
-        "query": "label_values(sql_settings{job='$job'}, host)",
+        "query": {
+          "query": "label_values(sql_settings{job='$job'}, host)",
+          "refId": "prometheus-host-Variable-Query"
+        },
         "refresh": 2,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
@@ -5084,17 +7102,28 @@
       },
       {
         "allValue": "",
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": "prometheus",
+        "definition": "",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": true,
         "label": "Database",
         "multi": false,
         "name": "datname",
         "options": [],
-        "query": "label_values(sql_pg_stat_database{col='dbsize', host=~'$host', sql_job=~'$cluster'}, datname)",
+        "query": {
+          "query": "label_values(sql_pg_stat_database{col='dbsize', host=~'$host', sql_job=~'$cluster'}, datname)",
+          "refId": "prometheus-datname-Variable-Query"
+        },
         "refresh": 2,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
@@ -5107,9 +7136,12 @@
         "auto_count": 30,
         "auto_min": "10s",
         "current": {
+          "selected": false,
           "text": "5m",
           "value": "5m"
         },
+        "description": null,
+        "error": null,
         "hide": 0,
         "label": "Rate Interval",
         "name": "rate_interval",
@@ -5142,21 +7174,33 @@
         ],
         "query": "1m,5m,10m,30m,1h",
         "refresh": 2,
+        "skipUrlSync": false,
         "type": "interval"
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": "prometheus",
+        "definition": "",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": true,
         "label": "Disk",
         "multi": true,
         "name": "disk",
         "options": [],
-        "query": "label_values(node_disk_written_bytes_total, device)",
+        "query": {
+          "query": "label_values(node_disk_written_bytes_total, device)",
+          "refId": "prometheus-disk-Variable-Query"
+        },
         "refresh": 2,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
@@ -5171,6 +7215,8 @@
           "text": "5",
           "value": "5"
         },
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Top k",
@@ -5214,21 +7260,33 @@
           }
         ],
         "query": "1,3,5,10,20,50,100",
+        "skipUrlSync": false,
         "type": "custom"
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": "prometheus",
+        "definition": "",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": true,
         "label": "Interface",
         "multi": false,
         "name": "interface",
         "options": [],
-        "query": "label_values(node_network_receive_bytes_total, device)",
+        "query": {
+          "query": "label_values(node_network_receive_bytes_total, device)",
+          "refId": "prometheus-interface-Variable-Query"
+        },
         "refresh": 2,
         "regex": "",
+        "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
@@ -5238,17 +7296,28 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": "prometheus",
+        "definition": "",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": true,
         "label": "Filesystem",
         "multi": true,
         "name": "filesystem",
         "options": [],
-        "query": "label_values(node_filesystem_size_bytes{job='$job'}, mountpoint)",
+        "query": {
+          "query": "label_values(node_filesystem_size_bytes{job='$job'}, mountpoint)",
+          "refId": "prometheus-filesystem-Variable-Query"
+        },
         "refresh": 2,
         "regex": "(?!/media).*",
+        "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
@@ -5258,17 +7327,28 @@
       },
       {
         "allValue": null,
-        "current": {},
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": "prometheus",
+        "definition": "",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": true,
         "label": "Streaming Receiver",
         "multi": false,
         "name": "application_name",
         "options": [],
-        "query": "label_values(sql_pg_stat_replication{host=~'$host', sql_job=~'$cluster'}, application_name)",
+        "query": {
+          "query": "label_values(sql_pg_stat_replication{host=~'$host', sql_job=~'$cluster'}, application_name)",
+          "refId": "prometheus-application_name-Variable-Query"
+        },
         "refresh": 2,
         "regex": "^.+.+",
+        "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
         "tags": [],

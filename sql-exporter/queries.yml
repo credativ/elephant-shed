@@ -1,23 +1,99 @@
 # queries run once per cluster (via the 'postgres' database)
 
+- name: "server"
+  help: "Server version and start time"
+  scope: cluster
+  labels:
+    - "server_version"
+  values:
+    - "server_start_time"
+  query: >-
+          SELECT
+          split_part(current_setting('server_version'), ' ', 1) AS server_version,
+          extract(epoch FROM pg_postmaster_start_time())::float AS server_start_time
+
 - name: "settings"
   help: "PostgreSQL settings"
   scope: cluster
+  min_version: 9.5
+  max_version: 10
   labels:
     - "settings"
   values:
+    - "data_checksums"
     - "max_connections"
     - "autovacuum_freeze_max_age"
     - "superuser_reserved_connections"
     - "max_wal_senders"
     - "max_prepared_transactions"
+    - "max_worker_processes"
+    - "random_page_cost"
+    - "seq_page_cost"
+    - "checkpoint_timeout"
+    - "work_mem"
+    - "maintenance_work_mem"
+    - "shared_buffers"
+    - "effective_cache_size"
+    - "max_wal_size"
   query: >-
           SELECT
+          current_setting('data_checksums')::bool::int::float AS data_checksums,
           current_setting('max_connections')::float AS max_connections,
           current_setting('autovacuum_freeze_max_age')::float AS autovacuum_freeze_max_age,
           current_setting('superuser_reserved_connections')::float AS superuser_reserved_connections,
           current_setting('max_wal_senders')::float AS max_wal_senders,
-          current_setting('max_prepared_transactions')::float AS max_prepared_transactions
+          current_setting('max_prepared_transactions')::float AS max_prepared_transactions,
+          current_setting('max_worker_processes')::float AS max_worker_processes,
+          current_setting('random_page_cost')::float AS random_page_cost,
+          current_setting('seq_page_cost')::float AS seq_page_cost,
+          (SELECT setting FROM pg_settings WHERE name = 'checkpoint_timeout') AS checkpoint_timeout,
+          pg_size_bytes(current_setting('work_mem'))::float AS work_mem,
+          pg_size_bytes(current_setting('maintenance_work_mem'))::float AS maintenance_work_mem,
+          pg_size_bytes(current_setting('shared_buffers'))::float AS shared_buffers,
+          pg_size_bytes(current_setting('effective_cache_size'))::float AS effective_cache_size,
+          pg_size_bytes(current_setting('max_wal_size'))::float AS max_wal_size
+
+- name: "settings"
+  help: "PostgreSQL settings"
+  scope: cluster
+  min_version: 11
+  labels:
+    - "settings"
+  values:
+    - "data_checksums"
+    - "jit"
+    - "max_connections"
+    - "autovacuum_freeze_max_age"
+    - "superuser_reserved_connections"
+    - "max_wal_senders"
+    - "max_prepared_transactions"
+    - "max_worker_processes"
+    - "random_page_cost"
+    - "seq_page_cost"
+    - "checkpoint_timeout"
+    - "work_mem"
+    - "maintenance_work_mem"
+    - "shared_buffers"
+    - "effective_cache_size"
+    - "max_wal_size"
+  query: >-
+          SELECT
+          current_setting('data_checksums')::bool::int::float AS data_checksums,
+          current_setting('jit')::bool::int::float AS jit,
+          current_setting('max_connections')::float AS max_connections,
+          current_setting('autovacuum_freeze_max_age')::float AS autovacuum_freeze_max_age,
+          current_setting('superuser_reserved_connections')::float AS superuser_reserved_connections,
+          current_setting('max_wal_senders')::float AS max_wal_senders,
+          current_setting('max_prepared_transactions')::float AS max_prepared_transactions,
+          current_setting('max_worker_processes')::float AS max_worker_processes,
+          current_setting('random_page_cost')::float AS random_page_cost,
+          current_setting('seq_page_cost')::float AS seq_page_cost,
+          (SELECT setting FROM pg_settings WHERE name = 'checkpoint_timeout') AS checkpoint_timeout,
+          pg_size_bytes(current_setting('work_mem'))::float AS work_mem,
+          pg_size_bytes(current_setting('maintenance_work_mem'))::float AS maintenance_work_mem,
+          pg_size_bytes(current_setting('shared_buffers'))::float AS shared_buffers,
+          pg_size_bytes(current_setting('effective_cache_size'))::float AS effective_cache_size,
+          pg_size_bytes(current_setting('max_wal_size'))::float AS max_wal_size
 
 - name: "pg_locks"
   help: "locks held"
@@ -37,6 +113,7 @@
   help: "database statistics"
   scope: cluster
   min_version: 9.2
+  max_version: 11
   type: "counter"
   labels:
     - "datname"
@@ -79,6 +156,59 @@
           blk_read_time,
           blk_write_time,
           age(d.datfrozenxid) AS freeze_age,
+          pg_database_size(s.datname)::float AS dbsize
+          FROM pg_stat_database s
+          LEFT JOIN pg_database d ON d.datname = s.datname
+          WHERE NOT s.datname ~ '^template(0|1)$'
+
+- name: "pg_stat_database"
+  help: "database statistics"
+  scope: cluster
+  min_version: 12
+  type: "counter"
+  labels:
+    - "datname"
+  values:
+    - "numbackends:count"
+    - "xact_commit"
+    - "xact_rollback"
+    - "blks_read"
+    - "blks_hit"
+    - "tup_returned"
+    - "tup_fetched"
+    - "tup_inserted"
+    - "tup_updated"
+    - "tup_deleted"
+    - "conflicts"
+    - "temp_files"
+    - "temp_bytes"
+    - "deadlocks"
+    - "blk_read_time"
+    - "blk_write_time"
+    - "freeze_age"
+    - "checksum_failures"
+    - "dbsize"
+  query: >-
+          SELECT
+          s.datname::text,
+          numbackends::float,
+          xact_commit::float,
+          xact_rollback::float,
+          blks_read::float,
+          blks_hit::float,
+          tup_returned::float,
+          tup_fetched::float,
+          tup_inserted::float,
+          tup_updated::float,
+          tup_deleted::float,
+          conflicts::float,
+          temp_files::float,
+          temp_bytes::float,
+          deadlocks::float,
+          blk_read_time,
+          blk_write_time,
+          age(d.datfrozenxid) AS freeze_age,
+          coalesce(checksum_failures::float, 0) AS checksum_failures,
           pg_database_size(s.datname)::float AS dbsize
           FROM pg_stat_database s
           LEFT JOIN pg_database d ON d.datname = s.datname
