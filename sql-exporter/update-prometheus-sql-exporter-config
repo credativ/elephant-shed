@@ -52,10 +52,12 @@ sub push_queries_as_jobs($$$)
     }
   }
 
-  my $instant_job = dclone($job_settings);
-  $instant_job->{interval} = 0;
-  $instant_job->{queries} = \@instant;
-  push @$jobs, $instant_job;
+  if (@instant) {
+    my $instant_job = dclone($job_settings);
+    $instant_job->{interval} = 0;
+    $instant_job->{queries} = \@instant;
+    push @$jobs, $instant_job;
+  }
 }
 
 my $queries_directory = $ARGV[0] // die "No directory for *.yml query files specified";
