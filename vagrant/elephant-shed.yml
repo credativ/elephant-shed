@@ -28,6 +28,7 @@
       state: present
     with_items:
     - apt-transport-https
+    - gpg
     - etckeeper
     - lvm2
 
