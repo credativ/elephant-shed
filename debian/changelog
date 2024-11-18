@@ -1,7 +1,14 @@
-elephant-shed (1.3.9) UNRELEASED; urgency=medium
+elephant-shed (1.3.9) unstable; urgency=medium
 
+  [ Michael Banck ]
+  * Overhaul Grafana dashboard.
+  * Add work-around to sql-exporter instant queries no longer being supported
+    upstream.
 
- -- credativ GmbH <info@credativ.de>  Wed, 28 Feb 2024 13:43:31 +0100
+  [ Nicolas Dandrimont ]
+  * Make sql-exporter only generate instant job if there are instant queries.
+
+ -- Michael Banck <mchael.banck@credativ.de>  Mon, 18 Nov 2024 17:06:10 +0100
 
 elephant-shed (1.3.8) unstable; urgency=medium
 
