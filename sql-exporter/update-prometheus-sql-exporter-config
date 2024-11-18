@@ -54,7 +54,11 @@ sub push_queries_as_jobs($$$)
 
   if (@instant) {
     my $instant_job = dclone($job_settings);
-    $instant_job->{interval} = 0;
+    # Debian switched to upstream sql-exporter which does not have synchronous
+    # jobs yet, so interval cannot be 0 for instant, or else sql-exporter would
+    # run the queries non-stop. Our default Prometheus scrape interval is 300s,
+    # so set this to 150s for now.
+    $instant_job->{interval} = '150s';
     $instant_job->{queries} = \@instant;
     push @$jobs, $instant_job;
   }
