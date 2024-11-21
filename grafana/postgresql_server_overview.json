@@ -4494,7 +4494,6 @@
           "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_returned'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
-          "instant": "",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "Select (table scan) {{datname}}",
