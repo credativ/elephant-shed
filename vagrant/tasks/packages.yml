@@ -7,7 +7,7 @@
 
 - name: Setup pgdg repository
   apt_repository:
-    repo: 'deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main'
+    repo: "deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-{{ pgdg_repo | default('pgdg') }} main"
     filename: 'pgdg'
     update_cache: false
 
