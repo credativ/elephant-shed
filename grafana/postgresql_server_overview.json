@@ -4996,7 +4996,7 @@
       "id": 77,
       "panels": [],
       "repeat": null,
-      "title": "PostgreSQL Table Scans and Buffers",
+      "title": "PostgreSQL Table/Index Scans and Buffers",
       "type": "row"
     },
     {
@@ -5054,7 +5054,7 @@
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "seq scans {{schemaname}}.{{relname}} ({{database}})",
+          "legendFormat": "seq scan tuples {{schemaname}}.{{relname}} ({{database}})",
           "metric": "",
           "refId": "B",
           "step": 40
@@ -5152,11 +5152,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, sort_desc((sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='seq_tup_read', datname=~'$datname'} > 0 ) / ignoring(col) (sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='idx_tup_fetch', datname=~'$datname'} > 0 )))",
+          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='idx_tup_fetch', database=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "seq/idx scan tuple ratio {{schemaname}}.{{relname}} ({{database}})",
+          "legendFormat": "index scan tuples {{schemaname}}.{{relname}} ({{database}})",
           "metric": "sql_pg_stat_user_tables",
           "refId": "A",
           "step": 40
@@ -5166,7 +5166,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Seq/Index Tuple Ratio [$rate_interval] (top $ntop_relations) - $datname",
+      "title": "Index Scan Tuples [$rate_interval] (top $ntop_relations) - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
