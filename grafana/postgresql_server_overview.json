@@ -5230,7 +5230,7 @@
         "current": false,
         "max": false,
         "min": false,
-        "show": true,
+        "show": false,
         "total": false,
         "values": false
       },
@@ -5252,19 +5252,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='blks_hit'}[$rate_interval]))",
+          "expr": "sum(increase(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='blks_hit'}[$rate_interval])) / (sum(increase(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='blks_read'}[$rate_interval])) + sum(increase(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='blks_hit'}[$rate_interval])))",
           "format": "time_series",
           "intervalFactor": 2,
-          "legendFormat": "Hits",
-          "refId": "B",
-          "step": 60
-        },
-        {
-          "expr": "sum(rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='blks_read'}[$rate_interval]))",
-          "format": "time_series",
-          "intervalFactor": 2,
-          "legendFormat": "Misses",
-          "refId": "C",
+          "legendFormat": "hit rate",
+          "refId": "A",
           "step": 60
         }
       ],
@@ -5272,7 +5264,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Buffer Hits and Misses [$rate_interval] - $datname",
+      "title": "Buffer Hit Rate [$rate_interval] - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -5288,11 +5280,11 @@
       },
       "yaxes": [
         {
-          "format": "ops",
+          "format": "percentunit",
           "label": null,
           "logBase": 1,
-          "max": null,
-          "min": "0",
+          "max": "1",
+          "min": null,
           "show": true
         },
         {
