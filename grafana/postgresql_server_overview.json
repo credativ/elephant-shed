@@ -2,7 +2,7 @@
   "__inputs": [
     {
       "name": "DS_PROMETHEUS",
-      "label": "prometheus",
+      "label": "DS_PROMETHEUS",
       "description": "",
       "type": "datasource",
       "pluginId": "prometheus",
@@ -76,7 +76,7 @@
       "type": "row"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -125,7 +125,7 @@
       "targets": [
         {
           "exemplar": false,
-          "expr": "sql_server{host=~'$host',sql_job=~'$cluster',col=\"server_start_time\"}",
+          "expr": "sql_server{host=~'$host',instance=~'$instance',sql_job=~'$cluster',col=\"server_start_time\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "{{server_version}}",
@@ -137,7 +137,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -183,7 +183,7 @@
       "pluginVersion": "7.4.3",
       "targets": [
         {
-          "expr": "count(count(node_cpu_seconds_total) without (mode)) without (cpu)",
+          "expr": "count(count(node_cpu_seconds_total) without (mode, instance, job)) without (cpu)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -193,7 +193,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -239,7 +239,7 @@
       "pluginVersion": "7.4.3",
       "targets": [
         {
-          "expr": "node_memory_MemTotal_bytes",
+          "expr": "node_memory_MemTotal_bytes{instance=~'$instance'}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -249,7 +249,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -295,7 +295,7 @@
       "pluginVersion": "7.4.3",
       "targets": [
         {
-          "expr": "sql_settings{col=\"max_connections\",host=~'$host',sql_job=~'$cluster'}",
+          "expr": "sql_settings{col=\"max_connections\",host=~'$host',instance=~'$instance',sql_job=~'$cluster'}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -305,7 +305,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -351,7 +351,7 @@
       "pluginVersion": "7.4.3",
       "targets": [
         {
-          "expr": "sql_settings{col=\"work_mem\",host=~'$host',sql_job=~'$cluster'}",
+          "expr": "sql_settings{col=\"work_mem\",host=~'$host',instance=~'$instance',sql_job=~'$cluster'}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -361,7 +361,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -407,7 +407,7 @@
       "pluginVersion": "7.4.3",
       "targets": [
         {
-          "expr": "sql_settings{col=\"shared_buffers\",host=~'$host',sql_job=~'$cluster'}",
+          "expr": "sql_settings{col=\"shared_buffers\",host=~'$host',instance=~'$instance',sql_job=~'$cluster'}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -417,7 +417,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -463,7 +463,7 @@
       "pluginVersion": "7.4.3",
       "targets": [
         {
-          "expr": "sql_settings{col=\"max_wal_size\",host=~'$host',sql_job=~'$cluster'}",
+          "expr": "sql_settings{col=\"max_wal_size\",host=~'$host',instance=~'$instance',sql_job=~'$cluster'}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -473,7 +473,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -535,7 +535,7 @@
       "pluginVersion": "7.4.3",
       "targets": [
         {
-          "expr": "sql_settings{col=\"data_checksums\",host=~'$host',sql_job=~'$cluster'}",
+          "expr": "sql_settings{col=\"data_checksums\",host=~'$host',instance=~'$instance',sql_job=~'$cluster'}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -545,7 +545,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -592,7 +592,7 @@
       "pluginVersion": "7.4.3",
       "targets": [
         {
-          "expr": "sum by (checksum_failures) (sql_pg_stat_database{col=\"checksum_failures\",host=~'$host',sql_job=~'$cluster'})",
+          "expr": "sum by (checksum_failures) (sql_pg_stat_database{col=\"checksum_failures\",host=~'$host',instance=~'$instance',sql_job=~'$cluster'})",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -602,7 +602,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -648,7 +648,7 @@
       "pluginVersion": "7.4.3",
       "targets": [
         {
-          "expr": "sql_server{col=\"server_start_time\", host=~'$host',sql_job=~'$cluster'} * 1000",
+          "expr": "sql_server{col=\"server_start_time\", host=~'$host',instance=~'$instance',sql_job=~'$cluster'} * 1000",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -658,7 +658,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -705,7 +705,7 @@
       "pluginVersion": "7.4.3",
       "targets": [
         {
-          "expr": "sql_settings{col=\"max_worker_processes\",host=~'$host',sql_job=~'$cluster'}",
+          "expr": "sql_settings{col=\"max_worker_processes\",host=~'$host',instance=~'$instance',sql_job=~'$cluster'}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -715,7 +715,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -761,7 +761,7 @@
       "pluginVersion": "7.4.3",
       "targets": [
         {
-          "expr": "sql_settings{col=\"maintenance_work_mem\",host=~'$host',sql_job=~'$cluster'}",
+          "expr": "sql_settings{col=\"maintenance_work_mem\",host=~'$host',instance=~'$instance',sql_job=~'$cluster'}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -771,7 +771,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -817,7 +817,7 @@
       "pluginVersion": "7.4.3",
       "targets": [
         {
-          "expr": "sql_settings{col=\"effective_cache_size\",host=~'$host',sql_job=~'$cluster'}",
+          "expr": "sql_settings{col=\"effective_cache_size\",host=~'$host',instance=~'$instance',sql_job=~'$cluster'}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -827,7 +827,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -873,7 +873,7 @@
       "pluginVersion": "7.4.3",
       "targets": [
         {
-          "expr": "sql_settings{col=\"checkpoint_timeout\",host=~'$host',sql_job=~'$cluster'}",
+          "expr": "sql_settings{col=\"checkpoint_timeout\",host=~'$host',instance=~'$instance',sql_job=~'$cluster'}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -883,7 +883,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -945,7 +945,7 @@
       "pluginVersion": "7.4.3",
       "targets": [
         {
-          "expr": "sql_settings{col=\"jit\",host=~'$host',sql_job=~'$cluster'}",
+          "expr": "sql_settings{col=\"jit\",host=~'$host',instance=~'$instance',sql_job=~'$cluster'}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -955,7 +955,7 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1013,7 +1013,7 @@
       "pluginVersion": "7.4.3",
       "targets": [
         {
-          "expr": "node_vmstat_oom_kill",
+          "expr": "node_vmstat_oom_kill{instance=~'$instance'}",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -1024,7 +1024,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1046,7 +1046,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 1,
       "description": "The CPU usage, rate over $rate_interval.",
       "fieldConfig": {
@@ -1106,7 +1106,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", job=~'$job'}[$rate_interval])) * 100)",
+          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\", instance=~'$instance'}[$rate_interval])) * 100)",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -1138,7 +1138,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 1,
       "description": "",
       "fieldConfig": {
@@ -1198,7 +1198,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "1 - (node_memory_MemFree_bytes{job=~'$job'} + node_memory_Buffers_bytes{job=~'$job'} + node_memory_Cached_bytes{job=~'$job'}) / node_memory_MemTotal_bytes{job=~'$job'}",
+          "expr": "1 - (node_memory_MemFree_bytes{instance=~'$instance'} + node_memory_Buffers_bytes{instance=~'$instance'} + node_memory_Cached_bytes{instance=~'$instance'}) / node_memory_MemTotal_bytes{instance=~'$instance'}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -1231,7 +1231,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 1,
       "description": "Shows the percentage of used storage on the most used mount.",
       "fieldConfig": {
@@ -1291,7 +1291,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "1 - min(node_filesystem_free_bytes{job=~'$job', mountpoint=~'$filesystem'} / node_filesystem_size_bytes{job=~'$job', mountpoint=~'$filesystem'})",
+          "expr": "1 - min(node_filesystem_free_bytes{instance=~'$instance', mountpoint=~'$filesystem'} / node_filesystem_size_bytes{instance=~'$instance', mountpoint=~'$filesystem'})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -1324,7 +1324,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": null,
       "description": "Percentage of swap spaced used on system",
       "fieldConfig": {
@@ -1384,7 +1384,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "node_memory_SwapCached_bytes{job=~'$job'} / (node_memory_SwapCached_bytes{job=~'$job'} + node_memory_SwapFree_bytes{job=~'$job'})",
+          "expr": "node_memory_SwapCached_bytes{instance=~'$instance'} / (node_memory_SwapCached_bytes{instance=~'$instance'} + node_memory_SwapFree_bytes{instance=~'$instance'})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -1415,7 +1415,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 2,
       "description": "Age of oldest XID in percent of autovacuum_max_freeze_age (default: 200 M)\n\nAt 100%, tables will be frozen by autovacuum. Values over 100% indicate autovacuum is not keeping up.",
       "fieldConfig": {
@@ -1475,7 +1475,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "max(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='freeze_age'}) / max(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='autovacuum_freeze_max_age'})",
+          "expr": "max(sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster', datname=~'$datname', col='freeze_age'}) / max(sql_settings{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='autovacuum_freeze_max_age'})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{ host }}/{{ datname }}",
@@ -1506,7 +1506,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 2,
       "description": "The used connections in relation to the limit (reduced by superuser_reserved_connections).",
       "fieldConfig": {
@@ -1566,7 +1566,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(avg_over_time(sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col=\"count\"}[$rate_interval])) / (sum(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_connections'}) - sum(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='superuser_reserved_connections'}))",
+          "expr": "sum(avg_over_time(sql_pg_stat_activity{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col=\"count\"}[$rate_interval])) / (sum(sql_settings{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='max_connections'}) - sum(sql_settings{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='superuser_reserved_connections'}))",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -1598,7 +1598,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 0,
       "description": "Number of WAL files that still need to be archived.\n\nCan grow under write load but should not increase over longer periods of time.",
       "fieldConfig": {
@@ -1658,7 +1658,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sql_archive_ready{job=~'$job', host=~'$host', sql_job=~'$cluster'}",
+          "expr": "sql_archive_ready{host=~'$host', instance=~'$instance', sql_job=~'$cluster'}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -1689,7 +1689,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 0,
       "description": "The amount of WAL data that still needs to be archived.",
       "fieldConfig": {
@@ -1749,7 +1749,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "delta(sql_archive_ready{job=~'$job', host=~'$host', sql_job=~'$cluster'}[1h]) * 16 / 3600",
+          "expr": "delta(sql_archive_ready{host=~'$host', instance=~'$instance', sql_job=~'$cluster'}[1h]) * 16 / 3600",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -1780,7 +1780,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 2,
       "description": "Shows the rate/increase in failed archive actions.",
       "fieldConfig": {
@@ -1840,7 +1840,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "increase(sql_pg_stat_archiver{job=~'$job', host=~'$host', sql_job=~'$cluster', col='failed_count'}[$rate_interval])",
+          "expr": "increase(sql_pg_stat_archiver{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='failed_count'}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -1871,7 +1871,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": null,
       "description": "Active WAL senders in relation to max_wal_senders.",
       "fieldConfig": {
@@ -1931,7 +1931,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "count(sql_pg_stat_replication{job=~'$job', host=~'$host', sql_job=~'$cluster', pid!='0', col='flush_lag_bytes'})/ scalar(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_wal_senders'})",
+          "expr": "count(sql_pg_stat_replication{host=~'$host', instance=~'$instance', sql_job=~'$cluster', pid!='0', col='flush_lag_bytes'})/ scalar(sql_settings{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='max_wal_senders'})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -1963,7 +1963,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Shows the used prepared transactions in relation to max_prepared_transactions.\n\n'N/A' if not used.",
       "fieldConfig": {
         "defaults": {
@@ -2022,7 +2022,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(sql_prepared_transactions{job=~'$job', host=~'$host', sql_job=~'$cluster', col='count', datname=~'$datname'}) / sum(sql_settings{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_prepared_transactions'})",
+          "expr": "sum(sql_prepared_transactions{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='count', datname=~'$datname'}) / sum(sql_settings{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='max_prepared_transactions'})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -2053,7 +2053,7 @@
         "rgba(237, 129, 40, 0.89)",
         "rgba(245, 54, 54, 0.9)"
       ],
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 1,
       "description": "Shows the maximum of send_lag_bytes, flush_lag_bytes, replay_lag_bytes over all connected streaming receivers.\nThis is not a sufficient way to monitor if a standby is up to date!\nCan only give a hint if streaming is delayed.",
       "fieldConfig": {
@@ -2113,7 +2113,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "max(sql_pg_stat_replication{job=~'$job', host=~'$host', sql_job=~'$cluster', col=~'(send_lag_bytes|flush_lag_bytes|replay_lag_bytes)'})",
+          "expr": "max(sql_pg_stat_replication{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col=~'(send_lag_bytes|flush_lag_bytes|replay_lag_bytes)'})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -2139,7 +2139,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2157,7 +2157,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "decimals": 2,
       "fieldConfig": {
         "defaults": {
@@ -2206,7 +2206,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (mode) (rate(node_cpu_seconds_total{mode!='idle', job=~'$job'}[$rate_interval]))",
+          "expr": "sum by (mode) (rate(node_cpu_seconds_total{mode!='idle', instance=~'$instance'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2262,7 +2262,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -2308,7 +2308,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (cpu) (irate(node_cpu_seconds_total{mode!='idle', job=~'$job'}[$rate_interval]))",
+          "expr": "sum by (cpu) (irate(node_cpu_seconds_total{mode!='idle', instance=~'$instance'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2361,7 +2361,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2384,7 +2384,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -2437,7 +2437,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_memory_MemTotal_bytes{job=~'$job'} - (node_memory_MemFree_bytes{job=~'$job'} + node_memory_Buffers_bytes{job=~'$job'} + node_memory_Cached_bytes{job=~'$job'})",
+          "expr": "node_memory_MemTotal_bytes{instance=~'$instance'} - (node_memory_MemFree_bytes{instance=~'$instance'} + node_memory_Buffers_bytes{instance=~'$instance'} + node_memory_Cached_bytes{instance=~'$instance'})",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -2446,7 +2446,7 @@
           "step": 30
         },
         {
-          "expr": "node_memory_Buffers_bytes{job=~'$job'}",
+          "expr": "node_memory_Buffers_bytes{instance=~'$instance'}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -2455,7 +2455,7 @@
           "step": 30
         },
         {
-          "expr": "node_memory_Cached_bytes{job=~'$job'}",
+          "expr": "node_memory_Cached_bytes{instance=~'$instance'}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -2464,7 +2464,7 @@
           "step": 30
         },
         {
-          "expr": "node_memory_MemFree_bytes{job=~'$job'}",
+          "expr": "node_memory_MemFree_bytes{instance=~'$instance'}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "Free",
@@ -2520,7 +2520,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Modified memory that needs to be written back to permanent storage.",
       "fieldConfig": {
         "defaults": {
@@ -2565,7 +2565,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_memory_Dirty_bytes{job=~'$job'}",
+          "expr": "node_memory_Dirty_bytes{instance=~'$instance'}",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2627,7 +2627,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -2676,7 +2676,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_memory_SwapCached_bytes{job=~'$job'}",
+          "expr": "node_memory_SwapCached_bytes{instance=~'$instance'}",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -2687,7 +2687,7 @@
           "step": 240
         },
         {
-          "expr": "node_memory_SwapFree_bytes{job=~'$job'}",
+          "expr": "node_memory_SwapFree_bytes{instance=~'$instance'}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -2739,7 +2739,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2760,7 +2760,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -2817,7 +2817,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "node_filesystem_size_bytes{mountpoint=~'$filesystem', job=~'$job'} - node_filesystem_avail_bytes{mountpoint=~'$filesystem', device!~'rootfs', job=~'$job'}",
+          "expr": "node_filesystem_size_bytes{mountpoint=~'$filesystem', instance=~'$instance'} - node_filesystem_avail_bytes{mountpoint=~'$filesystem', device!~'rootfs', instance=~'$instance'}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -2827,7 +2827,7 @@
           "step": 120
         },
         {
-          "expr": "node_filesystem_avail_bytes{mountpoint=~'$filesystem', device!~'rootfs', job=~'$job'}",
+          "expr": "node_filesystem_avail_bytes{mountpoint=~'$filesystem', device!~'rootfs', instance=~'$instance'}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -2880,7 +2880,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2898,7 +2898,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Reads are shown above the \nzero line (>0) and writes are shown below (<0).",
       "fieldConfig": {
         "defaults": {
@@ -2948,7 +2948,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "-1 * irate(node_disk_writes_completed_total{device=~'$disk', job=~'$job'}[$rate_interval])",
+          "expr": "-1 * irate(node_disk_writes_completed_total{device=~'$disk', instance=~'$instance'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2958,7 +2958,7 @@
           "step": 120
         },
         {
-          "expr": "-1 * irate(node_disk_writes_merged_total{device=~'$disk', job=~'$job'}[$rate_interval])",
+          "expr": "-1 * irate(node_disk_writes_merged_total{device=~'$disk', instance=~'$instance'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2967,7 +2967,7 @@
           "step": 120
         },
         {
-          "expr": "irate(node_disk_reads_completed_total{device=~'$disk', job=~'$job'}[$rate_interval])",
+          "expr": "irate(node_disk_reads_completed_total{device=~'$disk', instance=~'$instance'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -2977,7 +2977,7 @@
           "step": 120
         },
         {
-          "expr": "irate(node_disk_reads_merged_total{device=~'$disk', job=~'$job'}[$rate_interval])",
+          "expr": "irate(node_disk_reads_merged_total{device=~'$disk', instance=~'$instance'}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "Reads (merged) {{device}}",
@@ -3031,7 +3031,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Reads are shown above the \nzero line (>0) and writes are shown below (<0).",
       "fieldConfig": {
         "defaults": {
@@ -3079,7 +3079,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "-1 * irate(node_disk_written_bytes_total{device=~'$disk', job=~'$job'}[$rate_interval])",
+          "expr": "-1 * irate(node_disk_written_bytes_total{device=~'$disk', instance=~'$instance'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3089,7 +3089,7 @@
           "step": 120
         },
         {
-          "expr": "irate(node_disk_read_bytes_total{device=~'$disk', job=~'$job'}[$rate_interval])",
+          "expr": "irate(node_disk_read_bytes_total{device=~'$disk', instance=~'$instance'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3144,7 +3144,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Reads are shown above the \nzero line (>0) and writes are shown below (<0).",
       "fieldConfig": {
         "defaults": {
@@ -3192,7 +3192,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "-1 * irate(node_disk_write_time_seconds_total{device=~'$disk', job=~'$job'}[$rate_interval])",
+          "expr": "-1 * irate(node_disk_write_time_seconds_total{device=~'$disk', instance=~'$instance'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -3203,7 +3203,7 @@
           "step": 120
         },
         {
-          "expr": "irate(node_disk_read_time_seconds_total{device=~'$disk', job=~'$job'}[$rate_interval])",
+          "expr": "irate(node_disk_read_time_seconds_total{device=~'$disk', instance=~'$instance'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -3256,7 +3256,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -3274,7 +3274,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "RX is shown above the \nzero line (>0) and TX is shown below (<0).",
       "fieldConfig": {
         "defaults": {
@@ -3319,7 +3319,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(node_network_receive_bytes_total{device=~'$interface', job=~'$job'}[$rate_interval])",
+          "expr": "irate(node_network_receive_bytes_total{device=~'$interface', instance=~'$instance'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -3330,7 +3330,7 @@
           "step": 60
         },
         {
-          "expr": "-1 * irate(node_network_transmit_bytes_total{device=~'$interface', job=~'$job'}[$rate_interval])",
+          "expr": "-1 * irate(node_network_transmit_bytes_total{device=~'$interface', instance=~'$instance'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3385,7 +3385,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "RX is shown above the \nzero line (>0) and TX is shown below (<0).",
       "fieldConfig": {
         "defaults": {
@@ -3430,7 +3430,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(node_network_receive_packets_total{device=~'$interface', job=~'$job'}[$rate_interval])",
+          "expr": "irate(node_network_receive_packets_total{device=~'$interface', instance=~'$instance'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -3441,7 +3441,7 @@
           "step": 120
         },
         {
-          "expr": "-1 * irate(node_network_transmit_packets_total{device=~'$interface', job=~'$job'}[$rate_interval])",
+          "expr": "-1 * irate(node_network_transmit_packets_total{device=~'$interface', instance=~'$instance'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3493,7 +3493,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -3511,7 +3511,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -3557,7 +3557,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='dbsize'}[$rate_interval])",
+          "expr": "rate(sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster', datname=~'$datname', col='dbsize'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3612,7 +3612,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -3658,7 +3658,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='dbsize'}",
+          "expr": "sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster', datname=~'$datname', col='dbsize'}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3710,7 +3710,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -3728,7 +3728,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -3804,7 +3804,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sort_desc(sum by (state) (sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col='count', datname=~'$datname'}))",
+          "expr": "sort_desc(sum by (state) (sql_pg_stat_activity{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='count', datname=~'$datname'}))",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -3866,7 +3866,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -3914,7 +3914,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (datname) (sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col='count', datname=~'$datname'})",
+          "expr": "sum by (datname) (sql_pg_stat_activity{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='count', datname=~'$datname'})",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -3970,7 +3970,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -3987,7 +3987,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -4031,7 +4031,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (datname) (rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='xact_commit', datname=~'$datname'}[$rate_interval]))",
+          "expr": "sum by (datname) (rate(sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='xact_commit', datname=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -4041,7 +4041,7 @@
           "step": 60
         },
         {
-          "expr": "sum by (datname) (rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='xact_rollback', datname=~'$datname'}[$rate_interval]))",
+          "expr": "sum by (datname) (rate(sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='xact_rollback', datname=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "rollbacks {{datname}}",
@@ -4049,7 +4049,7 @@
           "step": 60
         },
         {
-          "expr": "rate(sql_txid{job=~'$job', host=~'$host', sql_job=~'$cluster'}[$rate_interval])",
+          "expr": "rate(sql_txid{host=~'$host', instance=~'$instance', sql_job=~'$cluster'}[$rate_interval])",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "TXIDs (global)",
@@ -4104,7 +4104,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -4148,7 +4148,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max by (datname) (sql_pg_stat_activity{job=~'$job', host=~'$host', sql_job=~'$cluster', col='max_tx_duration', datname=~'$datname'})",
+          "expr": "max by (datname) (sql_pg_stat_activity{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='max_tx_duration', datname=~'$datname'})",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -4207,7 +4207,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -4264,7 +4264,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum (sql_pg_locks{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname'}) by (mode)",
+          "expr": "sum (sql_pg_locks{host=~'$host', instance=~'$instance', sql_job=~'$cluster', datname=~'$datname'}) by (mode)",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{ mode }}",
@@ -4321,7 +4321,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -4372,7 +4372,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='deadlocks', datname=~'$datname'}[90s]) * 60",
+          "expr": "rate(sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='deadlocks', datname=~'$datname'}[90s]) * 60",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -4426,7 +4426,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -4444,7 +4444,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -4491,7 +4491,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_returned'}[$rate_interval])",
+          "expr": "rate(sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', datname=~'$datname', col='tup_returned'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -4501,7 +4501,7 @@
           "step": 120
         },
         {
-          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_fetched'}[$rate_interval])",
+          "expr": "rate(sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', datname=~'$datname', col='tup_fetched'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -4559,7 +4559,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -4605,7 +4605,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, sql_pg_stat_user_tables{job='$job', host=~'$host', sql_job=~'$cluster.*', col='n_live_tup', datname=~'$datname'})",
+          "expr": "topk($ntop_relations, sql_pg_stat_user_tables{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', col='n_live_tup', datname=~'$datname'})",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -4661,7 +4661,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -4708,7 +4708,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_inserted'}[$rate_interval])",
+          "expr": "rate(sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', datname=~'$datname', col='tup_inserted'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -4717,7 +4717,7 @@
           "step": 120
         },
         {
-          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_updated'}[$rate_interval])",
+          "expr": "rate(sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', datname=~'$datname', col='tup_updated'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -4726,7 +4726,7 @@
           "step": 120
         },
         {
-          "expr": "rate(sql_pg_stat_database{job='$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname', col='tup_deleted'}[$rate_interval])",
+          "expr": "rate(sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', datname=~'$datname', col='tup_deleted'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -4783,7 +4783,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -4829,7 +4829,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='n_dead_tup', database=~'$datname'})",
+          "expr": "topk($ntop_relations, sql_pg_stat_user_tables{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', col='n_dead_tup', database=~'$datname'})",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -4885,7 +4885,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -4931,7 +4931,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='temp_bytes', database=~'$datname'}[$rate_interval])",
+          "expr": "rate(sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', col='temp_bytes', database=~'$datname'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -4986,7 +4986,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -5004,7 +5004,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -5050,7 +5050,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='seq_tup_read', database=~'$datname'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', col='seq_tup_read', database=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -5106,7 +5106,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -5152,7 +5152,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{job=~'$job', host=~'$host', sql_job=~'$cluster.*', col='idx_tup_fetch', database=~'$datname'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, rate(sql_pg_stat_user_tables{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', col='idx_tup_fetch', database=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -5208,7 +5208,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -5230,7 +5230,7 @@
         "current": false,
         "max": false,
         "min": false,
-        "show": false,
+        "show": true,
         "total": false,
         "values": false
       },
@@ -5252,7 +5252,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(increase(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='blks_hit'}[$rate_interval])) / (sum(increase(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='blks_read'}[$rate_interval])) + sum(increase(sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', datname=~'$datname', col='blks_hit'}[$rate_interval])))",
+          "expr": "sum(increase(sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster', datname=~'$datname', col='blks_hit'}[$rate_interval])) / (sum(increase(sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster', datname=~'$datname', col='blks_read'}[$rate_interval])) + sum(increase(sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster', datname=~'$datname', col='blks_hit'}[$rate_interval])))",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "hit rate",
@@ -5283,8 +5283,8 @@
           "format": "percentunit",
           "label": null,
           "logBase": 1,
-          "max": "1",
-          "min": null,
+          "max": 1,
+          "min": "null",
           "show": true
         },
         {
@@ -5303,7 +5303,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -5321,7 +5321,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -5369,7 +5369,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(sql_waldistance{job=~'$job', host=~'$host', sql_job=~'$cluster'}[$rate_interval])",
+          "expr": "rate(sql_waldistance{host=~'$host', instance=~'$instance', sql_job=~'$cluster'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -5379,7 +5379,7 @@
           "step": 60
         },
         {
-          "expr": "rate(sql_checkpoints{col=\"buffers\", job=~'$job', host=~'$host', sql_job=~'$cluster'}[$rate_interval]) * 8192",
+          "expr": "rate(sql_checkpoints{col=\"buffers\", host=~'$host', instance=~'$instance', sql_job=~'$cluster'}[$rate_interval]) * 8192",
           "hide": false,
           "interval": "",
           "intervalFactor": 2,
@@ -5433,7 +5433,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -5488,7 +5488,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "60 * rate(sql_checkpoints{job=~'$job', host=~'$host', sql_job=~'$cluster'}[90s])",
+          "expr": "60 * rate(sql_checkpoints{host=~'$host', instance=~'$instance', sql_job=~'$cluster'}[90s])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -5569,7 +5569,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -5613,7 +5613,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_LastCheckpointDistance{job=~'$job', host=~'$host', sql_job=~'$cluster'}",
+          "expr": "sql_LastCheckpointDistance{host=~'$host', instance=~'$instance', sql_job=~'$cluster'}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -5666,7 +5666,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -5684,7 +5684,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -5732,7 +5732,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "60 * rate(sql_Maintenancecounters{job=~'$job', host=~'$host', sql_job=~'$cluster.*', datname=~'$datname'}[$rate_interval])",
+          "expr": "60 * rate(sql_Maintenancecounters{host=~'$host', sql_job=~'$cluster.*', datname=~'$datname'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -5788,7 +5788,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -5834,7 +5834,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_Maintenancecounters{job=~'$job', host=~'$host', sql_job=~'$cluster.*', database=~'$datname'}",
+          "expr": "sql_Maintenancecounters{host=~'$host', sql_job=~'$cluster.*', database=~'$datname'}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -5890,7 +5890,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Age of oldest XID in database\n\nWhen reaching autovacuum_max_freeze_age (default: 200 M), tables will be frozen by autovacuum.",
       "fieldConfig": {
         "defaults": {
@@ -5937,7 +5937,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_pg_stat_database{job=~'$job', host=~'$host', sql_job=~'$cluster', col='freeze_age', datname=~'$datname'}",
+          "expr": "sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='freeze_age', datname=~'$datname'}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -5990,7 +5990,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -6008,7 +6008,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Number of WAL files that still need to be archived.\n\nCan grow under write load but should not increase over longer periods of time.",
       "fieldConfig": {
         "defaults": {
@@ -6053,7 +6053,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_archive_ready{job=~'$job', host=~'$host', sql_job=~'$cluster'}",
+          "expr": "sql_archive_ready{host=~'$host', instance=~'$instance', sql_job=~'$cluster'}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "WAL Files Ready",
@@ -6109,7 +6109,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Successful and failed archive commands per minute.",
       "fieldConfig": {
         "defaults": {
@@ -6154,7 +6154,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "60 * rate(sql_pg_stat_archiver{job=~'$job', host=~'$host', sql_job=~'$cluster', col=~'archived_count|failed_count'}[$rate_interval])",
+          "expr": "60 * rate(sql_pg_stat_archiver{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col=~'archived_count|failed_count'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -6215,7 +6215,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "The amount of data a stream receiver like a standby server lags behind the master.\n\nsend_lag: Data that still needs to be send (should be small).\n\nflush_lag: Data that was received but must be flushed to persistent storage (this data can be lost if the standby is terminated).\n\nreplay_lag: Data that still needs to be replayed by PostgreSQL on the standby (can lag behind during writes in asynchronous configurations).",
       "fieldConfig": {
         "defaults": {
@@ -6265,7 +6265,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_pg_stat_replication{job=~'$job', host=~'$host', sql_job=~'$cluster', col='send_lag_bytes', application_name != ''}",
+          "expr": "sql_pg_stat_replication{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='send_lag_bytes', application_name != ''}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -6274,7 +6274,7 @@
           "step": 40
         },
         {
-          "expr": "sql_pg_stat_replication{job=~'$job', host=~'$host', sql_job=~'$cluster', col='flush_lag_bytes', application_name != ''}",
+          "expr": "sql_pg_stat_replication{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='flush_lag_bytes', application_name != ''}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -6282,7 +6282,7 @@
           "refId": "B"
         },
         {
-          "expr": "sql_pg_stat_replication{job=~'$job', host=~'$host', sql_job=~'$cluster', col='replay_lag_bytes', application_name != ''}",
+          "expr": "sql_pg_stat_replication{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='replay_lag_bytes', application_name != ''}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -6290,7 +6290,7 @@
           "refId": "C"
         },
         {
-          "expr": "sql_pg_stat_replication{job=~'$job', host=~'$host', sql_job=~'$cluster', col=~'replay_lag_bytes|flush_lag_bytes|send_lag_bytes', application_name=''}>0",
+          "expr": "sql_pg_stat_replication{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col=~'replay_lag_bytes|flush_lag_bytes|send_lag_bytes', application_name=''}>0",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -6341,7 +6341,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -6359,7 +6359,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Statement average execution time",
       "fieldConfig": {
         "defaults": {
@@ -6408,7 +6408,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, rate(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', col='total_time', datname=~'$datname'}[$rate_interval]) / ignoring(col) rate(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', col='calls', datname=~'$datname'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, rate(sql_pg_stat_statements{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='total_time', datname=~'$datname'}[$rate_interval]) / ignoring(col) rate(sql_pg_stat_statements{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='calls', datname=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -6463,7 +6463,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Statement execution time per second",
       "fieldConfig": {
         "defaults": {
@@ -6512,7 +6512,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, rate(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', col='total_time', datname=~'$datname'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, rate(sql_pg_stat_statements{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='total_time', datname=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -6567,7 +6567,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Statements called per second",
       "fieldConfig": {
         "defaults": {
@@ -6616,7 +6616,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, rate(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', col='calls', datname=~'$datname'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, rate(sql_pg_stat_statements{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='calls', datname=~'$datname'}[$rate_interval]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -6668,7 +6668,7 @@
     },
     {
       "columns": [],
-      "datasource": "prometheus",
+      "datasource": "${DS_PROMETHEUS}",
       "description": "Shows how long statements took in the chosen time period.",
       "fieldConfig": {
         "defaults": {
@@ -7077,7 +7077,7 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "topk($ntop_relations, increase(sql_pg_stat_statements{job=~'$job', host=~'$host', sql_job=~'$cluster', host=~'$host', col='total_time', datname=~'$datname'}[$__range]))",
+          "expr": "topk($ntop_relations, increase(sql_pg_stat_statements{host=~'$host', instance=~'$instance', sql_job=~'$cluster', host=~'$host', col='total_time', datname=~'$datname'}[$__range]))",
           "format": "table",
           "instant": true,
           "interval": "",
@@ -7128,13 +7128,23 @@
   "templating": {
     "list": [
       {
+        "hide": 2,
+        "label": "datasource",
+        "name": "DS_PROMETHEUS",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {
           "selected": false,
           "text": "localhost",
           "value": "localhost"
         },
-        "datasource": "prometheus",
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "",
         "description": null,
         "error": null,
@@ -7142,10 +7152,10 @@
         "includeAll": false,
         "label": "Server",
         "multi": false,
-        "name": "job",
+        "name": "instance",
         "options": [],
         "query": {
-          "query": "label_values(sql_settings{col='max_connections'}, job)",
+          "query": "label_values(sql_settings{col='max_connections'}, instance)",
           "refId": "prometheus-job-Variable-Query"
         },
         "refresh": 2,
@@ -7165,7 +7175,7 @@
           "text": "11/main",
           "value": "11/main"
         },
-        "datasource": "prometheus",
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "",
         "description": null,
         "error": null,
@@ -7176,7 +7186,7 @@
         "name": "cluster",
         "options": [],
         "query": {
-          "query": "label_values(sql_settings{job='$job'}, sql_job)",
+          "query": "label_values(sql_settings{instance='$instance'}, sql_job)",
           "refId": "prometheus-cluster-Variable-Query"
         },
         "refresh": 2,
@@ -7196,7 +7206,7 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "prometheus",
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "",
         "description": null,
         "error": null,
@@ -7207,7 +7217,7 @@
         "name": "host",
         "options": [],
         "query": {
-          "query": "label_values(sql_settings{job='$job'}, host)",
+          "query": "label_values(sql_settings{instance='$instance'}, host)",
           "refId": "prometheus-host-Variable-Query"
         },
         "refresh": 2,
@@ -7227,7 +7237,7 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "prometheus",
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "",
         "description": null,
         "error": null,
@@ -7238,7 +7248,7 @@
         "name": "datname",
         "options": [],
         "query": {
-          "query": "label_values(sql_pg_stat_database{col='dbsize', host=~'$host', sql_job=~'$cluster'}, datname)",
+          "query": "label_values(sql_pg_stat_database{col='dbsize', host=~'$host', instance=~'$instance', sql_job=~'$cluster'}, datname)",
           "refId": "prometheus-datname-Variable-Query"
         },
         "refresh": 2,
@@ -7304,7 +7314,7 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "prometheus",
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "",
         "description": null,
         "error": null,
@@ -7390,7 +7400,7 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "prometheus",
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "",
         "description": null,
         "error": null,
@@ -7421,7 +7431,7 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "prometheus",
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "",
         "description": null,
         "error": null,
@@ -7432,7 +7442,7 @@
         "name": "filesystem",
         "options": [],
         "query": {
-          "query": "label_values(node_filesystem_size_bytes{job='$job'}, mountpoint)",
+          "query": "label_values(node_filesystem_size_bytes{instance='$instance'}, mountpoint)",
           "refId": "prometheus-filesystem-Variable-Query"
         },
         "refresh": 2,
@@ -7452,7 +7462,7 @@
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "prometheus",
+        "datasource": "${DS_PROMETHEUS}",
         "definition": "",
         "description": null,
         "error": null,
@@ -7463,7 +7473,7 @@
         "name": "application_name",
         "options": [],
         "query": {
-          "query": "label_values(sql_pg_stat_replication{host=~'$host', sql_job=~'$cluster'}, application_name)",
+          "query": "label_values(sql_pg_stat_replication{host=~'$host', instance=~'$instance', sql_job=~'$cluster'}, application_name)",
           "refId": "prometheus-application_name-Variable-Query"
         },
         "refresh": 2,
