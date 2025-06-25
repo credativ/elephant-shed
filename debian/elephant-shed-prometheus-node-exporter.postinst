@@ -2,12 +2,22 @@
 
 set -e
 
+HOSTNAME=`hostname -f`
+
 case $1 in
   configure)
     systemctl daemon-reload
 
     deb-systemd-helper enable prometheus-node-exporter.service
     deb-systemd-invoke restart prometheus-node-exporter
+
+    if [ -e /etc/prometheus/elephant-shed-prometheus.yml ]; then
+      if [ ! -e /etc/prometheus/node_exporter/$HOSTNAME.yml ]; then
+        mkdir -m 755 -p /etc/prometheus/node_exporter
+        echo "- targets:" > /etc/prometheus/node_exporter/$HOSTNAME.yml
+        echo "    - $HOSTNAME:9100" >> /etc/prometheus/node_exporter/$HOSTNAME.yml
+      fi
+    fi
     ;;
 esac
 

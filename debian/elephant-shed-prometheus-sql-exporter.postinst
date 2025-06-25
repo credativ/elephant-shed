@@ -2,6 +2,8 @@
 
 set -e
 
+HOSTNAME=$(hostname -f)
+
 case $1 in
   configure)
     systemctl daemon-reload
@@ -10,6 +12,14 @@ case $1 in
     systemctl restart prometheus-sql-exporter.service
     systemctl enable prometheus-sql-exporter-restart.timer
     systemctl start prometheus-sql-exporter-restart.timer
+
+    if [ -e /etc/prometheus/elephant-shed-prometheus.yml ]; then
+      if [ ! -e /etc/prometheus/sql_exporter/$HOSTNAME.yml ]; then
+        mkdir -m 755 -p /etc/prometheus/sql_exporter
+        echo "- targets:" > /etc/prometheus/sql_exporter/$HOSTNAME.yml
+        echo "    - $HOSTNAME:9237" >> /etc/prometheus/sql_exporter/$HOSTNAME.yml
+      fi
+    fi
     ;;
 esac
 
