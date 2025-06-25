@@ -21,8 +21,44 @@ scrape_configs:
     metrics_path: /prometheus/metrics
     static_configs:
       - targets: ['localhost:9090']
-
-  # scrape data from node_exporter and sql_exporter on this machine
-  - job_name: localhost
-    static_configs:
-      - targets: ['localhost:9100', 'localhost:9237']
+  # scrape data from node_exporter
+  - file_sd_configs:
+    - files:
+      - /etc/prometheus/node_exporter/*.yml
+      refresh_interval: 15s
+    job_name: node
+    relabel_configs:
+    - source_labels:
+      - __address__
+      target_label: __param_target
+    - regex: (.+)
+      replacement: ${1};
+      source_labels:
+      - instance
+      target_label: __tmp_instance
+    - regex: ([^:;]+)((:[0-9]+)?|;(.*))
+      replacement: ${1}
+      separator: ''
+      source_labels:
+      - __tmp_instance
+      - __address__
+      target_label: instance
+  # scrape data from sql_exporter
+  - file_sd_configs:
+    - files:
+      - /etc/prometheus/sql_exporter/*.yml
+      refresh_interval: 15s
+    job_name: sql
+    relabel_configs:
+    - regex: (.+)
+      replacement: ${1};
+      source_labels:
+      - instance
+      target_label: __tmp_instance
+    - regex: ([^:;]+)((:[0-9]+)?|;(.*))
+      replacement: ${1}
+      separator: ''
+      source_labels:
+      - __tmp_instance
+      - __address__
+      target_label: instance
