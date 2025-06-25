@@ -10,7 +10,7 @@ GOMAXPROCS=1
 ARGS="--collector.diskstats.ignored-devices=^(ram|loop|fd|(h|s|v|xv)d[a-z]|nvme\\d+n\\d+p)\\d+$ \
       --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|run)($|/) \
       --collector.textfile.directory=/var/lib/prometheus/node-exporter \
-      --web.listen-address=127.0.0.1:9100"
+      --web.listen-address=:9100"
 
 # Prometheus-node-exporter supports the following options:
 #
