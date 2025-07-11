@@ -6543,7 +6543,7 @@
       "datasource": {
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "Statement execution time per second",
+      "description": "Statement execution buffer usage per second",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -6596,7 +6596,7 @@
               }
             ]
           },
-          "unit": "ms"
+          "unit": "KBs"
         },
         "overrides": [
           {
@@ -6673,16 +6673,18 @@
           "datasource": {
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "topk($ntop_relations, rate(sql_pg_stat_statements{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='total_time', datname=~'$datname'}[$rate_interval]))",
+          "editorMode": "code",
+          "expr": "topk($ntop_relations, sum by (query) (rate(sql_pg_stat_statements{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='shared_blks_hit', datname=~'$datname'}[$rate_interval])*8) + sum by (query) (rate(sql_pg_stat_statements{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='shared_blks_read', datname=~'$datname'}[$rate_interval])*8))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "({{datname}}) {{query}}",
+          "legendFormat": "{{datname}} {{query}}",
+          "range": true,
           "refId": "A",
           "step": 40
         }
       ],
-      "title": "Top $ntop_relations Statements by Total Time [$rate_interval] - $datname",
+      "title": "Top $ntop_relations Statements by Buffer Usage [$rate_interval] - $datname",
       "type": "timeseries"
     },
     {
@@ -6832,12 +6834,14 @@
       "type": "timeseries"
     },
     {
-      "columns": [],
-      "datasource": "${DS_PROMETHEUS}",
+      "datasource": {
+        "uid": "${DS_PROMETHEUS}"
+      },
       "description": "Shows how long statements took in the chosen time period.",
       "fieldConfig": {
         "defaults": {
           "custom": {
+            "align": "auto",
             "cellOptions": {
               "type": "auto"
             },
