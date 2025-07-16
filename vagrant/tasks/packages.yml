@@ -16,12 +16,12 @@
     repo: 'deb http://deb.debian.org/debian {{ ansible_distribution_release }}-backports main'
     filename: 'backports'
     update_cache: false
-  when: ansible_distribution_release == "buster"
+  when: ansible_distribution_release == "bookworm"
 
   # We want to add the debian security repository, if not already
   # present. This is required if some 3rd party package depends on
-  # versions that are not included in buster main but in
-  # buster/updates main.  We use lineinfile instead of apt_repository
+  # versions that are not included in bookworm main but in
+  # bookworm/updates main.  We use lineinfile instead of apt_repository
   # to not add it if its already configured in
   # /etc/apt/sources.list. apt_repository would add a new entry within
   # /etc/apt/sources.list.d.
@@ -63,13 +63,14 @@
   - ssl-cert
   - net-tools
   - ferm
+  - wget
 
 - name: Install Django for OmniDB
   package:
     name: python3-django
     state: present
-    default_release: buster-backports
-  when: ansible_distribution_release == "buster"
+    default_release: bookworm-backports
+  when: ansible_distribution_release == "bookworm"
 
 # elephant shed
 # separate tasks, so we can see the progress better
