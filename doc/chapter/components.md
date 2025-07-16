@@ -293,7 +293,7 @@ update-powa-web-config
 To enable PoWA monitoring for a cluster, run `es_ctlcluster`:
 
 ```
-es_ctlcluster 14 main enable-powa
+es_ctlcluster <postgresql_version> main enable-powa
 ```
 
 In case of problems, the web interface will throw "Auth failed" errors for a
