@@ -16,7 +16,7 @@
     repo: 'deb http://deb.debian.org/debian {{ ansible_distribution_release }}-backports main'
     filename: 'backports'
     update_cache: false
-  when: ansible_distribution_release == "bookworm"
+  when: ansible_distribution_release == "buster"
 
   # We want to add the debian security repository, if not already
   # present. This is required if some 3rd party package depends on
