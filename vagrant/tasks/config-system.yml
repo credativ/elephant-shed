@@ -86,3 +86,13 @@
     insertafter: '^\[Service\]'
   notify:
     - systemctl daemon-reload
+
+- name: Enable sysstat metrics capturing
+  lineinfile:
+    dest: /etc/default/sysstat
+    state: present
+    regexp: ENABLED
+    line: ENABLED="true"
+  notify:
+    - systemctl enable sysstat
+    - systemctl restart sysstat
