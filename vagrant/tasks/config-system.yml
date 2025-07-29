@@ -94,5 +94,4 @@
     regexp: ENABLED
     line: ENABLED="true"
   notify:
-    - systemctl enable sysstat
-    - systemctl restart sysstat
+    - restart sysstat

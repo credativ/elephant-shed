@@ -79,3 +79,9 @@
   service:
     name: ferm
     state: restarted
+
+- name: restart sysstat
+  service:
+    name: sysstat
+    state: restarted
+    enabled: true

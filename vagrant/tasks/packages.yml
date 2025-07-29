@@ -64,6 +64,7 @@
   - net-tools
   - ferm
   - wget
+  - sysstat
 
 - name: Install Django for OmniDB
   package:
