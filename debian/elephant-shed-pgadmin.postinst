@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -eu
+
+case $1 in
+  configure)
+    echo "Configure pgadmin to use basicauth as authentication"
+    sed -i 's/^MASTER_PASSWORD_REQUIRED.*/MASTER_PASSWORD_REQUIRED = False/g' /usr/pgadmin4/web/config.py
+    sed -i 's/^AUTHENTICATION_SOURCES.*/AUTHENTICATION_SOURCES = ['\''webserver'\'','\''internal'\'']/g' /usr/pgadmin4/web/config.py
+    export PGADMIN_SETUP_PASSWORD="pgadmin"; export PGADMIN_SETUP_EMAIL="admin@localhost.lan";  /usr/pgadmin4/bin/setup-web.sh --yes
+    ;;
+esac
+
+#DEBHELPER#
