@@ -23,12 +23,10 @@ All PostgreSQL versions are supported via <https://apt.postgresql.org>.
 
 Supported distributions:
 
-* Debian Bullseye (11)
-* Debian Buster (10)
-* Debian Stretch (9)
-* Ubuntu Focal (20.04)
-* Ubuntu Bionic (18.04)
-* RHEL/CentOS (7)
+* Debian Trixie (13)
+* Debian Bookworm (12)
+* Ubuntu Noble (24.04)
+* Ubuntu Jammy (22.04)
 
 # Download
 
