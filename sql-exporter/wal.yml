@@ -7,11 +7,26 @@
     - "timed"
     - "requested"
     - "buffers"
+  max_version: 16
   query: >-
           SELECT
           pg_stat_get_bgwriter_timed_checkpoints() timed,
           pg_stat_get_bgwriter_requested_checkpoints() requested,
           pg_stat_get_bgwriter_buf_written_checkpoints() buffers
+
+- name: "checkpoints"
+  help: "requested/timed checkpoints and checkpoint buffers"
+  scope: cluster
+  values:
+    - "timed"
+    - "requested"
+    - "buffers"
+  min_version: 17
+  query: >-
+          SELECT
+          pg_stat_get_checkpointer_num_timed() timed,
+          pg_stat_get_checkpointer_num_requested() requested,
+          pg_stat_get_checkpointer_buffers_written() buffers
 
 - name: "LastCheckpointDistance"
   help: "distance to the last checkpoint"
