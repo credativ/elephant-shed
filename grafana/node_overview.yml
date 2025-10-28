@@ -1,0 +1,12 @@
+---
+# config file version
+apiVersion: 1
+
+providers:
+- name: 'node_overview'
+  orgId: 1
+  folder: ''
+  type: file
+  options:
+    path: /usr/share/elephant-shed/grafana/node_overview.json
+    datasource: prometheus
