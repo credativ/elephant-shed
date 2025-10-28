@@ -169,7 +169,7 @@
   labels:
     - "datname"
   values:
-    - "numbackends:count"
+    - "numbackends"
     - "xact_commit"
     - "xact_rollback"
     - "blks_read"
