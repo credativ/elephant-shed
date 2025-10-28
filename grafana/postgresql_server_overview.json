@@ -183,7 +183,7 @@
       "pluginVersion": "7.4.3",
       "targets": [
         {
-          "expr": "count(count(node_cpu_seconds_total) without (mode, instance, job)) without (cpu)",
+          "expr": "count(count(node_cpu_seconds_total{instance=~'$instance'}) without (mode,job)) without (cpu)",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -5732,7 +5732,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "60 * rate(sql_Maintenancecounters{host=~'$host', sql_job=~'$cluster.*', datname=~'$datname'}[$rate_interval])",
+          "expr": "60 * rate(sql_Maintenancecounters{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', datname=~'$datname'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -5834,7 +5834,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sql_Maintenancecounters{host=~'$host', sql_job=~'$cluster.*', database=~'$datname'}",
+          "expr": "sql_Maintenancecounters{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', database=~'$datname'}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
