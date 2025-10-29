@@ -1867,14 +1867,14 @@
         "rgba(245, 54, 54, 0.9)"
       ],
       "datasource": "${DS_PROMETHEUS}",
-      "description": "Shows the used prepared transactions in relation to max_prepared_transactions.\n\n'N/A' if not used.",
+      "description": "Shows the used prepared transactions.\n\n.",
       "fieldConfig": {
         "defaults": {
           "custom": {}
         },
         "overrides": []
       },
-      "format": "percentunit",
+      "format": "none",
       "gauge": {
         "maxValue": 1,
         "minValue": 0,
@@ -1925,7 +1925,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(sql_prepared_transactions{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='count', datname=~'$datname'}) / sum(sql_settings{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='max_prepared_transactions'})",
+          "expr": "sum(sql_prepared_transactions{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='count', datname=~'$datname'})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
