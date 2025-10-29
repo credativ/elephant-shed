@@ -5023,7 +5023,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_PROMETHEUS}",
-      "description": "Statement execution time per second",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "custom": {}
@@ -5073,7 +5073,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "topk($ntop_relations, rate(sql_pg_stat_statements{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='total_time', datname=~'$datname'}[$rate_interval]))",
+          "expr": "topk($ntop_relations, sum by (query, datname) (rate(sql_pg_stat_statements{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col=~'shared_blks_.*', datname=~'$datname'}[$rate_interval])*8))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -5086,7 +5086,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Top $ntop_relations Statements by Total Time [$rate_interval] - $datname",
+      "title": "Top $ntop_relations Statements by Buffers [$rate_interval] - $datname",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -5102,7 +5102,7 @@
       },
       "yaxes": [
         {
-          "format": "ms",
+          "format": "KBs",
           "label": null,
           "logBase": 1,
           "max": null,
