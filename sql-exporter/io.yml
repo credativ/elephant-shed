@@ -1,0 +1,47 @@
+# queries run once per cluster (via the 'postgres' database)
+
+- name: "pg_stat_io"
+  help: "I/O statistics"
+  scope: cluster
+  min_version: 16
+  type: "counter"
+  labels:
+    - "backend_type"
+    - "object"
+    - "context"
+  values:
+    - "reads"
+    - "read_time"
+    - "writes"
+    - "write_time"
+    - "writebacks"
+    - "writeback_time"
+    - "extends"
+    - "extend_time"
+    - "hits"
+    - "evictions"
+    - "reuses"
+    - "fsyncs"
+    - "fsync_time"
+  query: >-
+          SELECT
+          backend_type::text,
+          object::text,
+          context::text,
+          COALESCE(reads::float, 0) AS reads,
+          COALESCE(read_time::float, 0) AS read_time,
+          COALESCE(writes::float, 0) AS writes,
+          COALESCE(write_time::float, 0) AS write_time,
+          COALESCE(writebacks::float, 0) AS writebacks,
+          COALESCE(writeback_time::float, 0) AS writeback_time,
+          COALESCE(extends::float, 0) AS extends,
+          COALESCE(extend_time::float, 0) AS extend_time,
+          COALESCE(hits::float, 0) AS hits,
+          COALESCE(evictions::float, 0) AS evictions,
+          COALESCE(reuses::float, 0) AS reuses,
+          COALESCE(fsyncs::float, 0) AS fsyncs,
+          COALESCE(fsync_time::float, 0) AS fsync_time
+          FROM
+          pg_stat_io
+          WHERE
+          backend_type NOT IN ('autovacuum launcher', 'startup', 'standalone backend');
