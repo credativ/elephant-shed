@@ -60,3 +60,55 @@
   values:
     - "location"
   query: SELECT pg_wal_lsn_diff(CASE WHEN pg_is_in_recovery() THEN pg_last_wal_receive_lsn() ELSE pg_current_wal_lsn() END, '0/0') "location"
+
+- name: "pg_stat_wal"
+  help: "WAL statistics"
+  scope: cluster
+  min_version: 14
+  max_version: 17
+  values:
+    - "wal_records"
+    - "wal_fpi"
+    - "wal_bytes"
+    - "wal_buffers_full"
+    - "wal_write"
+    - "wal_sync"
+    - "wal_write_time"
+    - "wal_sync_time"
+  query: >-
+          SELECT
+          wal_records::float,
+          wal_fpi::float,
+          wal_bytes::float,
+          wal_buffers_full::float,
+          wal_write::float,
+          wal_sync::float,
+          wal_write_time::float,
+          wal_sync_time::float
+          FROM pg_stat_wal;
+
+- name: "pg_stat_wal"
+  help: "WAL statistics"
+  scope: cluster
+  min_version: 18
+  values:
+    - "wal_records"
+    - "wal_fpi"
+    - "wal_bytes"
+    - "wal_buffers_full"
+    - "wal_write"
+    - "wal_sync"
+    - "wal_write_time"
+    - "wal_sync_time"
+  query: >-
+          WITH io AS (SELECT coalesce(SUM(io.writes), 0) AS wal_write, coalesce(SUM(io.fsyncs), 0) AS wal_sync,coalesce(SUM(io.write_time), 0) AS wal_write_time, coalesce(SUM(io.fsync_time), 0) AS wal_sync_time FROM pg_stat_io io WHERE io.object = 'wal')
+          SELECT
+          w.wal_records::float,
+          w.wal_fpi::float,
+          w.wal_bytes::float,
+          w.wal_buffers_full::float,
+          io.wal_write::float,
+          io.wal_sync::float,
+          io.wal_write_time::float,
+          io.wal_sync_time::float
+          FROM pg_stat_wal w, io;
