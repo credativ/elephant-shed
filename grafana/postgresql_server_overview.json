@@ -4259,7 +4259,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "60 * rate(sql_checkpoints{host=~'$host', instance=~'$instance', sql_job=~'$cluster'}[90s])",
+          "expr": "increase(sql_checkpoints{host=~'$host', instance=~'$instance', sql_job=~'$cluster'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -4503,7 +4503,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "60 * rate(sql_Maintenancecounters{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', datname=~'$datname'}[$rate_interval])",
+          "expr": "increase(sql_Maintenancecounters{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', datname=~'$datname'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -4925,7 +4925,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "60 * rate(sql_pg_stat_archiver{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col=~'archived_count|failed_count'}[$rate_interval])",
+          "expr": "increase(sql_pg_stat_archiver{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col=~'archived_count|failed_count'}[$rate_interval])",
           "format": "time_series",
           "hide": false,
           "interval": "",
