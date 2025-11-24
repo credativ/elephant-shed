@@ -3860,12 +3860,226 @@
     },
     {
       "collapsed": false,
-      "datasource": "${DS_PROMETHEUS}",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 112
+      },
+      "id": 126,
+      "panels": [],
+      "title": "PostgreSQL I/O",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 113
+      },
+      "id": 127,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "sortBy": "Mean",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "sum(rate(sql_pg_stat_io{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', col='reads'}[$rate_interval])) by (backend_type)",
+          "legendFormat": "{{backend_type}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Read IOPS by backend type",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "P1809F7CD0C75ACF3"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ops"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 113
+      },
+      "id": 128,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "sortBy": "Mean",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.0",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "sum(rate(sql_pg_stat_io{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', col='writes'}[$rate_interval])) by (backend_type)",
+          "legendFormat": "{{backend_type}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Write IOPS by backend type",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "datasource": "${DS_PROMETHEUS}",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 120
       },
       "id": 80,
       "panels": [],
@@ -3891,7 +4105,7 @@
         "h": 7,
         "w": 7,
         "x": 0,
-        "y": 113
+        "y": 121
       },
       "hiddenSeries": false,
       "id": 26,
@@ -4003,7 +4217,7 @@
         "h": 7,
         "w": 9,
         "x": 7,
-        "y": 113
+        "y": 121
       },
       "hiddenSeries": false,
       "id": 29,
@@ -4139,7 +4353,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 113
+        "y": 121
       },
       "hiddenSeries": false,
       "id": 31,
@@ -4228,7 +4442,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 120
+        "y": 128
       },
       "id": 81,
       "panels": [],
@@ -4254,7 +4468,7 @@
         "h": 7,
         "w": 10,
         "x": 0,
-        "y": 121
+        "y": 129
       },
       "hiddenSeries": false,
       "id": 30,
@@ -4358,7 +4572,7 @@
         "h": 7,
         "w": 9,
         "x": 10,
-        "y": 121
+        "y": 129
       },
       "hiddenSeries": false,
       "id": 53,
@@ -4461,7 +4675,7 @@
         "h": 7,
         "w": 5,
         "x": 19,
-        "y": 121
+        "y": 129
       },
       "hiddenSeries": false,
       "id": 54,
@@ -4552,7 +4766,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 128
+        "y": 136
       },
       "id": 85,
       "panels": [],
@@ -4579,7 +4793,7 @@
         "h": 7,
         "w": 7,
         "x": 0,
-        "y": 129
+        "y": 137
       },
       "hiddenSeries": false,
       "id": 51,
@@ -4680,7 +4894,7 @@
         "h": 7,
         "w": 7,
         "x": 7,
-        "y": 129
+        "y": 137
       },
       "hiddenSeries": false,
       "id": 47,
@@ -4786,7 +5000,7 @@
         "h": 7,
         "w": 10,
         "x": 14,
-        "y": 129
+        "y": 137
       },
       "hiddenSeries": false,
       "id": 61,
@@ -4903,7 +5117,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 136
+        "y": 143
       },
       "id": 83,
       "panels": [],
@@ -4930,7 +5144,7 @@
         "h": 11,
         "w": 8,
         "x": 0,
-        "y": 137
+        "y": 143
       },
       "hiddenSeries": false,
       "id": 57,
@@ -5036,7 +5250,7 @@
         "h": 11,
         "w": 8,
         "x": 8,
-        "y": 137
+        "y": 144
       },
       "hiddenSeries": false,
       "id": 98,
@@ -5142,7 +5356,7 @@
         "h": 11,
         "w": 8,
         "x": 16,
-        "y": 137
+        "y": 144
       },
       "hiddenSeries": false,
       "id": 59,
@@ -5618,7 +5832,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 148
+        "y": 155
       },
       "id": 58,
       "options": {
