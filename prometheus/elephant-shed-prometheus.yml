@@ -2,17 +2,11 @@
 
 global:
   scrape_interval: 30s
-  evaluation_interval: 60s
 
   # Attach these labels to any time series or alerts when communicating with
   # external systems (federation, remote storage, Alertmanager).
   external_labels:
   #    monitor: 'example'
-
-# Load and evaluate rules in this file every 'evaluation_interval' seconds.
-rule_files:
-  # - "first.rules"
-  # - "second.rules"
 
 scrape_configs:
   # scrape data from prometheus itself
@@ -25,7 +19,6 @@ scrape_configs:
   - file_sd_configs:
     - files:
       - /etc/prometheus/node_exporter/*.yml
-      refresh_interval: 15s
     job_name: node
     relabel_configs:
     - source_labels:
@@ -47,7 +40,6 @@ scrape_configs:
   - file_sd_configs:
     - files:
       - /etc/prometheus/sql_exporter/*.yml
-      refresh_interval: 15s
     job_name: sql
     relabel_configs:
     - regex: (.+)
