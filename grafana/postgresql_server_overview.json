@@ -3480,11 +3480,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster.*', col='temp_bytes', database=~'$datname'}[$rate_interval])",
+          "expr": "rate(sql_pg_stat_database{host=~'$host', instance=~'$instance', sql_job=~'$cluster', col='temp_bytes', datname=~'$datname'}[$rate_interval])",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "temp bytes {{database}}",
+          "legendFormat": "temp bytes {{datname}}",
           "metric": "",
           "refId": "B",
           "step": 40
