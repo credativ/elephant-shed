@@ -1,16 +1,20 @@
 # queries run once per cluster (via the 'postgres' database)
 
 - name: "server"
-  help: "Server version and start time"
+  help: "Server version, role and start time"
   scope: cluster
   labels:
     - "server_version"
   values:
     - "server_start_time"
+    - "server_is_primary"
+    - "server_is_replica"
   query: >-
           SELECT
           split_part(current_setting('server_version'), ' ', 1) AS server_version,
-          extract(epoch FROM pg_postmaster_start_time())::float AS server_start_time
+          extract(epoch FROM pg_postmaster_start_time())::float AS server_start_time,
+          CASE WHEN pg_is_in_recovery() THEN 0 ELSE 1 END AS server_is_primary,
+          CASE WHEN NOT pg_is_in_recovery() THEN 0 ELSE 1 END AS server_is_replica
 
 - name: "settings"
   help: "PostgreSQL settings"
