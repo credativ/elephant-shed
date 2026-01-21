@@ -4259,7 +4259,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "increase(sql_checkpoints{host=~'$host', instance=~'$instance', sql_job=~'$cluster'}[$rate_interval])",
+          "expr": "floor(increase(sql_checkpoints{host=~'$host', instance=~'$instance', sql_job=~'$cluster'}[55s]))",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -4273,7 +4273,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Checkpoints per Minute",
+      "title": "Checkpoints",
       "tooltip": {
         "shared": true,
         "sort": 0,
