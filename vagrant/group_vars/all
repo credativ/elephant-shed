@@ -70,5 +70,4 @@ autovacuum_max_workers: 5
 autovacuum_naptime: 1min
 max_worker_processes: 8
 max_parallel_workers_per_gather: 2
-old_snapshot_threshold: -1
 track_io_timing: on
