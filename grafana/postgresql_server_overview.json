@@ -673,10 +673,10 @@
           "exemplar": false,
           "expr": "sql_server{col='server_is_primary',host=~'$host',instance=~'$instance',sql_job=~'$cluster'}",
           "format": "time_series",
-          "instant": false,
+          "instant": true,
           "interval": "",
           "legendFormat": "",
-          "range": true,
+          "range": false,
           "refId": "A"
         }
       ],
