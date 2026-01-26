@@ -3,14 +3,6 @@
 - name: "archive_ready"
   help: "number of WAL files waiting to be archived"
   scope: cluster
-  max_version: 9.6
-  values:
-    - "archive_ready"
-  query: SELECT COUNT(*) AS archive_ready FROM pg_ls_dir('pg_xlog/archive_status') WHERE pg_ls_dir ~ '^[0-9a-fA-F]{24}\.ready$'
-
-- name: "archive_ready"
-  help: "number of WAL files waiting to be archived"
-  scope: cluster
   min_version: 10
   values:
     - "archive_ready"
@@ -19,32 +11,10 @@
 - name: "pg_stat_archiver"
   help: "archiver statistics"
   scope: cluster
-  min_version: 9.4
   values:
     - "archived_count"
     - "failed_count"
   query: SELECT archived_count, failed_count FROM pg_stat_archiver
-
-- name: "pg_stat_replication"
-  help: "replication statistics"
-  scope: cluster
-  min_version: 9.2
-  max_version: 9.6
-  labels:
-    - "application_name"
-    - "pid"
-  values:
-    - "send_lag_bytes"
-    - "flush_lag_bytes"
-    - "replay_lag_bytes"
-  query: >-
-          SELECT
-          COALESCE(application_name, '')::text AS application_name,
-          COALESCE(pid, 0)::text AS pid,
-          COALESCE(pg_xlog_location_diff(CASE WHEN pg_is_in_recovery() THEN pg_last_xlog_receive_location() ELSE pg_current_xlog_location() END, sent_location), 0) AS send_lag_bytes,
-          COALESCE(pg_xlog_location_diff(CASE WHEN pg_is_in_recovery() THEN pg_last_xlog_receive_location() ELSE pg_current_xlog_location() END, flush_location), 0) AS flush_lag_bytes,
-          COALESCE(pg_xlog_location_diff(CASE WHEN pg_is_in_recovery() THEN pg_last_xlog_receive_location() ELSE pg_current_xlog_location() END, replay_location), 0) AS replay_lag_bytes
-          FROM pg_stat_replication FULL JOIN (VALUES(0)) filler(i) ON TRUE
 
 - name: "pg_stat_replication"
   help: "replication statistics"
