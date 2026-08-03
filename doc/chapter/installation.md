@@ -66,38 +66,6 @@ sudo apt-get install postgresql-10
 sudo adduser <USERNAME> elephant-shed
 ```
 
-### Installation on RedHat and CentOS
-
-Elephant Shed works with the PostgreSQL packages from the PostgreSQL RPM building project.
-Go to <a href="https://yum.postgresql.org/"><b>yum.postgresql.org</b></a> and
-install the repository RPMs for the PostgreSQL versions you want to use.
-Then proceed to install Elephant Shed as below.
-
-```bash
-# Use credativ repository (will also pull in EPEL)
-sudo yum install https://packages.credativ.com/public/postgresql/yum/credativ-repo.rpm
-
-# On RedHat, activate additional repositories (not on CentOS)
-subscription-manager repos --enable=rhel-7-server-extras-rpms
-subscription-manager repos --enable=rhel-7-server-optional-rpms
-
-# Choose desired PostgreSQL versions to install
-sudo yum install postgresql13-server postgresql13-contrib postgresql-common
-sudo pg_createcluster 13 main --start
-
-# Install elephant-shed
-sudo yum install elephant-shed
-
-# Every user in the group "elephant-shed" is allowed to login at the portal
-# Add all needed users to this group
-sudo vigr
-
-# Unfortunately, shellinabox does not work with SELinux enabled
-# Disable SELinux if you want to use this component
-sudo setenforce 0
-sudo sed -i -e 's/^SELINUX=.*/SELINUX=permissive/' /etc/selinux/config
-```
-
 ## Installation from source
 
 The source code is available on GitHub: <https://github.com/credativ/elephant-shed>
