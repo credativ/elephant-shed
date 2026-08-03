@@ -35,4 +35,3 @@ deploy_openpower: vagrant/inventory.openpower
 clean:
 	$(MAKE) -C doc clean
 	$(MAKE) -C grafana clean
-	rm -rf rpm/SOURCES/ rpm/SPECS rpm/BUILD rpm/BUILDROOT rpm/RPMS rpm/SRPMS
