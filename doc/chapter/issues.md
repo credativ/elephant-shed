@@ -14,7 +14,3 @@
 ## Portal
 
   * A direct relogin after a logout does not work. Reloading the page is necessary.
-
-## RedHat / CentOS
-
-  * shellinabox does not work when SELinux is enabled.
