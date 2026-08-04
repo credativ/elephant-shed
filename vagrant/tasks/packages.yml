@@ -61,8 +61,8 @@
 
 # elephant shed
 # separate tasks, so we can see the progress better
-- name:               Install elephant-shed-omnidb
-  package: state=present name=elephant-shed-omnidb
+- name:               Install elephant-shed-pgadmin
+  package: state=present name=elephant-shed-pgadmin
   when: 'ansible_distribution_release != "stretch"'
 - name:               Install elephant-shed-portal
   package: state=present name=elephant-shed-portal
